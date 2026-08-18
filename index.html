@@ -16,8 +16,8 @@
     --line:#E4EAE6;
     --muted:#93A3A8;
 
-    --halo-a:#B7D8CB;
-    --halo-b:#AEC6E0;
+    --halo-a:#F2A9A5;
+    --halo-b:#F3D98A;
 
     --cardio:#0F8B8D;
     --cardio-dim:#DCF0EF;
@@ -49,12 +49,12 @@
   html,body{margin:0;padding:0;}
   body{
     background:
-      radial-gradient(560px circle at 8% -8%, rgba(15,139,141,.22), transparent 62%),
-      radial-gradient(480px circle at 92% 6%, rgba(37,99,235,.18), transparent 60%),
-      radial-gradient(520px circle at 12% 55%, rgba(201,150,44,.16), transparent 62%),
-      radial-gradient(560px circle at 96% 62%, rgba(67,56,202,.16), transparent 62%),
-      radial-gradient(500px circle at 45% 100%, rgba(22,163,74,.14), transparent 60%),
-      linear-gradient(180deg, var(--paper) 0%, var(--paper-b) 55%, var(--paper) 100%);
+      radial-gradient(600px circle at 6% -6%, rgba(242,169,165,.42), transparent 62%),
+      radial-gradient(560px circle at 96% 2%, rgba(243,217,138,.4), transparent 60%),
+      radial-gradient(560px circle at 8% 62%, rgba(183,206,155,.4), transparent 62%),
+      radial-gradient(600px circle at 100% 80%, rgba(243,217,138,.32), transparent 60%),
+      radial-gradient(520px circle at 45% 105%, rgba(242,169,165,.28), transparent 60%),
+      linear-gradient(180deg, #FBF7EF 0%, #FDF5EC 55%, #FBF7EF 100%);
     background-attachment:fixed;
     color:var(--ink);
     font-family:'Inter',sans-serif;
@@ -66,14 +66,14 @@
 
   /* ---------- Glass surface (shared) ---------- */
   .glass{
-    background:rgba(255,255,255,.5);
+    background:rgba(255,251,245,.55);
     -webkit-backdrop-filter:blur(22px) saturate(160%);
     backdrop-filter:blur(22px) saturate(160%);
-    border:1px solid rgba(255,255,255,.65);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.7), 0 10px 30px rgba(18,40,61,.07);
+    border:1px solid rgba(255,255,255,.7);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.75), 0 10px 30px rgba(18,40,61,.07);
   }
   @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
-    .glass{background:rgba(255,255,255,.92);}
+    .glass{background:rgba(255,251,245,.94);}
   }
 
   @keyframes fadeUp{
@@ -113,7 +113,7 @@
   .eyebrow{
     position:relative;z-index:1;
     font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.16em;
-    text-transform:uppercase;color:var(--cardio);font-weight:600;margin-bottom:16px;
+    text-transform:uppercase;color:#D9756A;font-weight:600;margin-bottom:16px;
     text-align:center;display:flex;align-items:center;justify-content:center;gap:8px;
     opacity:0;animation:fadeUp .7s ease-out .05s forwards;
   }
@@ -123,6 +123,10 @@
     font-family:'Fraunces',serif;font-weight:600;font-size:clamp(36px,6.4vw,56px);
     line-height:1.08;margin:0 0 18px;letter-spacing:-.01em;text-align:center;color:var(--ink);
     opacity:0;animation:fadeUp .7s ease-out .14s forwards;
+  }
+  .grad-text{
+    background:linear-gradient(90deg, #E8837A 0%, #D9A25C 45%, #7FA968 100%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
   }
   .subtitle{
     position:relative;z-index:1;
@@ -273,7 +277,7 @@
     <div class="halo"></div>
     <div class="halo b"></div>
     <div class="eyebrow"><span class="rx">℞</span> Study Portal</div>
-    <h1>Nursing NCLEX Review</h1>
+    <h1>Nursing <span class="grad-text">NCLEX Review</span></h1>
     <p class="subtitle">Pick a topic chart below. Each one includes course notes pulled straight from lecture material, plus an interactive practice test you can size to your study session.</p>
   </div>
 
