@@ -1,0 +1,1893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nursing NCLEX Review</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  :root{
+    --ink:#0F2438;
+    --ink-soft:#3C5468;
+    --paper:#F5F8F8;
+    --card:#FFFFFF;
+    --line:#DCE4E6;
+    --pulse:#0F8B8D;
+    --pulse-dim:#CFE9E9;
+    --correct:#1B8A5A;
+    --correct-bg:#E7F5EE;
+    --incorrect:#C1443D;
+    --incorrect-bg:#FBEAE8;
+    --muted:#7C8B94;
+    --amber:#B8791A;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(520px circle at 4% -6%, rgba(15,139,141,0.2), transparent 60%),
+      radial-gradient(460px circle at 98% 2%, rgba(184,121,26,0.15), transparent 58%),
+      radial-gradient(480px circle at 6% 70%, rgba(27,138,90,0.12), transparent 58%),
+      linear-gradient(180deg, var(--paper) 0%, #ffffff 50%, var(--paper) 100%);
+    background-attachment:fixed;
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    padding:40px 20px 80px;
+  }
+  .wrap{max-width:860px;margin:0 auto;}
+  .view{display:none;}
+  .view.active{display:block;}
+
+  /* ---------- shared header ---------- */
+  .topbar{
+    display:flex;align-items:center;justify-content:space-between;
+    margin-bottom:22px;flex-wrap:wrap;gap:10px;
+  }
+  .brand{
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;font-weight:600;color:var(--pulse);
+    letter-spacing:.06em;text-transform:uppercase;
+    cursor:pointer;display:flex;align-items:center;gap:8px;
+  }
+  .brand:hover{color:var(--ink);}
+  .crumbs{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;color:var(--muted);
+  }
+  .crumbs span{cursor:pointer;}
+  .crumbs span:hover{color:var(--pulse);}
+
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--pulse);font-weight:600;margin-bottom:10px;
+  }
+  h1{
+    font-family:'Fraunces',serif;font-weight:600;
+    font-size:clamp(28px,5vw,40px);line-height:1.08;
+    margin:0 0 6px;letter-spacing:-.01em;
+  }
+  h2.section-title{
+    font-family:'Fraunces',serif;font-weight:600;
+    font-size:22px;margin:34px 0 12px;color:var(--ink);
+  }
+  h2.section-title:first-of-type{margin-top:0;}
+  .subtitle{color:var(--ink-soft);font-size:15px;margin:0 0 26px;max-width:60ch;}
+
+  /* ---------- EKG divider ---------- */
+  .ekg{width:100%;height:46px;margin-bottom:24px;overflow:hidden;}
+  .ekg svg{width:100%;height:100%;display:block;}
+  .ekg path{fill:none;stroke:var(--pulse);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  .ekg-trace{stroke-dasharray:1000;stroke-dashoffset:1000;animation:draw 2.6s ease-out forwards;}
+  @keyframes draw{to{stroke-dashoffset:0;}}
+  @media (prefers-reduced-motion:reduce){.ekg-trace{animation:none;stroke-dashoffset:0;}}
+
+  /* ---------- Home: topic cards ---------- */
+  .topic-grid{display:grid;grid-template-columns:1fr;gap:14px;}
+  .topic-card{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:22px 24px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;
+  }
+  .topic-card.disabled{opacity:.5;}
+  .topic-info h3{
+    font-family:'Fraunces',serif;font-size:19px;font-weight:600;margin:0 0 4px;color:var(--ink);
+  }
+  .topic-info p{margin:0;color:var(--ink-soft);font-size:13.5px;max-width:46ch;}
+  .topic-meta{
+    font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--pulse);
+    letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px;display:inline-block;
+    background:var(--pulse-dim);padding:2px 8px;border-radius:5px;
+  }
+  .topic-meta.soon{color:var(--muted);background:var(--paper);border:1px dashed var(--line);}
+  .topic-actions{display:flex;gap:8px;flex-shrink:0;}
+  .btn{
+    font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;
+    padding:10px 16px;border-radius:8px;cursor:pointer;border:1px solid var(--line);
+    background:var(--card);color:var(--ink-soft);white-space:nowrap;
+  }
+  .btn:hover{border-color:var(--pulse);color:var(--pulse);}
+  .btn.primary{background:var(--ink);color:#fff;border:none;}
+  .btn.primary:hover{background:var(--pulse);}
+  .btn:disabled{opacity:.4;cursor:not-allowed;}
+  .btn:disabled:hover{border-color:var(--line);color:var(--ink-soft);}
+
+  /* ---------- Topic landing ---------- */
+  .topic-tabs{display:flex;gap:8px;margin-bottom:26px;flex-wrap:wrap;}
+  .tab-btn{
+    font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;
+    padding:11px 18px;border-radius:9px;cursor:pointer;border:1.5px solid var(--line);
+    background:var(--card);color:var(--ink-soft);
+  }
+  .tab-btn:hover{border-color:var(--pulse);color:var(--pulse);}
+  .tab-btn.selected{background:var(--ink);border-color:var(--ink);color:#fff;}
+
+  /* ---------- Course notes ---------- */
+  .notes-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:30px 28px;}
+  .notes-card p{color:var(--ink-soft);font-size:14.5px;line-height:1.6;}
+  .note-table{width:100%;border-collapse:collapse;margin:10px 0 24px;font-size:13.5px;}
+  .note-table th{
+    background:var(--ink);color:#fff;text-align:left;padding:9px 12px;
+    font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.03em;text-transform:uppercase;
+  }
+  .note-table td{padding:9px 12px;border-bottom:1px solid var(--line);color:var(--ink-soft);vertical-align:top;}
+  .note-table tr:nth-child(even) td{background:var(--paper);}
+  .note-table td b, .note-table td strong{color:var(--ink);}
+  .drugclass{
+    border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:14px;background:var(--paper);
+  }
+  .drugclass h4{margin:0 0 8px;font-family:'Inter',sans-serif;font-size:15px;color:var(--ink);}
+  .drugclass .suffix-tag{
+    font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--pulse);background:var(--pulse-dim);
+    padding:2px 8px;border-radius:5px;margin-left:8px;
+  }
+  .drugclass ul{margin:6px 0 0;padding-left:20px;color:var(--ink-soft);font-size:13.5px;line-height:1.6;}
+  .note-callout{
+    border-left:3px solid var(--pulse);background:var(--pulse-dim);padding:12px 16px;border-radius:0 8px 8px 0;
+    font-size:13.5px;color:var(--ink);margin:14px 0;
+  }
+  .note-callout b{color:var(--pulse);}
+  .casebox{
+    background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:14px;font-size:13.5px;color:var(--ink-soft);line-height:1.6;
+  }
+  .casebox b{color:var(--ink);}
+
+  /* ---------- Setup (question count picker) ---------- */
+  .setup-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:32px 28px;text-align:center;}
+  .setup-card p{color:var(--ink-soft);font-size:14px;margin-bottom:24px;}
+  .count-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+  @media (max-width:560px){.count-grid{grid-template-columns:repeat(2,1fr);}}
+  .count-btn{
+    background:var(--paper);border:1.5px solid var(--line);border-radius:12px;padding:22px 10px;cursor:pointer;
+    display:flex;flex-direction:column;align-items:center;gap:4px;transition:all .12s ease;
+  }
+  .count-btn:hover{border-color:var(--pulse);background:#EFFAFA;}
+  .count-num{font-family:'Fraunces',serif;font-size:30px;font-weight:600;color:var(--ink);}
+  .count-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+
+  /* ---------- Question picker (quiz) ---------- */
+  .picker{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px 20px;margin-bottom:22px;}
+  .picker-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:10px;flex-wrap:wrap;}
+  .picker-title{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;}
+  .picker-actions{display:flex;gap:8px;}
+  .mini-btn{
+    font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;background:var(--paper);
+    border:1px solid var(--line);color:var(--ink-soft);padding:6px 11px;border-radius:7px;cursor:pointer;
+  }
+  .mini-btn:hover{border-color:var(--pulse);color:var(--pulse);}
+  .picker-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:7px;}
+  @media (max-width:520px){.picker-grid{grid-template-columns:repeat(6,1fr);}}
+  .pick-btn{
+    aspect-ratio:1;border-radius:8px;border:1.5px solid var(--line);background:var(--paper);
+    font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:600;color:var(--ink-soft);
+    cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s ease;
+  }
+  .pick-btn:hover{border-color:var(--pulse);color:var(--pulse);}
+  .pick-btn.current{border-color:var(--ink);box-shadow:0 0 0 2px var(--ink) inset;color:var(--ink);}
+  .pick-btn.correct{background:var(--correct-bg);border-color:var(--correct);color:var(--correct);}
+  .pick-btn.incorrect{background:var(--incorrect-bg);border-color:var(--incorrect);color:var(--incorrect);}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);}
+  .legend span{display:inline-flex;align-items:center;gap:5px;}
+  .dot{width:9px;height:9px;border-radius:3px;display:inline-block;}
+  .dot.unanswered{background:var(--paper);border:1.5px solid var(--line);}
+  .dot.correct{background:var(--correct-bg);border:1.5px solid var(--correct);}
+  .dot.incorrect{background:var(--incorrect-bg);border:1.5px solid var(--incorrect);}
+
+  /* ---------- status bar ---------- */
+  .statusbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;}
+  .progress-track{flex:1;height:6px;background:var(--line);border-radius:4px;overflow:hidden;position:relative;}
+  .progress-fill{height:100%;background:var(--pulse);border-radius:4px;width:0%;transition:width .35s ease;}
+  .score-pill{
+    font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--ink);
+    background:var(--card);border:1px solid var(--line);padding:6px 12px;border-radius:20px;white-space:nowrap;
+  }
+  .score-pill span{color:var(--pulse);}
+
+  /* ---------- question card ---------- */
+  .qcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:28px 26px 24px;margin-bottom:20px;box-shadow:0 1px 2px rgba(15,36,56,.03);}
+  .qmeta{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
+  .qnum{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--pulse);background:var(--pulse-dim);padding:3px 9px;border-radius:6px;}
+  .qtag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;}
+  .qsal{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--amber);letter-spacing:.03em;border:1px solid #EAD3A3;background:#FBF3E3;padding:2px 8px;border-radius:5px;}
+  .stem{font-size:18px;line-height:1.48;font-weight:600;color:var(--ink);margin:0 0 20px;}
+
+  .options{display:flex;flex-direction:column;gap:10px;}
+  .opt{
+    display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;padding:13px 14px;
+    border:1.5px solid var(--line);background:var(--paper);border-radius:10px;cursor:pointer;
+    font-family:'Inter',sans-serif;font-size:15px;color:var(--ink);
+    transition:border-color .15s ease, background .15s ease, transform .1s ease;
+  }
+  .opt:hover:not(.locked){border-color:var(--pulse);background:#EFFAFA;}
+  .opt:active:not(.locked){transform:scale(.997);}
+  .opt:focus-visible{outline:2px solid var(--pulse);outline-offset:2px;}
+  .opt-letter{
+    font-family:'JetBrains Mono',monospace;font-weight:600;font-size:13px;color:var(--ink-soft);
+    background:var(--card);border:1px solid var(--line);min-width:24px;height:24px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;
+  }
+  .opt-text{flex:1;line-height:1.45;}
+  .opt.correct-choice{border-color:var(--correct);background:var(--correct-bg);}
+  .opt.correct-choice .opt-letter{background:var(--correct);border-color:var(--correct);color:#fff;}
+  .opt.incorrect-choice{border-color:var(--incorrect);background:var(--incorrect-bg);}
+  .opt.incorrect-choice .opt-letter{background:var(--incorrect);border-color:var(--incorrect);color:#fff;}
+  .opt.locked{cursor:default;}
+  .opt.dim{opacity:.55;}
+  .opt-explain{margin-top:6px;font-size:13.5px;line-height:1.5;font-family:'Inter',sans-serif;}
+  .opt.correct-choice .opt-explain{color:#15694A;}
+  .opt.incorrect-choice .opt-explain{color:#96332E;}
+  .opt.dim .opt-explain{color:var(--muted);}
+  .opt.dim.correct-choice .opt-explain{color:var(--correct);}
+  .opt.sal .opt-letter{border-radius:5px;}
+
+  .result-banner{display:none;align-items:center;gap:10px;margin-top:18px;padding:11px 14px;border-radius:9px;font-size:14px;font-weight:600;font-family:'Inter',sans-serif;}
+  .result-banner.show{display:flex;}
+  .result-banner.correct{background:var(--correct-bg);color:var(--correct);}
+  .result-banner.incorrect{background:var(--incorrect-bg);color:var(--incorrect);}
+
+  .actions{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:10px;}
+  .btn-prev{
+    font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;background:var(--card);
+    color:var(--ink-soft);border:1px solid var(--line);padding:11px 18px;border-radius:8px;cursor:pointer;
+  }
+  .btn-prev:hover{border-color:var(--pulse);color:var(--pulse);}
+  .btn-prev:disabled{opacity:.4;cursor:not-allowed;}
+  .btn-next{
+    font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;letter-spacing:.03em;
+    background:var(--ink);color:#fff;border:none;padding:11px 20px;border-radius:8px;cursor:pointer;
+    display:none;align-items:center;gap:8px;
+  }
+  .btn-next.show{display:inline-flex;}
+  .btn-next:hover{background:var(--pulse);}
+  .btn-sal-submit{
+    font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;background:var(--pulse);color:#fff;
+    border:none;padding:11px 20px;border-radius:8px;cursor:pointer;margin-top:16px;
+  }
+
+  /* ---------- summary ---------- */
+  .summary{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:36px 30px;text-align:center;display:none;}
+  .summary.show{display:block;}
+  .summary .big-score{font-family:'Fraunces',serif;font-size:56px;font-weight:600;color:var(--pulse);line-height:1;margin-bottom:6px;}
+  .summary .big-score sub{font-size:22px;font-weight:500;color:var(--muted);}
+  .summary p{color:var(--ink-soft);font-size:14px;margin:6px 0 22px;}
+  .btn-restart{
+    font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;background:var(--ink);color:#fff;
+    border:none;padding:12px 22px;border-radius:8px;cursor:pointer;margin:4px;
+  }
+  .btn-restart:hover{background:var(--pulse);}
+  .btn-restart.secondary{background:var(--card);color:var(--ink-soft);border:1px solid var(--line);}
+  .btn-restart.secondary:hover{color:var(--pulse);border-color:var(--pulse);}
+
+  .btn-restart.print-btn{background:var(--ink-soft, #555);}
+  .btn-restart.print-btn:hover{background:var(--pulse);}
+
+  footer{text-align:center;margin-top:34px;font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;}
+
+
+  /* ---------- Flashcards ---------- */
+  .flash-wrap{max-width:480px;margin:0 auto;text-align:center;}
+  .flash-progress{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:14px;}
+  .flashcard{width:100%;height:260px;perspective:1200px;cursor:pointer;margin-bottom:20px;}
+  .flash-inner{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d;}
+  .flashcard.flipped .flash-inner{transform:rotateY(180deg);}
+  .flash-face{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:16px;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;padding:30px;font-family:'Inter',sans-serif;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.05);}
+  .flash-front{background:var(--card);font-size:18px;font-weight:600;color:var(--ink);}
+  .flash-back{background:var(--pulse-dim);transform:rotateY(180deg);color:var(--ink);font-weight:500;font-size:15px;line-height:1.5;}
+  .flash-tag{position:absolute;top:14px;left:16px;font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--pulse);font-weight:700;}
+  .flash-hint{position:absolute;bottom:12px;right:16px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);}
+  .flash-controls{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
+
+  /* ---------- Printable report (hidden on screen, shown only when printing) ---------- */
+  #printReport{display:none;}
+  @media print{
+    body *{visibility:hidden;}
+    #printReport, #printReport *{visibility:visible;}
+    #printReport{
+      display:block;position:absolute;top:0;left:0;width:100%;
+      padding:0;margin:0;background:#fff;color:#111;font-family:'Inter',sans-serif;
+    }
+    .wrap, .topbar, .view, footer{display:none !important;}
+    #printReport .rpt-header{border-bottom:2px solid #333;padding-bottom:10px;margin-bottom:16px;}
+    #printReport h1{font-family:'Fraunces',serif;font-size:22px;margin:0 0 4px;}
+    #printReport .rpt-meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:#555;}
+    #printReport .rpt-score{font-family:'Fraunces',serif;font-size:26px;font-weight:600;margin:10px 0;}
+    #printReport .rpt-q{page-break-inside:avoid;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid #ddd;}
+    #printReport .rpt-q .rq-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:#0F8B8D;font-weight:700;}
+    #printReport .rpt-q .rq-stem{font-weight:700;font-size:13px;margin:2px 0 6px;}
+    #printReport .rpt-opt{font-size:12px;margin:3px 0;padding-left:14px;}
+    #printReport .rpt-opt.correct{color:#15694A;font-weight:700;}
+    #printReport .rpt-opt.incorrect{color:#96332E;font-weight:700;text-decoration:underline;}
+    #printReport .rpt-explain{font-size:11px;color:#444;margin:1px 0 4px 14px;}
+    #printReport .rpt-banner{font-size:11px;font-weight:700;margin-top:2px;}
+    #printReport .rpt-banner.correct{color:#15694A;}
+    #printReport .rpt-banner.incorrect{color:#96332E;}
+  }
+
+  .case-card{border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin-bottom:22px;background:var(--card);}
+  .case-card h3{font-family:'Fraunces',serif;font-size:19px;margin:0 0 4px;color:var(--ink);}
+  .case-tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--pulse);background:var(--pulse-dim);padding:3px 9px;border-radius:5px;text-transform:uppercase;letter-spacing:.04em;display:inline-block;margin-bottom:12px;}
+  .case-vignette{font-size:14.5px;line-height:1.75;color:var(--ink-soft);margin-bottom:6px;}
+  .case-vignette b{color:var(--ink);}
+  .case-data{border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:var(--paper);font-size:13.5px;color:var(--ink-soft);margin:12px 0;line-height:1.7;}
+  .case-data b{color:var(--ink);}
+  .case-q{margin-top:18px;padding-top:16px;border-top:1px dashed var(--line);}
+  .case-q p.q-text{font-size:14px;color:var(--ink);margin:0 0 10px;font-weight:500;}
+  .reveal-btn{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--pulse);background:var(--pulse-dim);border:none;padding:7px 14px;border-radius:6px;cursor:pointer;letter-spacing:.02em;}
+  .reveal-btn:hover{opacity:.85;}
+  .reveal-answer{display:none;margin-top:12px;padding:12px 16px;background:var(--correct-bg);border-left:3px solid var(--correct);border-radius:0 8px 8px 0;font-size:13.5px;color:var(--ink);line-height:1.7;}
+  .reveal-answer.show{display:block;}
+  .reveal-answer b{color:var(--correct);}
+
+  /* ============ GLASS SURFACE OVERRIDE ============ */
+  .notes-card,.setup-card,.picker,.qcard,.summary,.flash-front,.case-card,
+  .score-pill,.secondary,.exam-banner-inner{
+    background:rgba(255,255,255,.6);
+    -webkit-backdrop-filter:blur(18px) saturate(160%);
+    backdrop-filter:blur(18px) saturate(160%);
+    border-color:rgba(255,255,255,.7);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.7), 0 10px 26px rgba(33,27,54,.06);
+  }
+  .tab-btn:not(.selected),.btn-prev,.mini-btn{
+    background:rgba(255,255,255,.45);
+    -webkit-backdrop-filter:blur(10px);
+    backdrop-filter:blur(10px);
+    border-color:rgba(255,255,255,.65);
+  }
+  .drugclass,.casebox,.case-data,.count-btn,.pick-btn,.opt,.dot.unanswered{
+    background:rgba(255,255,255,.35);
+    -webkit-backdrop-filter:blur(9px);
+    backdrop-filter:blur(9px);
+    border-color:rgba(255,255,255,.6);
+  }
+  .topbar{
+    background:rgba(255,255,255,.4);
+    -webkit-backdrop-filter:blur(14px);
+    backdrop-filter:blur(14px);
+    border:1px solid rgba(255,255,255,.6);
+    border-radius:12px;
+    padding:10px 16px;
+  }
+  @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+    .notes-card,.setup-card,.picker,.qcard,.summary,.flash-front,.case-card,
+    .score-pill,.secondary,.exam-banner-inner,.tab-btn:not(.selected),.btn-prev,
+    .mini-btn,.drugclass,.casebox,.case-data,.count-btn,.pick-btn,.opt,.topbar{
+      background:rgba(255,255,255,.94);
+    }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand" onclick="location.href='index.html'">◆ Nursing NCLEX Review</div>
+    <div class="crumbs" id="crumbs"></div>
+  </div>
+
+  <!-- ============ COURSE NOTES ============ -->
+  <div class="view" id="view-notes">
+    <div class="eyebrow">Cardiovascular Medications</div>
+    <div class="topic-tabs">
+      <button class="tab-btn selected" id="tabNotesA" onclick="showView('notes')">Course Notes</button>
+      <button class="tab-btn" id="tabFlashA" onclick="showView('flashcards')">Flashcards</button>
+      <button class="tab-btn" id="tabSetupA" onclick="showView('setup')">Practice Test</button>
+      <button class="tab-btn" id="tabCasesA" onclick="showView('cases')">Case Studies</button>
+    </div>
+    <h1>Course Notes</h1>
+    <p class="subtitle">Reference notes drawn from the Cardio-Vascular Medication Review lecture. Use this to study before or during the practice test.</p>
+    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
+
+    <div class="notes-card" id="notesContent"></div>
+
+    <div style="text-align:center;margin-top:20px;">
+      <button class="btn primary" onclick="showView('setup')">Start practice test →</button>
+    </div>
+  </div>
+
+  <!-- ============ FLASHCARDS ============ -->
+  <div class="view" id="view-flashcards">
+    <div class="eyebrow">Cardiovascular Medications</div>
+    <div class="topic-tabs">
+      <button class="tab-btn" id="tabNotesB" onclick="showView('notes')">Course Notes</button>
+      <button class="tab-btn selected" id="tabFlashB" onclick="showView('flashcards')">Flashcards</button>
+      <button class="tab-btn" id="tabSetupB" onclick="showView('setup')">Practice Test</button>
+      <button class="tab-btn" id="tabCasesB" onclick="showView('cases')">Case Studies</button>
+    </div>
+    <h1>Flashcards</h1>
+    <p class="subtitle">Tap a card to flip it. Use the arrows to move through the deck, or shuffle for random order.</p>
+    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
+
+    <div class="flash-wrap">
+      <div class="flash-progress">Card <span id="flashIndex">1</span> / <span id="flashTotal">1</span></div>
+      <div class="flashcard" id="flashcard" onclick="flipCard()">
+        <div class="flash-inner" id="flashInner">
+          <div class="flash-face flash-front">
+            <span class="flash-tag">Term</span>
+            <span id="flashFront"></span>
+            <span class="flash-hint">Tap to flip</span>
+          </div>
+          <div class="flash-face flash-back">
+            <span class="flash-tag">Answer</span>
+            <span id="flashBack"></span>
+          </div>
+        </div>
+      </div>
+      <div class="flash-controls">
+        <button class="mini-btn" id="flashPrev">← Prev</button>
+        <button class="mini-btn" id="flashShuffle">🔀 Shuffle</button>
+        <button class="mini-btn" id="flashNext">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SETUP (question count) ============ -->
+  <div class="view" id="view-setup">
+    <div class="eyebrow">Cardiovascular Medications</div>
+    <div class="topic-tabs">
+      <button class="tab-btn" id="tabNotesC" onclick="showView('notes')">Course Notes</button>
+      <button class="tab-btn" id="tabFlashC" onclick="showView('flashcards')">Flashcards</button>
+      <button class="tab-btn selected" id="tabSetupC" onclick="showView('setup')">Practice Test</button>
+      <button class="tab-btn" id="tabCasesC" onclick="showView('cases')">Case Studies</button>
+    </div>
+    <h1>Practice Test</h1>
+    <p class="subtitle">Choose how many questions you want to take. Questions are randomly selected from a bank of 104 each time, and every option — right or wrong — comes with an explanation.</p>
+    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
+
+    <div class="setup-card">
+      <p>How many questions would you like to take?</p>
+      <div class="count-grid">
+        <button class="count-btn" onclick="startQuiz(20)"><span class="count-num">20</span><span class="count-label">Quick review</span></button>
+        <button class="count-btn" onclick="startQuiz(30)"><span class="count-num">30</span><span class="count-label">Standard</span></button>
+        <button class="count-btn" onclick="startQuiz(50)"><span class="count-num">50</span><span class="count-label">Extended</span></button>
+        <button class="count-btn" onclick="startQuiz(100)"><span class="count-num">100</span><span class="count-label">Full bank</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ CASE STUDIES ============ -->
+  <div class="view" id="view-cases">
+    <div class="eyebrow">Cardiovascular Medications</div>
+    <div class="topic-tabs">
+      <button class="tab-btn" id="tabNotesD" onclick="showView('notes')">Course Notes</button>
+      <button class="tab-btn" id="tabFlashD" onclick="showView('flashcards')">Flashcards</button>
+      <button class="tab-btn" id="tabSetupD" onclick="showView('setup')">Practice Test</button>
+      <button class="tab-btn selected" id="tabCasesD" onclick="showView('cases')">Case Studies</button>
+    </div>
+    <h1>Case Studies</h1>
+    <p class="subtitle">Apply what you've reviewed to realistic clinical scenarios. Read each vignette, think through the reflection questions, then tap to reveal the rationale.</p>
+    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
+
+    <div class="cases-wrap" id="casesContent"></div>
+  </div>
+
+  <!-- ============ QUIZ ============ -->
+  <div class="view" id="view-quiz">
+    <div class="eyebrow">Cardiovascular Medications</div>
+    <h1 id="quizTitle">Practice Test</h1>
+    <p class="subtitle">Choose an answer to see the correct choice and why every option is right or wrong. Jump to any question using the picker below.</p>
+    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
+
+    <div class="picker">
+      <div class="picker-head">
+        <span class="picker-title">Jump to a question</span>
+        <div class="picker-actions">
+          <button class="mini-btn" id="randomBtn">🎲 Random</button>
+          <button class="mini-btn" id="resultsBtn">View results</button>
+        </div>
+      </div>
+      <div class="picker-grid" id="pickerGrid"></div>
+      <div class="legend">
+        <span><span class="dot unanswered"></span>Unanswered</span>
+        <span><span class="dot correct"></span>Correct</span>
+        <span><span class="dot incorrect"></span>Incorrect</span>
+      </div>
+    </div>
+
+    <div class="statusbar">
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="score-pill">Score <span id="scoreLabel">0 / 0</span></div>
+    </div>
+
+    <div id="quizArea"></div>
+
+    <div class="summary" id="summary">
+      <div class="big-score"><span id="finalScore">0</span><sub id="finalOutOf">/20</sub></div>
+      <p id="finalMsg"></p>
+      <button class="btn-restart print-btn" id="printBtn">🖨️ Print / Save PDF</button>
+      <button class="btn-restart secondary" id="reviewBtn">Back to test</button>
+      <button class="btn-restart secondary" id="setupBtn">Change length</button>
+      <button class="btn-restart" id="restartBtn">New random set</button>
+    </div>
+  </div>
+
+  <footer>CARDIOVASCULAR PHARMACOLOGY · PRACTICE SET</footer>
+</div>
+
+<!-- Printable results report — hidden on screen, populated and shown only for printing -->
+<div id="printReport"></div>
+
+<script>
+/* ======================= COURSE NOTES ======================= */
+document.getElementById('casesContent').innerHTML = `
+<div class="case-card">
+    <span class="case-tag">Primary Care Clinic</span>
+    <h3>New Diagnosis of Hypertension</h3>
+    <p class="case-vignette">A 54-year-old client with newly diagnosed hypertension is started on lisinopril 10 mg daily. Two weeks later he calls the clinic reporting a persistent dry, hacking cough that started about a week after beginning the medication. He is otherwise feeling well and denies chest pain or shortness of breath.</p>
+    <div class="case-data"><b>Current meds:</b> Lisinopril 10 mg PO daily &nbsp;|&nbsp; <b>BP trend:</b> 148/92 → 132/84 &nbsp;|&nbsp; <b>K+:</b> 4.6 mEq/L</div>
+    <div class="case-q">
+      <p class="q-text">What is the most likely cause of the cough, and is this an emergency?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('cv_c1q1', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="cv_c1q1"><b>Answer:</b> ACE inhibitors block breakdown of bradykinin in the lungs, and the resulting bradykinin buildup commonly causes a dry, non-productive cough — this is a well-known, non-emergency class effect (not an allergic reaction). It's bothersome but not dangerous by itself, though it's a common reason clients stop the drug without telling their provider.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What assessment finding related to this drug class WOULD require urgent evaluation?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('cv_c1q2', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="cv_c1q2"><b>Answer:</b> Facial, lip, or tongue swelling (angioedema) or difficulty breathing/swallowing. This is a rare but serious ACE inhibitor reaction that requires stopping the drug immediately and emergency evaluation — very different from the benign cough.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What lab value should the nurse continue to monitor on this medication, and why?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('cv_c1q3', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="cv_c1q3"><b>Answer:</b> Serum potassium. ACE inhibitors reduce aldosterone release, which decreases potassium excretion, increasing hyperkalemia risk — especially if the client also takes potassium supplements, potassium-sparing diuretics, or NSAIDs. Also periodically monitor renal function (BUN/creatinine).</div>
+    </div>
+  </div>
+<div class="case-card">
+    <span class="case-tag">Cardiac Step-Down Unit</span>
+    <h3>Beta Blocker After Myocardial Infarction</h3>
+    <p class="case-vignette">A 61-year-old client recovering from a myocardial infarction is started on metoprolol 25 mg PO twice daily prior to discharge. On morning rounds, the nurse notes a heart rate of 52 bpm and BP of 96/58; the client feels "a little tired" but has no dizziness or chest pain.</p>
+    <div class="case-data"><b>VS:</b> HR 52, BP 96/58, RR 16 &nbsp;|&nbsp; <b>Med due:</b> Metoprolol 25 mg PO now</div>
+    <div class="case-q">
+      <p class="q-text">Should the nurse administer the scheduled dose of metoprolol?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('cv_c2q1', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="cv_c2q1"><b>Answer:</b> Hold the dose and notify the provider. Beta blockers slow heart rate and lower BP by blocking sympathetic (beta-1) stimulation of the heart; a heart rate below the parameter typically held for (often <50–60 bpm, per facility policy/order) with symptomatic or borderline BP warrants holding the dose rather than giving it and risking further bradycardia or hypotension.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">The client says, "I feel better — can I just stop taking this once I go home?" How should the nurse respond?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('cv_c2q2', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="cv_c2q2"><b>Answer:</b> No — beta blockers must never be stopped abruptly. Abrupt discontinuation can cause rebound tachycardia, hypertension, and precipitate angina or another MI due to upregulated beta-receptor sensitivity after prolonged blockade. If discontinued, the dose must be tapered gradually under provider supervision.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What teaching point is essential for a client with diabetes who is starting a beta blocker?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('cv_c2q3', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="cv_c2q3"><b>Answer:</b> Beta blockers can mask the typical adrenergic signs of hypoglycemia — tachycardia and tremor — because those responses are blunted. Clients with diabetes should be taught to monitor blood glucose closely and watch for other cues (diaphoresis, confusion) since hunger and sweating may be the only early warning signs left.</div>
+    </div>
+  </div>
+<div class="case-card">
+    <span class="case-tag">Anticoagulation Clinic</span>
+    <h3>A Client Newly Started on Warfarin</h3>
+    <p class="case-vignette">A 70-year-old client with atrial fibrillation is started on warfarin for stroke prevention. At a follow-up visit two weeks later, she mentions she's been eating large amounts of spinach and kale salads because she "heard greens are healthy," and she also started taking an OTC ibuprofen for knee pain.</p>
+    <div class="case-data"><b>INR today:</b> 1.4 (goal 2.0–3.0) &nbsp;|&nbsp; <b>Current meds:</b> Warfarin 5 mg PO daily, ibuprofen PRN &nbsp;|&nbsp; <b>Diet change:</b> increased leafy greens</div>
+    <div class="case-q">
+      <p class="q-text">Why is this client's INR below the therapeutic range, and what dietary teaching is needed?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('cv_c3q1', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="cv_c3q1"><b>Answer:</b> Leafy green vegetables (spinach, kale) are high in vitamin K, which promotes clotting factor synthesis and directly counteracts warfarin's anticoagulant effect — a sudden increase in intake can lower the INR out of therapeutic range. She doesn't need to avoid vitamin K entirely, but should keep her intake consistent week to week rather than making large, sudden changes.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What is the concern with the client taking ibuprofen alongside warfarin?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('cv_c3q2', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="cv_c3q2"><b>Answer:</b> NSAIDs like ibuprofen increase bleeding risk when combined with warfarin — through both an additive anticoagulant-type effect on platelets and GI mucosal irritation that raises the risk of GI bleeding. She should be taught to use acetaminophen for pain instead and to check with the provider or pharmacist before starting any new OTC medication.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What signs and symptoms should this client be taught to report immediately while on warfarin?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('cv_c3q3', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="cv_c3q3"><b>Answer:</b> Unusual bruising, bleeding gums, blood in urine or stool (or black, tarry stools), prolonged bleeding from cuts, severe headache, or any signs of a fall or head injury — these could indicate excessive anticoagulation and need prompt evaluation, including an INR check.</div>
+    </div>
+  </div>
+<div class="case-card">
+    <span class="case-tag">Cardiac Clinic</span>
+    <h3>Digoxin Therapy for Heart Failure</h3>
+    <p class="case-vignette">A client with heart failure and atrial fibrillation is maintained on digoxin 0.125 mg daily. At a routine visit, she reports nausea, poor appetite, and says colors "look strange, kind of yellow-green." She mentions she started taking a new OTC diuretic-type herbal tea for bloating last week.</p>
+    <div class="case-data"><b>Digoxin level:</b> 2.4 ng/mL (therapeutic 0.5–2.0) &nbsp;|&nbsp; <b>K+:</b> 3.2 mEq/L &nbsp;|&nbsp; <b>VS:</b> HR 52, irregular</div>
+    <div class="case-q">
+      <p class="q-text">What is the likely cause of this client's symptoms, and what role did the herbal tea play?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('cv_c4q1', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="cv_c4q1"><b>Answer:</b> This presentation (nausea, anorexia, yellow-green visual halos, bradycardia) is classic digoxin toxicity. Many diuretic-type herbal teas cause potassium loss, and hypokalemia increases the heart's sensitivity to digoxin, effectively potentiating its toxic effects even without a change in the digoxin dose itself.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What is the nurse's priority action?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('cv_c4q2', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="cv_c4q2"><b>Answer:</b> Hold the digoxin dose, notify the provider, and report the digoxin level, potassium level, and heart rate — this client needs prompt evaluation, likely including correction of the hypokalemia and possible digoxin immune Fab (antidote) if toxicity is severe or symptomatic dysrhythmias develop.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What teaching should this client receive about combining supplements or herbal products with her cardiac medications?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('cv_c4q3', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="cv_c4q3"><b>Answer:</b> Always check with the provider or pharmacist before starting any new OTC or herbal product, since many (diuretic teas, licorice root, St. John's wort, and others) can interact significantly with cardiac medications like digoxin, diuretics, or warfarin — "natural" does not mean risk-free when combined with prescription drugs.</div>
+    </div>
+  </div>
+<div class="case-card">
+    <span class="case-tag">Post-Anesthesia Care Unit</span>
+    <h3>Nitroglycerin for Acute Angina</h3>
+    <p class="case-vignette">A client reports sudden chest pain (7/10, pressure-like) two hours after cardiac catheterization. The nurse administers sublingual nitroglycerin per protocol. Five minutes later, the client reports feeling dizzy and the nurse notes a significant BP drop.</p>
+    <div class="case-data"><b>BP before:</b> 128/78 → <b>BP after NTG:</b> 88/54 &nbsp;|&nbsp; <b>HR:</b> 104 &nbsp;|&nbsp; <b>Pain:</b> improved to 3/10</div>
+    <div class="case-q">
+      <p class="q-text">What is the priority nursing action given this BP drop?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('cv_c5q1', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="cv_c5q1"><b>Answer:</b> Keep the client supine (flat or with legs slightly elevated, per protocol) to promote venous return, continue frequent BP monitoring, and hold further nitroglycerin doses until BP recovers — nitroglycerin causes venous and arterial vasodilation, and hypotension is an expected but potentially dangerous side effect, especially with repeat dosing.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What administration teaching applies to sublingual nitroglycerin that this scenario highlights?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('cv_c5q2', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="cv_c5q2"><b>Answer:</b> The client should remain seated or lying down when taking sublingual nitroglycerin (never standing) because of the hypotension risk, and should be taught to rise slowly afterward. Up to 3 doses may be given 5 minutes apart per protocol for ongoing chest pain, but if pain is unrelieved after the first dose, emergency services should be contacted rather than waiting through all three.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What medication history question is critical to ask before administering nitroglycerin to any client?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('cv_c5q3', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="cv_c5q3"><b>Answer:</b> Ask about recent use of phosphodiesterase-5 inhibitors (e.g., sildenafil, tadalafil) — combining these with nitrates can cause severe, life-threatening hypotension. This history should be confirmed before nitroglycerin is given whenever possible.</div>
+    </div>
+  </div>
+`;
+
+document.getElementById('notesContent').innerHTML = `
+<h2 class="section-title">Antihypertensive Overview</h2>
+<table class="note-table">
+<tr><th>Medication class</th><th>Suffix</th><th>Mechanism of action</th></tr>
+<tr><td>ACE inhibitors</td><td>-pril (lisinopril)</td><td>Decrease stimulation of the renin-angiotensin-aldosterone system.</td></tr>
+<tr><td>ARBs</td><td>-sartan (losartan)</td><td>Decrease stimulation of the renin-angiotensin-aldosterone system.</td></tr>
+<tr><td>Beta-adrenergic blockers</td><td>-lol (carvedilol)</td><td>Block sympathetic nervous system in the heart.</td></tr>
+<tr><td>Alpha-1 adrenergic blockers</td><td>-osin (doxazosin)</td><td>Block sympathetic nervous system at the level of the blood vessel.</td></tr>
+<tr><td>Centrally-acting alpha adrenergics</td><td>clonidine, methyldopa</td><td>Block sympathetic nervous system in the medulla.</td></tr>
+<tr><td>Calcium channel blockers</td><td>-pine (amlodipine)</td><td>Inhibit calcium ion movement to slow conduction.</td></tr>
+<tr><td>Direct-acting vasodilators</td><td>hydralazine, minoxidil</td><td>Directly act on blood vessels to vasodilate.</td></tr>
+</table>
+
+<h2 class="section-title">Renin-Angiotensin-Aldosterone System (RAAS)</h2>
+<p>Decreased blood pressure → juxtaglomerular cells (baroreceptors) secrete <b>renin</b> → renin converts <b>angiotensinogen</b> to <b>angiotensin I</b> → <b>ACE</b> (in the lungs) converts angiotensin I to <b>angiotensin II</b> → angiotensin II causes vasoconstriction and stimulates the <b>adrenal cortex</b> to release <b>aldosterone</b> → aldosterone increases Na⁺ reabsorption + H₂O → increased plasma volume → increased cardiac output → increased blood pressure, which feeds back to suppress further renin release.</p>
+
+<h2 class="section-title">Drug Class Details</h2>
+<div class="drugclass"><h4>ACE Inhibitors <span class="suffix-tag">-pril</span></h4>
+<ul><li>Blocks conversion of angiotensin I to II (prevents vasoconstriction)</li><li>Blocks aldosterone release (prevents Na⁺/water reabsorption)</li><li>Increases diuresis, decreases systemic vascular resistance (afterload) and venous pressure</li><li><b>Monitor:</b> potassium (hyperkalemia), cough, angioedema</li></ul></div>
+<div class="drugclass"><h4>ARBs <span class="suffix-tag">-sartan</span></h4>
+<ul><li>Blocks angiotensin II from binding to its receptor</li><li>Blocks aldosterone release, increases diuresis, decreases afterload and venous pressure</li><li><b>Monitor:</b> potassium (hyperkalemia), angioedema — much less cough risk than ACE inhibitors</li></ul></div>
+<div class="drugclass"><h4>Beta Blockers <span class="suffix-tag">-lol</span></h4>
+<ul><li>Blocks beta-adrenergic receptors (beta1, minimal beta2 effect if selective); decreases heart rate</li><li>Beta-selective: atenolol · Beta-nonselective: propranolol · Nonselective + alpha-blocking: carvedilol, labetalol</li><li><b>Monitor:</b> BP, heart rate (bradycardia), lung sounds (bronchoconstriction), blood glucose (masking)</li></ul></div>
+<div class="drugclass"><h4>Calcium Channel Blockers <span class="suffix-tag">-pine</span></h4>
+<ul><li>Blocks calcium from entering cells → vasodilation of cardiac arteries and peripheral arterioles (not veins)</li><li>Decreases contractility (negative inotropic), heart rate (negative chronotropic), and AV conduction velocity (negative dromotropic)</li><li>3 types: smooth-muscle selective (nifedipine), negative inotrope (verapamil), both (diltiazem)</li><li><b>Monitor:</b> BP (hypotension more common with nifedipine), bradycardia (especially verapamil), peripheral edema, liver/kidney function</li></ul></div>
+<div class="drugclass"><h4>Alpha-1 Blockers <span class="suffix-tag">-osin</span></h4>
+<ul><li>Blocks the sympathetic nervous system at the level of the blood vessel (e.g., doxazosin)</li></ul></div>
+<div class="drugclass"><h4>Centrally-Acting Alpha Adrenergics</h4>
+<ul><li>Clonidine, methyldopa — block the sympathetic nervous system in the medulla</li></ul></div>
+<div class="drugclass"><h4>Direct-Acting Vasodilators</h4>
+<ul><li>Hydralazine, minoxidil — act directly on blood vessels to cause vasodilation</li></ul></div>
+
+<div class="note-callout"><b>General adverse effects for all antihypertensives:</b> orthostatic hypotension. Medications acting via the same route should not be combined (e.g., ACE inhibitor + ARB). <b>Herbal interactions:</b> ma huang (ephedra) and goldenseal decrease antihypertensive effectiveness; black cohosh increases hypotension risk.</div>
+<div class="note-callout"><b>Nursing considerations:</b> check BP before/after administering; teach clients to sit on the edge of the bed before rising and change positions slowly; reinforce a low-sodium diet and regular exercise; assess for herbal supplement use.</div>
+
+<h2 class="section-title">Diuretics</h2>
+<table class="note-table">
+<tr><th>Class</th><th>Action</th><th>Adverse effects</th><th>Nursing considerations</th></tr>
+<tr><td><b>Thiazide</b><br>hydrochlorothiazide, chlorothiazide</td><td>Inhibits Na⁺/Cl⁻ reabsorption in distal convoluted tubules</td><td>Hypokalemia, hyperglycemia, blurred vision, dry mouth, hypotension</td><td>Avoid at bedtime; monitor I/O, electrolytes, weight, BUN, creatinine, glucose</td></tr>
+<tr><td><b>Potassium-sparing</b><br>spironolactone</td><td>Inhibits aldosterone action in distal tubule</td><td>Hyperkalemia, hyponatremia, hepatic damage, tinnitus</td><td>Give with meals; often used with other diuretics; monitor I/O</td></tr>
+<tr><td><b>Loop</b><br>furosemide, bumetanide, torsemide, ethacrynic acid</td><td>Inhibits Na⁺/K⁺/Cl⁻/Mg²⁺/Ca²⁺ reabsorption in the loop of Henle</td><td>Hypokalemia, hyperglycemia, hypotension, GI upset, weakness</td><td>Avoid bedtime; IV over 2 min (diuresis in ~10 min); PO diuresis in ~30 min; monitor I/O, BP, pulse, electrolytes, weight, glucose</td></tr>
+<tr><td><b>Osmotic</b><br>mannitol</td><td>Increases osmotic pressure of glomerular filtrate, inhibiting tubular water reabsorption</td><td>Circulatory overload, tachycardia, pulmonary congestion, dyspnea, headache, seizures</td><td>Monitor I/O, VS, electrolytes, neuro status</td></tr>
+<tr><td><b>Other</b><br>chlorthalidone</td><td>Unclear</td><td>Aplastic anemia, hypokalemia, hyperglycemia, dizziness, orthostatic hypotension</td><td>Avoid bedtime; take with food; long-lasting (2–3 days); monitor I/O, BP, electrolytes, weight, glucose</td></tr>
+</table>
+
+<h2 class="section-title">Antiplatelets &amp; Anticoagulants</h2>
+<table class="note-table">
+<tr><th>Category</th><th>Examples</th><th>Notes</th></tr>
+<tr><td>Other platelet inhibitors</td><td>Aspirin, dipyridamole, aspirin-dipyridamole</td><td>Prevent platelet clumping; low-dose aspirin for low clot risk</td></tr>
+<tr><td>CYP2Y12 / P2Y12 inhibitors</td><td>Clopidogrel, prasugrel, ticagrelor</td><td>Higher-dose aspirin + clopidogrel used post-cardiovascular event (30 days–12 months); prasugrel used 12 months after stent placement</td></tr>
+<tr><td>GP IIb/IIIa inhibitors</td><td>Eptifibatide, tirofiban</td><td>Block the final common pathway of platelet aggregation</td></tr>
+<tr><td>Vitamin K antagonist</td><td>Warfarin</td><td>Slows clotting; monitor INR (goal 2–3)</td></tr>
+<tr><td>Heparin</td><td>Standard unfractionated heparin</td><td>Monitor aPTT (normal 25–35 sec; therapeutic = 1.5–2.5× normal)</td></tr>
+<tr><td>Low-molecular-weight heparin</td><td>Enoxaparin</td><td>Prevention of clots in clients with prior VTE/DVT</td></tr>
+<tr><td>Direct thrombin inhibitors</td><td>Bivalirudin, dabigatran</td><td>Direct-acting oral anticoagulants for cardiac-origin clot risk (e.g., atrial fibrillation)</td></tr>
+<tr><td>Direct factor Xa inhibitors</td><td>Apixaban, edoxaban, rivaroxaban</td><td>Direct-acting oral anticoagulants for cardiac-origin clot risk</td></tr>
+<tr><td>Thrombolytics</td><td>Alteplase (tPA, "clot buster")</td><td>Destroys a clot that has already formed</td></tr>
+</table>
+<div class="note-callout"><b>Herbal bleeding-risk interactions:</b> ginkgo, ginger, garlic, ginseng, bilberry, cat's claw, chamomile, curcumin, Dong Quai, green tea, feverfew, licorice, St. John's wort. Clopidogrel bleeding risk increases with NSAIDs, omeprazole, antineoplastics, and SSRIs.</div>
+<div class="note-callout"><b>Nursing considerations:</b> review hepatic dosing; monitor for epistaxis, gum bleeding, and occult bleeding (tarry stools, anemia, fatigue); INR monitors warfarin, aPTT monitors heparin.</div>
+
+<h2 class="section-title">Nitrates</h2>
+<p>Nitroglycerin and isosorbide dinitrate reduce myocardial oxygen demand by lowering <b>preload and afterload</b> through vasodilation. <b>Safety:</b> can cause hypotension, dizziness, and syncope.</p>
+
+<h2 class="section-title">Inotropic Medications</h2>
+<p>Milrinone, dopamine, dobutamine, and digoxin <b>increase cardiac contractility</b> and <b>reduce vascular tone</b> through vasodilation. Milrinone specifically increases contractility and cardiac output.</p>
+
+<h2 class="section-title">Case Study #1 — Heart Failure Exacerbation</h2>
+<div class="casebox"><b>Presentation:</b> 61-year-old male, shortness of breath and fatigue. VS: BP 86/50, P 116, R 32, T 99.4°F, O₂ sat 88%. PMH: COPD, heart failure, CAD.<br><br>
+<b>Red flags:</b> unstable/in distress; cardiac and respiratory problems can present similarly, so labs are needed to differentiate; renal impairment is a concern.<br><br>
+<b>Diagnostics:</b> CBC, electrolytes, BNP (ventricular stretch), troponin (cardiac ischemia), glucose, LFTs, ABGs, chest x-ray, ECG.<br><br>
+<b>Diagnosis:</b> Heart failure exacerbation.<br>
+<b>Signs/symptoms of HF:</b> exertional/resting dyspnea, orthopnea, cough with possible pulmonary edema, crackles that don't clear with coughing, S3/S4 heart sounds, weight gain, dependent edema, jugular vein distention, ascites/abdominal bloating, fatigue/muscle weakness, weak rapid thready pulse, confusion (from hypoperfusion).<br><br>
+<b>Medication considerations — appropriate in HF:</b> diuretics, ACE inhibitors, ARBs, vasodilators, beta blockers, positive inotropes, opioid analgesics (e.g., morphine, which reduces preload and anxiety).<br>
+<b>Avoid:</b> calcium channel blockers (negative inotropic effect).</div>
+
+<h2 class="section-title">Case Study #2 — Respiratory/Cardiac Compromise</h2>
+<div class="casebox">Oxygen initiated at 4 L/min via nasal cannula. ABG: PaO₂ 60 mmHg, PaCO₂ 50 mmHg, pH 7.3, SaO₂ 88% (hypoxemia with respiratory acidosis). ECG: left ventricular hypertrophy. Dobutamine drip started at 2.5 mcg/kg/min; furosemide 40 mg IV given.<br><br>
+<b>Purpose of dobutamine + furosemide:</b> increase myocardial contractility (dobutamine) and reduce ventricular preload (furosemide).</div>
+
+<h2 class="section-title">Goals of Client Management</h2>
+<ul style="color:var(--ink-soft);font-size:14.5px;line-height:1.7;"><li>Treatment of the underlying cause (e.g., ischemia, valvular dysfunction)</li><li>Management of fluid volume overload</li><li>Improvement of ventricular function</li></ul>
+`;
+
+/* ======================= QUESTION BANK (100) ======================= */
+const QUESTIONS = [
+{ stem:"A client is newly prescribed an ACE inhibitor for hypertension. Which finding is most important for the nurse to monitor?",
+  options:[
+    {text:"Serum sodium level",correct:false,explain:"ACE inhibitors are not primarily associated with clinically significant sodium disturbances, so this is not the priority monitoring parameter."},
+    {text:"Serum potassium level",correct:true,explain:"ACE inhibitors decrease aldosterone release, reducing sodium/water excretion and potassium loss — this raises the risk of hyperkalemia, the key safety concern."},
+    {text:"Blood glucose level",correct:false,explain:"ACE inhibitors are not linked to altered blood glucose control (unlike thiazide diuretics)."},
+    {text:"White blood cell count",correct:false,explain:"ACE inhibitors do not affect white blood cell counts; this isn't a relevant monitoring parameter for this drug class."}
+  ]},
+{ stem:"The nurse is teaching a client about a new prescription for losartan (an ARB). Which adverse effect should the nurse include, distinguishing it from ACE inhibitors?",
+  options:[
+    {text:"ARBs are far less likely to cause a persistent dry cough than ACE inhibitors",correct:true,explain:"ARBs block angiotensin II at the receptor rather than interfering with bradykinin breakdown, so the classic ACE inhibitor dry cough is much less common."},
+    {text:"ARBs commonly cause hypokalemia",correct:false,explain:"Incorrect direction — ARBs reduce aldosterone release like ACE inhibitors do, so they are associated with hyperkalemia, not hypokalemia."},
+    {text:"ARBs are contraindicated in hypertension",correct:false,explain:"ARBs are a first-line treatment for hypertension, not a contraindicated class."},
+    {text:"ARBs must be taken with food to prevent GI upset",correct:false,explain:"There is no requirement to take ARBs with food; this isn't a standard teaching point for this class."}
+  ]},
+{ stem:"Which suffix identifies a medication class that works by blocking the beta-adrenergic receptors of the sympathetic nervous system?",
+  options:[
+    {text:"-pril",correct:false,explain:"The suffix \"-pril\" (e.g., lisinopril) identifies ACE inhibitors, not beta blockers."},
+    {text:"-sartan",correct:false,explain:"The suffix \"-sartan\" (e.g., losartan) identifies ARBs, not beta blockers."},
+    {text:"-lol",correct:true,explain:"The suffix \"-lol\" (e.g., carvedilol, atenolol, propranolol) identifies beta-adrenergic blockers."},
+    {text:"-pine",correct:false,explain:"The suffix \"-pine\" (e.g., amlodipine) identifies calcium channel blockers, not beta blockers."}
+  ]},
+{ stem:"A client taking carvedilol reports new-onset wheezing and shortness of breath. What is the physiologic reason this can occur with beta blockers?",
+  options:[
+    {text:"Beta blockers cause fluid retention in the lungs",correct:false,explain:"Beta blockers are not known to directly cause pulmonary fluid retention."},
+    {text:"Nonselective beta blockade can cause bronchoconstriction",correct:true,explain:"Nonselective beta blockers like carvedilol block beta-2 receptors in the lungs in addition to beta-1 receptors in the heart, which can trigger bronchoconstriction, especially in clients with reactive airway disease."},
+    {text:"Beta blockers decrease surfactant production",correct:false,explain:"Beta blockers do not affect surfactant production."},
+    {text:"Beta blockers increase respiratory rate",correct:false,explain:"Beta blockers slow heart rate; any respiratory symptoms come from bronchoconstriction, not a direct effect on respiratory drive."}
+  ]},
+{ stem:"The nurse is caring for a client prescribed a beta blocker who also has type 2 diabetes. What is the priority teaching point?",
+  options:[
+    {text:"Beta blockers can mask the signs and symptoms of hypoglycemia",correct:true,explain:"Beta blockers blunt the sympathetic response (tachycardia, tremor) that normally signals hypoglycemia, so clients may not recognize early warning signs."},
+    {text:"Beta blockers cause hyperglycemia requiring insulin adjustment",correct:false,explain:"Beta blockers are not a major direct cause of hyperglycemia requiring insulin changes; this effect is more associated with thiazide diuretics."},
+    {text:"Beta blockers should never be used in clients with diabetes",correct:false,explain:"Beta blockers are not an absolute contraindication in diabetes — they are used with caution and closer glucose monitoring."},
+    {text:"Beta blockers increase the risk of diabetic ketoacidosis",correct:false,explain:"Beta blockers are not linked to diabetic ketoacidosis."}
+  ]},
+{ stem:"A client is prescribed amlodipine for hypertension. Which statement best describes its mechanism of action?",
+  options:[
+    {text:"It blocks calcium from entering cells, causing vasodilation of cardiac arteries and peripheral arterioles",correct:true,explain:"Calcium channel blockers like amlodipine inhibit calcium ion movement into cells, causing vasodilation of cardiac arteries and peripheral arterioles (but not veins)."},
+    {text:"It blocks the conversion of angiotensin I to angiotensin II",correct:false,explain:"This describes the mechanism of ACE inhibitors, not calcium channel blockers."},
+    {text:"It blocks beta-adrenergic receptors in the heart",correct:false,explain:"This describes the mechanism of beta blockers, not calcium channel blockers."},
+    {text:"It directly stimulates the renin-angiotensin-aldosterone system",correct:false,explain:"Calcium channel blockers do not stimulate RAAS — they act independently of that pathway."}
+  ]},
+{ stem:"Which calcium channel blocker is most associated with a significant negative inotropic effect and should be used cautiously in clients with heart failure?",
+  options:[
+    {text:"Nifedipine",correct:false,explain:"Nifedipine is smooth-muscle selective with minimal effect on cardiac contractility, so it is not the best answer here."},
+    {text:"Amlodipine",correct:false,explain:"Amlodipine, like nifedipine, is a dihydropyridine with little negative inotropic effect."},
+    {text:"Verapamil",correct:true,explain:"Verapamil has the strongest negative inotropic effect of the calcium channel blockers and should be used cautiously in heart failure."},
+    {text:"Diltiazem (least of the three)",correct:false,explain:"Diltiazem does have some negative inotropic effect, but it is less pronounced than verapamil's, making it not the best answer to this question."}
+  ]},
+{ stem:"A client asks why a calcium channel blocker and a beta blocker would not typically be combined without caution. What is the nurse's best explanation?",
+  options:[
+    {text:"Both drug classes can cause hyperkalemia",correct:false,explain:"Neither drug class is primarily associated with hyperkalemia."},
+    {text:"Both drug classes can slow heart rate and AV conduction, increasing the risk of bradycardia",correct:true,explain:"Both beta blockers and non-dihydropyridine calcium channel blockers (verapamil, diltiazem) slow heart rate and AV nodal conduction; combining them raises the risk of significant bradycardia or heart block."},
+    {text:"Both drug classes cause the same herbal interactions",correct:false,explain:"These two classes do not share the specific herbal interaction profile discussed for antihypertensives (e.g., ephedra, goldenseal); that concern applies to antihypertensives generally."},
+    {text:"Both drug classes are contraindicated in hypertension",correct:false,explain:"Both classes are actually used to treat hypertension, not contraindicated in it."}
+  ]},
+{ stem:"In the Renin-Angiotensin-Aldosterone System (RAAS), what triggers the juxtaglomerular cells to secrete renin?",
+  options:[
+    {text:"Increased blood pressure",correct:false,explain:"Increased blood pressure would suppress, not stimulate, renin release."},
+    {text:"Decreased blood pressure",correct:true,explain:"Decreased blood pressure is sensed by baroreceptors in the juxtaglomerular cells, triggering renin secretion as the first step of the RAAS cascade."},
+    {text:"Increased serum potassium",correct:false,explain:"RAAS activation is triggered by a drop in blood pressure/renal perfusion, not directly by potassium levels."},
+    {text:"Increased sodium intake",correct:false,explain:"RAAS activation is triggered by decreased renal perfusion pressure, not by sodium intake directly."}
+  ]},
+{ stem:"According to the RAAS pathway, angiotensin-converting enzyme (ACE), located primarily in the lungs, converts which substance into angiotensin II?",
+  options:[
+    {text:"Angiotensinogen",correct:false,explain:"Angiotensinogen is converted to angiotensin I by renin, not by ACE."},
+    {text:"Renin",correct:false,explain:"Renin is the enzyme that acts on angiotensinogen — it is not the substrate ACE converts."},
+    {text:"Angiotensin I",correct:true,explain:"ACE, located in the lungs, converts angiotensin I into angiotensin II, a potent vasoconstrictor."},
+    {text:"Aldosterone",correct:false,explain:"Aldosterone is released from the adrenal cortex in response to angiotensin II — it is a downstream product, not something ACE creates."}
+  ]},
+{ stem:"A client taking an ACE inhibitor is newly prescribed spironolactone. What is the nurse's priority concern?",
+  options:[
+    {text:"Increased risk of hyperkalemia from combining two potassium-retaining medications",correct:true,explain:"ACE inhibitors already reduce aldosterone-mediated potassium excretion; adding a potassium-sparing diuretic like spironolactone significantly increases the risk of hyperkalemia."},
+    {text:"Increased risk of hypokalemia",correct:false,explain:"The actual risk with this combination is hyperkalemia, not hypokalemia."},
+    {text:"Increased risk of orthostatic hypotension only",correct:false,explain:"While orthostatic hypotension is a general antihypertensive concern, it is not the priority issue specific to this drug combination."},
+    {text:"Decreased effectiveness of the ACE inhibitor",correct:false,explain:"Combining these medications does not reduce the ACE inhibitor's effectiveness."}
+  ]},
+{ stem:"The nurse provides teaching to a client newly prescribed a thiazide diuretic. Which statements should the nurse include?",
+  isSAL:true,
+  options:[
+    {text:"\"Take this medication in the morning rather than at bedtime.\"",correct:true,explain:"Thiazide diuretics should be given in the morning to avoid nocturia (waking at night to urinate)."},
+    {text:"\"Your blood glucose may need to be monitored more closely.\"",correct:true,explain:"Thiazide diuretics can cause hyperglycemia, so closer glucose monitoring is appropriate teaching."},
+    {text:"\"This medication is more likely to cause hyperkalemia than hypokalemia.\"",correct:false,explain:"Incorrect direction — thiazide diuretics are associated with hypokalemia, not hyperkalemia."},
+    {text:"\"Report symptoms of blurred vision or dry mouth to your provider.\"",correct:true,explain:"Blurred vision and dry mouth are recognized adverse effects of thiazide diuretics worth reporting."},
+    {text:"\"This medication should always be paired with a potassium-sparing diuretic.\"",correct:false,explain:"Pairing with a potassium-sparing diuretic is not a universal requirement — it depends on the individual client's potassium levels and clinical picture."}
+  ]},
+{ stem:"Which diuretic class works by inhibiting the action of aldosterone in the distal tubule and carries the greatest risk for hyperkalemia?",
+  options:[
+    {text:"Loop diuretics",correct:false,explain:"Loop diuretics cause potassium loss (hypokalemia), not retention."},
+    {text:"Thiazide diuretics",correct:false,explain:"Thiazide diuretics also cause potassium loss (hypokalemia), not retention."},
+    {text:"Potassium-sparing diuretics",correct:true,explain:"Potassium-sparing diuretics (e.g., spironolactone) block the action of aldosterone in the distal tubule, which spares potassium excretion and carries a risk of hyperkalemia."},
+    {text:"Osmotic diuretics",correct:false,explain:"Osmotic diuretics work by increasing osmotic pressure of the glomerular filtrate rather than acting on aldosterone, and are associated with circulatory overload rather than hyperkalemia."}
+  ]},
+{ stem:"A client is receiving IV furosemide for heart failure exacerbation. Which nursing action is most appropriate when administering this medication?",
+  options:[
+    {text:"Administer the IV dose rapidly to achieve immediate diuresis",correct:false,explain:"Rapid IV administration increases the risk of ototoxicity — this is not the safe approach."},
+    {text:"Administer the IV dose slowly, over approximately 2 minutes",correct:true,explain:"IV furosemide should be administered slowly, over about 2 minutes, to reduce the risk of ototoxicity; diuresis typically occurs within about 10 minutes after IV administration."},
+    {text:"Withhold the medication if the client's potassium is within normal limits",correct:false,explain:"A normal potassium level is not a reason to withhold a loop diuretic — potassium should simply continue to be monitored."},
+    {text:"Administer the medication with a high-potassium meal",correct:false,explain:"There is no requirement to give this medication with a high-potassium meal; loop diuretics are more likely to cause hypokalemia, so potassium intake may need to be encouraged generally, not tied to a single meal timing."}
+  ]},
+{ stem:"A client taking warfarin reports also taking ginkgo biloba for memory. What is the nurse's priority action?",
+  options:[
+    {text:"Reassure the client this combination is safe",correct:false,explain:"This combination is not safe — it increases bleeding risk, so reassurance would be inappropriate."},
+    {text:"Educate the client that this herbal supplement increases the risk of bleeding",correct:true,explain:"Ginkgo is one of several herbal supplements (along with ginger, garlic, ginseng, and others) that increase bleeding risk when combined with anticoagulants such as warfarin."},
+    {text:"Instruct the client to double the ginkgo dose for effectiveness",correct:false,explain:"Increasing the ginkgo dose would further increase bleeding risk, not improve therapy."},
+    {text:"Instruct the client to stop the warfarin immediately",correct:false,explain:"The appropriate action is to educate the client about the interaction, not to instruct them to stop a prescribed anticoagulant without provider guidance."}
+  ]},
+{ stem:"Which laboratory value is used to monitor therapeutic effectiveness of warfarin therapy?",
+  options:[
+    {text:"Activated partial thromboplastin time (aPTT)",correct:false,explain:"aPTT is used to monitor heparin therapy, not warfarin."},
+    {text:"International normalized ratio (INR)",correct:true,explain:"INR is the recommended method for monitoring warfarin therapy, with a typical goal INR of 2–3."},
+    {text:"Platelet count only",correct:false,explain:"Platelet count alone does not reflect anticoagulation status from warfarin."},
+    {text:"Serum creatinine",correct:false,explain:"Serum creatinine reflects renal function, not anticoagulation effectiveness."}
+  ]},
+{ stem:"A client who recently received a coronary stent is prescribed prasugrel. What is the primary purpose of this medication in this context?",
+  options:[
+    {text:"To dissolve the clot that is already present at the stent site",correct:false,explain:"Dissolving existing clots is the role of thrombolytics (e.g., alteplase), not prasugrel."},
+    {text:"To prevent platelet aggregation and reduce the risk of clot formation at the stent site",correct:true,explain:"Prasugrel, a CYP2Y12/P2Y12 inhibitor, is an antiplatelet agent prescribed after stent placement to prevent platelet aggregation and clot formation at the stent site."},
+    {text:"To lower blood pressure and reduce afterload",correct:false,explain:"Prasugrel does not lower blood pressure or affect afterload."},
+    {text:"To increase myocardial contractility",correct:false,explain:"Prasugrel has no effect on myocardial contractility."}
+  ]},
+{ stem:"A client with acute heart failure and chest discomfort is prescribed sublingual nitroglycerin. What is the primary hemodynamic effect the nurse should expect?",
+  options:[
+    {text:"Increased afterload and increased myocardial oxygen demand",correct:false,explain:"This is the opposite of what nitrates do — they decrease, not increase, afterload and oxygen demand."},
+    {text:"Decreased preload and afterload through vasodilation, reducing myocardial oxygen demand",correct:true,explain:"Nitrates such as nitroglycerin reduce myocardial oxygen demand by lowering preload and afterload through vasodilation."},
+    {text:"Increased cardiac contractility",correct:false,explain:"Nitrates do not affect cardiac contractility — that is an action of inotropes, not nitrates."},
+    {text:"Increased heart rate and increased cardiac output",correct:false,explain:"Nitrates typically cause vasodilation and can cause reflex tachycardia in some cases, but increasing cardiac output is not their primary therapeutic mechanism."}
+  ]},
+{ stem:"The nurse administers dobutamine to a client in acute decompensated heart failure. What is the expected therapeutic outcome of this medication?",
+  options:[
+    {text:"Decreased myocardial contractility and decreased cardiac output",correct:false,explain:"This describes the opposite of dobutamine's action."},
+    {text:"Increased myocardial contractility and increased cardiac output",correct:true,explain:"Dobutamine is a positive inotrope that increases myocardial contractility and cardiac output, which is the desired effect in acute decompensated heart failure."},
+    {text:"Increased vascular tone and increased afterload",correct:false,explain:"Inotropic agents reduce vascular tone through vasodilation rather than increasing it."},
+    {text:"Decreased heart rate and increased AV conduction",correct:false,explain:"Dobutamine increases, rather than decreases, heart rate, and does not primarily affect AV conduction the way this option describes."}
+  ]},
+{ stem:"A client with a history of heart failure is being started on a new antihypertensive regimen. Which class of medication would the nurse question if prescribed for this client?",
+  options:[
+    {text:"ACE inhibitors",correct:false,explain:"ACE inhibitors are a standard, guideline-recommended component of heart failure management, not a class to question."},
+    {text:"Beta blockers",correct:false,explain:"Certain beta blockers are also standard, guideline-recommended therapy in heart failure, not a class to question."},
+    {text:"Calcium channel blockers (non-dihydropyridine)",correct:true,explain:"Non-dihydropyridine calcium channel blockers (verapamil, diltiazem) have a negative inotropic effect and are generally avoided in heart failure."},
+    {text:"Loop diuretics",correct:false,explain:"Loop diuretics are a standard component of heart failure management for fluid overload, not a class to question."}
+  ]},
+{ stem:"Which class of antihypertensive medication works by blocking the sympathetic nervous system at the level of the blood vessel, and uses the suffix \"-osin\" (e.g., doxazosin)?",
+  options:[
+    {text:"Alpha-1 adrenergic blockers",correct:true,explain:"Alpha-1 adrenergic blockers (suffix \"-osin,\" e.g., doxazosin) block the sympathetic nervous system specifically at the level of the blood vessel."},
+    {text:"Beta-adrenergic blockers",correct:false,explain:"Beta blockers use the suffix \"-lol\" and block the sympathetic nervous system in the heart, not at the blood vessel level."},
+    {text:"Centrally-acting alpha adrenergics",correct:false,explain:"Centrally-acting alpha adrenergics (clonidine, methyldopa) act in the medulla, not at the level of the blood vessel, and do not use the \"-osin\" suffix."},
+    {text:"ACE inhibitors",correct:false,explain:"ACE inhibitors use the suffix \"-pril\" and work through the renin-angiotensin-aldosterone system, not by directly blocking sympathetic receptors on blood vessels."}
+  ]},
+{ stem:"Clonidine and methyldopa are classified as centrally-acting alpha adrenergics. Where do these medications exert their primary site of action to lower blood pressure?",
+  options:[
+    {text:"At the level of the blood vessel",correct:false,explain:"Action at the level of the blood vessel describes alpha-1 adrenergic blockers (e.g., doxazosin), not centrally-acting agents."},
+    {text:"In the adrenal cortex",correct:false,explain:"The adrenal cortex is where aldosterone is released in response to angiotensin II; it is not the site of action for clonidine or methyldopa."},
+    {text:"In the medulla",correct:true,explain:"Centrally-acting alpha adrenergics like clonidine and methyldopa block the sympathetic nervous system in the medulla."},
+    {text:"In the renal tubules",correct:false,explain:"The renal tubules are the site of action for diuretics, not centrally-acting alpha adrenergics."}
+  ]},
+{ stem:"Hydralazine and minoxidil are classified as direct-acting vasodilators. What is their mechanism of action?",
+  options:[
+    {text:"They block calcium channels in vascular smooth muscle",correct:false,explain:"Blocking calcium channels describes calcium channel blockers (e.g., amlodipine), not direct-acting vasodilators."},
+    {text:"They directly act on blood vessels to cause vasodilation",correct:true,explain:"Direct-acting vasodilators such as hydralazine and minoxidil act directly on blood vessels to produce vasodilation."},
+    {text:"They block the renin-angiotensin-aldosterone system",correct:false,explain:"Blocking RAAS describes ACE inhibitors and ARBs, not direct-acting vasodilators."},
+    {text:"They block beta receptors in the blood vessel wall",correct:false,explain:"Blocking beta receptors describes beta blockers; direct-acting vasodilators act independently of adrenergic receptors."}
+  ]},
+{ stem:"A client is prescribed dabigatran. How does its mechanism of action differ from apixaban?",
+  options:[
+    {text:"Dabigatran is a direct thrombin inhibitor, while apixaban is a direct factor Xa inhibitor",correct:true,explain:"Dabigatran works as a direct thrombin inhibitor (DTI), while apixaban works as a direct factor Xa inhibitor — both are direct-acting oral anticoagulants but they target different steps of the clotting cascade."},
+    {text:"Dabigatran is a vitamin K antagonist, working the same way as warfarin",correct:false,explain:"Warfarin, not dabigatran, is the vitamin K antagonist in this drug category; dabigatran works by a different mechanism."},
+    {text:"Dabigatran and apixaban share an identical mechanism of action",correct:false,explain:"The two medications do not share an identical mechanism — dabigatran inhibits thrombin directly, while apixaban inhibits factor Xa directly."},
+    {text:"Dabigatran is a thrombolytic that dissolves existing clots, just like apixaban",correct:false,explain:"Neither dabigatran nor apixaban is a thrombolytic; thrombolytics such as alteplase dissolve existing clots, whereas these anticoagulants work to prevent new clot formation."}
+  ]},
+{ stem:"Alteplase (tPA), often called a \"clot buster,\" is administered to a client during an acute ischemic event. What distinguishes this medication from anticoagulants and antiplatelets?",
+  options:[
+    {text:"It only prevents new clot formation, similar to anticoagulants",correct:false,explain:"This describes the action of anticoagulants, not thrombolytics — thrombolytics go a step further than simply preventing new clots."},
+    {text:"It destroys a clot that has already formed",correct:true,explain:"Thrombolytic agents like alteplase are used to destroy a clot that has already developed, which is why they are frequently called the \"clot buster.\""},
+    {text:"It reduces platelet clumping without dissolving any existing clot",correct:false,explain:"Reducing platelet clumping without dissolving existing clots describes antiplatelet agents, not thrombolytics."},
+    {text:"It slows clotting only by reducing fibrin formation",correct:false,explain:"Slowing clotting by reducing fibrin formation describes anticoagulants generally; thrombolytics actively break down an existing clot rather than only slowing new fibrin formation."}
+  ]},
+{ stem:"Eptifibatide and tirofiban are classified as GP IIb/IIIa inhibitors. What is their mechanism of action as antiplatelet agents?",
+  options:[
+    {text:"They inhibit vitamin K-dependent clotting factors",correct:false,explain:"Inhibiting vitamin K-dependent clotting factors describes warfarin's mechanism, not GP IIb/IIIa inhibitors."},
+    {text:"They block the final common pathway of platelet aggregation",correct:true,explain:"GP IIb/IIIa inhibitors such as eptifibatide and tirofiban block the glycoprotein IIb/IIIa receptor, which is the final common pathway of platelet aggregation."},
+    {text:"They dissolve an existing thrombus",correct:false,explain:"Dissolving an existing thrombus describes thrombolytics (e.g., alteplase), not GP IIb/IIIa inhibitors."},
+    {text:"They inhibit the conversion of angiotensin I to angiotensin II",correct:false,explain:"This describes the mechanism of ACE inhibitors, which is unrelated to platelet function."}
+  ]},
+{ stem:"The health care provider orders a B-type natriuretic peptide (BNP) level for a client presenting with dyspnea and edema. What is the purpose of this lab test?",
+  options:[
+    {text:"To assess for a pulmonary infection",correct:false,explain:"BNP is not a marker of infection; a white blood cell count or chest x-ray would be more appropriate to assess for infection."},
+    {text:"To assess the degree of ventricular stretch and support the diagnosis of heart failure",correct:true,explain:"BNP is released in response to ventricular stretch from volume overload, and an elevated level supports a diagnosis of heart failure."},
+    {text:"To evaluate anticoagulation status",correct:false,explain:"Anticoagulation status is evaluated using INR or aPTT, not BNP."},
+    {text:"To assess renal clearance of medications",correct:false,explain:"Renal clearance is assessed using values such as serum creatinine, not BNP."}
+  ]},
+{ stem:"During assessment of a client with suspected heart failure, the nurse auscultates an S3 heart sound. What does this finding most likely indicate?",
+  options:[
+    {text:"A normal finding expected in all adults",correct:false,explain:"An S3 heart sound is not a universally normal finding in adults; in this context it is a clinically significant sign of heart failure."},
+    {text:"Rapid ventricular filling associated with volume overload, as seen in heart failure",correct:true,explain:"An S3 heart sound reflects rapid ventricular filling and is a classic finding associated with volume overload and heart failure."},
+    {text:"A stiffened, noncompliant ventricle unrelated to fluid status",correct:false,explain:"A stiffened, noncompliant ventricle is more classically associated with an S4 heart sound, not S3."},
+    {text:"Valve stenosis",correct:false,explain:"Valve stenosis produces a murmur, not the S3 heart sound described here."}
+  ]},
+{ stem:"The nurse provides teaching to a client starting a new antihypertensive medication. Which instruction addresses the shared risk of orthostatic hypotension across nearly all antihypertensive classes?",
+  options:[
+    {text:"\"Sit on the edge of the bed before getting up in the morning and change positions slowly.\"",correct:true,explain:"This instruction directly reduces the risk of orthostatic hypotension, a common adverse effect shared across nearly all antihypertensive medication classes."},
+    {text:"\"Take the medication only after meals.\"",correct:false,explain:"Timing antihypertensives specifically with meals is not the teaching point that addresses orthostatic hypotension."},
+    {text:"\"Increase your sodium intake.\"",correct:false,explain:"Increasing sodium intake is not standard antihypertensive teaching and would work against the medication's blood pressure-lowering effect."},
+    {text:"\"Limit your fluid intake to less than 1 liter daily.\"",correct:false,explain:"Severely restricting fluids is not the standard teaching for orthostatic hypotension prevention and could contribute to hypotension and dehydration."}
+  ]},
+{ stem:"A client taking an antihypertensive medication reports using black cohosh for menopausal symptoms. What is the nurse's priority concern?",
+  options:[
+    {text:"Black cohosh decreases the effectiveness of the antihypertensive",correct:false,explain:"Decreasing antihypertensive effectiveness is the concern associated with ma huang (ephedra) and goldenseal, not black cohosh."},
+    {text:"Black cohosh increases the risk of hypotension",correct:true,explain:"Black cohosh is specifically associated with an increased risk of hypotension when combined with antihypertensive medications."},
+    {text:"Black cohosh increases the risk of hyperkalemia",correct:false,explain:"Black cohosh is not associated with hyperkalemia; that concern is more relevant to combining ACE inhibitors/ARBs with potassium-sparing diuretics."},
+    {text:"Black cohosh has no interactions with antihypertensive medications",correct:false,explain:"Black cohosh does interact with antihypertensive medications by increasing the risk of hypotension, so this statement is incorrect."}
+  ]},
+{ stem:"Which suffix would the nurse recognize as identifying an ACE inhibitor on a client's medication list?",
+  options:[
+    {text:"-pril",correct:true,explain:"The suffix \"-pril\" (e.g., lisinopril, captopril, enalapril) identifies ACE inhibitors."},
+    {text:"-sartan",correct:false,explain:"\"-sartan\" identifies ARBs, not ACE inhibitors."},
+    {text:"-dipine",correct:false,explain:"\"-dipine\"/\"-pine\" identifies calcium channel blockers, not ACE inhibitors."},
+    {text:"-olol",correct:false,explain:"\"-lol\" identifies beta blockers, not ACE inhibitors."}
+  ]},
+{ stem:"A client taking lisinopril develops facial and lip swelling with difficulty breathing shortly after the first dose. What is the nurse's priority action?",
+  options:[
+    {text:"Administer an antihistamine and continue the medication",correct:false,explain:"Continuing the medication is unsafe — this presentation is angioedema, a serious ACE inhibitor reaction that requires the medication to be stopped, not simply treated symptomatically while continuing it."},
+    {text:"Recognize this as angioedema, a serious ACE inhibitor reaction, and seek emergency evaluation",correct:true,explain:"Facial/lip swelling with difficulty breathing after starting an ACE inhibitor is angioedema, a known serious adverse effect that requires immediate medical attention and discontinuation of the drug."},
+    {text:"Reassure the client this is an expected, harmless reaction",correct:false,explain:"Angioedema is not harmless — it can compromise the airway and is a medical emergency, not an expected benign effect."},
+    {text:"Instruct the client to take the next dose with food",correct:false,explain:"Taking the medication with food does not address angioedema and does not resolve the underlying hypersensitivity reaction."}
+  ]},
+{ stem:"A client is prescribed both an ACE inhibitor and an ARB for hypertension management. What is the nurse's best action?",
+  options:[
+    {text:"Administer both medications as prescribed without concern",correct:false,explain:"This combination should be questioned rather than administered without concern, since both drugs act via the same route."},
+    {text:"Question the prescription, since medications that act via the same route (RAAS) should not typically be given together",correct:true,explain:"ACE inhibitors and ARBs both act on the renin-angiotensin-aldosterone system; combining medications that act via the same route increases the risk of adverse effects such as hyperkalemia and hypotension without added benefit."},
+    {text:"Administer the ACE inhibitor only in the morning and the ARB only at night",correct:false,explain:"Simply separating administration times does not resolve the concern of combining two medications that act via the same pathway."},
+    {text:"Assume this is a standard first-line combination for hypertension",correct:false,explain:"This is not a standard first-line combination; combining medications with the same mechanism is generally avoided."}
+  ]},
+{ stem:"Which suffix would help the nurse identify losartan as belonging to the ARB medication class?",
+  options:[
+    {text:"-sartan",correct:true,explain:"The suffix \"-sartan\" (as in losartan) identifies angiotensin II receptor blockers (ARBs)."},
+    {text:"-pril",correct:false,explain:"\"-pril\" identifies ACE inhibitors, not ARBs."},
+    {text:"-lol",correct:false,explain:"\"-lol\" identifies beta blockers, not ARBs."},
+    {text:"-osin",correct:false,explain:"\"-osin\" identifies alpha-1 blockers, not ARBs."}
+  ]},
+{ stem:"How does the mechanism of action of an ARB differ from that of an ACE inhibitor?",
+  options:[
+    {text:"An ARB blocks angiotensin II from binding to its receptor, while an ACE inhibitor blocks the conversion of angiotensin I to angiotensin II",correct:true,explain:"ARBs act downstream by blocking the angiotensin II receptor itself, while ACE inhibitors act upstream by preventing the conversion of angiotensin I into angiotensin II."},
+    {text:"An ARB and an ACE inhibitor work by an identical mechanism",correct:false,explain:"The two classes do not share an identical mechanism, even though both ultimately reduce the effects of the RAAS pathway."},
+    {text:"An ARB directly inhibits renin release, while an ACE inhibitor does not affect RAAS",correct:false,explain:"Neither of these statements is accurate — ARBs act at the receptor level, and ACE inhibitors do affect RAAS by blocking the conversion enzyme."},
+    {text:"An ARB blocks beta receptors, while an ACE inhibitor blocks calcium channels",correct:false,explain:"Neither ARBs nor ACE inhibitors work by these mechanisms; those describe beta blockers and calcium channel blockers, respectively."}
+  ]},
+{ stem:"Atenolol is classified as a beta-selective (cardioselective) beta blocker. What does this mean in terms of receptor activity compared to a nonselective agent like propranolol?",
+  options:[
+    {text:"Atenolol primarily blocks beta-1 receptors with minimal effect on beta-2 receptors, while propranolol blocks both beta-1 and beta-2 receptors",correct:true,explain:"Beta-selective agents like atenolol act mainly on beta-1 (cardiac) receptors with minimal beta-2 (pulmonary/vascular) blockade, whereas nonselective agents like propranolol block both."},
+    {text:"Atenolol blocks alpha and beta receptors equally, while propranolol blocks only beta-1 receptors",correct:false,explain:"This describes drugs like carvedilol/labetalol, not the atenolol-versus-propranolol distinction, and inaccurately characterizes propranolol as beta-1 selective when it is nonselective."},
+    {text:"Atenolol has no effect on heart rate, while propranolol only affects heart rate",correct:false,explain:"Both atenolol and propranolol decrease heart rate through beta-1 blockade; the distinction is about receptor selectivity, not whether heart rate is affected."},
+    {text:"Atenolol and propranolol have identical receptor selectivity",correct:false,explain:"They do not have identical selectivity — atenolol is beta-1 selective, while propranolol is nonselective."}
+  ]},
+{ stem:"Carvedilol and labetalol are unique among beta blockers because, in addition to blocking beta receptors, they also block which other receptor type?",
+  options:[
+    {text:"Alpha receptors",correct:true,explain:"Carvedilol and labetalol are nonselective beta blockers that also block alpha receptors, giving them additional vasodilating properties beyond typical beta blockade."},
+    {text:"Calcium channels",correct:false,explain:"Blocking calcium channels describes calcium channel blockers, not the additional receptor activity of carvedilol or labetalol."},
+    {text:"Angiotensin II receptors",correct:false,explain:"Blocking angiotensin II receptors describes ARBs, not the additional mechanism of carvedilol or labetalol."},
+    {text:"Aldosterone receptors",correct:false,explain:"Blocking aldosterone receptors describes potassium-sparing diuretics like spironolactone, not carvedilol or labetalol."}
+  ]},
+{ stem:"By what mechanism do beta blockers ultimately lower blood pressure?",
+  options:[
+    {text:"By decreasing heart rate and cardiac output through blockade of sympathetic beta-1 receptors in the heart",correct:true,explain:"Beta blockers reduce heart rate and myocardial contractility, which lowers cardiac output and, in turn, blood pressure."},
+    {text:"By directly vasodilating peripheral arterioles independent of the heart",correct:false,explain:"Direct peripheral vasodilation independent of cardiac effects better describes calcium channel blockers or direct vasodilators, not the primary mechanism of standard beta blockers."},
+    {text:"By blocking aldosterone release from the adrenal cortex",correct:false,explain:"Blocking aldosterone release describes ACE inhibitors and ARBs, not the primary mechanism of beta blockers."},
+    {text:"By increasing renin release from the kidneys",correct:false,explain:"Beta blockers actually tend to decrease renin release (since renin release is partly beta-1 mediated), not increase it."}
+  ]},
+{ stem:"A client taking a beta blocker for hypertension should have which parameter assessed regularly to detect a common adverse effect on the respiratory system?",
+  options:[
+    {text:"Lung sounds, to detect bronchoconstriction",correct:true,explain:"Nonselective beta blockade can cause bronchoconstriction, so lung sounds should be assessed regularly, especially in clients with reactive airway disease."},
+    {text:"Peak expiratory flow only in clients without any respiratory history",correct:false,explain:"Assessment for bronchoconstriction is relevant for any client on a beta blocker, not limited only to those without respiratory history — in fact, caution is greatest in those with existing airway disease."},
+    {text:"Sputum culture results",correct:false,explain:"Sputum culture is used to evaluate for infection, not to assess for the bronchoconstriction risk associated with beta blockers."},
+    {text:"Chest x-ray only after symptoms of pneumonia develop",correct:false,explain:"A chest x-ray would not be the routine assessment for detecting bronchoconstriction; auscultating lung sounds is the more direct nursing assessment."}
+  ]},
+{ stem:"Which suffix would the nurse use to identify amlodipine as a calcium channel blocker on a medication administration record?",
+  options:[
+    {text:"-pine",correct:true,explain:"The suffix \"-pine\" (as in amlodipine, nifedipine, nicardipine) identifies calcium channel blockers."},
+    {text:"-pril",correct:false,explain:"\"-pril\" identifies ACE inhibitors, not calcium channel blockers."},
+    {text:"-sartan",correct:false,explain:"\"-sartan\" identifies ARBs, not calcium channel blockers."},
+    {text:"-lol",correct:false,explain:"\"-lol\" identifies beta blockers, not calcium channel blockers."}
+  ]},
+{ stem:"Which calcium channel blocker is described as \"smooth-muscle selective,\" with minimal negative inotropic effect on the heart?",
+  options:[
+    {text:"Nifedipine",correct:true,explain:"Nifedipine is the smooth-muscle selective calcium channel blocker, producing vasodilation with relatively little effect on cardiac contractility."},
+    {text:"Verapamil",correct:false,explain:"Verapamil is the calcium channel blocker with the strongest negative inotropic effect, not the smooth-muscle selective one."},
+    {text:"Diltiazem",correct:false,explain:"Diltiazem has both vascular and cardiac effects (\"both\" category) rather than being purely smooth-muscle selective."},
+    {text:"Metoprolol",correct:false,explain:"Metoprolol is a beta blocker, not a calcium channel blocker at all."}
+  ]},
+{ stem:"Which calcium channel blocker is classified as having effects on both vascular smooth muscle and cardiac contractility (\"both\" category)?",
+  options:[
+    {text:"Diltiazem",correct:true,explain:"Diltiazem is classified as having both vasodilating and negative inotropic properties, placing it in the \"both\" category among the three calcium channel blocker types discussed."},
+    {text:"Nifedipine",correct:false,explain:"Nifedipine is smooth-muscle selective with minimal cardiac effect, not the \"both\" category."},
+    {text:"Verapamil",correct:false,explain:"Verapamil is primarily the negative inotrope-dominant calcium channel blocker, not classified specifically as \"both.\""},
+    {text:"Losartan",correct:false,explain:"Losartan is an ARB, not a calcium channel blocker."}
+  ]},
+{ stem:"A client taking nicardipine develops swelling in both ankles. What should the nurse recognize about this finding?",
+  options:[
+    {text:"Peripheral edema is a recognized adverse effect of calcium channel blockers such as nicardipine, nifedipine, and verapamil",correct:true,explain:"Peripheral edema is a known adverse effect associated with several calcium channel blockers, including nicardipine, nifedipine, and verapamil."},
+    {text:"This finding is unrelated to the medication and requires no further assessment",correct:false,explain:"This is a recognized medication-related adverse effect and does warrant nursing awareness and follow-up, not dismissal."},
+    {text:"This indicates the client is in anaphylaxis",correct:false,explain:"Peripheral edema from a calcium channel blocker is not an anaphylactic reaction; anaphylaxis would present with airway compromise, hives, and hemodynamic instability."},
+    {text:"This is a sign of hyperkalemia caused by the medication",correct:false,explain:"Calcium channel blockers are not primarily associated with hyperkalemia; peripheral edema in this context is a direct vascular effect, not electrolyte-related."}
+  ]},
+{ stem:"In addition to blood pressure and heart rate, which body systems should the nurse monitor periodically in a client on long-term calcium channel blocker therapy?",
+  options:[
+    {text:"Liver and kidney function",correct:true,explain:"Periodic liver and kidney function tests are part of the recommended monitoring for clients on calcium channel blockers."},
+    {text:"Thyroid function only",correct:false,explain:"Thyroid function is not specifically identified as a required monitoring parameter for calcium channel blockers."},
+    {text:"Bone density only",correct:false,explain:"Bone density monitoring is not associated with calcium channel blocker therapy."},
+    {text:"Visual acuity only",correct:false,explain:"Visual acuity monitoring is not a standard requirement for calcium channel blocker therapy (unlike blurred vision teaching for thiazide diuretics)."}
+  ]},
+{ stem:"According to the RAAS pathway, what does renin convert angiotensinogen into?",
+  options:[
+    {text:"Angiotensin I",correct:true,explain:"Renin converts angiotensinogen into angiotensin I, the first step after renin release in the RAAS cascade."},
+    {text:"Angiotensin II",correct:false,explain:"Angiotensin I, not angiotensin II, is the direct product of renin acting on angiotensinogen; angiotensin II is formed later by ACE."},
+    {text:"Aldosterone",correct:false,explain:"Aldosterone is released later in the pathway from the adrenal cortex, not produced directly by renin acting on angiotensinogen."},
+    {text:"Bradykinin",correct:false,explain:"Bradykinin is not part of the angiotensinogen conversion step; it is relevant to the cough side effect of ACE inhibitors through a separate pathway."}
+  ]},
+{ stem:"In the RAAS pathway, aldosterone is released from which organ in response to angiotensin II?",
+  options:[
+    {text:"Adrenal cortex",correct:true,explain:"Angiotensin II stimulates the adrenal cortex to release aldosterone as part of the RAAS cascade."},
+    {text:"Kidneys directly (without an intermediate hormone)",correct:false,explain:"While the kidneys are involved in RAAS overall, aldosterone specifically is released from the adrenal cortex, not directly synthesized by the kidney itself."},
+    {text:"Liver",correct:false,explain:"The liver produces angiotensinogen, not aldosterone."},
+    {text:"Pituitary gland",correct:false,explain:"The pituitary gland is not the source of aldosterone in the RAAS pathway; that is the adrenal cortex."}
+  ]},
+{ stem:"What is the direct physiologic effect of angiotensin II on blood vessels?",
+  options:[
+    {text:"Vasoconstriction, which increases blood pressure",correct:true,explain:"Angiotensin II is a potent vasoconstrictor, and this vasoconstrictive action, along with increased heart rate, raises blood pressure."},
+    {text:"Vasodilation, which decreases blood pressure",correct:false,explain:"Angiotensin II causes vasoconstriction, not vasodilation; this is the opposite of its actual effect."},
+    {text:"No effect on blood vessels, only on the kidneys",correct:false,explain:"Angiotensin II has a direct and significant vasoconstrictive effect on blood vessels, not just renal effects."},
+    {text:"It blocks calcium channels in vascular smooth muscle",correct:false,explain:"Angiotensin II does not act through calcium channel blockade; that mechanism belongs to a different drug class entirely (calcium channel blockers), not to angiotensin II physiology."}
+  ]},
+{ stem:"What is the ultimate effect of aldosterone on sodium and water balance, and how does this influence blood pressure?",
+  options:[
+    {text:"Aldosterone increases sodium and water reabsorption, increasing plasma volume, cardiac output, and blood pressure",correct:true,explain:"Aldosterone promotes sodium (and passive water) reabsorption in the kidneys, which increases plasma volume, cardiac output, and ultimately blood pressure."},
+    {text:"Aldosterone decreases sodium reabsorption, lowering blood pressure",correct:false,explain:"This is the opposite of aldosterone's actual effect — it increases, not decreases, sodium reabsorption."},
+    {text:"Aldosterone has no effect on fluid balance",correct:false,explain:"Aldosterone has a significant and direct effect on fluid balance through sodium and water reabsorption."},
+    {text:"Aldosterone directly increases heart rate without affecting fluid volume",correct:false,explain:"Aldosterone's primary mechanism is through sodium/water reabsorption and plasma volume, not a direct chronotropic effect on heart rate."}
+  ]},
+{ stem:"How does an increase in blood pressure ultimately affect renin release, completing the RAAS feedback loop?",
+  options:[
+    {text:"Increased blood pressure suppresses further renin release from the juxtaglomerular cells",correct:true,explain:"As blood pressure rises back toward normal, the baroreceptors in the juxtaglomerular cells sense this and reduce renin secretion, completing the negative feedback loop."},
+    {text:"Increased blood pressure further stimulates renin release, creating an unregulated cycle",correct:false,explain:"This describes a positive feedback loop, which is not how RAAS is regulated; RAAS uses negative feedback to prevent unchecked blood pressure elevation."},
+    {text:"Blood pressure has no influence on renin release once RAAS is activated",correct:false,explain:"Blood pressure continues to influence renin release throughout the cycle; RAAS is a continuously regulated feedback system, not a one-time trigger."},
+    {text:"Increased blood pressure converts renin directly into aldosterone",correct:false,explain:"Renin is not directly converted into aldosterone; aldosterone results from a separate multi-step pathway involving angiotensin I, ACE, and angiotensin II."}
+  ]},
+{ stem:"Which two herbal supplements are specifically associated with decreasing the effectiveness of antihypertensive medications?",
+  options:[
+    {text:"Ma huang (ephedra) and goldenseal",correct:true,explain:"Ma huang (ephedra) and goldenseal are both associated with decreasing the effectiveness of antihypertensive medications."},
+    {text:"Ginkgo and garlic",correct:false,explain:"Ginkgo and garlic are associated with increased bleeding risk when combined with anticoagulants, not with decreasing antihypertensive effectiveness."},
+    {text:"Black cohosh and licorice",correct:false,explain:"Black cohosh increases hypotension risk (not decreased effectiveness), and licorice is associated with anticoagulant bleeding risk, not antihypertensive effectiveness."},
+    {text:"St. John's wort and green tea",correct:false,explain:"St. John's wort and green tea are listed among herbs that increase bleeding risk with anticoagulants, not herbs that reduce antihypertensive effectiveness."}
+  ]},
+{ stem:"Why should the nurse specifically avoid administering an ACE inhibitor and an ARB together for the same client?",
+  options:[
+    {text:"Because they act via the same route (the RAAS pathway), increasing the risk of adverse effects without added benefit",correct:true,explain:"ACE inhibitors and ARBs both work through the renin-angiotensin-aldosterone system; combining medications that act via the same route is avoided because it increases risk (e.g., hyperkalemia, hypotension) without providing additional therapeutic benefit."},
+    {text:"Because ARBs cancel out the effects of ACE inhibitors entirely",correct:false,explain:"The concern is not that the drugs cancel each other out, but that combining medications with the same mechanism increases the risk of adverse effects."},
+    {text:"Because this combination is only unsafe in clients with diabetes",correct:false,explain:"This concern applies broadly, not just to clients with diabetes; the general principle is to avoid combining medications from the same pharmacologic route."},
+    {text:"Because the combination causes immediate anaphylaxis in all clients",correct:false,explain:"This combination is not associated with anaphylaxis; the concern is increased risk of hyperkalemia and hypotension from redundant RAAS suppression."}
+  ]},
+{ stem:"When administering an antihypertensive medication, what should the nurse do immediately before and after giving the dose?",
+  options:[
+    {text:"Check the client's blood pressure",correct:true,explain:"Blood pressure should be checked before and after administering antihypertensive medications to assess baseline status and response to the medication."},
+    {text:"Check the client's blood glucose only",correct:false,explain:"While glucose monitoring may be relevant for certain classes (e.g., beta blockers, thiazides), the universal nursing action for all antihypertensives is checking blood pressure before and after administration."},
+    {text:"Check the client's temperature only",correct:false,explain:"Temperature is not the priority assessment tied to antihypertensive administration."},
+    {text:"Check the client's weight only",correct:false,explain:"While weight monitoring is relevant for diuretics specifically, blood pressure is the universal check before/after giving any antihypertensive."}
+  ]},
+{ stem:"Besides medication administration, what lifestyle teaching should the nurse reinforce for a client on antihypertensive therapy?",
+  options:[
+    {text:"A low-sodium diet and regular exercise",correct:true,explain:"Reinforcing a low-sodium diet and regular exercise are standard nonpharmacologic teaching points for clients managing hypertension."},
+    {text:"A high-protein, high-sodium diet",correct:false,explain:"A high-sodium diet would work against blood pressure control and is not appropriate teaching for a client on antihypertensive therapy."},
+    {text:"Complete avoidance of all physical activity",correct:false,explain:"Avoiding all physical activity is not appropriate teaching; regular exercise (as tolerated) is generally recommended to help manage blood pressure."},
+    {text:"Increasing caffeine intake to improve alertness",correct:false,explain:"Increasing caffeine intake is not standard antihypertensive teaching and could contribute to elevated blood pressure or palpitations."}
+  ]},
+{ stem:"Why is it important for the nurse to assess a client's herbal supplement use before starting antihypertensive therapy?",
+  options:[
+    {text:"Because certain herbal supplements can decrease effectiveness or increase the risk of hypotension when combined with antihypertensives",correct:true,explain:"Herbs such as ma huang and goldenseal can reduce antihypertensive effectiveness, while black cohosh can increase the risk of hypotension, making herbal supplement assessment an important part of antihypertensive teaching."},
+    {text:"Because herbal supplements have no effect on blood pressure medications",correct:false,explain:"This is inaccurate — several herbal supplements are specifically known to interact with antihypertensive medications."},
+    {text:"Because all clients taking antihypertensives are required to stop all herbal supplements permanently",correct:false,explain:"The goal is informed assessment and education, not an automatic blanket requirement to stop all supplements without individualized evaluation."},
+    {text:"Because herbal supplements only interact with anticoagulants, not antihypertensives",correct:false,explain:"While several herbs do interact with anticoagulants, others (ma huang, goldenseal, black cohosh) specifically interact with antihypertensive medications as well."}
+  ]},
+{ stem:"Which two medications are given as examples of thiazide diuretics?",
+  options:[
+    {text:"Hydrochlorothiazide and chlorothiazide",correct:true,explain:"Hydrochlorothiazide and chlorothiazide are the thiazide diuretic examples."},
+    {text:"Furosemide and bumetanide",correct:false,explain:"Furosemide and bumetanide are loop diuretics, not thiazide diuretics."},
+    {text:"Spironolactone and mannitol",correct:false,explain:"Spironolactone is a potassium-sparing diuretic and mannitol is an osmotic diuretic — neither is a thiazide."},
+    {text:"Chlorthalidone and torsemide",correct:false,explain:"Chlorthalidone falls under the \"other\" diuretic category and torsemide is a loop diuretic — neither is classified as a thiazide in this content."}
+  ]},
+{ stem:"Which set of laboratory and clinical parameters should the nurse monitor for a client on a thiazide diuretic?",
+  options:[
+    {text:"I/O, electrolytes, weight, BUN, creatinine, and glucose",correct:true,explain:"Thiazide diuretics require monitoring of intake/output, electrolytes, weight, BUN, creatinine, and glucose due to their effects on fluid balance, potassium, and blood sugar."},
+    {text:"Only liver function tests",correct:false,explain:"Liver function tests are not the primary monitoring parameter for thiazide diuretics (unlike potassium-sparing diuretics, which carry a hepatic damage risk)."},
+    {text:"Only INR",correct:false,explain:"INR is used to monitor warfarin, not thiazide diuretics."},
+    {text:"Only aPTT",correct:false,explain:"aPTT is used to monitor heparin, not thiazide diuretics."}
+  ]},
+{ stem:"Why should potassium-sparing diuretics such as spironolactone be given with meals?",
+  options:[
+    {text:"To reduce gastrointestinal upset and support absorption",correct:true,explain:"Giving potassium-sparing diuretics with meals is a standard nursing consideration to help minimize GI upset."},
+    {text:"To increase the risk of hypokalemia",correct:false,explain:"Potassium-sparing diuretics are associated with hyperkalemia, not hypokalemia, and giving with meals is unrelated to potassium balance directly."},
+    {text:"Because the medication is inactivated by stomach acid on an empty stomach",correct:false,explain:"This is not the documented rationale for administering this medication with meals in this content."},
+    {text:"To prevent the medication from working at all",correct:false,explain:"Giving the medication with meals supports tolerability; it does not prevent the medication from working."}
+  ]},
+{ stem:"Which adverse effects, beyond hyperkalemia, are associated with potassium-sparing diuretics such as spironolactone?",
+  options:[
+    {text:"Hyponatremia, hepatic damage, and tinnitus",correct:true,explain:"In addition to hyperkalemia, potassium-sparing diuretics like spironolactone are associated with hyponatremia, hepatic damage, and tinnitus."},
+    {text:"Hyperglycemia and blurred vision",correct:false,explain:"Hyperglycemia and blurred vision are adverse effects associated with thiazide diuretics, not potassium-sparing diuretics."},
+    {text:"Ototoxicity and GI upset",correct:false,explain:"Ototoxicity is a concern specifically with rapid IV loop diuretic administration, not a hallmark adverse effect of potassium-sparing diuretics."},
+    {text:"Circulatory overload and seizures",correct:false,explain:"Circulatory overload and seizures are associated with osmotic diuretics such as mannitol, not potassium-sparing diuretics."}
+  ]},
+{ stem:"Which medications, besides furosemide, are classified as loop diuretics?",
+  options:[
+    {text:"Bumetanide, torsemide, and ethacrynic acid",correct:true,explain:"Bumetanide, torsemide, and ethacrynic acid are all classified as loop diuretics, along with furosemide."},
+    {text:"Hydrochlorothiazide and chlorothiazide",correct:false,explain:"These are thiazide diuretics, not loop diuretics."},
+    {text:"Spironolactone and mannitol",correct:false,explain:"Spironolactone is a potassium-sparing diuretic and mannitol is an osmotic diuretic — neither is a loop diuretic."},
+    {text:"Losartan and lisinopril",correct:false,explain:"Losartan is an ARB and lisinopril is an ACE inhibitor — neither is a diuretic at all."}
+  ]},
+{ stem:"When furosemide is administered orally, approximately how long does it take for diuresis to occur?",
+  options:[
+    {text:"Within about 30 minutes",correct:true,explain:"PO furosemide typically produces diuresis within about 30 minutes, compared to about 10 minutes with IV administration."},
+    {text:"Within about 2 minutes",correct:false,explain:"Two minutes describes the recommended administration time for the IV push, not the onset of diuresis after an oral dose."},
+    {text:"Within about 24 hours",correct:false,explain:"Diuresis from oral furosemide occurs much sooner than 24 hours — closer to 30 minutes."},
+    {text:"Within about 1 week",correct:false,explain:"Furosemide is a fast-acting diuretic; onset of action is measured in minutes, not days or weeks."}
+  ]},
+{ stem:"What is the mechanism of action of mannitol, an osmotic diuretic?",
+  options:[
+    {text:"It increases the osmotic pressure of the glomerular filtrate, thereby inhibiting tubular reabsorption of water",correct:true,explain:"Mannitol increases the osmotic pressure of the glomerular filtrate, which inhibits tubular reabsorption of water and promotes diuresis."},
+    {text:"It inhibits sodium and chloride reabsorption in the distal convoluted tubule",correct:false,explain:"This describes the mechanism of thiazide diuretics, not mannitol."},
+    {text:"It blocks the action of aldosterone in the distal tubule",correct:false,explain:"This describes the mechanism of potassium-sparing diuretics, not mannitol."},
+    {text:"It inhibits sodium, potassium, and chloride reabsorption in the loop of Henle",correct:false,explain:"This describes the mechanism of loop diuretics, not the osmotic mechanism of mannitol."}
+  ]},
+{ stem:"A client receiving mannitol should be monitored closely for which group of adverse effects?",
+  options:[
+    {text:"Circulatory overload, tachycardia, pulmonary congestion, dyspnea, headache, and seizures",correct:true,explain:"Mannitol carries a risk of circulatory overload, tachycardia, pulmonary congestion, dyspnea, headache, and seizures, requiring close monitoring of I/O, vital signs, electrolytes, and neurologic status."},
+    {text:"Hepatic damage and tinnitus",correct:false,explain:"Hepatic damage and tinnitus are associated with potassium-sparing diuretics, not mannitol."},
+    {text:"Hyperglycemia and blurred vision",correct:false,explain:"Hyperglycemia and blurred vision are associated with thiazide diuretics, not mannitol."},
+    {text:"Aplastic anemia",correct:false,explain:"Aplastic anemia is listed as an adverse effect of chlorthalidone (\"other\" diuretic category), not mannitol."}
+  ]},
+{ stem:"Chlorthalidone is classified in the \"other\" diuretic category with an unclear mechanism of action. Which nursing consideration is unique to this medication among the diuretics discussed?",
+  options:[
+    {text:"It is long-lasting, with effects persisting 2–3 days, and should be taken with food",correct:true,explain:"Chlorthalidone is notable for its long duration of action (2–3 days) and the recommendation to take it with food, distinguishing its nursing considerations from shorter-acting diuretics."},
+    {text:"It must be monitored using INR",correct:false,explain:"INR monitoring applies to warfarin, not chlorthalidone."},
+    {text:"It should always be given IV over 2 minutes",correct:false,explain:"The 2-minute slow IV push guidance applies to furosemide, not chlorthalidone."},
+    {text:"It has no adverse effects requiring monitoring",correct:false,explain:"Chlorthalidone does have adverse effects requiring monitoring, including aplastic anemia, hypokalemia, hyperglycemia, dizziness, and orthostatic hypotension."}
+  ]},
+{ stem:"A 64-year-old client with hypertension and COPD taking lisinopril reports a chronic cough with yellow sputum production. How should the nurse interpret this finding?",
+  options:[
+    {text:"This cough is most likely related to the client's COPD rather than the lisinopril, since ACE inhibitor cough is classically dry, not productive",correct:true,explain:"A cough that is an adverse effect of lisinopril (an ACE inhibitor) is classically dry; a cough with yellow sputum production is more consistent with an underlying respiratory condition such as COPD."},
+    {text:"This cough is definitely caused by the lisinopril and the medication should be stopped immediately",correct:false,explain:"The productive nature of this cough (with yellow sputum) is not consistent with the dry cough typically caused by ACE inhibitors, so it should not be automatically attributed to the medication."},
+    {text:"This cough indicates angioedema and requires emergency treatment",correct:false,explain:"A chronic productive cough with yellow sputum does not describe angioedema, which presents as facial/lip/throat swelling, not a productive cough."},
+    {text:"This cough is expected with all antihypertensive medications",correct:false,explain:"A productive cough with sputum is not an expected effect of antihypertensive medications generally; it is more consistent with a respiratory condition such as COPD."}
+  ]},
+{ stem:"For the same client (hypertension, COPD, taking lisinopril 10 mg) who is newly prescribed spironolactone 50 mg daily, what is the nurse's most appropriate action?",
+  options:[
+    {text:"Question the prescription, since combining an ACE inhibitor with a potassium-sparing diuretic increases the risk of hyperkalemia",correct:true,explain:"Lisinopril (an ACE inhibitor) and spironolactone (a potassium-sparing diuretic) both promote potassium retention; combining them significantly raises the risk of hyperkalemia and should be questioned."},
+    {text:"Administer the spironolactone as prescribed with no additional concern",correct:false,explain:"This combination should raise concern for hyperkalemia rather than being administered without question."},
+    {text:"Hold the lisinopril permanently in favor of the spironolactone",correct:false,explain:"The appropriate action is to question the new prescription in light of the existing ACE inhibitor, not to unilaterally discontinue the client's established antihypertensive therapy."},
+    {text:"Recognize this combination as standard first-line therapy requiring no further evaluation",correct:false,explain:"This is not standard first-line combination therapy; it is a combination that warrants provider clarification due to the hyperkalemia risk."}
+  ]},
+{ stem:"Aspirin and dipyridamole are classified under \"other platelet inhibitors.\" What is their general mechanism of action?",
+  options:[
+    {text:"They prevent platelets from clumping by making them more slippery, which helps prevent clots from forming and smaller clots from growing",correct:true,explain:"Antiplatelet agents like aspirin and dipyridamole work by preventing platelets from clumping together, reducing the risk of new clots forming and existing small clots from enlarging."},
+    {text:"They dissolve clots that have already formed",correct:false,explain:"Dissolving existing clots is the role of thrombolytics, not antiplatelet agents like aspirin and dipyridamole."},
+    {text:"They inhibit vitamin K-dependent clotting factor synthesis",correct:false,explain:"Inhibiting vitamin K-dependent clotting factor synthesis describes warfarin's mechanism, not antiplatelet agents."},
+    {text:"They directly inhibit thrombin",correct:false,explain:"Direct thrombin inhibition describes drugs like bivalirudin and dabigatran, not aspirin or dipyridamole."}
+  ]},
+{ stem:"Low-dose aspirin is generally prescribed for which client population?",
+  options:[
+    {text:"Clients who are at low risk of clotting, for clot prevention",correct:true,explain:"Low-dose aspirin is generally prescribed for the prevention of clots in clients who are at low risk of clotting."},
+    {text:"Clients requiring immediate dissolution of an existing large clot",correct:false,explain:"Dissolving an existing large clot is the role of a thrombolytic, not low-dose aspirin."},
+    {text:"Clients with active major bleeding",correct:false,explain:"Aspirin would not be appropriate for a client with active major bleeding, given its antiplatelet effect."},
+    {text:"Clients requiring anticoagulation for atrial fibrillation only",correct:false,explain:"Atrial fibrillation-related clot prevention typically involves anticoagulants such as warfarin or DOACs, not low-dose aspirin alone as the primary described indication here."}
+  ]},
+{ stem:"For how long is higher-dose aspirin combined with clopidogrel typically prescribed as combination therapy in the acute period following a cardiovascular event?",
+  options:[
+    {text:"From the first 30 days up to 3 (and sometimes 12) months after the event",correct:true,explain:"Higher-dose aspirin and clopidogrel combination therapy is typically prescribed in the acute, immediate post-cardiovascular-event phase, from 30 days up to 3 months, and sometimes up to 12 months, to prevent a subsequent event."},
+    {text:"For a single dose only, immediately after the event",correct:false,explain:"This combination therapy is prescribed over an extended period (weeks to months), not as a single one-time dose."},
+    {text:"Indefinitely for the rest of the client's life in all cases",correct:false,explain:"The described duration is a defined acute-phase window (30 days to up to 12 months), not necessarily lifelong therapy in all cases."},
+    {text:"Only for 24 hours post-procedure",correct:false,explain:"The duration described is substantially longer than 24 hours — up to 3 to 12 months in the acute post-event phase."}
+  ]},
+{ stem:"Which three medications are classified as CYP2Y12 (P2Y12) inhibitors?",
+  options:[
+    {text:"Clopidogrel, prasugrel, and ticagrelor",correct:true,explain:"Clopidogrel, prasugrel, and ticagrelor are the CYP2Y12/P2Y12 inhibitors."},
+    {text:"Aspirin, dipyridamole, and warfarin",correct:false,explain:"Aspirin and dipyridamole fall under \"other platelet inhibitors,\" and warfarin is a vitamin K antagonist anticoagulant — none are CYP2Y12 inhibitors."},
+    {text:"Eptifibatide, tirofiban, and alteplase",correct:false,explain:"Eptifibatide and tirofiban are GP IIb/IIIa inhibitors, and alteplase is a thrombolytic — none are CYP2Y12 inhibitors."},
+    {text:"Apixaban, edoxaban, and rivaroxaban",correct:false,explain:"These are direct factor Xa inhibitors (anticoagulants), not CYP2Y12 inhibitors."}
+  ]},
+{ stem:"Warfarin is classified as a vitamin K antagonist. What is its general mechanism of action?",
+  options:[
+    {text:"It slows clotting by reducing fibrin formation and preventing clots from forming and growing",correct:true,explain:"Warfarin, as a vitamin K antagonist, slows clotting by reducing fibrin formation, preventing new clots from forming and existing clots from growing."},
+    {text:"It makes platelets more slippery to prevent clumping",correct:false,explain:"This describes the mechanism of antiplatelet agents such as aspirin, not warfarin."},
+    {text:"It destroys clots that have already formed",correct:false,explain:"Destroying existing clots is the role of thrombolytics such as alteplase, not warfarin."},
+    {text:"It directly inhibits factor Xa",correct:false,explain:"Direct factor Xa inhibition describes drugs like apixaban and rivaroxaban, not warfarin."}
+  ]},
+{ stem:"Standard unfractionated heparin and low-molecular-weight heparin (e.g., enoxaparin) are generally prescribed for which client population?",
+  options:[
+    {text:"Clients who are at greater risk for clots",correct:true,explain:"Heparin (unfractionated and LMWH) is generally prescribed for prevention of clots in clients who are at greater risk for clotting."},
+    {text:"Clients at low risk of clotting only",correct:false,explain:"Low-dose aspirin, not heparin, is the medication generally reserved for clients at low risk of clotting."},
+    {text:"Clients who need clot dissolution during an active stroke",correct:false,explain:"Active clot dissolution during a stroke is the role of a thrombolytic like alteplase, not heparin."},
+    {text:"Only clients with a documented aspirin allergy",correct:false,explain:"Heparin's use is based on clotting risk, not specifically on aspirin allergy status."}
+  ]},
+{ stem:"Warfarin and low-molecular-weight heparin preparations are generally prescribed for prevention of clots in clients with which history?",
+  options:[
+    {text:"A previous venous thromboembolism (VTE) or deep vein thrombosis (DVT) for any reason",correct:true,explain:"Warfarin and LMWH preparations are generally prescribed for clot prevention in clients who have previously experienced a venous thromboembolism or deep vein thrombosis."},
+    {text:"A single episode of a minor skin bruise",correct:false,explain:"A minor bruise is not an indication described for warfarin or LMWH therapy."},
+    {text:"Seasonal allergies",correct:false,explain:"Seasonal allergies have no relationship to anticoagulant therapy indications."},
+    {text:"A remote history of a broken bone with no clotting history",correct:false,explain:"A broken bone alone, without a clotting history, is not the indication described for warfarin or LMWH."}
+  ]},
+{ stem:"Direct-acting oral anticoagulants and warfarin are typically prescribed for clients at risk for clots of cardiac origin, such as those with which condition?",
+  options:[
+    {text:"Paroxysmal or chronic atrial fibrillation",correct:true,explain:"Direct-acting oral anticoagulants and warfarin are typically prescribed for clients at risk for clots of cardiac origin, such as those with paroxysmal or chronic atrial fibrillation."},
+    {text:"Seasonal influenza",correct:false,explain:"Influenza is not a cardiac-origin clot risk factor addressed by this anticoagulant indication."},
+    {text:"A single isolated headache",correct:false,explain:"A headache alone is not an indication for anticoagulation therapy."},
+    {text:"Well-controlled hypothyroidism",correct:false,explain:"Well-controlled hypothyroidism is not the cardiac-origin clot risk condition described here; atrial fibrillation is."}
+  ]},
+{ stem:"The nurse is teaching a client on anticoagulant therapy about herbal supplements that increase bleeding risk. Which supplements should the nurse include in this teaching?",
+  isSAL:true,
+  options:[
+    {text:"Ginkgo",correct:true,explain:"Ginkgo is one of the herbal supplements identified as increasing bleeding risk when combined with anticoagulant or antiplatelet therapy."},
+    {text:"Garlic",correct:true,explain:"Garlic is one of the herbal supplements identified as increasing bleeding risk when combined with anticoagulant or antiplatelet therapy."},
+    {text:"St. John's wort",correct:true,explain:"St. John's wort is one of the herbal supplements identified as increasing bleeding risk when combined with anticoagulant or antiplatelet therapy."},
+    {text:"Calcium carbonate",correct:false,explain:"Calcium carbonate (an antacid/calcium supplement) is not among the herbal supplements identified as increasing bleeding risk in this content."},
+    {text:"Vitamin D",correct:false,explain:"Vitamin D is not among the herbal supplements identified as increasing bleeding risk in this content."}
+  ]},
+{ stem:"A client taking clopidogrel is also taking ibuprofen (an NSAID) for joint pain. What is the nurse's priority concern?",
+  options:[
+    {text:"Increased risk of bleeding from the combination of clopidogrel and an NSAID",correct:true,explain:"Bleeding risk may be increased when clopidogrel is taken with NSAIDs, so this combination is a priority safety concern."},
+    {text:"Decreased effectiveness of the clopidogrel with no bleeding concern",correct:false,explain:"The concern with this combination is increased bleeding risk, not decreased antiplatelet effectiveness."},
+    {text:"No interaction exists between these two medications",correct:false,explain:"An interaction does exist — combining clopidogrel with NSAIDs increases bleeding risk."},
+    {text:"Increased risk of hyperkalemia",correct:false,explain:"The concern with clopidogrel plus NSAIDs is bleeding risk, not hyperkalemia."}
+  ]},
+{ stem:"A client taking clopidogrel is prescribed omeprazole for GERD symptoms. What should the nurse recognize about this combination?",
+  options:[
+    {text:"Bleeding risk may be increased when clopidogrel is combined with omeprazole",correct:true,explain:"Omeprazole is one of the medications identified as increasing bleeding risk when combined with clopidogrel."},
+    {text:"This combination has no clinical significance",correct:false,explain:"This combination does have clinical significance due to increased bleeding risk."},
+    {text:"Omeprazole will increase the antiplatelet effect of clopidogrel to dangerous levels of platelet suppression only, without bleeding risk",correct:false,explain:"The concern is specifically increased bleeding risk from this combination, not an isolated pharmacologic detail about platelet suppression alone."},
+    {text:"This combination is recommended as standard therapy with no monitoring needed",correct:false,explain:"This combination requires awareness of increased bleeding risk, not treatment as routine therapy without any monitoring considerations."}
+  ]},
+{ stem:"Which signs and symptoms should the nurse monitor for as indicators of bleeding in a client on anticoagulant or antiplatelet therapy?",
+  isSAL:true,
+  options:[
+    {text:"Epistaxis",correct:true,explain:"Epistaxis (nosebleed) is a recognized sign of bleeding risk to monitor for in clients on anticoagulant or antiplatelet therapy."},
+    {text:"Gum bleeding",correct:true,explain:"Gum bleeding is a recognized sign of bleeding risk to monitor for in clients on anticoagulant or antiplatelet therapy."},
+    {text:"Tarry stools",correct:true,explain:"Tarry stools indicate occult GI bleeding and should be monitored for in clients on anticoagulant or antiplatelet therapy."},
+    {text:"Fatigue and anemia",correct:true,explain:"Fatigue and anemia can indicate occult bleeding and should be monitored for in clients on anticoagulant or antiplatelet therapy."},
+    {text:"Increased appetite",correct:false,explain:"Increased appetite is not a recognized sign of bleeding risk associated with anticoagulant or antiplatelet therapy."}
+  ]},
+{ stem:"What is the normal range for aPTT, and what is the typical therapeutic goal when a client is on heparin therapy?",
+  options:[
+    {text:"Normal is 25–35 seconds; therapeutic level is achieved by adjusting the dose so aPTT is 1.5 to 2.5 times the normal value",correct:true,explain:"The normal aPTT range is 25–35 seconds, and heparin dosing is adjusted to achieve a therapeutic aPTT of 1.5 to 2.5 times this normal value."},
+    {text:"Normal is 2–3; therapeutic goal is an INR of 2–3",correct:false,explain:"This describes the INR range used to monitor warfarin, not the aPTT range used to monitor heparin."},
+    {text:"Normal is 60–100; therapeutic goal is 100–150",correct:false,explain:"These are not the documented normal or therapeutic aPTT values for heparin therapy in this content."},
+    {text:"There is no defined normal range for aPTT",correct:false,explain:"There is a defined normal range for aPTT (25–35 seconds), used specifically to guide heparin dose adjustment."}
+  ]},
+{ stem:"Before initiating anticoagulant therapy, what should the nurse review regarding medication dosing?",
+  options:[
+    {text:"Medication indications for hepatic dosing information",correct:true,explain:"Reviewing medication indications for hepatic dosing information is a recommended nursing consideration before and during anticoagulant therapy."},
+    {text:"The client's shoe size",correct:false,explain:"This is not a relevant clinical consideration for anticoagulant dosing."},
+    {text:"The client's vision prescription",correct:false,explain:"Vision prescription is not a relevant consideration for anticoagulant dosing."},
+    {text:"The client's immunization record only",correct:false,explain:"Immunization record is not the dosing consideration relevant to anticoagulant therapy; hepatic dosing information is."}
+  ]},
+{ stem:"A 61-year-old client presents to the emergency department with shortness of breath and fatigue. VS: BP 86/50 mm Hg, P 116, R 32, T 99.4°F, O2 sat 88%. What do these vital signs most likely indicate?",
+  options:[
+    {text:"Hemodynamic instability, including hypotension, tachycardia, tachypnea, and hypoxia",correct:true,explain:"This vital sign set — BP 86/50 (hypotension), pulse 116 (tachycardia), respirations 32 (tachypnea), and O2 sat 88% (hypoxia) — reflects an unstable client in clinical distress."},
+    {text:"Entirely normal vital signs requiring no further evaluation",correct:false,explain:"These vital signs are abnormal across multiple parameters and indicate an unstable, distressed client requiring urgent evaluation."},
+    {text:"Isolated hypertension with no other abnormal findings",correct:false,explain:"The blood pressure here is low (86/50), not elevated, so this does not describe hypertension."},
+    {text:"A normal stress response with no clinical significance",correct:false,explain:"This combination of vital sign abnormalities is clinically significant and indicates instability, not a benign stress response."}
+  ]},
+{ stem:"Given this client's past medical history of COPD, heart failure, and CAD, why is it important for the nurse to obtain laboratory studies before assuming the cause of the shortness of breath?",
+  options:[
+    {text:"Because cardiac and respiratory problems can present similarly, and labs are needed to help differentiate the cause",correct:true,explain:"Given overlapping symptoms between cardiac and respiratory conditions, and a PMH that includes both COPD and heart failure, laboratory studies are needed to differentiate which process — or combination of processes — is driving the client's presentation."},
+    {text:"Because laboratory studies are unnecessary once vital signs are obtained",correct:false,explain:"Vital signs alone are not sufficient to differentiate between overlapping cardiac and respiratory causes; laboratory and diagnostic studies are needed."},
+    {text:"Because this client's presentation could only be caused by COPD",correct:false,explain:"Given the PMH of COPD, heart failure, and CAD, the cause could be cardiac, respiratory, or both — it cannot be assumed to be COPD alone without further workup."},
+    {text:"Because renal impairment can be ruled out based on the PMH alone",correct:false,explain:"Renal impairment is actually a concern that needs to be evaluated in this client, not something that can be ruled out based on history alone."}
+  ]},
+{ stem:"What is the primary purpose of obtaining a troponin level for this client presenting with shortness of breath and a PMH of CAD?",
+  options:[
+    {text:"To assess for myocardial ischemia or injury",correct:true,explain:"Troponin is a cardiac biomarker used to assess for myocardial ischemia or injury, which is especially relevant given this client's history of coronary artery disease."},
+    {text:"To assess renal function",correct:false,explain:"Renal function is assessed with values like creatinine and BUN, not troponin."},
+    {text:"To monitor anticoagulation status",correct:false,explain:"Anticoagulation status is monitored with INR or aPTT, not troponin."},
+    {text:"To evaluate blood glucose control",correct:false,explain:"Blood glucose control is evaluated with a glucose level, not troponin."}
+  ]},
+{ stem:"What is the primary purpose of obtaining arterial blood gases (ABGs) for this client?",
+  options:[
+    {text:"To assess oxygenation, ventilation, and acid-base status",correct:true,explain:"ABGs are obtained to assess oxygenation (PaO2, SaO2), ventilation (PaCO2), and acid-base balance (pH), which is critical for a client presenting with respiratory distress and a PMH of COPD."},
+    {text:"To assess for anticoagulation effectiveness",correct:false,explain:"Anticoagulation effectiveness is assessed using INR or aPTT, not ABGs."},
+    {text:"To assess bone marrow function",correct:false,explain:"Bone marrow function is not assessed via ABGs; a CBC would be more relevant to that purpose."},
+    {text:"To assess for hepatic damage",correct:false,explain:"Hepatic damage is assessed with liver function tests, not ABGs."}
+  ]},
+{ stem:"Which finding on assessment of a client with heart failure reflects fluid backing up into the venous system, often assessed at the neck?",
+  options:[
+    {text:"Jugular vein distention (JVD)",correct:true,explain:"Jugular vein distention reflects increased venous pressure from fluid backup and is a classic sign of heart failure, assessed at the neck."},
+    {text:"S3 heart sound",correct:false,explain:"An S3 heart sound reflects rapid ventricular filling, not the venous congestion specifically assessed at the neck as JVD."},
+    {text:"Orthopnea",correct:false,explain:"Orthopnea is difficulty breathing while lying flat, which is a symptom related to pulmonary congestion, not the neck vein finding described here."},
+    {text:"Ascites",correct:false,explain:"Ascites is abdominal fluid accumulation, not the neck vein finding described here."}
+  ]},
+{ stem:"A client with heart failure reports difficulty breathing that improves significantly when sitting upright. What is this symptom called?",
+  options:[
+    {text:"Orthopnea",correct:true,explain:"Orthopnea is difficulty breathing that occurs when lying flat and improves with sitting upright; it is a classic symptom of heart failure."},
+    {text:"Ascites",correct:false,explain:"Ascites refers to abdominal fluid accumulation, not a breathing symptom related to positioning."},
+    {text:"Jugular vein distention",correct:false,explain:"JVD is a physical exam finding at the neck, not a breathing symptom related to positioning."},
+    {text:"Angioedema",correct:false,explain:"Angioedema is swelling of the face/lips/throat associated with ACE inhibitor reactions, not a positional breathing symptom of heart failure."}
+  ]},
+{ stem:"A client with heart failure exhibits a weak, rapid, thready pulse and new-onset confusion. What is the most likely explanation for the confusion?",
+  isSAL:false,
+  options:[
+    {text:"Hypoperfusion secondary to decreased cardiac output",correct:true,explain:"In heart failure, decreased cardiac output can lead to hypoperfusion of vital organs, including the brain, which can manifest as confusion."},
+    {text:"A primary psychiatric disorder unrelated to the cardiac condition",correct:false,explain:"In this clinical context, the confusion is explained by the physiologic process of hypoperfusion related to heart failure, not an unrelated psychiatric cause."},
+    {text:"Excessive fluid intake",correct:false,explain:"Excessive fluid intake is not the explanation given for confusion in the context of heart failure with a weak, thready pulse; hypoperfusion is."},
+    {text:"Hyperglycemia",correct:false,explain:"Hyperglycemia is not the described mechanism for confusion in this heart failure presentation; hypoperfusion from decreased cardiac output is."}
+  ]},
+{ stem:"Which cluster of findings would the nurse expect to assess in a client experiencing a heart failure exacerbation?",
+  isSAL:true,
+  options:[
+    {text:"Dyspnea at rest or with exertion",correct:true,explain:"Dyspnea, both at rest and with exertion, is a classic sign/symptom of heart failure."},
+    {text:"Crackles that do not clear with coughing",correct:true,explain:"Crackles that persist despite coughing are a classic pulmonary finding in heart failure due to fluid in the alveoli."},
+    {text:"Weight gain and dependent edema",correct:true,explain:"Weight gain and dependent edema reflect fluid retention, a hallmark of heart failure."},
+    {text:"Ascites and abdominal bloating",correct:true,explain:"Ascites and abdominal bloating can occur in heart failure due to systemic venous congestion."},
+    {text:"Significant weight loss and increased urine output",correct:false,explain:"Heart failure typically causes weight gain and decreased urine output from fluid retention, not significant weight loss and increased urine output."}
+  ]},
+{ stem:"An S4 heart sound is classically associated with which cardiac condition?",
+  options:[
+    {text:"A stiffened, noncompliant ventricle, often related to hypertrophy",correct:true,explain:"An S4 heart sound is classically associated with a stiffened, noncompliant ventricle, often related to ventricular hypertrophy, distinguishing it from the volume-overload-associated S3."},
+    {text:"Rapid ventricular filling from volume overload",correct:false,explain:"Rapid ventricular filling from volume overload is more classically associated with an S3 heart sound, not S4."},
+    {text:"Normal cardiac anatomy with no clinical significance in any adult",correct:false,explain:"An S4 heart sound is a clinically significant finding related to ventricular stiffness, not simply a normal, insignificant sound in every context."},
+    {text:"Valve regurgitation",correct:false,explain:"Valve regurgitation produces a murmur, not the S4 heart sound described here."}
+  ]},
+{ stem:"Which medication classes are considered appropriate components of pharmacologic management for a client with heart failure?",
+  isSAL:true,
+  options:[
+    {text:"Diuretics",correct:true,explain:"Diuretics are an appropriate and standard component of heart failure management, helping to manage fluid volume overload."},
+    {text:"ACE inhibitors",correct:true,explain:"ACE inhibitors are an appropriate and standard component of heart failure management, helping to reduce afterload."},
+    {text:"Beta blockers",correct:true,explain:"Certain beta blockers are an appropriate and standard component of guideline-directed heart failure management."},
+    {text:"Positive inotropes",correct:true,explain:"Positive inotropes are appropriate in heart failure management to improve myocardial contractility and cardiac output."},
+    {text:"Non-dihydropyridine calcium channel blockers",correct:false,explain:"Non-dihydropyridine calcium channel blockers (verapamil, diltiazem) are generally avoided in heart failure due to their negative inotropic effect."}
+  ]},
+{ stem:"Why might an opioid analgesic such as morphine be used cautiously as part of heart failure management?",
+  options:[
+    {text:"It can help reduce preload and alleviate the anxiety associated with acute dyspnea",correct:true,explain:"Morphine, as an opioid analgesic, can help reduce preload and ease the anxiety associated with acute dyspnea in heart failure, which is why it may be used cautiously in this setting."},
+    {text:"It significantly increases cardiac contractility",correct:false,explain:"Morphine does not work by increasing cardiac contractility; that describes positive inotropes, not opioid analgesics."},
+    {text:"It is the first-line treatment for all heart failure exacerbations",correct:false,explain:"Morphine is not the first-line treatment for heart failure exacerbations; it is used adjunctively and cautiously in select cases."},
+    {text:"It has no relevant hemodynamic effects in heart failure",correct:false,explain:"Morphine does have relevant hemodynamic effects (reducing preload) that make it clinically relevant in this setting, not an inert medication with no effect."}
+  ]},
+{ stem:"In the course notes, furosemide is described as inhibiting sodium and chloride reabsorption in which specific anatomic location?",
+  options:[
+    {text:"The ascending loop of Henle",correct:true,explain:"Furosemide, a loop diuretic, inhibits sodium and chloride reabsorption specifically in the ascending loop of Henle."},
+    {text:"The distal convoluted tubule",correct:false,explain:"The distal convoluted tubule is the site of action for thiazide diuretics, not loop diuretics like furosemide."},
+    {text:"The proximal convoluted tubule",correct:false,explain:"The proximal convoluted tubule is not the site of action described for furosemide in this content."},
+    {text:"The collecting duct",correct:false,explain:"The collecting duct is not the site of action described for furosemide in this content; the ascending loop of Henle is."}
+  ]},
+{ stem:"What is the direct hemodynamic result of furosemide's action as first-line therapy in a client with heart failure and volume overload?",
+  options:[
+    {text:"Reduced preload from decreased circulating fluid volume",correct:true,explain:"By promoting diuresis, furosemide reduces circulating fluid volume, which reduces preload — a key goal in managing fluid overload in heart failure."},
+    {text:"Increased afterload from vasoconstriction",correct:false,explain:"Furosemide's primary hemodynamic effect is related to reducing fluid volume (preload), not causing vasoconstriction or increasing afterload."},
+    {text:"Increased myocardial contractility",correct:false,explain:"Furosemide does not directly increase myocardial contractility; that is the action of inotropes, not diuretics."},
+    {text:"Decreased heart rate through AV node blockade",correct:false,explain:"Furosemide does not act on the AV node or directly affect heart rate; its primary mechanism is diuresis, reducing preload."}
+  ]},
+{ stem:"Nitrates such as nitroglycerin reduce myocardial oxygen demand primarily by lowering which two hemodynamic parameters?",
+  options:[
+    {text:"Preload and afterload",correct:true,explain:"Nitrates reduce myocardial oxygen demand by lowering both preload and afterload through vasodilation."},
+    {text:"Heart rate and contractility",correct:false,explain:"Reducing heart rate and contractility describes the action of beta blockers or negative inotropes, not the primary mechanism of nitrates."},
+    {text:"Blood glucose and serum potassium",correct:false,explain:"Nitrates do not act on blood glucose or serum potassium; their mechanism is hemodynamic (preload/afterload), not metabolic."},
+    {text:"Respiratory rate and oxygen saturation",correct:false,explain:"Nitrates do not directly act on respiratory rate or oxygen saturation; their primary mechanism is reducing preload and afterload."}
+  ]},
+{ stem:"What safety teaching should the nurse provide to a client newly prescribed sublingual nitroglycerin?",
+  options:[
+    {text:"Nitroglycerin can result in hypotension, dizziness, and syncope",correct:true,explain:"A key safety teaching point for nitroglycerin is that it can cause hypotension, dizziness, and syncope due to its vasodilatory effects."},
+    {text:"Nitroglycerin commonly causes hyperkalemia",correct:false,explain:"Nitroglycerin is not associated with hyperkalemia; its key safety concerns relate to hypotension, dizziness, and syncope."},
+    {text:"Nitroglycerin has no notable adverse effects requiring teaching",correct:false,explain:"Nitroglycerin does have notable adverse effects (hypotension, dizziness, syncope) that require specific safety teaching."},
+    {text:"Nitroglycerin should always be taken with a high-sodium meal",correct:false,explain:"There is no teaching point about taking nitroglycerin with a high-sodium meal; the key safety teaching relates to hypotension risk."}
+  ]},
+{ stem:"Isosorbide dinitrate belongs to which medication class discussed in this course, alongside nitroglycerin?",
+  options:[
+    {text:"Nitrates",correct:true,explain:"Isosorbide dinitrate is classified as a nitrate, alongside nitroglycerin."},
+    {text:"Inotropes",correct:false,explain:"Isosorbide dinitrate is not classified as an inotrope; inotropes include medications like milrinone, dopamine, dobutamine, and digoxin."},
+    {text:"Loop diuretics",correct:false,explain:"Isosorbide dinitrate is not a diuretic; it is a nitrate."},
+    {text:"Direct thrombin inhibitors",correct:false,explain:"Isosorbide dinitrate is not an anticoagulant; it is a nitrate used for its vasodilatory effects."}
+  ]},
+{ stem:"How do inotropic agents such as milrinone affect cardiac contractility and vascular tone?",
+  options:[
+    {text:"They increase cardiac contractility and reduce vascular tone through vasodilation",correct:true,explain:"Inotropic agents like milrinone increase cardiac contractility while reducing vascular tone through vasodilation, which together improve cardiac output."},
+    {text:"They decrease cardiac contractility and increase vascular tone",correct:false,explain:"This describes the opposite of what inotropic agents do."},
+    {text:"They have no effect on cardiac contractility, only on vascular tone",correct:false,explain:"Inotropic agents do significantly affect cardiac contractility, which is their primary defining action, in addition to their vascular effects."},
+    {text:"They only affect heart rate, not contractility or vascular tone",correct:false,explain:"Inotropic agents primarily affect contractility (and secondarily vascular tone), not simply heart rate alone."}
+  ]},
+{ stem:"Which medication is specifically noted to increase both cardiac contractility and cardiac output?",
+  options:[
+    {text:"Milrinone",correct:true,explain:"Milrinone is specifically noted to increase both cardiac contractility and cardiac output as part of its inotropic action."},
+    {text:"Verapamil",correct:false,explain:"Verapamil is a calcium channel blocker with a negative, not positive, inotropic effect."},
+    {text:"Metoprolol",correct:false,explain:"Metoprolol is a beta blocker that decreases, rather than increases, heart rate and contractility."},
+    {text:"Furosemide",correct:false,explain:"Furosemide is a loop diuretic; it does not directly increase cardiac contractility."}
+  ]},
+{ stem:"Which four medications are classified as inotropic medications in this course content?",
+  options:[
+    {text:"Milrinone, dopamine, dobutamine, and digoxin",correct:true,explain:"Milrinone, dopamine, dobutamine, and digoxin are the inotropic medications identified in this content."},
+    {text:"Nitroglycerin, isosorbide dinitrate, hydralazine, and minoxidil",correct:false,explain:"These are nitrates and direct-acting vasodilators, not inotropic medications."},
+    {text:"Furosemide, spironolactone, mannitol, and chlorthalidone",correct:false,explain:"These are diuretics, not inotropic medications."},
+    {text:"Warfarin, heparin, apixaban, and alteplase",correct:false,explain:"These are anticoagulants and a thrombolytic, not inotropic medications."}
+  ]},
+{ stem:"A client's ABG results show PaO2 60 mm Hg, PaCO2 50 mm Hg, pH 7.3, and SaO2 88% on 4L nasal cannula. How should the nurse interpret these values?",
+  options:[
+    {text:"Hypoxemia with a respiratory acidosis pattern (low pH, elevated PaCO2, low PaO2/SaO2)",correct:true,explain:"A low pH (7.3) with an elevated PaCO2 (50) reflects a respiratory acidosis pattern, while the low PaO2 (60) and SaO2 (88%) reflect hypoxemia — consistent with significant respiratory compromise."},
+    {text:"Completely normal arterial blood gas values requiring no intervention",correct:false,explain:"These values are all abnormal (low pH, elevated PaCO2, low PaO2, low SaO2) and reflect significant respiratory compromise, not a normal ABG."},
+    {text:"Metabolic alkalosis with normal oxygenation",correct:false,explain:"This pattern reflects respiratory acidosis with hypoxemia, not metabolic alkalosis, and oxygenation is clearly abnormal (PaO2 60, SaO2 88%)."},
+    {text:"Respiratory alkalosis with hyperoxia",correct:false,explain:"A pH of 7.3 with elevated PaCO2 indicates acidosis, not alkalosis, and the oxygenation values indicate hypoxemia, not hyperoxia."}
+  ]},
+{ stem:"For the client in Case Study #2 with ECG findings of left ventricular hypertrophy who is started on a dobutamine drip and given IV furosemide, what is the combined therapeutic purpose of these two interventions?",
+  options:[
+    {text:"To increase myocardial contractility (dobutamine) while reducing ventricular preload (furosemide)",correct:true,explain:"Dobutamine increases myocardial contractility, while furosemide reduces ventricular preload through diuresis — together these interventions support cardiac function while managing fluid overload."},
+    {text:"To reduce myocardial contractility while increasing ventricular preload",correct:false,explain:"This describes the opposite of the intended therapeutic goals of dobutamine and furosemide in this context."},
+    {text:"To reduce myocardial contractility while reducing ventricular afterload only",correct:false,explain:"Dobutamine's purpose here is to increase, not reduce, contractility; furosemide's primary target is preload, not afterload specifically."},
+    {text:"To increase myocardial contractility while increasing ventricular afterload",correct:false,explain:"Furosemide is intended to reduce fluid volume and preload, not increase afterload; increasing afterload would not be a therapeutic goal in this scenario."}
+  ]},
+{ stem:"What does an ECG finding of left ventricular hypertrophy suggest in the context of this client's heart failure presentation?",
+  options:[
+    {text:"The heart has been working against chronically increased workload or pressure, causing the ventricular wall to thicken over time",correct:true,explain:"Left ventricular hypertrophy typically develops as the heart adapts to chronic increased workload or pressure, which is relevant to this client's underlying cardiac history and current decompensation."},
+    {text:"The client's heart is entirely normal with no structural changes",correct:false,explain:"Left ventricular hypertrophy is a structural change, not a normal finding, and is relevant to the client's chronic cardiac condition."},
+    {text:"The client has an active pulmonary infection",correct:false,explain:"Left ventricular hypertrophy is a cardiac structural finding, not an indicator of pulmonary infection."},
+    {text:"The client's clotting studies are abnormal",correct:false,explain:"Left ventricular hypertrophy is unrelated to clotting studies; it is a structural cardiac finding seen on ECG."}
+  ]},
+{ stem:"According to the goals of client management for heart failure, treating the underlying cause may include addressing which conditions?",
+  options:[
+    {text:"Ischemia or valvular dysfunction",correct:true,explain:"Treating the underlying cause of heart failure includes addressing conditions such as ischemia or valvular dysfunction, which may be contributing to the client's decompensation."},
+    {text:"Seasonal allergies",correct:false,explain:"Seasonal allergies are not identified as an underlying cause addressed in heart failure management goals."},
+    {text:"Minor skin irritation",correct:false,explain:"Minor skin irritation is not relevant to the goals of heart failure client management."},
+    {text:"Ingrown toenails",correct:false,explain:"This is not a relevant underlying cause addressed in heart failure management goals."}
+  ]},
+{ stem:"Besides treating the underlying cause, what are the other two primary goals of client management in heart failure?",
+  options:[
+    {text:"Management of fluid volume overload and improvement of ventricular function",correct:true,explain:"Along with treating the underlying cause, the goals of heart failure management include managing fluid volume overload and improving ventricular function."},
+    {text:"Increasing sodium intake and limiting physical activity entirely",correct:false,explain:"Increasing sodium intake and eliminating physical activity are not goals of heart failure management; fluid overload management and improving ventricular function are."},
+    {text:"Discontinuing all cardiac medications as soon as symptoms improve",correct:false,explain:"Discontinuing all cardiac medications is not a stated goal of heart failure management; ongoing management of fluid status and ventricular function are the goals."},
+    {text:"Preventing any further diagnostic testing",correct:false,explain:"Avoiding diagnostic testing is not a goal of heart failure management; appropriate monitoring and diagnostics support the actual goals of care."}
+  ]},
+{ stem:"A client asks the nurse to summarize, in general terms, why medications from several different classes (diuretics, ACE inhibitors, beta blockers, inotropes) are often combined in heart failure treatment. What is the nurse's best response?",
+  options:[
+    {text:"Different medication classes target different aspects of heart failure — fluid overload, afterload, sympathetic overactivity, and contractility — so combining them addresses multiple goals of management at once",correct:true,explain:"Heart failure management goals include treating the underlying cause, managing fluid overload, and improving ventricular function; different medication classes each contribute toward these goals (e.g., diuretics for fluid overload, ACE inhibitors for afterload, beta blockers for sympathetic overactivity, inotropes for contractility), which is why multiple classes are often combined."},
+    {text:"All heart failure medications work through the exact same mechanism, so combining them simply increases the dose of a single effect",correct:false,explain:"This is inaccurate — the medication classes used in heart failure work through distinct mechanisms (diuresis, afterload reduction, sympathetic blockade, inotropy), not a single shared mechanism."},
+    {text:"Combining medications is done only to increase cost and has no clinical rationale",correct:false,explain:"Combining medication classes in heart failure has a clear clinical rationale tied to the multiple goals of management, not simply increased cost with no benefit."},
+    {text:"Only one medication class is ever needed for heart failure; the others are optional extras",correct:false,explain:"Heart failure management typically requires a combination of medication classes to address its multiple underlying goals, rather than relying on a single class alone."}
+  ]}
+];
+
+/* ======================= VIEW / STATE MANAGEMENT ======================= */
+const FLASHCARDS = [
+{front:"Suffix: -pril", back:"ACE inhibitors (e.g., lisinopril). Monitor for hyperkalemia, cough, and angioedema."},
+{front:"Suffix: -sartan", back:"ARBs (e.g., losartan). Block angiotensin II receptor; much less cough risk than ACE inhibitors."},
+{front:"Suffix: -lol", back:"Beta blockers (e.g., carvedilol, atenolol). Decrease heart rate and myocardial oxygen demand."},
+{front:"Suffix: -osin", back:"Alpha-1 blockers (e.g., doxazosin). Block sympathetic nervous system at the blood vessel."},
+{front:"Suffix: -pine", back:"Calcium channel blockers (e.g., amlodipine). Cause vasodilation of cardiac and peripheral arteries."},
+{front:"What triggers renin release in RAAS?", back:"Decreased blood pressure, sensed by baroreceptors in the juxtaglomerular cells."},
+{front:"Where does ACE convert angiotensin I to II?", back:"In the lungs."},
+{front:"Which CCB has the strongest negative inotropic effect?", back:"Verapamil — used cautiously in heart failure."},
+{front:"Loop diuretic examples", back:"Furosemide, bumetanide, torsemide, ethacrynic acid. Cause hypokalemia."},
+{front:"Potassium-sparing diuretic example", back:"Spironolactone — blocks aldosterone in the distal tubule; risk of hyperkalemia."},
+{front:"Warfarin monitoring", back:"INR, goal typically 2–3."},
+{front:"Heparin monitoring", back:"aPTT, therapeutic range 1.5–2.5× normal (normal 25–35 sec)."},
+{front:"Nitrate mechanism", back:"Reduce myocardial oxygen demand by lowering preload and afterload through vasodilation."},
+{front:"Dobutamine's effect", back:"Positive inotrope — increases myocardial contractility and cardiac output."},
+{front:"Medication class to avoid in heart failure", back:"Non-dihydropyridine calcium channel blockers (verapamil, diltiazem) — negative inotropic effect."},
+{front:"Alteplase (tPA)", back:"A thrombolytic — dissolves a clot that has already formed (\"clot buster\")."},
+{front:"GP IIb/IIIa inhibitor examples", back:"Eptifibatide, tirofiban — block the final common pathway of platelet aggregation."},
+{front:"S3 heart sound", back:"Rapid ventricular filling — classic sign of volume overload / heart failure."},
+{front:"Black cohosh interaction", back:"Increases the risk of hypotension when combined with antihypertensives."},
+{front:"Why administer IV furosemide slowly?", back:"To prevent ototoxicity (permanent hearing damage)."}
+];
+
+/* ======================= FLASHCARDS ======================= */
+let flashOrder = FLASHCARDS.map((_,i)=>i);
+let flashIdx = 0;
+
+function renderFlashcard(){
+  if(!FLASHCARDS.length) return;
+  const card = FLASHCARDS[flashOrder[flashIdx]];
+  document.getElementById('flashFront').textContent = card.front;
+  document.getElementById('flashBack').textContent = card.back;
+  document.getElementById('flashcard').classList.remove('flipped');
+  document.getElementById('flashIndex').textContent = flashIdx+1;
+  document.getElementById('flashTotal').textContent = FLASHCARDS.length;
+}
+function flipCard(){ document.getElementById('flashcard').classList.toggle('flipped'); }
+document.getElementById('flashPrev').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  flashIdx = (flashIdx - 1 + FLASHCARDS.length) % FLASHCARDS.length;
+  renderFlashcard();
+});
+document.getElementById('flashNext').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  flashIdx = (flashIdx + 1) % FLASHCARDS.length;
+  renderFlashcard();
+});
+document.getElementById('flashShuffle').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  flashOrder = shuffle(flashOrder.length ? flashOrder : FLASHCARDS.map((_,i)=>i));
+  flashIdx = 0;
+  renderFlashcard();
+});
+
+
+let activeQuestions = [];
+let currentIndex = 0;
+let score = 0;
+let questionState = [];
+let optionOrders = [];
+
+
+function toggleAnswer(id, btn){
+  const el = document.getElementById(id);
+  el.classList.toggle('show');
+  btn.textContent = el.classList.contains('show') ? 'Hide answer ▲' : 'Reveal answer ▼';
+}
+
+function showView(name){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+name).classList.add('active');
+  const crumbs = document.getElementById('crumbs');
+  const homeLink = "<span onclick=\"location.href='index.html'\">Home</span>";
+  if(name==='notes') crumbs.innerHTML = homeLink + " / Cardiovascular Medications / Course Notes";
+  else if(name==='flashcards') crumbs.innerHTML = homeLink + " / Cardiovascular Medications / Flashcards";
+  else if(name==='setup') crumbs.innerHTML = homeLink + " / Cardiovascular Medications / Practice Test";
+  else if(name==='cases') crumbs.innerHTML = homeLink + " / Cardiovascular Medications / Case Studies";
+  else if(name==='quiz') crumbs.innerHTML = homeLink + " / <span onclick=\"showView('setup')\">Cardiovascular Medications</span> / Practice Test";
+
+  ['tabNotesA','tabFlashA','tabSetupA','tabCasesA','tabNotesB','tabFlashB','tabSetupB','tabCasesB','tabNotesC','tabFlashC','tabSetupC','tabCasesC','tabNotesD','tabFlashD','tabSetupD','tabCasesD'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+    let kind = 'setup';
+    if(id.indexOf('Notes') !== -1) kind = 'notes';
+    else if(id.indexOf('Flash') !== -1) kind = 'flashcards';
+    else if(id.indexOf('Cases') !== -1) kind = 'cases';
+    el.classList.toggle('selected', kind === name || (kind==='setup' && name==='quiz'));
+  });
+
+  if(name === 'flashcards' && typeof renderFlashcard === 'function') renderFlashcard();
+
+  history.replaceState(null, '', '#'+name);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* Entry routing: open directly to the requested view via URL hash (e.g. index.html links here with #notes or #setup) */
+(function initialRoute(){
+  const hash = (location.hash || '').replace('#','');
+  const validViews = ['notes','flashcards','setup','cases'];
+  showView(validViews.includes(hash) ? hash : 'setup');
+})();
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function startQuiz(n){
+  const indices = shuffle([...Array(QUESTIONS.length).keys()]).slice(0,n);
+  activeQuestions = indices.map(i=>QUESTIONS[i]);
+  questionState = new Array(activeQuestions.length).fill(null);
+  optionOrders = new Array(activeQuestions.length).fill(null);
+  score = 0;
+  currentIndex = 0;
+  document.getElementById('quizTitle').textContent = 'Practice Test — ' + n + ' Questions';
+  document.getElementById('finalOutOf').textContent = '/' + n;
+  buildPicker();
+  document.getElementById('quizArea').innerHTML='';
+  document.getElementById('summary').classList.remove('show');
+  updateStatus();
+  renderQuestion(0);
+  showView('quiz');
+}
+
+/* ---------- picker ---------- */
+const pickerGrid = document.getElementById('pickerGrid');
+function buildPicker(){
+  pickerGrid.innerHTML = '';
+  activeQuestions.forEach((q,i)=>{
+    const btn = document.createElement('button');
+    btn.className = 'pick-btn';
+    btn.textContent = (i+1);
+    btn.title = 'Question ' + (i+1);
+    btn.addEventListener('click', ()=> goToQuestion(i));
+    pickerGrid.appendChild(btn);
+  });
+  refreshPicker();
+}
+function refreshPicker(){
+  const btns = pickerGrid.querySelectorAll('.pick-btn');
+  btns.forEach((btn,i)=>{
+    btn.classList.remove('current','correct','incorrect');
+    const st = questionState[i];
+    if(st) btn.classList.add(st.correct ? 'correct' : 'incorrect');
+    if(i === currentIndex) btn.classList.add('current');
+  });
+}
+
+function goToQuestion(idx){
+  currentIndex = idx;
+  document.getElementById('quizArea').innerHTML = '';
+  document.getElementById('summary').classList.remove('show');
+  renderQuestion(idx);
+  refreshPicker();
+  document.getElementById('quizArea').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function letter(i){ return String.fromCharCode(65+i); }
+
+function renderQuestion(qIndex){
+  const q = activeQuestions[qIndex];
+  const state = questionState[qIndex];
+  const quizArea = document.getElementById('quizArea');
+  const card = document.createElement('div');
+  card.className = 'qcard';
+
+  const meta = document.createElement('div');
+  meta.className = 'qmeta';
+  meta.innerHTML = `<span class="qnum">Q${qIndex+1} / ${activeQuestions.length}</span><span class="qtag">Cardiovascular Pharm</span>` +
+    (q.isSAL ? `<span class="qsal">Select all that apply</span>` : '');
+  card.appendChild(meta);
+
+  const stem = document.createElement('p');
+  stem.className = 'stem';
+  stem.textContent = q.stem;
+  card.appendChild(stem);
+
+  const optsWrap = document.createElement('div');
+  optsWrap.className = 'options';
+
+  const banner = document.createElement('div');
+  banner.className = 'result-banner';
+
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'btn-next';
+  nextBtn.textContent = (qIndex === activeQuestions.length-1) ? 'See results →' : 'Next question →';
+
+  const prevBtn = document.createElement('button');
+  prevBtn.className = 'btn-prev';
+  prevBtn.textContent = '← Previous';
+  prevBtn.disabled = (qIndex === 0);
+  prevBtn.addEventListener('click', ()=>{ if(qIndex>0) goToQuestion(qIndex-1); });
+
+  if(!optionOrders[qIndex]){
+    optionOrders[qIndex] = shuffle(q.options.map((_,i)=>i));
+  }
+  const order = optionOrders[qIndex];
+
+  if(q.isSAL){
+    let selected = state ? new Set(state.selected) : new Set();
+    order.forEach((origIdx, pos)=>{
+      const opt = q.options[origIdx];
+      const el = document.createElement('div');
+      el.className = 'opt sal';
+      el.dataset.origIdx = origIdx;
+      el.innerHTML = `<span class="opt-letter">${selected.has(origIdx)?'☑':'☐'}</span><div><div class="opt-text">${opt.text}</div><div class="opt-explain" style="display:none"></div></div>`;
+      if(!state){
+        el.addEventListener('click', ()=>{
+          if(el.classList.contains('locked')) return;
+          if(selected.has(origIdx)){ selected.delete(origIdx); el.querySelector('.opt-letter').textContent='☐'; el.style.background='var(--paper)'; el.style.borderColor='var(--line)'; }
+          else { selected.add(origIdx); el.querySelector('.opt-letter').textContent='☑'; el.style.background='#EFFAFA'; el.style.borderColor='var(--pulse)'; }
+        });
+      }
+      optsWrap.appendChild(el);
+    });
+    card.appendChild(optsWrap);
+    if(state){
+      revealSAL(qIndex, state.selected, optsWrap, banner, state.correct);
+      nextBtn.classList.add('show');
+    } else {
+      const submitBtn = document.createElement('button');
+      submitBtn.className = 'btn-sal-submit';
+      submitBtn.textContent = 'Submit answer';
+      submitBtn.addEventListener('click', ()=>{
+        lockSAL(qIndex, selected, optsWrap, banner, nextBtn, submitBtn);
+      });
+      card.appendChild(submitBtn);
+    }
+  } else {
+    order.forEach((origIdx, pos)=>{
+      const opt = q.options[origIdx];
+      const el = document.createElement('div');
+      el.className = 'opt';
+      el.dataset.origIdx = origIdx;
+      el.innerHTML = `<span class="opt-letter">${letter(pos)}</span><div><div class="opt-text">${opt.text}</div><div class="opt-explain" style="display:none"></div></div>`;
+      if(!state){
+        el.addEventListener('click', ()=> lockSingle(qIndex, origIdx, optsWrap, banner, nextBtn));
+      }
+      optsWrap.appendChild(el);
+    });
+    card.appendChild(optsWrap);
+    if(state){
+      revealSingle(qIndex, state.selected, optsWrap, banner, state.correct);
+      nextBtn.classList.add('show');
+    }
+  }
+
+  card.appendChild(banner);
+
+  const actions = document.createElement('div');
+  actions.className = 'actions';
+  actions.appendChild(prevBtn);
+  actions.appendChild(nextBtn);
+  card.appendChild(actions);
+
+  nextBtn.addEventListener('click', ()=>{
+    if(qIndex+1 < activeQuestions.length){
+      goToQuestion(qIndex+1);
+    } else {
+      showSummary();
+    }
+  });
+
+  quizArea.appendChild(card);
+}
+
+function revealSingle(qIndex, chosenIdx, optsWrap, banner, isCorrect){
+  const q = activeQuestions[qIndex];
+  const opts = optsWrap.querySelectorAll('.opt');
+  opts.forEach((el)=>{
+    const i = parseInt(el.dataset.origIdx, 10);
+    el.classList.add('locked');
+    const explainEl = el.querySelector('.opt-explain');
+    explainEl.textContent = q.options[i].explain;
+    explainEl.style.display = 'block';
+    if(q.options[i].correct){ el.classList.add('correct-choice'); }
+    else if(i === chosenIdx){ el.classList.add('incorrect-choice'); }
+    else { el.classList.add('dim'); }
+  });
+  banner.classList.add('show', isCorrect ? 'correct' : 'incorrect');
+  banner.innerHTML = isCorrect ? `<span>✓</span> Correct.` : `<span>✕</span> Not quite — the correct answer is highlighted above.`;
+}
+
+function revealSAL(qIndex, selectedArr, optsWrap, banner, allCorrect){
+  const q = activeQuestions[qIndex];
+  const selected = new Set(selectedArr);
+  const opts = optsWrap.querySelectorAll('.opt');
+  opts.forEach((el)=>{
+    const i = parseInt(el.dataset.origIdx, 10);
+    el.classList.add('locked');
+    const explainEl = el.querySelector('.opt-explain');
+    explainEl.textContent = q.options[i].explain;
+    explainEl.style.display = 'block';
+    const letterEl = el.querySelector('.opt-letter');
+    if(q.options[i].correct){ el.classList.add('correct-choice'); letterEl.textContent='✓'; }
+    else if(selected.has(i)){ el.classList.add('incorrect-choice'); letterEl.textContent='✕'; }
+    else { el.classList.add('dim'); letterEl.textContent='☐'; }
+  });
+  banner.classList.add('show', allCorrect ? 'correct' : 'incorrect');
+  banner.innerHTML = allCorrect ? `<span>✓</span> Correct — all applicable choices selected.` : `<span>✕</span> Not quite — correct choices are highlighted above.`;
+}
+
+function lockSingle(qIndex, chosenIdx, optsWrap, banner, nextBtn){
+  if(questionState[qIndex]) return;
+  const q = activeQuestions[qIndex];
+  const isCorrect = q.options[chosenIdx].correct;
+  questionState[qIndex] = { correct: isCorrect, selected: chosenIdx };
+  if(isCorrect) score++;
+  revealSingle(qIndex, chosenIdx, optsWrap, banner, isCorrect);
+  nextBtn.classList.add('show');
+  refreshPicker();
+  updateStatus();
+}
+
+function lockSAL(qIndex, selected, optsWrap, banner, nextBtn, submitBtn){
+  if(questionState[qIndex]) return;
+  const q = activeQuestions[qIndex];
+  const correctSet = new Set(q.options.map((o,i)=>o.correct?i:null).filter(v=>v!==null));
+  let allCorrect = correctSet.size === selected.size && [...correctSet].every(i=>selected.has(i));
+  questionState[qIndex] = { correct: allCorrect, selected: [...selected] };
+  if(allCorrect) score++;
+  submitBtn.style.display = 'none';
+  revealSAL(qIndex, [...selected], optsWrap, banner, allCorrect);
+  nextBtn.classList.add('show');
+  refreshPicker();
+  updateStatus();
+}
+
+function updateStatus(){
+  const answeredCount = questionState.filter(Boolean).length;
+  const total = activeQuestions.length || 1;
+  document.getElementById('progressFill').style.width = (answeredCount/total*100)+'%';
+  document.getElementById('scoreLabel').innerHTML = `<span>${score}</span> / ${answeredCount}`;
+}
+
+function showSummary(){
+  document.getElementById('quizArea').innerHTML = '';
+  const answeredCount = questionState.filter(Boolean).length;
+  document.getElementById('finalScore').textContent = score;
+  document.getElementById('finalOutOf').textContent = '/' + activeQuestions.length;
+  const pct = answeredCount ? Math.round(score/answeredCount*100) : 0;
+  const msgEl = document.getElementById('finalMsg');
+  if(answeredCount < activeQuestions.length){
+    msgEl.textContent = `You've answered ${answeredCount} of ${activeQuestions.length} questions (${score} correct so far). Use the picker above to finish the rest.`;
+  } else if(pct >= 90) msgEl.textContent = 'Excellent — strong command of cardiovascular pharmacology.';
+  else if(pct >= 75) msgEl.textContent = 'Solid work. Revisit the missed rationales above before your exam.';
+  else if(pct >= 60) msgEl.textContent = 'Decent start — review the explanations above, especially on the classes you missed.';
+  else msgEl.textContent = 'Worth another pass — scroll up and read every rationale carefully, then retake.';
+  document.getElementById('summary').classList.add('show');
+  document.getElementById('summary').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+/* ---------- Print / Save PDF ---------- */
+function buildPrintReport(){
+  const answeredCount = questionState.filter(Boolean).length;
+  const pct = answeredCount ? Math.round(score/answeredCount*100) : 0;
+  const now = new Date();
+  const dateStr = now.toLocaleDateString(undefined, { year:'numeric', month:'long', day:'numeric' });
+  const timeStr = now.toLocaleTimeString(undefined, { hour:'2-digit', minute:'2-digit' });
+
+  let html = '';
+  html += '<div class="rpt-header">';
+  html += '<h1>Cardiovascular Medications — Practice Test Results</h1>';
+  html += '<div class="rpt-meta">' + dateStr + ' at ' + timeStr + ' &middot; ' + activeQuestions.length + ' questions</div>';
+  html += '<div class="rpt-score">Score: ' + score + ' / ' + answeredCount + ' answered (' + pct + '%)</div>';
+  html += '</div>';
+
+  activeQuestions.forEach((q, qi) => {
+    const state = questionState[qi];
+    html += '<div class="rpt-q">';
+    html += '<div class="rq-num">Question ' + (qi+1) + (q.isSAL ? ' (Select all that apply)' : '') + '</div>';
+    html += '<div class="rq-stem">' + escapeHtml(q.stem) + '</div>';
+
+    q.options.forEach((opt, oi) => {
+      let cls = '';
+      let marker = '';
+      const chosen = state ? (q.isSAL ? state.selected.includes(oi) : state.selected === oi) : false;
+      if(opt.correct){ cls = 'correct'; marker = '✓ '; }
+      else if(chosen){ cls = 'incorrect'; marker = '✕ '; }
+      html += '<div class="rpt-opt ' + cls + '">' + marker + escapeHtml(opt.text) + '</div>';
+      html += '<div class="rpt-explain">' + escapeHtml(opt.explain) + '</div>';
+    });
+
+    if(state){
+      const isCorrect = state.correct;
+      html += '<div class="rpt-banner ' + (isCorrect ? 'correct' : 'incorrect') + '">' +
+        (isCorrect ? 'Answered correctly' : 'Answered incorrectly') + '</div>';
+    } else {
+      html += '<div class="rpt-banner">Not answered</div>';
+    }
+    html += '</div>';
+  });
+
+  document.getElementById('printReport').innerHTML = html;
+}
+
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+document.getElementById('printBtn').addEventListener('click', ()=>{
+  buildPrintReport();
+  window.print();
+});
+
+document.getElementById('resultsBtn').addEventListener('click', showSummary);
+document.getElementById('randomBtn').addEventListener('click', ()=>{
+  const idx = Math.floor(Math.random()*activeQuestions.length);
+  goToQuestion(idx);
+});
+document.getElementById('reviewBtn').addEventListener('click', ()=>{
+  document.getElementById('summary').classList.remove('show');
+  goToQuestion(currentIndex);
+});
+document.getElementById('setupBtn').addEventListener('click', ()=> showView('setup'));
+document.getElementById('restartBtn').addEventListener('click', ()=> startQuiz(activeQuestions.length));
+</script>
+</body>
+</html>

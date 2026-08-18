@@ -1,0 +1,1712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nursing NCLEX Review</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  :root{
+    --ink:#211B36;
+    --ink-soft:#524A6B;
+    --paper:#F7F5FB;
+    --card:#FFFFFF;
+    --line:#E2DCEF;
+    --pulse:#16A34A;
+    --pulse-dim:#DCFCE7;
+    --correct:#1B8A5A;
+    --correct-bg:#E7F5EE;
+    --incorrect:#C1443D;
+    --incorrect-bg:#FBEAE8;
+    --muted:#8A80A0;
+    --amber:#B8791A;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(520px circle at 4% -6%, rgba(22,163,74,0.2), transparent 60%),
+      radial-gradient(460px circle at 98% 2%, rgba(184,121,26,0.15), transparent 58%),
+      radial-gradient(480px circle at 6% 70%, rgba(27,138,90,0.12), transparent 58%),
+      linear-gradient(180deg, var(--paper) 0%, #ffffff 50%, var(--paper) 100%);
+    background-attachment:fixed;
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    padding:40px 20px 80px;
+  }
+  .wrap{max-width:860px;margin:0 auto;}
+  .view{display:none;}
+  .view.active{display:block;}
+
+  .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:10px;}
+  .brand{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--pulse);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;gap:8px;}
+  .brand:hover{color:var(--ink);}
+  .crumbs{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);}
+  .crumbs span{cursor:pointer;}
+  .crumbs span:hover{color:var(--pulse);}
+
+  .eyebrow{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--pulse);font-weight:600;margin-bottom:10px;}
+  h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(28px,5vw,40px);line-height:1.08;margin:0 0 6px;letter-spacing:-.01em;}
+  h2.section-title{font-family:'Fraunces',serif;font-weight:600;font-size:22px;margin:34px 0 12px;color:var(--ink);}
+  h2.section-title:first-of-type{margin-top:0;}
+  .subtitle{color:var(--ink-soft);font-size:15px;margin:0 0 26px;max-width:60ch;}
+
+  .ekg{width:100%;height:46px;margin-bottom:24px;overflow:hidden;}
+  .ekg svg{width:100%;height:100%;display:block;}
+  .ekg path{fill:none;stroke:var(--pulse);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  .ekg-trace{stroke-dasharray:1000;stroke-dashoffset:1000;animation:draw 2.6s ease-out forwards;}
+  @keyframes draw{to{stroke-dashoffset:0;}}
+  @media (prefers-reduced-motion:reduce){.ekg-trace{animation:none;stroke-dashoffset:0;}}
+
+  .topic-tabs{display:flex;gap:8px;margin-bottom:26px;flex-wrap:wrap;}
+  .tab-btn{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;padding:11px 18px;border-radius:9px;cursor:pointer;border:1.5px solid var(--line);background:var(--card);color:var(--ink-soft);}
+  .tab-btn:hover{border-color:var(--pulse);color:var(--pulse);}
+  .tab-btn.selected{background:var(--ink);border-color:var(--ink);color:#fff;}
+
+  .notes-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:30px 28px;}
+  .notes-card p{color:var(--ink-soft);font-size:14.5px;line-height:1.6;}
+  .note-table{width:100%;border-collapse:collapse;margin:10px 0 24px;font-size:13.5px;}
+  .note-table th{background:var(--ink);color:#fff;text-align:left;padding:9px 12px;font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.03em;text-transform:uppercase;}
+  .note-table td{padding:9px 12px;border-bottom:1px solid var(--line);color:var(--ink-soft);vertical-align:top;}
+  .note-table tr:nth-child(even) td{background:var(--paper);}
+  .note-table td b{color:var(--ink);}
+  .drugclass{border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:14px;background:var(--paper);}
+  .drugclass h4{margin:0 0 8px;font-family:'Inter',sans-serif;font-size:15px;color:var(--ink);}
+  .drugclass .suffix-tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--pulse);background:var(--pulse-dim);padding:2px 8px;border-radius:5px;margin-left:8px;}
+  .drugclass ul{margin:6px 0 0;padding-left:20px;color:var(--ink-soft);font-size:13.5px;line-height:1.6;}
+  .note-callout{border-left:3px solid var(--pulse);background:var(--pulse-dim);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13.5px;color:var(--ink);margin:14px 0;}
+  .note-callout b{color:var(--pulse);}
+  .casebox{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:14px;font-size:13.5px;color:var(--ink-soft);line-height:1.6;}
+  .casebox b{color:var(--ink);}
+  .stat-strip{display:flex;gap:14px;flex-wrap:wrap;margin:14px 0 26px;}
+  .stat-box{background:var(--pulse-dim);border-radius:10px;padding:12px 18px;flex:1;min-width:140px;}
+  .stat-box .big{font-family:'Fraunces',serif;font-size:26px;font-weight:600;color:var(--pulse);line-height:1;}
+  .stat-box .lbl{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.04em;margin-top:4px;}
+
+  .setup-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:32px 28px;text-align:center;}
+  .setup-card p{color:var(--ink-soft);font-size:14px;margin-bottom:24px;}
+  .count-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+  @media (max-width:560px){.count-grid{grid-template-columns:repeat(2,1fr);}}
+  .count-btn{background:var(--paper);border:1.5px solid var(--line);border-radius:12px;padding:22px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:all .12s ease;}
+  .count-btn:hover{border-color:var(--pulse);background:#E3FBEA;}
+  .count-num{font-family:'Fraunces',serif;font-size:30px;font-weight:600;color:var(--ink);}
+  .count-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+
+  .picker{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px 20px;margin-bottom:22px;}
+  .picker-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:10px;flex-wrap:wrap;}
+  .picker-title{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;}
+  .picker-actions{display:flex;gap:8px;}
+  .mini-btn{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;background:var(--paper);border:1px solid var(--line);color:var(--ink-soft);padding:6px 11px;border-radius:7px;cursor:pointer;}
+  .mini-btn:hover{border-color:var(--pulse);color:var(--pulse);}
+  .picker-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:7px;}
+  @media (max-width:520px){.picker-grid{grid-template-columns:repeat(6,1fr);}}
+  .pick-btn{aspect-ratio:1;border-radius:8px;border:1.5px solid var(--line);background:var(--paper);font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:600;color:var(--ink-soft);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s ease;}
+  .pick-btn:hover{border-color:var(--pulse);color:var(--pulse);}
+  .pick-btn.current{border-color:var(--ink);box-shadow:0 0 0 2px var(--ink) inset;color:var(--ink);}
+  .pick-btn.correct{background:var(--correct-bg);border-color:var(--correct);color:var(--correct);}
+  .pick-btn.incorrect{background:var(--incorrect-bg);border-color:var(--incorrect);color:var(--incorrect);}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);}
+  .legend span{display:inline-flex;align-items:center;gap:5px;}
+  .dot{width:9px;height:9px;border-radius:3px;display:inline-block;}
+  .dot.unanswered{background:var(--paper);border:1.5px solid var(--line);}
+  .dot.correct{background:var(--correct-bg);border:1.5px solid var(--correct);}
+  .dot.incorrect{background:var(--incorrect-bg);border:1.5px solid var(--incorrect);}
+
+  .statusbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;}
+  .progress-track{flex:1;height:6px;background:var(--line);border-radius:4px;overflow:hidden;position:relative;}
+  .progress-fill{height:100%;background:var(--pulse);border-radius:4px;width:0%;transition:width .35s ease;}
+  .score-pill{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--ink);background:var(--card);border:1px solid var(--line);padding:6px 12px;border-radius:20px;white-space:nowrap;}
+  .score-pill span{color:var(--pulse);}
+
+  .qcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:28px 26px 24px;margin-bottom:20px;box-shadow:0 1px 2px rgba(33,27,54,.05);}
+  .qmeta{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
+  .qnum{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--pulse);background:var(--pulse-dim);padding:3px 9px;border-radius:6px;}
+  .qtag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;}
+  .qsal{font-family:'JetBrains Mono',monospace;font-size:11px;color:#15803D;letter-spacing:.03em;border:1px solid #BBF7D0;background:#F0FDF4;padding:2px 8px;border-radius:5px;}
+  .stem{font-size:18px;line-height:1.48;font-weight:600;color:var(--ink);margin:0 0 20px;}
+
+  .options{display:flex;flex-direction:column;gap:10px;}
+  .opt{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;padding:13px 14px;border:1.5px solid var(--line);background:var(--paper);border-radius:10px;cursor:pointer;font-family:'Inter',sans-serif;font-size:15px;color:var(--ink);transition:border-color .15s ease, background .15s ease, transform .1s ease;}
+  .opt:hover:not(.locked){border-color:var(--pulse);background:#E3FBEA;}
+  .opt:active:not(.locked){transform:scale(.997);}
+  .opt:focus-visible{outline:2px solid var(--pulse);outline-offset:2px;}
+  .opt-letter{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:13px;color:var(--ink-soft);background:var(--card);border:1px solid var(--line);min-width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+  .opt-text{flex:1;line-height:1.45;}
+  .opt.correct-choice{border-color:var(--correct);background:var(--correct-bg);}
+  .opt.correct-choice .opt-letter{background:var(--correct);border-color:var(--correct);color:#fff;}
+  .opt.incorrect-choice{border-color:var(--incorrect);background:var(--incorrect-bg);}
+  .opt.incorrect-choice .opt-letter{background:var(--incorrect);border-color:var(--incorrect);color:#fff;}
+  .opt.locked{cursor:default;}
+  .opt.dim{opacity:.55;}
+  .opt-explain{margin-top:6px;font-size:13.5px;line-height:1.5;font-family:'Inter',sans-serif;}
+  .opt.correct-choice .opt-explain{color:#15694A;}
+  .opt.incorrect-choice .opt-explain{color:#96332E;}
+  .opt.dim .opt-explain{color:var(--muted);}
+  .opt.dim.correct-choice .opt-explain{color:var(--correct);}
+  .opt.sal .opt-letter{border-radius:5px;}
+
+  .result-banner{display:none;align-items:center;gap:10px;margin-top:18px;padding:11px 14px;border-radius:9px;font-size:14px;font-weight:600;font-family:'Inter',sans-serif;}
+  .result-banner.show{display:flex;}
+  .result-banner.correct{background:var(--correct-bg);color:var(--correct);}
+  .result-banner.incorrect{background:var(--incorrect-bg);color:var(--incorrect);}
+
+  .actions{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:10px;}
+  .btn-prev{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;background:var(--card);color:var(--ink-soft);border:1px solid var(--line);padding:11px 18px;border-radius:8px;cursor:pointer;}
+  .btn-prev:hover{border-color:var(--pulse);color:var(--pulse);}
+  .btn-prev:disabled{opacity:.4;cursor:not-allowed;}
+  .btn-next{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;letter-spacing:.03em;background:var(--ink);color:#fff;border:none;padding:11px 20px;border-radius:8px;cursor:pointer;display:none;align-items:center;gap:8px;}
+  .btn-next.show{display:inline-flex;}
+  .btn-next:hover{background:var(--pulse);}
+  .btn-sal-submit{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;background:var(--pulse);color:#fff;border:none;padding:11px 20px;border-radius:8px;cursor:pointer;margin-top:16px;}
+
+  .summary{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:36px 30px;text-align:center;display:none;}
+  .summary.show{display:block;}
+  .summary .big-score{font-family:'Fraunces',serif;font-size:56px;font-weight:600;color:var(--pulse);line-height:1;margin-bottom:6px;}
+  .summary .big-score sub{font-size:22px;font-weight:500;color:var(--muted);}
+  .summary p{color:var(--ink-soft);font-size:14px;margin:6px 0 22px;}
+  .btn-restart{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;background:var(--ink);color:#fff;border:none;padding:12px 22px;border-radius:8px;cursor:pointer;margin:4px;}
+  .btn-restart:hover{background:var(--pulse);}
+  .btn-restart.secondary{background:var(--card);color:var(--ink-soft);border:1px solid var(--line);}
+  .btn-restart.secondary:hover{color:var(--pulse);border-color:var(--pulse);}
+  .btn-restart.print-btn{background:var(--ink-soft);}
+  .btn-restart.print-btn:hover{background:var(--pulse);}
+
+  footer{text-align:center;margin-top:34px;font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;}
+
+
+  /* ---------- Flashcards ---------- */
+  .flash-wrap{max-width:480px;margin:0 auto;text-align:center;}
+  .flash-progress{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:14px;}
+  .flashcard{width:100%;height:260px;perspective:1200px;cursor:pointer;margin-bottom:20px;}
+  .flash-inner{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d;}
+  .flashcard.flipped .flash-inner{transform:rotateY(180deg);}
+  .flash-face{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:16px;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;padding:30px;font-family:'Inter',sans-serif;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.05);}
+  .flash-front{background:var(--card);font-size:18px;font-weight:600;color:var(--ink);}
+  .flash-back{background:var(--pulse-dim);transform:rotateY(180deg);color:var(--ink);font-weight:500;font-size:15px;line-height:1.5;}
+  .flash-tag{position:absolute;top:14px;left:16px;font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--pulse);font-weight:700;}
+  .flash-hint{position:absolute;bottom:12px;right:16px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);}
+  .flash-controls{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
+
+  /* ---------- Printable report (hidden on screen, shown only when printing) ---------- */
+  #printReport{display:none;}
+  @media print{
+    body *{visibility:hidden;}
+    #printReport, #printReport *{visibility:visible;}
+    #printReport{
+      display:block;position:absolute;top:0;left:0;width:100%;
+      padding:0;margin:0;background:#fff;color:#111;font-family:'Inter',sans-serif;
+    }
+    .wrap, .topbar, .view, footer{display:none !important;}
+    #printReport .rpt-header{border-bottom:2px solid #333;padding-bottom:10px;margin-bottom:16px;}
+    #printReport h1{font-family:'Fraunces',serif;font-size:22px;margin:0 0 4px;}
+    #printReport .rpt-meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:#555;}
+    #printReport .rpt-score{font-family:'Fraunces',serif;font-size:26px;font-weight:600;margin:10px 0;}
+    #printReport .rpt-q{page-break-inside:avoid;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid #ddd;}
+    #printReport .rpt-q .rq-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:#6B4FA0;font-weight:700;}
+    #printReport .rpt-q .rq-stem{font-weight:700;font-size:13px;margin:2px 0 6px;}
+    #printReport .rpt-opt{font-size:12px;margin:3px 0;padding-left:14px;}
+    #printReport .rpt-opt.correct{color:#15694A;font-weight:700;}
+    #printReport .rpt-opt.incorrect{color:#96332E;font-weight:700;text-decoration:underline;}
+    #printReport .rpt-explain{font-size:11px;color:#444;margin:1px 0 4px 14px;}
+    #printReport .rpt-banner{font-size:11px;font-weight:700;margin-top:2px;}
+    #printReport .rpt-banner.correct{color:#15694A;}
+    #printReport .rpt-banner.incorrect{color:#96332E;}
+  }
+
+  .case-card{border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin-bottom:22px;background:var(--card);}
+  .case-card h3{font-family:'Fraunces',serif;font-size:19px;margin:0 0 4px;color:var(--ink);}
+  .case-tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--pulse);background:var(--pulse-dim);padding:3px 9px;border-radius:5px;text-transform:uppercase;letter-spacing:.04em;display:inline-block;margin-bottom:12px;}
+  .case-vignette{font-size:14.5px;line-height:1.75;color:var(--ink-soft);margin-bottom:6px;}
+  .case-vignette b{color:var(--ink);}
+  .case-data{border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:var(--paper);font-size:13.5px;color:var(--ink-soft);margin:12px 0;line-height:1.7;}
+  .case-data b{color:var(--ink);}
+  .case-q{margin-top:18px;padding-top:16px;border-top:1px dashed var(--line);}
+  .case-q p.q-text{font-size:14px;color:var(--ink);margin:0 0 10px;font-weight:500;}
+  .reveal-btn{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--pulse);background:var(--pulse-dim);border:none;padding:7px 14px;border-radius:6px;cursor:pointer;letter-spacing:.02em;}
+  .reveal-btn:hover{opacity:.85;}
+  .reveal-answer{display:none;margin-top:12px;padding:12px 16px;background:var(--correct-bg);border-left:3px solid var(--correct);border-radius:0 8px 8px 0;font-size:13.5px;color:var(--ink);line-height:1.7;}
+  .reveal-answer.show{display:block;}
+  .reveal-answer b{color:var(--correct);}
+
+  /* ============ GLASS SURFACE OVERRIDE ============ */
+  .notes-card,.setup-card,.picker,.qcard,.summary,.flash-front,.case-card,
+  .score-pill,.secondary,.exam-banner-inner{
+    background:rgba(255,255,255,.6);
+    -webkit-backdrop-filter:blur(18px) saturate(160%);
+    backdrop-filter:blur(18px) saturate(160%);
+    border-color:rgba(255,255,255,.7);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.7), 0 10px 26px rgba(33,27,54,.06);
+  }
+  .tab-btn:not(.selected),.btn-prev,.mini-btn{
+    background:rgba(255,255,255,.45);
+    -webkit-backdrop-filter:blur(10px);
+    backdrop-filter:blur(10px);
+    border-color:rgba(255,255,255,.65);
+  }
+  .drugclass,.casebox,.case-data,.count-btn,.pick-btn,.opt,.dot.unanswered{
+    background:rgba(255,255,255,.35);
+    -webkit-backdrop-filter:blur(9px);
+    backdrop-filter:blur(9px);
+    border-color:rgba(255,255,255,.6);
+  }
+  .topbar{
+    background:rgba(255,255,255,.4);
+    -webkit-backdrop-filter:blur(14px);
+    backdrop-filter:blur(14px);
+    border:1px solid rgba(255,255,255,.6);
+    border-radius:12px;
+    padding:10px 16px;
+  }
+  @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+    .notes-card,.setup-card,.picker,.qcard,.summary,.flash-front,.case-card,
+    .score-pill,.secondary,.exam-banner-inner,.tab-btn:not(.selected),.btn-prev,
+    .mini-btn,.drugclass,.casebox,.case-data,.count-btn,.pick-btn,.opt,.topbar{
+      background:rgba(255,255,255,.94);
+    }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand" onclick="location.href='index.html'">◆ Nursing NCLEX Review</div>
+    <div class="crumbs" id="crumbs"></div>
+  </div>
+
+  <!-- ============ COURSE NOTES ============ -->
+  <div class="view" id="view-notes">
+    <div class="eyebrow">Safety &amp; Infection Control</div>
+    <div class="topic-tabs">
+      <button class="tab-btn selected" id="tabNotesA" onclick="showView('notes')">Course Notes</button>
+      <button class="tab-btn" id="tabFlashA" onclick="showView('flashcards')">Flashcards</button>
+      <button class="tab-btn" id="tabSetupA" onclick="showView('setup')">Practice Test</button>
+      <button class="tab-btn" id="tabCasesA" onclick="showView('cases')">Case Studies</button>
+    </div>
+    <h1>Course Notes</h1>
+    <p class="subtitle">Strategy and high-alert medication reference for the NCLEX-RN Pharmacological and Parenteral Therapies section. Use this to study before or during the practice test.</p>
+    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
+
+    <div class="notes-card" id="notesContent"></div>
+
+    <div style="text-align:center;margin-top:20px;">
+      <button class="btn-restart" style="background:var(--pulse);" onclick="showView('setup')">Start practice test →</button>
+    </div>
+  </div>
+
+  <!-- ============ FLASHCARDS ============ -->
+  <div class="view" id="view-flashcards">
+    <div class="eyebrow">Safety &amp; Infection Control</div>
+    <div class="topic-tabs">
+      <button class="tab-btn" id="tabNotesB" onclick="showView('notes')">Course Notes</button>
+      <button class="tab-btn selected" id="tabFlashB" onclick="showView('flashcards')">Flashcards</button>
+      <button class="tab-btn" id="tabSetupB" onclick="showView('setup')">Practice Test</button>
+      <button class="tab-btn" id="tabCasesB" onclick="showView('cases')">Case Studies</button>
+    </div>
+    <h1>Flashcards</h1>
+    <p class="subtitle">Tap a card to flip it. Use the arrows to move through the deck, or shuffle for random order.</p>
+    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
+
+    <div class="flash-wrap">
+      <div class="flash-progress">Card <span id="flashIndex">1</span> / <span id="flashTotal">1</span></div>
+      <div class="flashcard" id="flashcard" onclick="flipCard()">
+        <div class="flash-inner" id="flashInner">
+          <div class="flash-face flash-front">
+            <span class="flash-tag">Term</span>
+            <span id="flashFront"></span>
+            <span class="flash-hint">Tap to flip</span>
+          </div>
+          <div class="flash-face flash-back">
+            <span class="flash-tag">Answer</span>
+            <span id="flashBack"></span>
+          </div>
+        </div>
+      </div>
+      <div class="flash-controls">
+        <button class="mini-btn" id="flashPrev">← Prev</button>
+        <button class="mini-btn" id="flashShuffle">🔀 Shuffle</button>
+        <button class="mini-btn" id="flashNext">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SETUP ============ -->
+  <div class="view" id="view-setup">
+    <div class="eyebrow">Safety &amp; Infection Control</div>
+    <div class="topic-tabs">
+      <button class="tab-btn" id="tabNotesC" onclick="showView('notes')">Course Notes</button>
+      <button class="tab-btn" id="tabFlashC" onclick="showView('flashcards')">Flashcards</button>
+      <button class="tab-btn selected" id="tabSetupC" onclick="showView('setup')">Practice Test</button>
+      <button class="tab-btn" id="tabCasesC" onclick="showView('cases')">Case Studies</button>
+    </div>
+    <h1>Practice Test</h1>
+    <p class="subtitle">Choose how many questions you want to take. Questions are randomly selected from a bank of 100 each time, and every option — right or wrong — comes with an explanation. Print or save a PDF of your results after every exam.</p>
+    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
+
+    <div class="setup-card">
+      <p>How many questions would you like to take?</p>
+      <div class="count-grid">
+        <button class="count-btn" onclick="startQuiz(10)"><span class="count-num">10</span><span class="count-label">Quick review</span></button>
+        <button class="count-btn" onclick="startQuiz(20)"><span class="count-num">20</span><span class="count-label">Standard</span></button>
+        <button class="count-btn" onclick="startQuiz(30)"><span class="count-num">30</span><span class="count-label">Extended</span></button>
+        <button class="count-btn" onclick="startQuiz(100)"><span class="count-num">100</span><span class="count-label">Full bank</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ CASE STUDIES ============ -->
+  <div class="view" id="view-cases">
+    <div class="eyebrow">Safety &amp; Infection Control</div>
+    <div class="topic-tabs">
+      <button class="tab-btn" id="tabNotesD" onclick="showView('notes')">Course Notes</button>
+      <button class="tab-btn" id="tabFlashD" onclick="showView('flashcards')">Flashcards</button>
+      <button class="tab-btn" id="tabSetupD" onclick="showView('setup')">Practice Test</button>
+      <button class="tab-btn selected" id="tabCasesD" onclick="showView('cases')">Case Studies</button>
+    </div>
+    <h1>Case Studies</h1>
+    <p class="subtitle">Apply what you've reviewed to realistic clinical scenarios. Read each vignette, think through the reflection questions, then tap to reveal the rationale.</p>
+    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
+
+    <div class="cases-wrap" id="casesContent"></div>
+  </div>
+
+  <!-- ============ QUIZ ============ -->
+  <div class="view" id="view-quiz">
+    <div class="eyebrow">Safety &amp; Infection Control</div>
+    <h1 id="quizTitle">Practice Test</h1>
+    <p class="subtitle">Choose an answer to see the correct choice and why every option is right or wrong. Jump to any question using the picker below.</p>
+    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
+
+    <div class="picker">
+      <div class="picker-head">
+        <span class="picker-title">Jump to a question</span>
+        <div class="picker-actions">
+          <button class="mini-btn" id="randomBtn">🎲 Random</button>
+          <button class="mini-btn" id="resultsBtn">View results</button>
+        </div>
+      </div>
+      <div class="picker-grid" id="pickerGrid"></div>
+      <div class="legend">
+        <span><span class="dot unanswered"></span>Unanswered</span>
+        <span><span class="dot correct"></span>Correct</span>
+        <span><span class="dot incorrect"></span>Incorrect</span>
+      </div>
+    </div>
+
+    <div class="statusbar">
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="score-pill">Score <span id="scoreLabel">0 / 0</span></div>
+    </div>
+
+    <div id="quizArea"></div>
+
+    <div class="summary" id="summary">
+      <div class="big-score"><span id="finalScore">0</span><sub id="finalOutOf">/20</sub></div>
+      <p id="finalMsg"></p>
+      <button class="btn-restart print-btn" id="printBtn">🖨️ Print / Save PDF</button>
+      <button class="btn-restart secondary" id="reviewBtn">Back to test</button>
+      <button class="btn-restart secondary" id="setupBtn">Change length</button>
+      <button class="btn-restart" id="restartBtn">New random set</button>
+    </div>
+  </div>
+
+  <footer>SAFETY &amp; INFECTION CONTROL · PRACTICE SET</footer>
+</div>
+
+<!-- Printable results report — hidden on screen, populated and shown only for printing -->
+<div id="printReport"></div>
+
+<script>
+document.getElementById('casesContent').innerHTML = `
+<div class="case-card">
+    <span class="case-tag">Post-Surgical Unit</span>
+    <h3>Preventing Atelectasis After Abdominal Surgery</h3>
+    <p class="case-vignette">A client is post-operative day 1 following an open abdominal surgery. The nurse auscultates diminished breath sounds at the bilateral lung bases and notes the client is taking shallow breaths and refusing to use the incentive spirometer, stating, "It hurts too much to breathe deeply."</p>
+    <div class="case-data"><b>VS:</b> Temp 99.8°F, RR 22, SpO2 93% on room air &nbsp;|&nbsp; <b>Pain rating:</b> 7/10 at incision site &nbsp;|&nbsp; <b>Lung sounds:</b> diminished bilateral bases</div>
+    <div class="case-q">
+      <p class="q-text">What post-operative complication is this client at risk for, and what findings support this?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('sic_c1q1', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="sic_c1q1"><b>Answer:</b> Atelectasis (and potentially pneumonia if untreated) — shallow breathing from incisional pain limits lung expansion, allowing alveoli to collapse. The diminished bilateral base breath sounds, low-grade temperature, and mildly reduced SpO2 are all early warning signs consistent with atelectasis.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What should the nurse do first to help the client use the incentive spirometer effectively?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('sic_c1q2', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="sic_c1q2"><b>Answer:</b> Address the pain first — administer prescribed analgesia and allow it to take effect (typically 30–60 minutes for oral, sooner for IV) before coaching deep breathing and incentive spirometer use. Adequate pain control is what makes effective deep breathing and coughing physically possible after abdominal surgery.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What teaching points help this client use the incentive spirometer correctly?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('sic_c1q3', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="sic_c1q3"><b>Answer:</b> Sit upright, seal lips around the mouthpiece, inhale slowly and deeply to raise the piston/ball to the target line, hold the breath 3–5 seconds, then exhale and rest before repeating — typically 10 breaths per hour while awake. Splinting the incision with a pillow during deep breathing and coughing also reduces pain and encourages fuller lung expansion.</div>
+    </div>
+  </div>
+<div class="case-card">
+    <span class="case-tag">Orthopedic Unit</span>
+    <h3>Preventing Venous Thromboembolism After Hip Surgery</h3>
+    <p class="case-vignette">A client is one day post-op following hip replacement surgery. She is reluctant to get out of bed, stating she's "too sore to move." On assessment, the nurse notes mild swelling and warmth in the operative leg's calf, which the client reports as "a little tender."</p>
+    <div class="case-data"><b>VS:</b> HR 92, RR 18, Temp 99.2°F &nbsp;|&nbsp; <b>Assessment:</b> unilateral calf warmth, mild swelling, tenderness &nbsp;|&nbsp; <b>Activity:</b> refusing to ambulate</b></div>
+    <div class="case-q">
+      <p class="q-text">What complication do these findings raise concern for, and what is the priority nursing action?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('sic_c2q1', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="sic_c2q1"><b>Answer:</b> Deep vein thrombosis (DVT) — unilateral calf warmth, swelling, and tenderness after major lower-extremity/pelvic surgery are classic warning signs. The nurse should not massage or vigorously manipulate the leg (risk of dislodging a clot), should notify the provider promptly, and should keep the client on bed rest until the leg is further evaluated (e.g., with a Doppler ultrasound).</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What nursing measures help prevent VTE in post-operative clients generally, before a problem develops?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('sic_c2q2', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="sic_c2q2"><b>Answer:</b> Early and frequent ambulation as ordered, sequential compression devices (SCDs) or graduated compression stockings when in bed, ankle pumps/leg exercises, adequate hydration, and administration of prescribed prophylactic anticoagulants (e.g., low-molecular-weight heparin) — all aimed at preventing venous stasis, the key driver of clot formation after surgery.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">The client asks if it's safe to just stay in bed until the soreness passes. How should the nurse respond, and what would be most concerning if this progressed untreated?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('sic_c2q3', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="sic_c2q3"><b>Answer:</b> Prolonged immobility increases — rather than decreases — VTE risk, so the nurse should encourage safe, gradual mobilization with assistance and pain control rather than prolonged bed rest. If a DVT progresses untreated, a piece of the clot can dislodge and travel to the lungs, causing a life-threatening pulmonary embolism — presenting with sudden dyspnea, chest pain, and hypoxia.</div>
+    </div>
+  </div>
+<div class="case-card">
+    <span class="case-tag">Intensive Care Unit</span>
+    <h3>Preventing Catheter-Associated Urinary Tract Infection (CAUTI)</h3>
+    <p class="case-vignette">A client has had an indwelling urinary catheter in place for four days following major surgery. During rounds, the nurse notices the collection bag is hanging above the level of the bladder on the bed rail, and the client's urine appears cloudy with sediment.</p>
+    <div class="case-data"><b>Assessment:</b> catheter bag above bladder level, cloudy sediment-laden urine &nbsp;|&nbsp; <b>Temp:</b> 100.9°F &nbsp;|&nbsp; <b>Catheter duration:</b> day 4</div>
+    <div class="case-q">
+      <p class="q-text">What is wrong with the current catheter bag positioning, and why does it matter?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('sic_c3q1', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="sic_c3q1"><b>Answer:</b> The collection bag must always stay below the level of the bladder to allow gravity drainage and prevent urine from flowing backward into the bladder — a bag positioned above bladder level (as found here) allows retrograde flow of contaminated urine, directly increasing CAUTI risk. The nurse should reposition it below bladder level immediately.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What do the cloudy, sediment-laden urine and low-grade fever suggest, and what should the nurse do?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('sic_c3q2', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="sic_c3q2"><b>Answer:</b> These findings raise concern for a developing urinary tract infection related to the indwelling catheter. The nurse should assess further (urine odor, suprapubic tenderness, other UTI signs), obtain a urine specimen per protocol, and notify the provider — catheter-associated infections can progress to systemic sepsis if not addressed promptly.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What is the single most effective overall strategy for preventing CAUTI in a hospitalized client?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('sic_c3q3', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="sic_c3q3"><b>Answer:</b> Daily assessment of continued catheter necessity, with prompt removal as soon as it's no longer medically required — the duration a catheter remains in place is the single strongest risk factor for CAUTI. Additional measures include maintaining a closed, sterile drainage system, proper perineal hygiene, securing the catheter tubing to prevent tension/trauma, and keeping the bag below bladder level at all times.</div>
+    </div>
+  </div>
+<div class="case-card">
+    <span class="case-tag">Medical-Surgical Floor</span>
+    <h3>Fall Prevention After Administering a Sedating Medication</h3>
+    <p class="case-vignette">An older adult client received a scheduled dose of a benzodiazepine for anxiety about 30 minutes ago. The nurse enters the room to find the client attempting to get up unassisted to use the bathroom, appearing unsteady and slightly drowsy.</p>
+    <div class="case-data"><b>Medication given:</b> Lorazepam 30 min ago &nbsp;|&nbsp; <b>Assessment:</b> unsteady gait, mild drowsiness &nbsp;|&nbsp; <b>Fall risk score:</b> high</div>
+    <div class="case-q">
+      <p class="q-text">What is the nurse's priority action in this moment?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('sic_c4q1', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="sic_c4q1"><b>Answer:</b> Immediately assist the client back to a safe seated position and do not allow independent ambulation right now — the combination of a sedating medication, older age, and observed unsteadiness places this client at high fall risk, and the nurse should stay with the client and assist with toileting rather than letting them attempt it alone.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What fall-prevention measures should be reinforced for this client going forward, especially around medication timing?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('sic_c4q2', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="sic_c4q2"><b>Answer:</b> Ensure the call light is within reach and the client is instructed to call for assistance before getting up (especially after sedating medications), keep the bed in a low position with rails as appropriate, ensure nonslip footwear, and consider timing scheduled toileting rounds around when sedating medications peak, since this is a predictable high-risk window.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">Why is it important to document both the medication timing and this near-miss?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('sic_c4q3', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="sic_c4q3"><b>Answer:</b> Documenting the timing connects the fall risk directly to the medication's peak effect, helping the care team anticipate and plan around future doses, and reporting the near-miss (even though no fall occurred) supports proactive safety planning — such as reassessing whether a lower dose, different medication, or additional supervision is needed.</div>
+    </div>
+  </div>
+<div class="case-card">
+    <span class="case-tag">Surgical Unit</span>
+    <h3>Surgical Site Infection Prevention</h3>
+    <p class="case-vignette">A client is postoperative day 3 following a bowel resection. During the dressing change, the nurse notes the incision is more red and warm than it was the previous day, with a small amount of cloudy drainage, and the client reports increased pain at the site along with a low-grade fever.</p>
+    <div class="case-data"><b>Temp:</b> 100.8°F &nbsp;|&nbsp; <b>Incision:</b> increased erythema, warmth, cloudy drainage &nbsp;|&nbsp; <b>Pain:</b> increased from prior day, now 6/10 at incision</div>
+    <div class="case-q">
+      <p class="q-text">What do these findings suggest, and what is the nurse's priority action?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('sic_c5q1', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="sic_c5q1"><b>Answer:</b> These findings — increasing erythema, warmth, purulent/cloudy drainage, worsening pain, and fever — are classic signs of a developing surgical site infection (SSI). The nurse should notify the provider promptly, obtain a wound culture per order, and continue monitoring vital signs and the wound closely, using standard/contact precautions as indicated for any drainage.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What nursing measures help prevent surgical site infections during the postoperative period?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('sic_c5q2', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="sic_c5q2"><b>Answer:</b> Strict hand hygiene and aseptic technique during every dressing change, keeping the dressing dry and intact per protocol, monitoring and optimizing nutrition (protein intake supports wound healing), encouraging glycemic control in clients with diabetes (hyperglycemia impairs healing and increases infection risk), and educating the client on proper incision care and when to report changes after discharge.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">Around what postoperative day do most surgical site infections typically become apparent, and why does that matter for discharge teaching?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('sic_c5q3', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="sic_c5q3"><b>Answer:</b> Most SSIs become apparent within the first 1–2 weeks after surgery, and many clients are discharged before signs would appear — this is why clear discharge teaching on incision care and warning signs (increasing redness, warmth, drainage, fever, or increasing pain) is essential so the client knows to seek care promptly even after leaving the hospital.</div>
+    </div>
+  </div>
+`;
+
+document.getElementById('notesContent').innerHTML = `
+<div class="stat-strip">
+  <div class="stat-box"><div class="big">11</div><div class="lbl">Postoperative complications covered</div></div>
+  <div class="stat-box"><div class="big">1–3</div><div class="lbl">Days postop: atelectasis onset</div></div>
+  <div class="stat-box"><div class="big">STAT</div><div class="lbl">Notify HCP: PE, hemorrhage</div></div>
+</div>
+<p>This reference covers major postoperative complications from Perioperative Nursing Care — their description, assessment findings, and priority nursing interventions.</p>
+
+<h2 class="section-title">Respiratory Complications</h2>
+<div class="drugclass"><h4>Atelectasis <span class="suffix-tag">1–3 days postop — most common postop complication</span></h4>
+<ul><li><b>Description:</b> collapse of alveoli</li></ul></div>
+<div class="drugclass"><h4>Pneumonia <span class="suffix-tag">3–5 days postop</span></h4>
+<ul><li><b>Description:</b> inflammation of the alveoli</li></ul></div>
+<div class="note-callout"><b>Shared assessment (pneumonia/atelectasis):</b> dyspnea, tachypnea, crackles over the affected lung area, fever, productive cough, chest pain.<br><b>Interventions:</b> encourage the client to breathe deeply, cough, and use the incentive spirometer.</div>
+<div class="drugclass"><h4>Hypoxemia</h4>
+<ul><li><b>Description:</b> inadequate concentration of oxygen in arterial blood</li><li><b>Assessment:</b> restlessness, dyspnea, hypertension, tachycardia, diaphoresis, cyanosis</li><li><b>Interventions:</b> encourage the client to breathe deeply, cough, and use the incentive spirometer</li></ul></div>
+<div class="drugclass"><h4>Pulmonary Embolism</h4>
+<ul><li><b>Description:</b> an embolus blocks the pulmonary artery, disrupting blood flow to one or more lung lobes. When a thrombus partially or completely obstructs a pulmonary artery or its branches, alveolar dead space increases — the area continues to be ventilated but receives little or no blood flow, so gas exchange is impaired or absent.</li><li><b>Assessment:</b> dyspnea, sudden sharp chest or upper abdominal pain, cyanosis, tachycardia, hypotension</li><li><b>Interventions:</b> notify the health care provider <b>STAT</b>; monitor vital signs; administer oxygen and medications as prescribed</li></ul></div>
+
+<h2 class="section-title">Circulatory Complications</h2>
+<div class="drugclass"><h4>Hemorrhage</h4>
+<ul><li><b>Description:</b> loss of a large amount of blood, externally or internally, in a short time</li><li><b>Assessment:</b> restlessness, weak rapid pulse, hypotension, cool clammy skin, oliguria</li><li><b>Interventions:</b> apply pressure to the bleeding site; notify the health care provider <b>STAT</b>; monitor vital signs; administer oxygen as prescribed; administer IV fluids/blood as prescribed</li></ul></div>
+<div class="drugclass"><h4>Shock <span class="suffix-tag">often secondary to hemorrhage</span></h4>
+<ul><li><b>Description:</b> loss of circulatory fluid volume</li><li><b>Assessment:</b> restlessness, weak and rapid pulse, hypotension, cool clammy skin, oliguria</li><li><b>Interventions:</b> if shock develops, elevate the legs; monitor/assess vital signs, level of consciousness, intake and output, and skin; administer oxygen as prescribed; administer IV fluids, blood, and colloid solutions as prescribed</li></ul></div>
+<div class="drugclass"><h4>Thrombophlebitis</h4>
+<ul><li><b>Description:</b> inflammation of a vein, often accompanied by clot formation</li><li><b>Assessment:</b> positive Homans' sign; aching or cramping pain, tender to touch; fever</li><li><b>Interventions:</b> assess leg(s) for swelling, inflammation, pain, tenderness, cyanosis; elevate the extremity 30 degrees without pressure in the popliteal space; apply antiembolic stockings as prescribed; use an intermittent pulsatile compression device as prescribed; passive range of motion every 2 hours; encourage early ambulation; do <b>not</b> allow the client to dangle legs; instruct the client not to sit in one position for a lengthy period; administer heparin sodium or warfarin (Coumadin) as prescribed</li></ul></div>
+
+<h2 class="section-title">Genitourinary &amp; Gastrointestinal Complications</h2>
+<div class="drugclass"><h4>Urinary Retention</h4>
+<ul><li><b>Description:</b> involuntary accumulation of urine in the bladder</li><li><b>Assessment:</b> inability to void, lower abdominal pain, distended bladder, hypertension</li><li><b>Interventions:</b> strict intake and output; assess for a distended bladder; encourage ambulation; provide privacy for voiding; pour warm water over the perineum or run water for the client to hear to promote voiding; catheterize as prescribed</li></ul></div>
+<div class="drugclass"><h4>Constipation</h4>
+<ul><li><b>Description:</b> abnormal, infrequent passage of stool</li><li><b>Assessment:</b> abdominal distention, absence of bowel movements, anorexia, headache, nausea</li><li><b>Interventions:</b> encourage fluid intake up to 3000 mL/day unless contraindicated; encourage early ambulation; encourage high-fiber foods unless contraindicated; administer stool softeners and laxatives as prescribed</li></ul></div>
+<div class="drugclass"><h4>Paralytic Ileus</h4>
+<ul><li><b>Description:</b> failure of appropriate forward movement of bowel contents</li><li><b>Assessment:</b> nausea, vomiting immediately postoperatively, abdominal distention, absence of bowel movements/bowel sounds/flatus</li><li><b>Interventions:</b> maintain NPO status until bowel sounds return; strict intake and output; maintain patency of the nasogastric tube if in place; encourage ambulation; administer IV fluids, parenteral nutrition, and medications as prescribed</li></ul></div>
+
+<h2 class="section-title">Wound Complications</h2>
+<div class="drugclass"><h4>Wound Infection <span class="suffix-tag">occurs 3–6 days postop</span></h4>
+<ul><li><b>Description:</b> infection caused by poor aseptic technique or a contaminated wound before surgical exploration</li><li><b>Assessment:</b> fever, chills, warm/tender/painful/inflamed incision site, elevated white blood cell count</li><li><b>Interventions:</b> monitor temperature and vital signs; monitor the incision site for signs of infection; maintain patency of drains and assess drainage; change dressings as prescribed; administer antibiotics as prescribed</li></ul></div>
+<div class="drugclass"><h4>Wound Dehiscence</h4>
+<ul><li><b>Description:</b> separation of wound edges from the suture line</li><li><b>Assessment:</b> increased drainage, open wound edges, appearance of underlying tissue through the wound</li></ul></div>
+<div class="drugclass"><h4>Wound Evisceration</h4>
+<ul><li><b>Description:</b> protrusion of internal organs through the incision</li><li><b>Assessment:</b> discharge of serosanguineous fluid from a previously dry wound, appearance of loops of bowel or other abdominal contents through the wound, client reports a "popping" sensation after coughing or turning</li></ul></div>
+<div class="note-callout"><b>Interventions for dehiscence and evisceration:</b> place the client in low Fowler's position with knees bent (if abdominal incision); cover the wound with a sterile normal saline dressing; notify the health care provider; administer antiemetics as prescribed to prevent vomiting and strain on the incision; instruct the client to splint the incision when coughing.</div>
+
+<h2 class="section-title">Ambulatory Surgery</h2>
+<div class="note-callout"><b>General discharge criteria:</b> alert and oriented; has voided; has no respiratory distress; ambulates, swallows, coughs; experiencing minimal pain and bleeding; has no vomiting; has someone to take them home, and the health care provider has signed the release.<br><b>Discharge teaching:</b> performed prior to the procedure taking place; given both verbally and in writing, in the client's primary language; covers activity, medications, and postoperative complications.</div>
+`;
+
+const QUESTIONS = [
+{ stem:"Which postoperative complication is described as the collapse of alveoli and is the most common postoperative complication, typically occurring 1 to 3 days after surgery?",
+  options:[
+    {text:"Atelectasis",correct:true,explain:"Atelectasis is the collapse of alveoli and is the most common postoperative complication, typically occurring 1 to 3 days postoperatively."},
+    {text:"Pneumonia",correct:false,explain:"Pneumonia is inflammation of the alveoli occurring 3 to 5 days postoperatively — it is a different, later complication than atelectasis, and is not described as the most common postoperative complication."},
+    {text:"Pulmonary embolism",correct:false,explain:"Pulmonary embolism involves an embolus blocking the pulmonary artery, not alveolar collapse, and is not the most common postoperative complication."},
+    {text:"Hypoxemia",correct:false,explain:"Hypoxemia is inadequate oxygen concentration in arterial blood; it is not specifically defined as alveolar collapse or the most common postoperative complication."}
+  ]},
+{ stem:"Pneumonia, as a postoperative complication, typically occurs how many days after surgery?",
+  options:[
+    {text:"3 to 5 days postoperatively",correct:true,explain:"Postoperative pneumonia, inflammation of the alveoli, typically occurs 3 to 5 days after surgery."},
+    {text:"1 to 3 days postoperatively",correct:false,explain:"This timeframe describes atelectasis, not pneumonia."},
+    {text:"3 to 6 days postoperatively",correct:false,explain:"This timeframe describes wound infection, not pneumonia."},
+    {text:"Immediately postoperatively, within hours",correct:false,explain:"Postoperative pneumonia is not described as an immediate, within-hours complication; it typically develops 3 to 5 days after surgery."}
+  ]},
+{ stem:"Which assessment findings are shared between postoperative pneumonia and atelectasis?",
+  isSAL:true,
+  options:[
+    {text:"Dyspnea and tachypnea",correct:true,explain:"Dyspnea and tachypnea are shared assessment findings for both pneumonia and atelectasis."},
+    {text:"Crackles over the affected lung area",correct:true,explain:"Crackles over the affected lung area are a shared assessment finding for both pneumonia and atelectasis."},
+    {text:"Fever and productive cough",correct:true,explain:"Fever and productive cough are shared assessment findings for both pneumonia and atelectasis."},
+    {text:"Positive Homans' sign",correct:false,explain:"A positive Homans' sign is an assessment finding associated with thrombophlebitis, not pneumonia or atelectasis."}
+  ]},
+{ stem:"What is the priority nursing intervention for a client with atelectasis or early signs of pneumonia?",
+  options:[
+    {text:"Encourage the client to breathe deeply, cough, and use the incentive spirometer",correct:true,explain:"For both atelectasis and pneumonia, encouraging deep breathing, coughing, and incentive spirometer use is the key nursing intervention to help re-expand the alveoli and mobilize secretions."},
+    {text:"Restrict all ambulation until symptoms resolve",correct:false,explain:"Restricting ambulation is not the recommended intervention; early ambulation is generally encouraged to prevent and treat respiratory postoperative complications."},
+    {text:"Administer antiemetics as the priority intervention",correct:false,explain:"Antiemetics are not the priority intervention for atelectasis or pneumonia; deep breathing, coughing, and incentive spirometer use are the key interventions."},
+    {text:"Place the client in a flat supine position",correct:false,explain:"A flat supine position is not the recommended positioning for respiratory complications; upright positioning generally supports better lung expansion."}
+  ]},
+{ stem:"What is the description of hypoxemia?",
+  options:[
+    {text:"Inadequate concentration of oxygen in arterial blood",correct:true,explain:"Hypoxemia is described as an inadequate concentration of oxygen in the arterial blood."},
+    {text:"Collapse of alveoli",correct:false,explain:"This describes atelectasis, not hypoxemia."},
+    {text:"Inflammation of the alveoli",correct:false,explain:"This describes pneumonia, not hypoxemia."},
+    {text:"An embolus blocking the pulmonary artery",correct:false,explain:"This describes pulmonary embolism, not hypoxemia."}
+  ]},
+{ stem:"Which assessment findings are associated with hypoxemia?",
+  isSAL:true,
+  options:[
+    {text:"Restlessness and dyspnea",correct:true,explain:"Restlessness and dyspnea are recognized assessment findings of hypoxemia."},
+    {text:"Hypertension and tachycardia",correct:true,explain:"Hypertension and tachycardia are recognized assessment findings of hypoxemia."},
+    {text:"Diaphoresis and cyanosis",correct:true,explain:"Diaphoresis and cyanosis are recognized assessment findings of hypoxemia."},
+    {text:"Positive Homans' sign",correct:false,explain:"A positive Homans' sign is associated with thrombophlebitis, not hypoxemia."}
+  ]},
+{ stem:"What happens to alveolar dead space when a thrombus partially or completely obstructs a pulmonary artery or its branches?",
+  options:[
+    {text:"Alveolar dead space is increased, since the area continues to be ventilated but receives little or no blood flow",correct:true,explain:"When a thrombus obstructs a pulmonary artery or its branches, alveolar dead space increases — the affected area continues to be ventilated but receives little or no blood flow, so gas exchange is impaired or absent."},
+    {text:"Alveolar dead space is decreased, improving gas exchange",correct:false,explain:"This is the opposite of what occurs — alveolar dead space increases, and gas exchange is impaired, not improved."},
+    {text:"Alveolar dead space is unaffected by pulmonary artery obstruction",correct:false,explain:"Alveolar dead space is directly and significantly affected — it increases — when a pulmonary artery or its branches are obstructed by a thrombus."},
+    {text:"Ventilation to the area stops completely",correct:false,explain:"The area continues to be ventilated; it is the blood flow (perfusion), not ventilation, that is disrupted, creating a ventilation-perfusion mismatch."}
+  ]},
+{ stem:"A postoperative client suddenly develops dyspnea, sharp chest pain, cyanosis, tachycardia, and hypotension. What complication should the nurse suspect, and what is the priority action?",
+  options:[
+    {text:"Pulmonary embolism; notify the health care provider STAT",correct:true,explain:"This presentation — sudden dyspnea, sharp chest or upper abdominal pain, cyanosis, tachycardia, and hypotension — is classic for pulmonary embolism, requiring the health care provider to be notified STAT, along with monitoring vital signs and administering oxygen/medications as prescribed."},
+    {text:"Wound dehiscence; apply a sterile saline dressing",correct:false,explain:"This presentation does not describe wound dehiscence, which involves separation of wound edges, not the respiratory/cardiovascular symptoms described here."},
+    {text:"Constipation; encourage fluid intake",correct:false,explain:"This presentation does not describe constipation, which involves abdominal distention and absence of bowel movements, not sudden chest pain and cyanosis."},
+    {text:"Urinary retention; catheterize the client",correct:false,explain:"This presentation does not describe urinary retention, which involves inability to void and bladder distention, not the acute respiratory/cardiovascular symptoms described here."}
+  ]},
+{ stem:"What is the description of hemorrhage as a postoperative complication?",
+  options:[
+    {text:"Loss of a large amount of blood, externally or internally, in a short time",correct:true,explain:"Hemorrhage is described as the loss of a large amount of blood, externally or internally, in a short period of time."},
+    {text:"Loss of circulatory fluid volume, often secondary to another cause",correct:false,explain:"This describes shock, which is often secondary to hemorrhage, but the specific definition of hemorrhage itself is the loss of a large amount of blood."},
+    {text:"Inflammation of a vein with clot formation",correct:false,explain:"This describes thrombophlebitis, not hemorrhage."},
+    {text:"Involuntary accumulation of urine in the bladder",correct:false,explain:"This describes urinary retention, not hemorrhage."}
+  ]},
+{ stem:"A postoperative client shows restlessness, a weak rapid pulse, hypotension, cool clammy skin, and oliguria. Which two complications share this assessment presentation?",
+  options:[
+    {text:"Hemorrhage and shock",correct:true,explain:"Restlessness, weak rapid pulse, hypotension, cool clammy skin, and oliguria are shared assessment findings for both hemorrhage and shock, since shock is often secondary to hemorrhage."},
+    {text:"Constipation and paralytic ileus",correct:false,explain:"Constipation and paralytic ileus present with GI-related findings like abdominal distention and absent bowel sounds, not this cardiovascular/circulatory presentation."},
+    {text:"Wound infection and thrombophlebitis",correct:false,explain:"Wound infection presents with fever and an inflamed incision, and thrombophlebitis presents with a positive Homans' sign and leg pain — neither matches this specific presentation as closely as hemorrhage/shock."},
+    {text:"Urinary retention and constipation",correct:false,explain:"Urinary retention and constipation present with distention and inability to void/pass stool, not this circulatory shock-type presentation."}
+  ]},
+{ stem:"What is the priority intervention for a postoperative client actively hemorrhaging?",
+  options:[
+    {text:"Apply pressure to the site of bleeding and notify the health care provider STAT",correct:true,explain:"For active hemorrhage, applying pressure to the bleeding site and notifying the health care provider STAT are priority interventions, along with monitoring vital signs and administering oxygen/IV fluids/blood as prescribed."},
+    {text:"Encourage the client to ambulate immediately",correct:false,explain:"Encouraging ambulation is not the priority intervention for active hemorrhage; controlling bleeding and notifying the provider are the priorities."},
+    {text:"Administer a laxative",correct:false,explain:"A laxative is not relevant to managing active hemorrhage; this is a GI intervention unrelated to bleeding control."},
+    {text:"Wait and reassess in one hour before taking action",correct:false,explain:"Waiting an hour is not appropriate for active hemorrhage, which requires immediate action — applying pressure and notifying the provider STAT."}
+  ]},
+{ stem:"What nursing action should the nurse take if a postoperative client develops shock?",
+  options:[
+    {text:"Elevate the legs",correct:true,explain:"If shock develops, elevating the legs is a key intervention, along with monitoring vital signs, level of consciousness, intake and output, and skin, and administering oxygen and IV fluids/blood/colloids as prescribed."},
+    {text:"Place the client in a sitting position with legs dependent",correct:false,explain:"This is the opposite of the recommended positioning; legs should be elevated, not placed in a dependent position, when shock develops."},
+    {text:"Restrict all IV fluids",correct:false,explain:"IV fluids, blood, and colloid solutions are administered as prescribed for shock, not restricted."},
+    {text:"Encourage the client to cough forcefully",correct:false,explain:"Forceful coughing is not a relevant intervention for shock; the priority interventions relate to positioning, monitoring, and fluid/oxygen administration."}
+  ]},
+{ stem:"What is a positive Homans' sign, and with which postoperative complication is it associated?",
+  options:[
+    {text:"Calf pain elicited with foot dorsiflexion, associated with thrombophlebitis",correct:true,explain:"A positive Homans' sign (though its clinical reliability is now debated) is traditionally described as calf pain elicited with dorsiflexion of the foot and is associated with thrombophlebitis."},
+    {text:"A finding associated with wound dehiscence",correct:false,explain:"A positive Homans' sign is specifically associated with thrombophlebitis, not wound dehiscence."},
+    {text:"A finding associated with paralytic ileus",correct:false,explain:"A positive Homans' sign is specifically associated with thrombophlebitis, not paralytic ileus."},
+    {text:"A finding with no clinical association to any postoperative complication",correct:false,explain:"A positive Homans' sign does have a recognized clinical association — with thrombophlebitis."}
+  ]},
+{ stem:"How should the nurse position a client's affected extremity for suspected thrombophlebitis?",
+  options:[
+    {text:"Elevate the extremity 30 degrees, without pressure in the popliteal space",correct:true,explain:"For thrombophlebitis, the affected extremity should be elevated 30 degrees, avoiding pressure in the popliteal space, which could further impair venous return."},
+    {text:"Keep the extremity flat and dependent at all times",correct:false,explain:"This is the opposite of the recommended positioning; the extremity should be elevated, not kept flat and dependent."},
+    {text:"Allow the client to dangle the legs frequently to promote circulation",correct:false,explain:"Clients with thrombophlebitis should specifically not be allowed to dangle their legs, as this can worsen venous stasis and embolization risk."},
+    {text:"Apply direct, firm pressure over the affected calf",correct:false,explain:"Direct pressure over the affected area (especially the popliteal space) should be avoided, not applied, in thrombophlebitis."}
+  ]},
+{ stem:"Which nursing interventions are appropriate for a client with thrombophlebitis?",
+  isSAL:true,
+  options:[
+    {text:"Apply antiembolic stockings as prescribed",correct:true,explain:"Applying antiembolic stockings as prescribed is an appropriate intervention for thrombophlebitis."},
+    {text:"Encourage early ambulation",correct:true,explain:"Encouraging early ambulation is an appropriate intervention for thrombophlebitis (once appropriately assessed and prescribed)."},
+    {text:"Perform passive range of motion every 2 hours",correct:true,explain:"Passive range of motion every 2 hours is an appropriate intervention for thrombophlebitis."},
+    {text:"Allow the client to sit in one position for extended periods",correct:false,explain:"Clients should specifically be instructed NOT to sit in one position for a lengthy period, as this can worsen venous stasis."}
+  ]},
+{ stem:"Which medications might the nurse administer as prescribed for a client with thrombophlebitis?",
+  options:[
+    {text:"Heparin sodium or warfarin (Coumadin)",correct:true,explain:"Heparin sodium or warfarin (Coumadin) may be administered as prescribed for thrombophlebitis, given its association with clot formation."},
+    {text:"Insulin",correct:false,explain:"Insulin is not a medication associated with thrombophlebitis treatment; anticoagulants like heparin or warfarin are used instead."},
+    {text:"Antiemetics only",correct:false,explain:"Antiemetics are not the medication specifically associated with thrombophlebitis treatment; anticoagulants are indicated instead."},
+    {text:"Antibiotics only",correct:false,explain:"While infection can complicate thrombophlebitis in some contexts, the specific medications highlighted for this condition are anticoagulants (heparin or warfarin)."}
+  ]},
+{ stem:"What is the description of urinary retention as a postoperative complication?",
+  options:[
+    {text:"Involuntary accumulation of urine in the bladder",correct:true,explain:"Urinary retention is described as the involuntary accumulation of urine in the bladder."},
+    {text:"Abnormal, infrequent passage of stool",correct:false,explain:"This describes constipation, not urinary retention."},
+    {text:"Failure of appropriate forward movement of bowel contents",correct:false,explain:"This describes paralytic ileus, not urinary retention."},
+    {text:"Loss of circulatory fluid volume",correct:false,explain:"This describes shock, not urinary retention."}
+  ]},
+{ stem:"What nursing interventions can help promote voiding in a postoperative client with urinary retention, before resorting to catheterization?",
+  isSAL:true,
+  options:[
+    {text:"Provide privacy for voiding",correct:true,explain:"Providing privacy for voiding is a recommended nursing intervention to promote voiding before catheterization."},
+    {text:"Pour warm water over the perineum",correct:true,explain:"Pouring warm water over the perineum is a recommended nursing intervention to promote voiding."},
+    {text:"Run water for the client to hear",correct:true,explain:"Running water for the client to hear is a recommended nursing intervention to promote voiding."},
+    {text:"Restrict all fluid intake",correct:false,explain:"Restricting fluid intake is not a recommended intervention for urinary retention; strict intake and output monitoring is recommended instead, not fluid restriction."}
+  ]},
+{ stem:"What is the description of constipation as a postoperative complication?",
+  options:[
+    {text:"Abnormal, infrequent passage of stool",correct:true,explain:"Constipation is described as the abnormal, infrequent passage of stool."},
+    {text:"Involuntary accumulation of urine in the bladder",correct:false,explain:"This describes urinary retention, not constipation."},
+    {text:"Failure of appropriate forward movement of bowel contents",correct:false,explain:"This describes paralytic ileus, which is a distinct condition from simple constipation."},
+    {text:"Protrusion of internal organs through the incision",correct:false,explain:"This describes wound evisceration, not constipation."}
+  ]},
+{ stem:"Up to how much fluid intake per day should the nurse encourage for a postoperative client with constipation, unless contraindicated?",
+  options:[
+    {text:"Up to 3000 mL/day",correct:true,explain:"The nurse should encourage fluid intake up to 3000 mL/day, unless contraindicated, as part of managing postoperative constipation."},
+    {text:"Up to 500 mL/day",correct:false,explain:"This amount is far too low; the recommended fluid intake for managing constipation is up to 3000 mL/day."},
+    {text:"Up to 1000 mL/day",correct:false,explain:"This amount is lower than the recommended target of up to 3000 mL/day for managing postoperative constipation."},
+    {text:"Fluid intake should be restricted entirely",correct:false,explain:"Fluid intake should be encouraged, not restricted, up to 3000 mL/day unless contraindicated, to help manage constipation."}
+  ]},
+{ stem:"What is the description of paralytic ileus?",
+  options:[
+    {text:"Failure of appropriate forward movement of bowel contents",correct:true,explain:"Paralytic ileus is described as the failure of appropriate forward movement of bowel contents."},
+    {text:"Abnormal, infrequent passage of stool",correct:false,explain:"This describes simple constipation, which is a distinct condition from paralytic ileus."},
+    {text:"Inflammation of a vein with clot formation",correct:false,explain:"This describes thrombophlebitis, not paralytic ileus."},
+    {text:"Collapse of alveoli",correct:false,explain:"This describes atelectasis, not paralytic ileus."}
+  ]},
+{ stem:"What dietary/feeding status should the nurse maintain for a client with paralytic ileus?",
+  options:[
+    {text:"NPO status until bowel sounds return",correct:true,explain:"The client should be maintained on NPO status until bowel sounds return, along with strict intake and output monitoring and maintaining patency of any nasogastric tube in place."},
+    {text:"A regular diet as tolerated",correct:false,explain:"A regular diet is not appropriate for a client with paralytic ileus; NPO status should be maintained until bowel sounds return."},
+    {text:"Clear liquids only, advancing as tolerated regardless of bowel sounds",correct:false,explain:"Diet advancement should be guided by the return of bowel sounds, not given regardless of bowel sound status; NPO status is maintained until bowel sounds return."},
+    {text:"High-fiber solid foods to stimulate bowel motility",correct:false,explain:"High-fiber solid foods are not appropriate for a client on NPO status with paralytic ileus; feeding is withheld until bowel sounds return."}
+  ]},
+{ stem:"Which assessment findings are associated with paralytic ileus?",
+  isSAL:true,
+  options:[
+    {text:"Nausea and vomiting immediately postoperatively",correct:true,explain:"Nausea and vomiting immediately postoperatively are recognized assessment findings of paralytic ileus."},
+    {text:"Abdominal distention",correct:true,explain:"Abdominal distention is a recognized assessment finding of paralytic ileus."},
+    {text:"Absence of bowel movements, bowel sounds, or flatus",correct:true,explain:"Absence of bowel movements, bowel sounds, or flatus is a recognized assessment finding of paralytic ileus."},
+    {text:"Positive Homans' sign",correct:false,explain:"A positive Homans' sign is associated with thrombophlebitis, not paralytic ileus."}
+  ]},
+{ stem:"Wound infection, as a postoperative complication, typically occurs how many days after surgery?",
+  options:[
+    {text:"3 to 6 days postoperatively",correct:true,explain:"Wound infection typically occurs 3 to 6 days postoperatively, caused by poor aseptic technique or a wound contaminated before surgical exploration."},
+    {text:"1 to 3 days postoperatively",correct:false,explain:"This timeframe is associated with atelectasis, not wound infection."},
+    {text:"Immediately during the surgical procedure only",correct:false,explain:"Wound infection is described as developing 3 to 6 days postoperatively, not exclusively during the procedure itself."},
+    {text:"2 to 3 weeks postoperatively",correct:false,explain:"This timeframe is later than the described onset of wound infection, which is 3 to 6 days postoperatively."}
+  ]},
+{ stem:"Which assessment findings are associated with wound infection?",
+  isSAL:true,
+  options:[
+    {text:"Fever and chills",correct:true,explain:"Fever and chills are recognized assessment findings of wound infection."},
+    {text:"A warm, tender, painful, inflamed incision site",correct:true,explain:"A warm, tender, painful, inflamed incision site is a recognized assessment finding of wound infection."},
+    {text:"Elevated white blood cell count",correct:true,explain:"An elevated white blood cell count is a recognized assessment finding of wound infection."},
+    {text:"A popping sensation after coughing or turning",correct:false,explain:"A popping sensation after coughing or turning is a finding associated with wound evisceration, not simple wound infection."}
+  ]},
+{ stem:"What is the priority intervention for a client with a suspected wound infection?",
+  options:[
+    {text:"Monitor temperature and vital signs, monitor the incision site, and administer antibiotics as prescribed",correct:true,explain:"For wound infection, monitoring temperature and vital signs, monitoring the incision site for signs of infection, maintaining drain patency, changing dressings as prescribed, and administering antibiotics as prescribed are the key interventions."},
+    {text:"Immediately return the client to the operating room without further assessment",correct:false,explain:"Immediate return to the operating room is not the described first-line intervention for wound infection; monitoring and antibiotic administration are the priority interventions."},
+    {text:"Withhold all antibiotics until culture results are finalized, with no interim treatment",correct:false,explain:"Antibiotics are administered as prescribed as part of wound infection management, not entirely withheld pending culture results."},
+    {text:"Apply a tight, occlusive dressing and avoid monitoring the site further",correct:false,explain:"Ongoing monitoring of the incision site is a key intervention for wound infection, not something to avoid; dressings are changed as prescribed, not simply applied once and left unmonitored."}
+  ]},
+{ stem:"What is the key difference between wound dehiscence and wound evisceration?",
+  options:[
+    {text:"Dehiscence is separation of the wound edges from the suture line, while evisceration is protrusion of internal organs through the incision",correct:true,explain:"Wound dehiscence is the separation of wound edges from the suture line, while wound evisceration — often a progression of dehiscence — involves protrusion of internal organs through the incision."},
+    {text:"Dehiscence involves organ protrusion, while evisceration involves only wound edge separation",correct:false,explain:"This reverses the definitions — dehiscence is wound edge separation, and evisceration is organ protrusion."},
+    {text:"There is no meaningful difference between these two terms",correct:false,explain:"There is a clinically important and distinct difference between these two related but different wound complications."},
+    {text:"Dehiscence occurs only in non-abdominal incisions, while evisceration occurs only in abdominal incisions",correct:false,explain:"The distinction between these terms is based on the type of wound disruption (edge separation vs. organ protrusion), not specifically on incision location alone."}
+  ]},
+{ stem:"A postoperative client reports a \"popping\" sensation after coughing, and the nurse observes loops of bowel through the incision with serosanguineous drainage from a previously dry wound. What should the nurse suspect?",
+  options:[
+    {text:"Wound evisceration",correct:true,explain:"A popping sensation after coughing or turning, along with discharge of serosanguineous fluid from a previously dry wound and appearance of loops of bowel through the wound, are classic assessment findings of wound evisceration."},
+    {text:"Simple wound infection without dehiscence",correct:false,explain:"This presentation goes beyond simple infection findings (fever, warmth, tenderness) and specifically describes organ protrusion, which is characteristic of evisceration."},
+    {text:"Thrombophlebitis",correct:false,explain:"This presentation describes a wound complication, not thrombophlebitis, which involves leg pain, swelling, and a positive Homans' sign."},
+    {text:"Paralytic ileus",correct:false,explain:"This presentation describes a wound complication (evisceration), not paralytic ileus, which involves absent bowel sounds and abdominal distention without wound disruption."}
+  ]},
+{ stem:"What is the priority nursing action for a client experiencing wound evisceration?",
+  options:[
+    {text:"Cover the wound with a sterile normal saline dressing and notify the health care provider",correct:true,explain:"For wound evisceration, the priority actions are to cover the wound with a sterile normal saline dressing and notify the health care provider immediately, along with positioning the client appropriately."},
+    {text:"Attempt to manually push the protruding organs back into the wound",correct:false,explain:"Attempting to manually reinsert protruding organs is not an appropriate nursing action; the wound should be covered with a sterile saline dressing and the provider notified instead."},
+    {text:"Apply a dry, non-sterile dressing and continue routine care",correct:false,explain:"A sterile normal saline dressing (moist, not dry and non-sterile) should be applied, and this is an emergency requiring immediate provider notification, not routine continued care."},
+    {text:"Leave the wound completely uncovered until the provider arrives",correct:false,explain:"The wound should be covered with a sterile normal saline dressing while awaiting the provider, not left completely uncovered."}
+  ]},
+{ stem:"How should the nurse position a client with abdominal wound dehiscence or evisceration?",
+  options:[
+    {text:"Low Fowler's position with knees bent",correct:true,explain:"For abdominal wound dehiscence or evisceration, the client should be placed in low Fowler's position with knees bent, which reduces tension on the abdominal incision."},
+    {text:"Flat supine position with legs straight",correct:false,explain:"This position does not reduce tension on the abdominal incision the way low Fowler's with bent knees does."},
+    {text:"Prone position",correct:false,explain:"Prone positioning is not appropriate or described for a client with abdominal wound dehiscence or evisceration."},
+    {text:"High Fowler's position with legs fully extended",correct:false,explain:"The recommended position is low, not high, Fowler's, with knees bent (not fully extended), to reduce incisional tension."}
+  ]},
+{ stem:"Why should the nurse instruct a client with an abdominal incision to splint the incision when coughing?",
+  options:[
+    {text:"To reduce strain on the incision and help prevent wound dehiscence or evisceration",correct:true,explain:"Splinting the abdominal incision when coughing helps reduce strain on the wound, which is an important preventive measure against wound dehiscence or evisceration."},
+    {text:"Splinting has no protective purpose and is done only for comfort",correct:false,explain:"Splinting serves a protective purpose beyond comfort — it specifically helps reduce strain on the incision to prevent dehiscence/evisceration."},
+    {text:"To prevent atelectasis exclusively, with no relationship to wound integrity",correct:false,explain:"While deep breathing and coughing support lung expansion, the specific reason for splinting is to protect incisional integrity, not solely to prevent atelectasis."},
+    {text:"To increase intra-abdominal pressure intentionally",correct:false,explain:"Splinting is done to reduce, not intentionally increase, strain and pressure on the incision during coughing."}
+  ]},
+{ stem:"Why might the nurse administer antiemetics to a client with an abdominal incision at risk for dehiscence or evisceration?",
+  options:[
+    {text:"To prevent vomiting, which would strain the incision",correct:true,explain:"Administering antiemetics helps prevent vomiting, which would otherwise place significant strain on an abdominal incision and increase the risk of dehiscence or evisceration."},
+    {text:"To treat an unrelated case of motion sickness",correct:false,explain:"This is not the described rationale in this content; the purpose is specifically to prevent vomiting-related strain on the incision."},
+    {text:"Antiemetics have no relevant role in wound complication prevention",correct:false,explain:"Antiemetics do have a relevant preventive role by reducing vomiting-related strain on the incision."},
+    {text:"To sedate the client so they cannot report pain",correct:false,explain:"This is not the purpose of antiemetic administration in this context; the goal is to prevent vomiting-related incisional strain, not to sedate or mask pain reporting."}
+  ]},
+{ stem:"Which criteria are part of the general discharge criteria for a client following ambulatory surgery?",
+  isSAL:true,
+  options:[
+    {text:"Alert and oriented",correct:true,explain:"Being alert and oriented is one of the general discharge criteria for ambulatory surgery clients."},
+    {text:"Has voided",correct:true,explain:"Having voided is one of the general discharge criteria for ambulatory surgery clients."},
+    {text:"Has no respiratory distress",correct:true,explain:"Having no respiratory distress is one of the general discharge criteria for ambulatory surgery clients."},
+    {text:"Has vomited at least once to confirm gag reflex",correct:false,explain:"Having no vomiting (not having vomited) is a discharge criterion; vomiting is not a required or desired finding before discharge."}
+  ]},
+{ stem:"Which additional criteria are part of the general discharge criteria for ambulatory surgery clients?",
+  isSAL:true,
+  options:[
+    {text:"Ambulates, swallows, and coughs",correct:true,explain:"The ability to ambulate, swallow, and cough is part of the general discharge criteria for ambulatory surgery clients."},
+    {text:"Experiencing minimal pain and bleeding",correct:true,explain:"Experiencing minimal pain and bleeding is part of the general discharge criteria for ambulatory surgery clients."},
+    {text:"Has someone to take them home, and the health care provider has signed the release",correct:true,explain:"Having someone to take the client home and having the health care provider's signed release are part of the general discharge criteria for ambulatory surgery clients."},
+    {text:"Has significant, uncontrolled pain that requires immediate intervention",correct:false,explain:"Significant, uncontrolled pain is the opposite of an appropriate discharge criterion; the client should be experiencing minimal pain before discharge."}
+  ]},
+{ stem:"When should discharge teaching for an ambulatory surgery client be performed?",
+  options:[
+    {text:"Prior to the procedure taking place",correct:true,explain:"Discharge teaching for ambulatory surgery clients should be performed prior to the procedure taking place, since the client may be sedated or groggy afterward and less able to retain information."},
+    {text:"Only immediately after the client wakes from anesthesia",correct:false,explain:"Discharge teaching should be performed prior to the procedure, not only immediately after waking from anesthesia when the client may still be groggy."},
+    {text:"Only after the client has already left the facility",correct:false,explain:"Teaching should occur prior to the procedure, not after the client has already left the facility."},
+    {text:"Discharge teaching is not necessary for ambulatory surgery clients",correct:false,explain:"Discharge teaching is a necessary and specifically described component of ambulatory surgery care, performed before the procedure."}
+  ]},
+{ stem:"In what format should discharge instructions be provided to an ambulatory surgery client?",
+  options:[
+    {text:"Both verbal and written instructions, in the client's primary language",correct:true,explain:"Discharge instructions should be provided both verbally and in writing, in the client's primary language, to support understanding and retention."},
+    {text:"Verbal instructions only, regardless of language",correct:false,explain:"Written instructions should also be provided, not verbal instructions alone, and instructions should be in the client's primary language."},
+    {text:"Written instructions only, in English regardless of the client's primary language",correct:false,explain:"Instructions should be provided in the client's primary language, not exclusively in English, and both verbal and written formats should be used."},
+    {text:"No specific format is necessary as long as the client acknowledges understanding",correct:false,explain:"A specific format — both verbal and written, in the client's primary language — is described as important for effective discharge teaching."}
+  ]},
+{ stem:"What topics should be covered in ambulatory surgery discharge teaching?",
+  isSAL:true,
+  options:[
+    {text:"Activity restrictions/guidelines",correct:true,explain:"Activity guidelines are part of the discharge teaching topics for ambulatory surgery clients."},
+    {text:"Medications",correct:true,explain:"Medication instructions are part of the discharge teaching topics for ambulatory surgery clients."},
+    {text:"Postoperative complications to watch for",correct:true,explain:"Information about postoperative complications is part of the discharge teaching topics for ambulatory surgery clients."},
+    {text:"Detailed instructions on performing the surgical procedure at home",correct:false,explain:"Teaching clients to perform surgical procedures themselves is not a described component of discharge teaching; the focus is on activity, medications, and complications to watch for."}
+  ]},
+{ stem:"A postoperative client reports lower abdominal pain, and the nurse palpates a distended bladder. The client has not voided since surgery. What should the nurse suspect?",
+  options:[
+    {text:"Urinary retention",correct:true,explain:"Inability to void, lower abdominal pain, and a distended bladder are classic assessment findings of urinary retention."},
+    {text:"Paralytic ileus",correct:false,explain:"Paralytic ileus involves absence of bowel sounds and abdominal distention related to the GI tract, not bladder distention and inability to void."},
+    {text:"Constipation",correct:false,explain:"Constipation involves infrequent stool passage, not bladder distention and inability to void."},
+    {text:"Wound dehiscence",correct:false,explain:"Wound dehiscence involves separation of the wound edges, not bladder-related findings."}
+  ]},
+{ stem:"A postoperative client has absent bowel sounds, abdominal distention, and has not passed flatus since surgery, with nausea and vomiting noted immediately postoperatively. What should the nurse suspect?",
+  options:[
+    {text:"Paralytic ileus",correct:true,explain:"Nausea and vomiting immediately postoperatively, along with abdominal distention and absence of bowel movements, bowel sounds, or flatus, are classic assessment findings of paralytic ileus."},
+    {text:"Urinary retention",correct:false,explain:"Urinary retention involves bladder-related findings (inability to void, distended bladder), not the GI findings described here."},
+    {text:"Wound evisceration",correct:false,explain:"Wound evisceration involves protrusion of organs through the incision, not the GI symptom pattern described here."},
+    {text:"Hemorrhage",correct:false,explain:"Hemorrhage presents with signs of blood loss (weak rapid pulse, hypotension), not the GI symptom pattern of absent bowel sounds and distention described here."}
+  ]},
+{ stem:"What is the correct order for donning (putting on) personal protective equipment (PPE)?",
+  options:[
+    {text:"Gown, mask/respirator, goggles/face shield, gloves",correct:true,explain:"The standard donning sequence is gown first, then mask/respirator, then goggles/face shield, and gloves last, ensuring gloves cover the gown cuffs for a secure barrier."},
+    {text:"Gloves, gown, mask, goggles",correct:false,explain:"Gloves should be put on last, not first, in the standard PPE donning sequence, so that they can be pulled up over the gown cuffs."},
+    {text:"Mask, gloves, gown, goggles",correct:false,explain:"This is not the standard donning order; the gown should be applied first, and gloves should be applied last."},
+    {text:"The order does not matter as long as all PPE is eventually worn",correct:false,explain:"The order does matter for donning PPE, since it affects how securely the barriers overlap and protect the wearer, particularly ensuring gloves cover gown cuffs."}
+  ]},
+{ stem:"What is the correct order for doffing (removing) personal protective equipment (PPE)?",
+  options:[
+    {text:"Gloves, goggles/face shield, gown, mask/respirator",correct:true,explain:"The standard doffing sequence is gloves first (the most contaminated item), then goggles/face shield, then gown, and mask/respirator last, since it protects the airway and is removed only after stepping away from the contaminated environment."},
+    {text:"Mask, gown, goggles, gloves",correct:false,explain:"This is not the standard doffing order; gloves should be removed first, and the mask/respirator should be removed last."},
+    {text:"Gown, gloves, mask, goggles",correct:false,explain:"This is not the standard doffing order; gloves are removed first (as the most contaminated item), and the mask is removed last."},
+    {text:"The order of removal does not matter for infection control",correct:false,explain:"The order of PPE removal is specifically important for infection control, minimizing the risk of self-contamination during doffing."}
+  ]},
+{ stem:"After removing gloves as part of doffing PPE, what is the priority next action?",
+  options:[
+    {text:"Perform hand hygiene",correct:true,explain:"Hand hygiene should be performed immediately after glove removal, since gloves can develop microscopic tears or become contaminated during use and removal."},
+    {text:"Immediately touch the face or adjust the mask",correct:false,explain:"Touching the face or mask without first performing hand hygiene risks self-contamination; hand hygiene should occur first."},
+    {text:"Reuse the same gloves for the next task",correct:false,explain:"Gloves should never be reused between tasks or clients; new gloves should be applied as needed after hand hygiene."},
+    {text:"Proceed directly to the next client without any further action",correct:false,explain:"Hand hygiene is a critical step that should not be skipped before proceeding to the next task or client."}
+  ]},
+{ stem:"Which type of precautions would the nurse implement for a client diagnosed with tuberculosis?",
+  options:[
+    {text:"Airborne precautions, including an N95 respirator and a negative-pressure room",correct:true,explain:"Tuberculosis is spread via airborne droplet nuclei that can remain suspended in air and travel long distances, requiring airborne precautions with an N95 (or higher) respirator and placement in a negative-pressure room."},
+    {text:"Contact precautions only",correct:false,explain:"Contact precautions alone are insufficient for TB, which requires airborne precautions given its transmission via small airborne particles."},
+    {text:"Droplet precautions only",correct:false,explain:"Droplet precautions are used for infections spread by larger respiratory droplets over shorter distances; TB requires airborne precautions given its different transmission characteristics."},
+    {text:"Standard precautions only, with no additional precautions needed",correct:false,explain:"TB requires airborne precautions in addition to standard precautions, given its high transmissibility via airborne particles."}
+  ]},
+{ stem:"Which type of precautions would the nurse implement for a client with influenza?",
+  options:[
+    {text:"Droplet precautions, including a surgical mask when within 3 feet of the client",correct:true,explain:"Influenza is spread via larger respiratory droplets over shorter distances, requiring droplet precautions, including a surgical mask when working within about 3 feet of the client."},
+    {text:"Airborne precautions with an N95 respirator",correct:false,explain:"Influenza does not require airborne precautions with an N95 respirator; it is managed with droplet precautions given its transmission via larger respiratory droplets."},
+    {text:"Contact precautions only",correct:false,explain:"Contact precautions alone are not the primary precaution category for influenza; droplet precautions are indicated given its respiratory transmission route."},
+    {text:"No precautions beyond standard precautions are needed",correct:false,explain:"Influenza requires droplet precautions in addition to standard precautions, given its transmissibility via respiratory droplets."}
+  ]},
+{ stem:"Which type of precautions would the nurse implement for a client with a wound infected with methicillin-resistant Staphylococcus aureus (MRSA)?",
+  options:[
+    {text:"Contact precautions, including gown and gloves for any contact with the client or their environment",correct:true,explain:"MRSA wound infections require contact precautions, including gown and gloves for any contact with the client or their immediate environment, since transmission occurs through direct or indirect contact."},
+    {text:"Airborne precautions with an N95 respirator",correct:false,explain:"MRSA wound infection does not require airborne precautions; it is managed with contact precautions given its transmission through direct/indirect contact, not airborne particles."},
+    {text:"Droplet precautions only",correct:false,explain:"Droplet precautions are not the primary category for a MRSA wound infection; contact precautions are indicated given the contact-based transmission route."},
+    {text:"No precautions beyond standard precautions are needed",correct:false,explain:"MRSA wound infection requires contact precautions in addition to standard precautions, given the risk of transmission through contact."}
+  ]},
+{ stem:"What is included in standard precautions, which should be used with all clients regardless of diagnosis?",
+  isSAL:true,
+  options:[
+    {text:"Hand hygiene",correct:true,explain:"Hand hygiene is a core component of standard precautions used with all clients."},
+    {text:"Use of gloves when contact with blood or body fluids is anticipated",correct:true,explain:"Using gloves when contact with blood or body fluids is anticipated is a core component of standard precautions."},
+    {text:"Safe injection practices",correct:true,explain:"Safe injection practices are a core component of standard precautions."},
+    {text:"Airborne isolation for every client regardless of diagnosis",correct:false,explain:"Airborne isolation is not part of standard precautions for every client; it is a transmission-based precaution used only for specific diagnoses requiring airborne protection."}
+  ]},
+{ stem:"A nurse is caring for a client at high risk for falls. Which interventions are appropriate fall-prevention strategies?",
+  isSAL:true,
+  options:[
+    {text:"Keep the bed in the lowest position with wheels locked",correct:true,explain:"Keeping the bed in the lowest position with wheels locked is a standard, appropriate fall-prevention intervention."},
+    {text:"Ensure the call light is within reach",correct:true,explain:"Ensuring the call light is within reach is a standard, appropriate fall-prevention intervention, allowing the client to call for assistance."},
+    {text:"Use a bed/chair alarm as appropriate",correct:true,explain:"Using a bed or chair alarm as appropriate is a recognized fall-prevention intervention to alert staff when a high-risk client attempts to get up unassisted."},
+    {text:"Keep the room dimly lit at all times to encourage rest",correct:false,explain:"Keeping the room dimly lit is not a fall-prevention strategy and can actually increase fall risk by making it harder for the client to see; adequate lighting is recommended instead."}
+  ]},
+{ stem:"What is the priority nursing consideration before applying physical restraints to a client?",
+  options:[
+    {text:"Exhaust all reasonable less-restrictive alternatives first, and ensure restraints are used only as a last resort with a valid provider order",correct:true,explain:"Physical restraints should only be used as a last resort after less-restrictive alternatives have been exhausted, and a valid provider order is required, given the significant risks and ethical/legal considerations associated with restraint use."},
+    {text:"Apply restraints immediately for any client exhibiting confusion",correct:false,explain:"Restraints should not be applied immediately or automatically based on confusion alone; less-restrictive alternatives should be tried first, and specific criteria and orders are required."},
+    {text:"Restraints can be applied without a provider order in any situation",correct:false,explain:"A valid provider order is required for restraint use (except in specific emergency circumstances defined by policy, which still require prompt follow-up documentation and order), not applied without any order."},
+    {text:"Once applied, restraints can remain in place indefinitely without reassessment",correct:false,explain:"Restraints require regular, frequent reassessment and are not left in place indefinitely without evaluation of continued need and client status."}
+  ]},
+{ stem:"How often should a client in physical restraints be assessed by the nurse, according to general safety standards?",
+  options:[
+    {text:"At least every 1–2 hours, or per specific facility policy, including circulation, skin integrity, and continued need for the restraint",correct:true,explain:"Clients in physical restraints require frequent assessment (typically at least every 1–2 hours or per specific facility policy) to evaluate circulation, skin integrity, psychological status, and whether the restraint continues to be necessary."},
+    {text:"Once every 24 hours is sufficient",correct:false,explain:"Once every 24 hours is far too infrequent for a client in restraints; much more frequent assessment (typically every 1–2 hours or per policy) is required."},
+    {text:"No regular assessment is required once restraints are applied",correct:false,explain:"Regular, frequent assessment is a critical safety requirement for any client in restraints, not something that can be omitted."},
+    {text:"Only at the very end of the shift",correct:false,explain:"Assessment only at the end of the shift is far too infrequent; frequent, ongoing assessment throughout the period of restraint use is required."}
+  ]},
+{ stem:"What does the acronym RACE represent in fire safety protocol?",
+  options:[
+    {text:"Rescue, Alarm, Confine, Extinguish/Evacuate",correct:true,explain:"RACE stands for Rescue (remove anyone in immediate danger), Alarm (activate the fire alarm), Confine (close doors to contain the fire/smoke), and Extinguish or Evacuate (depending on the situation)."},
+    {text:"Report, Assess, Call, Escape",correct:false,explain:"This is not the correct RACE acronym; the correct sequence is Rescue, Alarm, Confine, Extinguish/Evacuate."},
+    {text:"Run, Alert, Call, Exit",correct:false,explain:"This is not the correct RACE acronym; the correct sequence is Rescue, Alarm, Confine, Extinguish/Evacuate."},
+    {text:"Retreat, Assess, Contain, Evaluate",correct:false,explain:"This is not the correct RACE acronym; the correct sequence is Rescue, Alarm, Confine, Extinguish/Evacuate."}
+  ]},
+{ stem:"What does the acronym PASS represent when using a fire extinguisher?",
+  options:[
+    {text:"Pull, Aim, Squeeze, Sweep",correct:true,explain:"PASS stands for Pull (the pin), Aim (at the base of the fire), Squeeze (the handle), and Sweep (side to side), describing the correct technique for using a fire extinguisher."},
+    {text:"Push, Alert, Signal, Stop",correct:false,explain:"This is not the correct PASS acronym; the correct sequence is Pull, Aim, Squeeze, Sweep."},
+    {text:"Prepare, Assess, Spray, Stand back",correct:false,explain:"This is not the correct PASS acronym; the correct sequence is Pull, Aim, Squeeze, Sweep."},
+    {text:"Point, Aim, Spray, Step back",correct:false,explain:"This is not the correct PASS acronym; the correct sequence is Pull, Aim, Squeeze, Sweep."}
+  ]},
+{ stem:"During a fire in a client's room, in what order should the nurse prioritize the RACE steps?",
+  options:[
+    {text:"First rescue anyone in immediate danger, then activate the alarm, then confine the fire by closing doors, then extinguish (if small/safe) or evacuate",correct:true,explain:"The RACE sequence prioritizes rescuing anyone in immediate danger first, then activating the alarm, then confining the fire by closing doors, and finally extinguishing (if the fire is small and safe to do so) or evacuating as needed."},
+    {text:"First extinguish the fire before doing anything else, regardless of client safety",correct:false,explain:"Rescuing anyone in immediate danger takes priority over extinguishing the fire; this is the first step of RACE, not last."},
+    {text:"The order of RACE steps does not matter in an emergency",correct:false,explain:"The order of RACE does matter, prioritizing life safety (rescue) first, followed by alarm, confinement, and extinguish/evacuate."},
+    {text:"Confine the fire before rescuing anyone in danger",correct:false,explain:"Rescue takes priority over confinement; anyone in immediate danger should be rescued first, before confining the fire."}
+  ]},
+{ stem:"What is the difference between medical asepsis and surgical asepsis?",
+  options:[
+    {text:"Medical asepsis (clean technique) reduces the number of microorganisms, while surgical asepsis (sterile technique) eliminates all microorganisms from a specific area",correct:true,explain:"Medical asepsis, or clean technique, aims to reduce the number and spread of microorganisms (e.g., hand hygiene, clean gloves), while surgical asepsis, or sterile technique, aims to eliminate all microorganisms from a specific field or area (e.g., during invasive procedures)."},
+    {text:"Medical asepsis and surgical asepsis are the same concept with different names",correct:false,explain:"These are distinct concepts — medical asepsis reduces microorganisms (clean technique), while surgical asepsis eliminates them entirely from a specific area (sterile technique)."},
+    {text:"Surgical asepsis is used for all routine nursing care, while medical asepsis is reserved for invasive procedures",correct:false,explain:"This reverses the typical application — medical asepsis (clean technique) is used for most routine nursing care, while surgical asepsis (sterile technique) is reserved for invasive procedures."},
+    {text:"Neither concept is relevant to modern nursing practice",correct:false,explain:"Both medical and surgical asepsis are foundational, highly relevant concepts in nursing practice for infection prevention."}
+  ]},
+{ stem:"Which nursing action reflects appropriate sterile technique during a dressing change requiring surgical asepsis?",
+  options:[
+    {text:"Keeping sterile items within the sterile field and avoiding reaching over the sterile field with non-sterile items",correct:true,explain:"Maintaining sterile technique requires keeping sterile items within the sterile field and avoiding reaching over the sterile field with non-sterile items or body parts, which could contaminate the field."},
+    {text:"Touching sterile gloves to the outside packaging before donning them",correct:false,explain:"Touching sterile gloves to non-sterile outside packaging would contaminate the gloves; proper technique avoids this contact."},
+    {text:"Considering the edges of a sterile field to be sterile",correct:false,explain:"The outer 1-inch edge of a sterile field is considered contaminated, not sterile, and should not be used for placing sterile items."},
+    {text:"Turning your back on a sterile field once it is set up",correct:false,explain:"Turning your back on a sterile field risks inadvertent contamination; the sterile field should be kept in view and protected at all times."}
+  ]},
+{ stem:"A nurse finds a used needle on a client's bedside table without a safety cap. What is the priority nursing action?",
+  options:[
+    {text:"Dispose of the needle immediately in an appropriate sharps container, using proper technique to avoid a needlestick injury",correct:true,explain:"An uncapped, used needle poses a significant sharps injury risk; it should be disposed of immediately and properly in a sharps container, using safe handling technique (e.g., never recapping) to avoid injury to self or others."},
+    {text:"Leave the needle in place until the end of the shift",correct:false,explain:"Leaving an uncapped needle in place poses an ongoing safety hazard and should be addressed immediately, not left until later."},
+    {text:"Recap the needle by hand before disposal",correct:false,explain:"Needles should never be recapped by hand, as this significantly increases the risk of an accidental needlestick injury; needles should go directly into a sharps container."},
+    {text:"Dispose of the needle in the regular trash",correct:false,explain:"Needles must be disposed of in a designated sharps container, never in regular trash, due to injury and infection control risks."}
+  ]},
+{ stem:"A nurse sustains a needlestick injury from a needle used on a client. What is the priority immediate action?",
+  options:[
+    {text:"Wash the area immediately with soap and water, then report the incident per facility policy for further evaluation and follow-up",correct:true,explain:"Following a needlestick injury, the priority immediate action is to wash the area thoroughly with soap and water, then report the incident per facility policy, which typically includes further evaluation, possible testing, and follow-up care/prophylaxis as indicated."},
+    {text:"Ignore the injury if it appears minor",correct:false,explain:"Even a seemingly minor needlestick injury requires prompt washing and reporting, given the potential for bloodborne pathogen exposure."},
+    {text:"Wait until the end of the shift to report the injury",correct:false,explain:"Needlestick injuries should be reported promptly, not delayed until the end of the shift, given the time-sensitive nature of potential post-exposure evaluation and prophylaxis."},
+    {text:"Apply a tourniquet to the affected area",correct:false,explain:"A tourniquet is not an appropriate or recommended response to a needlestick injury; washing the area and prompt reporting are the priority actions."}
+  ]},
+{ stem:"What is a sentinel event, as defined in the context of patient safety?",
+  options:[
+    {text:"An unexpected occurrence involving death or serious physical or psychological injury, unrelated to the natural course of the client's illness",correct:true,explain:"A sentinel event is an unexpected occurrence involving death or serious physical or psychological injury (or the risk thereof) that is not related to the natural course of the client's illness, requiring immediate investigation and response."},
+    {text:"Any minor, expected adverse effect of a medication",correct:false,explain:"A minor, expected adverse effect is not a sentinel event; sentinel events involve serious, unexpected harm unrelated to the natural course of illness."},
+    {text:"A routine, expected complication of a surgical procedure",correct:false,explain:"A routine, expected complication is not a sentinel event; sentinel events are specifically unexpected and unrelated to the natural course of illness or expected treatment risks."},
+    {text:"A term with no specific meaning in patient safety contexts",correct:false,explain:"Sentinel event is a specifically defined term in patient safety and quality improvement contexts, not a term without meaning."}
+  ]},
+{ stem:"What is the purpose of a root cause analysis (RCA) after a sentinel event?",
+  options:[
+    {text:"To systematically identify the underlying contributing factors and system issues that led to the event, in order to prevent recurrence",correct:true,explain:"A root cause analysis is conducted after a sentinel event to systematically identify the underlying contributing factors and system-level issues (rather than focusing solely on individual blame) that led to the event, with the goal of implementing changes to prevent similar events in the future."},
+    {text:"To assign blame to a single individual responsible for the event",correct:false,explain:"The purpose of RCA is to identify systemic contributing factors, not to focus on assigning blame to a single individual; a just, systems-focused approach is emphasized."},
+    {text:"To avoid any further investigation into the event",correct:false,explain:"RCA is itself a thorough investigative process, not a way to avoid further investigation."},
+    {text:"To determine financial compensation for the affected client",correct:false,explain:"RCA is a patient safety and quality improvement process focused on identifying contributing factors and preventing recurrence, not primarily a mechanism for determining financial compensation."}
+  ]},
+{ stem:"A nurse discovers a medication error was made in administering a client's morning medications. What is the priority nursing action?",
+  options:[
+    {text:"Assess the client for any adverse effects, notify the provider, and complete an incident report per facility policy",correct:true,explain:"Upon discovering a medication error, the priority actions are to assess the client for any adverse effects from the error, notify the provider promptly, and complete an incident report per facility policy to document the event and support quality improvement."},
+    {text:"Say nothing and hope the error causes no harm",correct:false,explain:"Failing to report a medication error is inappropriate and unsafe; the client must be assessed and the error reported to ensure appropriate follow-up and prevent recurrence."},
+    {text:"Wait 24 hours to see if any symptoms develop before taking any action",correct:false,explain:"Waiting 24 hours before taking any action is not appropriate; the client should be assessed and the error reported promptly, not delayed."},
+    {text:"Document the correct medication as if the error did not occur",correct:false,explain:"Falsifying documentation is never appropriate and is a serious ethical and legal violation; the actual error must be accurately documented and reported."}
+  ]},
+{ stem:"What is the purpose of an incident report (occurrence report) in nursing practice?",
+  options:[
+    {text:"To document unusual events or errors for internal quality improvement and risk management purposes, separate from the client's medical record",correct:true,explain:"An incident report is used to document unusual events, errors, or near-misses for internal quality improvement, trend analysis, and risk management purposes; it is a separate document from the client's medical record and is not typically referenced within it."},
+    {text:"To serve as a permanent part of the client's medical record",correct:false,explain:"Incident reports are generally maintained separately from the client's medical record and are not typically referenced within the chart, given their internal quality improvement purpose."},
+    {text:"To assign disciplinary action to staff members automatically",correct:false,explain:"The primary purpose of an incident report is quality improvement and risk management, not automatic disciplinary action; a just culture approach focuses on systemic learning."},
+    {text:"Incident reports have no meaningful purpose in nursing practice",correct:false,explain:"Incident reports serve an important, specifically defined purpose in quality improvement and risk management, not a meaningless one."}
+  ]},
+{ stem:"A client is on seizure precautions. Which interventions are appropriate components of seizure precautions?",
+  isSAL:true,
+  options:[
+    {text:"Padding the side rails of the bed",correct:true,explain:"Padding the side rails is an appropriate seizure precaution to reduce injury risk if a seizure occurs while the client is in bed."},
+    {text:"Keeping suction equipment readily available at the bedside",correct:true,explain:"Keeping suction equipment readily available is an appropriate seizure precaution, given the risk of airway compromise from secretions during or after a seizure."},
+    {text:"Keeping the bed in a low position",correct:true,explain:"Keeping the bed in a low position is an appropriate seizure precaution to reduce fall/injury risk."},
+    {text:"Placing a tongue depressor at the bedside to insert into the client's mouth during a seizure",correct:false,explain:"Inserting any object into a client's mouth during a seizure is contraindicated and dangerous, risking injury to the client and airway obstruction; this is not part of appropriate seizure precautions."}
+  ]},
+{ stem:"During an active seizure, what is the priority nursing action?",
+  options:[
+    {text:"Protect the client from injury (e.g., padding/removing nearby hazards) and maintain a patent airway, without restraining the client's movements",correct:true,explain:"During an active seizure, the priority nursing actions are to protect the client from injury by removing nearby hazards or padding the area, and to help maintain a patent airway (e.g., positioning the client on their side if possible), without attempting to restrain the client's movements, which could cause injury."},
+    {text:"Restrain the client's limbs to stop the seizure movements",correct:false,explain:"Restraining a client's limbs during a seizure is contraindicated and can cause injury; the priority is protecting the client from injury, not restraining movement."},
+    {text:"Insert a tongue depressor or other object into the client's mouth",correct:false,explain:"Inserting any object into the mouth during a seizure is dangerous and contraindicated, risking airway obstruction and injury."},
+    {text:"Leave the client unattended to get help immediately",correct:false,explain:"The client should not be left unattended during an active seizure if at all possible; the nurse should stay with the client to ensure safety while calling for help as needed (e.g., using the call light or having someone else notify the team)."}
+  ]},
+{ stem:"A client with a documented latex allergy requires a procedure. What is the priority nursing consideration?",
+  options:[
+    {text:"Ensure a latex-free environment and latex-free supplies are used throughout the client's care",correct:true,explain:"For a client with a documented latex allergy, ensuring a latex-free environment and latex-free supplies throughout their care is the priority consideration to prevent a potentially serious allergic reaction."},
+    {text:"Standard latex gloves and supplies can be used as long as the client does not directly touch them",correct:false,explain:"This is not sufficient; even indirect or airborne exposure to latex particles can potentially trigger a reaction in a client with a significant latex allergy, so a comprehensive latex-free approach is needed."},
+    {text:"Latex allergy is not a significant safety concern requiring special precautions",correct:false,explain:"Latex allergy can be a significant, even life-threatening safety concern (including anaphylaxis) requiring specific latex-free precautions, not something to disregard."},
+    {text:"Only the surgical team needs to be aware of the latex allergy, not other staff",correct:false,explain:"All staff involved in the client's care should be aware of the latex allergy and ensure a latex-free approach throughout, not just the surgical team."}
+  ]},
+{ stem:"Which client statement indicates a need for further teaching about home fire safety and prevention?",
+  options:[
+    {text:"\"I only need to test my smoke detectors once every few years.\"",correct:true,explain:"This statement indicates a need for further teaching — smoke detectors should be tested monthly, with batteries replaced at least annually (or per manufacturer guidance), not only once every few years."},
+    {text:"\"I have an escape plan and know two ways out of every room.\"",correct:false,explain:"This statement reflects correct fire safety teaching and does not indicate a need for further teaching."},
+    {text:"\"I keep a fire extinguisher in my kitchen.\"",correct:false,explain:"This statement reflects correct fire safety teaching and does not indicate a need for further teaching."},
+    {text:"\"I know to stay low to the ground if there is smoke.\"",correct:false,explain:"This statement reflects correct fire safety teaching and does not indicate a need for further teaching."}
+  ]},
+{ stem:"A nurse is teaching a client's family about home safety to prevent accidental poisoning in a household with young children. Which teaching point is most appropriate?",
+  options:[
+    {text:"Store all medications and cleaning products in their original, labeled containers, out of reach and sight of children",correct:true,explain:"Storing medications and cleaning products in their original, labeled containers, out of reach and sight of children, is a key home safety teaching point to help prevent accidental poisoning."},
+    {text:"It is acceptable to store medications in unlabeled containers as long as they are in a cabinet",correct:false,explain:"Medications should always remain in their original, labeled containers, regardless of storage location, to prevent confusion and accidental ingestion."},
+    {text:"Medications can be left on a low countertop as long as an adult is nearby",correct:false,explain:"Medications should be stored out of reach and sight of children, not left accessible on a countertop, even with adult supervision nearby."},
+    {text:"Child-resistant caps make it unnecessary to store medications out of reach",correct:false,explain:"Child-resistant caps are an additional safety measure but do not replace the need to store medications out of reach and sight of children, since children can sometimes bypass these caps."}
+  ]},
+{ stem:"What is the recommended hand hygiene technique when hands are visibly soiled?",
+  options:[
+    {text:"Wash with soap and water, since alcohol-based hand sanitizer is not effective for visibly soiled hands",correct:true,explain:"When hands are visibly soiled, they should be washed with soap and water, since alcohol-based hand sanitizers are not effective at removing visible soil or certain organisms (like C. diff spores) and are recommended only for hands that are not visibly dirty."},
+    {text:"Alcohol-based hand sanitizer is equally effective as soap and water for visibly soiled hands",correct:false,explain:"Alcohol-based hand sanitizer is not effective for visibly soiled hands; soap and water should be used in this situation."},
+    {text:"No hand hygiene is needed if gloves were worn",correct:false,explain:"Hand hygiene is still required after glove removal, regardless of visible soiling, given the potential for contamination during glove use and removal."},
+    {text:"Hand hygiene technique does not matter as long as some form is performed",correct:false,explain:"The specific technique does matter — soap and water is required for visibly soiled hands, since alcohol-based sanitizer is not effective in this situation."}
+  ]},
+{ stem:"When is alcohol-based hand sanitizer an appropriate choice for hand hygiene?",
+  options:[
+    {text:"When hands are not visibly soiled, as a fast and effective option between client contacts",correct:true,explain:"Alcohol-based hand sanitizer is an appropriate, fast, and effective choice for hand hygiene when hands are not visibly soiled, and is widely used between client contacts in most clinical situations."},
+    {text:"When caring for a client with C. difficile infection, as the preferred method",correct:false,explain:"Alcohol-based hand sanitizer is not effective against C. difficile spores; soap and water should be used instead when caring for a client with C. diff."},
+    {text:"When hands are visibly soiled with blood or body fluids",correct:false,explain:"Alcohol-based hand sanitizer is not appropriate for visibly soiled hands; soap and water should be used in this situation."},
+    {text:"Alcohol-based hand sanitizer should never be used in a healthcare setting",correct:false,explain:"Alcohol-based hand sanitizer is widely used and appropriate in healthcare settings when hands are not visibly soiled and the client does not have a spore-forming organism like C. diff."}
+  ]},
+{ stem:"A postoperative client's wound drain (e.g., a Jackson-Pratt drain) requires nursing management. What is an important nursing consideration?",
+  options:[
+    {text:"Regularly empty and measure drainage, maintain patency, and monitor the characteristics of the drainage for signs of infection or complications",correct:true,explain:"Nursing management of a wound drain includes regularly emptying and measuring drainage, maintaining patency (e.g., ensuring appropriate suction/compression as designed), and monitoring drainage characteristics (color, amount, odor) for signs of infection or other complications."},
+    {text:"Drains never need to be emptied or monitored once placed",correct:false,explain:"Drains require regular emptying, measurement, and monitoring; they are not a \"set and forget\" device."},
+    {text:"Increased, cloudy, or foul-smelling drainage is an expected, harmless finding requiring no action",correct:false,explain:"Increased, cloudy, or foul-smelling drainage can indicate infection or other complications and should be reported, not dismissed as harmless."},
+    {text:"The drain should be removed by the nurse without any provider involvement whenever the nurse feels it is appropriate",correct:false,explain:"Drain removal typically requires a provider order or specific protocol; it is not performed based solely on independent nursing judgment without appropriate authorization."}
+  ]},
+{ stem:"A postoperative client is prescribed incentive spirometry. What is the purpose of this device, and how often should it typically be used?",
+  options:[
+    {text:"To promote lung expansion and prevent atelectasis, typically used every 1–2 hours while awake",correct:true,explain:"Incentive spirometry promotes deep lung expansion to help prevent postoperative atelectasis and pneumonia; it is typically used every 1–2 hours while the client is awake, per protocol."},
+    {text:"To measure the client's blood pressure",correct:false,explain:"Incentive spirometry is a respiratory device used to promote lung expansion, not a blood pressure measurement tool."},
+    {text:"To administer nebulized medications",correct:false,explain:"Incentive spirometry is a breathing exercise device to promote lung expansion; it does not administer nebulized medications."},
+    {text:"It is used only once immediately after surgery, with no further use needed",correct:false,explain:"Incentive spirometry is used repeatedly throughout the postoperative period (typically every 1–2 hours while awake), not just once immediately after surgery."}
+  ]},
+{ stem:"A postoperative client asks why early ambulation is encouraged so soon after surgery. What is the nurse's best explanation?",
+  options:[
+    {text:"Early ambulation helps prevent complications such as atelectasis, pneumonia, thromboembolism, constipation, and paralytic ileus",correct:true,explain:"Early ambulation is encouraged postoperatively because it helps prevent multiple complications, including atelectasis, pneumonia, thromboembolism (blood clots), constipation, and paralytic ileus, by promoting circulation, lung expansion, and bowel motility."},
+    {text:"Early ambulation has no effect on postoperative complications",correct:false,explain:"Early ambulation has a well-documented, significant effect on reducing multiple postoperative complications, making this statement inaccurate."},
+    {text:"Early ambulation is only important for cardiac surgery clients",correct:false,explain:"Early ambulation is broadly beneficial for most postoperative clients, not limited specifically to cardiac surgery clients."},
+    {text:"Early ambulation increases the risk of wound dehiscence in all clients and should be avoided",correct:false,explain:"While clients with abdominal incisions are taught to splint their incision during activities like coughing, early ambulation itself is generally encouraged and beneficial, not something to avoid due to dehiscence risk in the general postoperative population."}
+  ]},
+{ stem:"A client with an indwelling urinary catheter is at risk for catheter-associated urinary tract infection (CAUTI). Which nursing interventions help reduce this risk?",
+  isSAL:true,
+  options:[
+    {text:"Maintain a closed, sterile drainage system",correct:true,explain:"Maintaining a closed, sterile drainage system is a key intervention to reduce CAUTI risk."},
+    {text:"Keep the drainage bag below the level of the bladder",correct:true,explain:"Keeping the drainage bag below the level of the bladder prevents backflow of urine, reducing CAUTI risk."},
+    {text:"Assess daily for continued necessity of the catheter and remove it as soon as clinically appropriate",correct:true,explain:"Assessing daily for continued necessity and prompt removal when no longer needed is a key evidence-based strategy to reduce CAUTI risk, since risk increases the longer a catheter remains in place."},
+    {text:"Routinely irrigate the catheter with saline as a preventive measure",correct:false,explain:"Routine catheter irrigation is not a recommended CAUTI prevention strategy and can actually increase infection risk by introducing a portal for organisms; irrigation is performed only when specifically indicated, not routinely."}
+  ]},
+{ stem:"A client is scheduled for surgery and reports taking an herbal supplement (e.g., ginkgo biloba) regularly. Why is this information important for the surgical team to know preoperatively?",
+  options:[
+    {text:"Some herbal supplements can increase bleeding risk or interact with anesthesia, so they may need to be discontinued before surgery per provider guidance",correct:true,explain:"Certain herbal supplements, such as ginkgo biloba, can increase bleeding risk or interact with anesthetic agents; this information is important for the surgical team to know so they can advise on discontinuation timing per provider guidance before surgery."},
+    {text:"Herbal supplements have no relevance to surgical safety",correct:false,explain:"Herbal supplements can have significant relevance to surgical safety, including bleeding risk and anesthesia interactions, making this information important to disclose."},
+    {text:"Herbal supplements should always be continued without any changes before surgery",correct:false,explain:"Some herbal supplements need to be discontinued before surgery due to bleeding or interaction risks; this is not a blanket \"always continue\" situation."},
+    {text:"This information is only relevant for prescription medications, not herbal supplements",correct:false,explain:"Herbal supplements, despite being over-the-counter, can have significant surgical relevance and should be disclosed and discussed, not dismissed as irrelevant compared to prescription medications."}
+  ]},
+{ stem:"A client is being discharged home after outpatient surgery under general anesthesia. Which discharge instruction is most important regarding activity for the first 24 hours?",
+  options:[
+    {text:"Avoid driving, operating heavy machinery, or making important decisions for at least 24 hours, since anesthesia and sedative effects may linger",correct:true,explain:"After general anesthesia or sedation, clients should avoid driving, operating heavy machinery, or making important decisions for at least 24 hours, since residual effects of anesthesia/sedation can impair judgment, coordination, and reaction time even after the client feels alert."},
+    {text:"The client may resume driving immediately after leaving the facility",correct:false,explain:"Driving immediately after anesthesia is not safe, given the risk of lingering sedative effects; clients should avoid driving for at least 24 hours."},
+    {text:"There are no activity restrictions after outpatient surgery with general anesthesia",correct:false,explain:"There are specific, important activity restrictions (avoiding driving, machinery, important decisions) for at least 24 hours after general anesthesia."},
+    {text:"The client should engage in strenuous exercise to help the anesthesia wear off faster",correct:false,explain:"Strenuous exercise is not recommended to help anesthesia wear off; the client should rest and avoid risky activities during the recovery period."}
+  ]},
+{ stem:"A client scheduled for surgery has a known allergy to iodine. What is the priority nursing consideration related to this allergy?",
+  options:[
+    {text:"Alert the surgical team, since iodine-based antiseptic solutions are commonly used for skin preparation and an alternative should be used",correct:true,explain:"An iodine allergy is important to communicate to the surgical team, since iodine-based solutions (e.g., povidone-iodine) are commonly used for preoperative skin antisepsis; an alternative antiseptic should be selected to avoid triggering an allergic reaction."},
+    {text:"This allergy has no relevance to surgical care",correct:false,explain:"An iodine allergy is directly relevant to surgical care, given the common use of iodine-based skin preparation solutions."},
+    {text:"Iodine-based skin preparation should be used regardless of this allergy",correct:false,explain:"Iodine-based preparation should specifically be avoided, with an alternative antiseptic used, given the documented allergy."},
+    {text:"This allergy only matters if the client is also allergic to shellfish",correct:false,explain:"An iodine allergy itself (independent of any shellfish allergy, which is now understood to have a different mechanism) is directly relevant and should be addressed regardless of shellfish allergy status."}
+  ]},
+{ stem:"What is the purpose of a surgical time-out, performed immediately before an invasive procedure begins?",
+  options:[
+    {text:"To verify the correct client, correct procedure, and correct site, as a final safety check before proceeding",correct:true,explain:"A surgical time-out is a final safety check performed immediately before an invasive procedure begins, verifying the correct client, correct procedure, and correct site to help prevent wrong-site, wrong-procedure, or wrong-client errors."},
+    {text:"To allow the surgical team to take a break before the procedure",correct:false,explain:"A surgical time-out is a structured safety verification process, not simply a break for the team."},
+    {text:"To administer anesthesia to the client",correct:false,explain:"A surgical time-out is a verification/safety check, not the point at which anesthesia is administered."},
+    {text:"This process has no meaningful safety function",correct:false,explain:"The surgical time-out has a specific, well-established safety function — preventing wrong-site/wrong-procedure/wrong-client errors — not a meaningless step."}
+  ]},
+{ stem:"Which elements are typically verified during a surgical time-out?",
+  isSAL:true,
+  options:[
+    {text:"Correct client identity",correct:true,explain:"Verifying correct client identity is a core element of the surgical time-out."},
+    {text:"Correct procedure to be performed",correct:true,explain:"Verifying the correct procedure to be performed is a core element of the surgical time-out."},
+    {text:"Correct surgical site, including laterality if applicable",correct:true,explain:"Verifying the correct surgical site, including laterality (e.g., left vs. right) if applicable, is a core element of the surgical time-out."},
+    {text:"The client's insurance information",correct:false,explain:"Insurance information is not part of the clinical safety verification performed during a surgical time-out, which focuses on client identity, procedure, and site."}
+  ]},
+{ stem:"A client is admitted with a suspected C. difficile infection. Which type of hand hygiene is specifically recommended when caring for this client, and why?",
+  options:[
+    {text:"Soap and water, since alcohol-based hand sanitizer is not effective against C. difficile spores",correct:true,explain:"Soap and water hand hygiene is specifically recommended when caring for a client with C. difficile, since alcohol-based hand sanitizers are not effective at killing or removing C. diff spores, which require the mechanical action of handwashing."},
+    {text:"Alcohol-based hand sanitizer is preferred for C. difficile precautions",correct:false,explain:"Alcohol-based hand sanitizer is specifically NOT effective against C. diff spores; soap and water must be used instead."},
+    {text:"No special hand hygiene consideration is needed for C. difficile",correct:false,explain:"C. difficile does require a specific hand hygiene consideration — using soap and water rather than alcohol-based sanitizer — given the spore-forming nature of this organism."},
+    {text:"Hand hygiene is not necessary as long as gloves are worn",correct:false,explain:"Hand hygiene remains necessary even with glove use, given the potential for contamination during glove removal or breaches in glove integrity."}
+  ]},
+{ stem:"What type of precautions are indicated for a client with suspected or confirmed C. difficile infection?",
+  options:[
+    {text:"Contact precautions, including gown and gloves for room entry",correct:true,explain:"C. difficile requires contact precautions, including gown and gloves for anyone entering the client's room, given the risk of transmission through contact with contaminated surfaces or the client."},
+    {text:"Airborne precautions with an N95 respirator",correct:false,explain:"C. difficile does not require airborne precautions; it is managed with contact precautions given its transmission through contact, not airborne particles."},
+    {text:"Droplet precautions only",correct:false,explain:"Droplet precautions are not the primary category for C. diff; contact precautions are indicated given the contact-based transmission route."},
+    {text:"No precautions beyond standard precautions are needed",correct:false,explain:"C. difficile requires contact precautions in addition to standard precautions, given its transmission characteristics and spore-forming nature."}
+  ]},
+{ stem:"A nurse caring for multiple postoperative clients must prioritize care. Which client should the nurse assess first?",
+  options:[
+    {text:"A client who is 2 hours postoperative reporting sudden, sharp chest pain and shortness of breath",correct:true,explain:"Sudden, sharp chest pain and shortness of breath in a postoperative client raises concern for a pulmonary embolism, a potentially life-threatening complication requiring immediate assessment and STAT provider notification — this takes priority over less acute findings."},
+    {text:"A client who is 1 day postoperative requesting pain medication for incisional discomfort rated 4/10",correct:false,explain:"While pain management is important, mild-to-moderate incisional pain is an expected postoperative finding and is not as urgent as a potential pulmonary embolism presentation."},
+    {text:"A client who is 3 days postoperative asking questions about their discharge instructions",correct:false,explain:"Discharge teaching, while important, is not as time-sensitive as assessing a client with a potentially life-threatening acute complication."},
+    {text:"A client who is 12 hours postoperative with a stable vital sign trend requesting ice chips",correct:false,explain:"A stable client requesting ice chips is a routine, non-urgent need compared to a client with signs of a potential life-threatening complication."}
+  ]},
+{ stem:"A nurse is caring for four postoperative clients. Which finding should be reported to the provider immediately?",
+  options:[
+    {text:"A client with a temperature of 103.5°F and new confusion, 4 days after a bowel resection",correct:true,explain:"A high fever with new confusion in a postoperative client, particularly several days after a bowel-related surgery, raises concern for a serious infectious complication (e.g., sepsis, abscess) requiring immediate provider notification."},
+    {text:"A client with a temperature of 99.8°F on postoperative day 1",correct:false,explain:"A mild temperature elevation on postoperative day 1 is a common, often expected finding related to the surgical stress response and does not require the same urgency as a high fever with confusion days later."},
+    {text:"A client with mild incisional redness and no other symptoms 6 hours after surgery",correct:false,explain:"Mild incisional redness alone shortly after surgery is a common, expected finding and does not represent the same level of urgency as high fever with confusion."},
+    {text:"A client requesting an extra blanket for comfort",correct:false,explain:"A request for a blanket is a routine comfort need, not an urgent clinical finding requiring immediate provider notification."}
+  ]},
+{ stem:"A client returns to the unit after surgery and is drowsy but arousable, with stable vital signs. What is the priority nursing assessment during this immediate postoperative period?",
+  options:[
+    {text:"Airway, breathing, and circulation, along with level of consciousness and surgical site/dressing",correct:true,explain:"In the immediate postoperative period, the priority nursing assessment follows the ABC framework (airway, breathing, circulation), along with level of consciousness and inspection of the surgical site/dressing, to quickly identify any emerging complications."},
+    {text:"Only the client's pain level, with no other assessment needed",correct:false,explain:"While pain assessment is important, it is not the sole priority; airway, breathing, circulation, and level of consciousness take precedence in the immediate postoperative period."},
+    {text:"Only the client's nutritional status",correct:false,explain:"Nutritional status is not the priority assessment immediately after surgery; ABCs and level of consciousness are the priority."},
+    {text:"No specific assessment priorities exist in the immediate postoperative period",correct:false,explain:"There are well-established priority assessments (ABCs, level of consciousness, surgical site) for the immediate postoperative period."}
+  ]},
+{ stem:"A client is recovering from surgery under general anesthesia and reports feeling nauseated. What is an appropriate nursing intervention?",
+  options:[
+    {text:"Position the client on their side (if not contraindicated) to reduce aspiration risk, and administer antiemetics as prescribed",correct:true,explain:"For postoperative nausea, positioning the client on their side (if not contraindicated by the type of surgery) helps reduce aspiration risk if vomiting occurs, and administering antiemetics as prescribed helps address the underlying symptom."},
+    {text:"Encourage the client to eat a large meal immediately to settle their stomach",correct:false,explain:"Encouraging a large meal is not appropriate for a client with postoperative nausea; oral intake is typically introduced gradually and cautiously as tolerated."},
+    {text:"Position the client flat on their back regardless of nausea",correct:false,explain:"A supine position increases aspiration risk if the client vomits; side-lying (when appropriate) is generally preferred for a nauseated postoperative client."},
+    {text:"No intervention is needed since postoperative nausea is untreatable",correct:false,explain:"Postoperative nausea is a treatable symptom, with antiemetics and positioning both being appropriate interventions, not something left unaddressed."}
+  ]},
+{ stem:"A client 6 hours postoperative from a total knee replacement reports sudden calf pain and swelling in the operative leg. What should the nurse do first?",
+  options:[
+    {text:"Avoid massaging or elevating the leg above heart level, assess for other signs of DVT, and notify the provider promptly",correct:true,explain:"Sudden calf pain and swelling after major orthopedic surgery raises concern for deep vein thrombosis (DVT); the nurse should avoid massaging the area (which could dislodge a clot) or elevating the leg significantly above heart level, assess for other supporting signs, and notify the provider promptly for further evaluation."},
+    {text:"Massage the calf vigorously to relieve the discomfort",correct:false,explain:"Massaging the calf is contraindicated if DVT is suspected, since this could dislodge a clot and cause a pulmonary embolism."},
+    {text:"Encourage the client to ambulate immediately and vigorously to \"walk it off\"",correct:false,explain:"Vigorous ambulation is not appropriate if DVT is suspected; the provider should be notified for evaluation before proceeding with significant activity."},
+    {text:"Dismiss the finding as normal postoperative discomfort with no further action",correct:false,explain:"Sudden calf pain and swelling, particularly after major orthopedic surgery, is a significant finding requiring assessment and provider notification, not dismissal as normal discomfort."}
+  ]},
+{ stem:"A client is prescribed an intermittent pneumatic compression device (sequential compression device, SCD) after surgery. What is the purpose of this device?",
+  options:[
+    {text:"To promote venous return and reduce the risk of deep vein thrombosis in a client with reduced mobility",correct:true,explain:"Intermittent pneumatic compression devices promote venous return in the legs through sequential inflation/deflation, helping reduce the risk of deep vein thrombosis in postoperative clients with reduced mobility."},
+    {text:"To measure the client's blood pressure continuously",correct:false,explain:"SCDs are used for DVT prevention through promoting venous return, not for blood pressure monitoring."},
+    {text:"To provide pain relief for the surgical incision",correct:false,explain:"SCDs are specifically for DVT prevention through improved venous circulation, not for incisional pain relief."},
+    {text:"To keep the client warm postoperatively",correct:false,explain:"While some warming devices exist, SCDs specifically serve the purpose of DVT prevention through promoting venous return, not primarily warming."}
+  ]},
+{ stem:"A client with a sequential compression device (SCD) in place asks why it needs to be removed periodically. What is the nurse's best response?",
+  options:[
+    {text:"\"The device should be removed periodically to assess your skin for any breakdown or irritation, and can be removed briefly for ambulation as prescribed.\"",correct:true,explain:"SCDs should be removed periodically to assess the skin underneath for any breakdown or irritation, and can be removed briefly for prescribed activities like ambulation, then reapplied to continue DVT prevention."},
+    {text:"\"The device should never be removed once applied.\"",correct:false,explain:"SCDs do need to be removed periodically for skin assessment and can be removed for activities like ambulation, then reapplied; they are not meant to remain on continuously without any removal."},
+    {text:"\"There is no need to assess the skin underneath the device.\"",correct:false,explain:"Periodic skin assessment underneath the SCD is an important nursing consideration to identify any breakdown or irritation."},
+    {text:"\"The device provides no benefit and can be discontinued at the client's preference.\"",correct:false,explain:"SCDs provide a meaningful DVT prevention benefit and should be used as prescribed, not discontinued simply based on client preference without provider involvement."}
+  ]},
+{ stem:"A client asks why they are instructed not to cross their legs after a hip replacement surgery. What is the nurse's best explanation?",
+  options:[
+    {text:"Crossing the legs can increase the risk of hip dislocation by disrupting proper joint alignment during the healing period",correct:true,explain:"After hip replacement surgery, crossing the legs can increase the risk of hip dislocation by disrupting proper alignment of the new joint during the critical healing period, so clients are specifically taught to avoid this position."},
+    {text:"Crossing the legs has no relationship to hip replacement recovery",correct:false,explain:"Crossing the legs does have a specific, important relationship to hip replacement recovery, given the dislocation risk."},
+    {text:"Crossing the legs is encouraged to promote circulation after hip surgery",correct:false,explain:"This is the opposite of correct teaching; crossing the legs is specifically discouraged after hip replacement due to dislocation risk, not encouraged for circulation."},
+    {text:"This precaution only applies to knee replacement, not hip replacement",correct:false,explain:"This precaution about avoiding leg crossing is specifically related to hip replacement surgery and dislocation precautions, not knee replacement."}
+  ]},
+{ stem:"Which additional hip precautions, beyond avoiding leg crossing, are commonly taught to clients after hip replacement surgery?",
+  isSAL:true,
+  options:[
+    {text:"Avoid bending the hip beyond 90 degrees",correct:true,explain:"Avoiding hip flexion beyond 90 degrees is a common hip precaution taught after hip replacement surgery to reduce dislocation risk."},
+    {text:"Avoid internal rotation of the operative leg",correct:true,explain:"Avoiding internal rotation of the operative leg is a common hip precaution taught after hip replacement surgery."},
+    {text:"Use an elevated toilet seat and chair",correct:true,explain:"Using an elevated toilet seat and chair helps clients avoid excessive hip flexion, supporting hip precautions after replacement surgery."},
+    {text:"Sleep in a prone (face-down) position every night",correct:false,explain:"Sleeping prone every night is not a standard hip precaution and is not specifically recommended; proper positioning per surgeon guidelines, often with an abduction pillow, is more typical."}
+  ]},
+{ stem:"A client asks why an abduction pillow is placed between their legs after hip replacement surgery. What is the nurse's best explanation?",
+  options:[
+    {text:"The abduction pillow helps maintain proper hip alignment and prevents the legs from crossing or the hip from adducting, reducing dislocation risk",correct:true,explain:"An abduction pillow is placed between the legs after hip replacement surgery to maintain proper hip alignment and prevent adduction or crossing of the legs, both of which increase the risk of hip dislocation during the healing period."},
+    {text:"The pillow is used purely for comfort with no clinical purpose",correct:false,explain:"While it may provide some comfort, the primary and specific clinical purpose of the abduction pillow is to maintain hip alignment and prevent dislocation."},
+    {text:"The pillow is used to promote internal rotation of the hip",correct:false,explain:"The abduction pillow helps prevent adduction and maintains alignment; it is not specifically intended to promote internal rotation, which is actually a movement to avoid after hip replacement."},
+    {text:"The pillow has no relationship to dislocation prevention",correct:false,explain:"The abduction pillow has a direct, specific relationship to dislocation prevention by maintaining proper hip alignment."}
+  ]},
+{ stem:"A nurse is preparing to transfer a postoperative client from the bed to a chair for the first time since surgery. What is the priority nursing action before this transfer?",
+  options:[
+    {text:"Assess the client's vital signs and orthostatic tolerance, and have adequate assistance available given the risk of orthostatic hypotension",correct:true,explain:"Before the first postoperative transfer, assessing vital signs and orthostatic tolerance (e.g., checking blood pressure with position changes) and having adequate assistance available are important priorities, given the risk of orthostatic hypotension after surgery and anesthesia."},
+    {text:"No special precautions are needed for the first postoperative transfer",correct:false,explain:"Specific precautions (assessing orthostatic tolerance, having adequate assistance) are important for the first postoperative transfer, given increased fall and orthostatic hypotension risk."},
+    {text:"The client should attempt the transfer alone to promote independence",correct:false,explain:"The first postoperative transfer should not be attempted alone; adequate assistance should be available given increased risk of falls and orthostatic hypotension."},
+    {text:"Vital signs do not need to be assessed before the first transfer",correct:false,explain:"Assessing vital signs, including orthostatic changes, is an important safety consideration before the first postoperative transfer."}
+  ]},
+{ stem:"A client reports feeling dizzy and lightheaded immediately upon standing for the first time after surgery. What should the nurse suspect, and what is the priority action?",
+  options:[
+    {text:"Orthostatic hypotension; assist the client to sit or lie back down immediately and reassess before attempting to stand again",correct:true,explain:"Dizziness and lightheadedness upon standing after surgery are classic signs of orthostatic hypotension; the priority action is to assist the client to sit or lie back down immediately to prevent a fall, then reassess vital signs before attempting to stand again more gradually."},
+    {text:"Encourage the client to push through the dizziness and continue standing",correct:false,explain:"Pushing through orthostatic symptoms increases fall risk; the client should be assisted to sit or lie down immediately instead."},
+    {text:"This is an expected, harmless finding requiring no action",correct:false,explain:"While orthostatic hypotension is common postoperatively, it does require action (assisting the client down, reassessment) to prevent falls, not being dismissed as harmless."},
+    {text:"Immediately administer IV fluids without further assessment",correct:false,explain:"While fluids may ultimately be part of management, the immediate priority is ensuring the client's safety by assisting them to sit or lie down, not administering IV fluids as the very first action."}
+  ]},
+{ stem:"A client is being taught to use crutches after knee surgery. Which statement indicates a need for further teaching?",
+  options:[
+    {text:"\"I should support my weight on the underarm padding of the crutches.\"",correct:true,explain:"This statement indicates a need for further teaching — weight should be supported through the hands and arms, not the underarm padding, since prolonged pressure on the axillary area can cause nerve damage (crutch palsy)."},
+    {text:"\"I should keep my elbows slightly bent while using the crutches.\"",correct:false,explain:"This statement reflects correct crutch-walking technique and does not indicate a need for further teaching."},
+    {text:"\"I should look ahead, not down at my feet, while walking with crutches.\"",correct:false,explain:"This statement reflects correct crutch-walking technique and does not indicate a need for further teaching."},
+    {text:"\"I should check the rubber tips of the crutches for wear.\"",correct:false,explain:"This statement reflects correct crutch safety teaching and does not indicate a need for further teaching."}
+  ]},
+{ stem:"A client recovering from abdominal surgery is taught to splint their incision with a pillow when coughing or moving. What is the purpose of this technique?",
+  options:[
+    {text:"To reduce strain and pain on the incision, supporting wound healing and reducing dehiscence risk",correct:true,explain:"Splinting the incision with a pillow when coughing or moving reduces strain and discomfort on the incision, supporting wound healing and helping to reduce the risk of wound dehiscence."},
+    {text:"To prevent the client from being able to cough at all",correct:false,explain:"The goal is not to prevent coughing (which remains important for lung expansion and secretion clearance) but to make coughing more comfortable and less strainful on the incision."},
+    {text:"This technique has no real physiologic benefit",correct:false,explain:"Incisional splinting does have a real, well-established physiologic benefit in reducing strain on the incision during activities like coughing."},
+    {text:"Splinting is only used for orthopedic surgery clients",correct:false,explain:"Incisional splinting with a pillow is a general postoperative technique used for clients with abdominal or thoracic incisions, not limited to orthopedic surgery."}
+  ]},
+{ stem:"What is the purpose of a properly functioning nasogastric (NG) tube placed after major abdominal surgery?",
+  options:[
+    {text:"To decompress the stomach and remove gastric secretions/gas, reducing distention and the risk of vomiting/aspiration while the bowel recovers",correct:true,explain:"An NG tube after major abdominal surgery is typically used to decompress the stomach, removing accumulated gastric secretions and gas, which reduces abdominal distention and the risk of vomiting/aspiration while normal bowel motility recovers."},
+    {text:"To provide nutrition directly to the client",correct:false,explain:"An NG tube used for decompression is not typically used to provide nutrition; a feeding tube would be used for that different purpose."},
+    {text:"To administer IV fluids",correct:false,explain:"An NG tube is a gastric tube, not an IV access device; it does not administer IV fluids."},
+    {text:"This device serves no functional purpose after surgery",correct:false,explain:"An NG tube for decompression serves a specific, important functional purpose in certain postoperative situations, particularly after major abdominal surgery."}
+  ]},
+{ stem:"A nurse notes that a postoperative client's NG tube, set to low intermittent suction, has stopped draining. What is the priority nursing action?",
+  options:[
+    {text:"Assess the tube for patency (e.g., check for kinks, verify suction settings, and consider gentle irrigation per protocol/order) and notify the provider if unresolved",correct:true,explain:"When an NG tube stops draining, the nurse should assess for patency issues (kinks, correct suction settings) and may gently irrigate per protocol or order; if the issue is not resolved, the provider should be notified, since a non-functioning decompression tube could allow gastric distention to recur."},
+    {text:"Assume the client's bowel function has fully recovered and discontinue the tube without further assessment",correct:false,explain:"Assuming recovery without assessment or provider involvement is not appropriate; the tube's function should be assessed and the provider notified as needed before any decision about discontinuation."},
+    {text:"Increase the suction level significantly without assessing the tube first",correct:false,explain:"Increasing suction without first assessing for a mechanical issue (e.g., kink) is not the appropriate first step; assessment should precede any adjustment."},
+    {text:"No action is needed since NG tubes often stop draining with no clinical significance",correct:false,explain:"A previously functioning NG tube that stops draining is a clinically significant finding requiring assessment, not something to disregard."}
+  ]},
+{ stem:"A client with a new ostomy following bowel surgery expresses distress about their changed body image. What is the most appropriate initial nursing response?",
+  options:[
+    {text:"Acknowledge the client's feelings, provide emotional support, and involve resources such as an ostomy nurse specialist or support group as appropriate",correct:true,explain:"Acknowledging the client's feelings and providing emotional support is an important initial therapeutic response, along with involving specialized resources like an ostomy nurse specialist or support groups to help the client adjust to this significant body image change."},
+    {text:"Tell the client their feelings are not justified since the surgery was medically necessary",correct:false,explain:"Dismissing the client's feelings as unjustified is not therapeutic and does not address their emotional needs; acknowledging and validating their feelings is more appropriate."},
+    {text:"Avoid discussing the ostomy or the client's feelings about it altogether",correct:false,explain:"Avoiding the topic does not support the client's emotional adjustment; therapeutic engagement and appropriate resources are more helpful."},
+    {text:"Immediately change the subject to focus only on physical care tasks",correct:false,explain:"While physical care is important, addressing the client's emotional distress about body image is also an important nursing responsibility, not something to bypass entirely."}
+  ]},
+{ stem:"A client's postoperative pain is being managed with patient-controlled analgesia (PCA). What is an important safety principle regarding PCA use?",
+  options:[
+    {text:"Only the client should press the PCA button, not family members or staff, to prevent oversedation",correct:true,explain:"A core safety principle of PCA is that only the client should activate the device, since the built-in safety mechanism relies on the client becoming too sedated to press the button if they are receiving too much medication; if others press it on the client's behalf, this safety mechanism is bypassed, risking oversedation."},
+    {text:"Family members should be encouraged to press the button for the client if they appear to be in pain but are sleeping",correct:false,explain:"This is a significant safety violation — if family members press the button while the client is sleeping/sedated, it bypasses the built-in safety mechanism and risks dangerous oversedation."},
+    {text:"There is no specific safety concern with who presses the PCA button",correct:false,explain:"There is a specific, well-recognized safety concern — only the client should press the button — given the risk of oversedation if others do so on their behalf."},
+    {text:"Nursing staff should routinely press the button for the client to ensure adequate pain control",correct:false,explain:"Nursing staff should not routinely press the button for the client; this bypasses the safety mechanism inherent in the PCA design, which relies on client-only activation."}
+  ]},
+{ stem:"A client is receiving epidural analgesia after major surgery. What is a priority nursing assessment specific to this pain management method?",
+  options:[
+    {text:"Monitor for signs of respiratory depression and assess motor/sensory function in the lower extremities",correct:true,explain:"Epidural analgesia requires monitoring for respiratory depression (given the opioid component often used) and assessment of motor/sensory function in the lower extremities, since the medication can cause numbness or weakness depending on the level and type of block."},
+    {text:"No specific monitoring is needed beyond routine vital signs",correct:false,explain:"Epidural analgesia requires specific additional monitoring (respiratory status, motor/sensory function) beyond routine vital signs, given its unique risks."},
+    {text:"Only blood glucose monitoring is relevant to epidural analgesia",correct:false,explain:"Blood glucose is not the priority monitoring parameter specific to epidural analgesia; respiratory status and motor/sensory function are the key considerations."},
+    {text:"The client should be encouraged to ambulate independently immediately after epidural placement",correct:false,explain:"Independent ambulation immediately after epidural placement is not appropriate, given the risk of motor weakness/numbness and fall risk; assistance and assessment of motor function are needed first."}
+  ]},
+{ stem:"A client's surgical dressing has a small amount of serosanguineous drainage on postoperative day 1. How should the nurse interpret this finding?",
+  options:[
+    {text:"This is generally an expected finding in the early postoperative period, though it should continue to be monitored for any significant increase or change in character",correct:true,explain:"A small amount of serosanguineous (thin, blood-tinged) drainage is a generally expected finding in the early postoperative period; the nurse should continue to monitor the amount and characteristics for any significant increase or change that could indicate a complication like hemorrhage or infection."},
+    {text:"This finding always indicates a wound infection requiring immediate antibiotics",correct:false,explain:"A small amount of serosanguineous drainage on postoperative day 1 does not, by itself, indicate infection; infection is more classically associated with purulent drainage, fever, and other signs appearing several days later."},
+    {text:"This finding indicates wound dehiscence requiring emergency intervention",correct:false,explain:"A small amount of serosanguineous drainage is not indicative of dehiscence, which involves separation of wound edges, not simply drainage color/amount."},
+    {text:"The dressing should never be assessed again after the initial postoperative check",correct:false,explain:"Ongoing dressing assessment throughout the postoperative period is an important nursing responsibility, not something done only once initially."}
+  ]},
+{ stem:"A nurse floats to an unfamiliar unit and is assigned a client requiring a type of care the nurse has never performed. What is the priority nursing action?",
+  options:[
+    {text:"Notify the charge nurse of the unfamiliarity and request appropriate orientation, supervision, or reassignment as needed",correct:true,explain:"When assigned unfamiliar care, the nurse has a professional and safety responsibility to notify the charge nurse, requesting appropriate orientation, supervision, or reassignment to ensure the client receives safe care within the nurse's scope of competence."},
+    {text:"Attempt the care independently without informing anyone, to avoid appearing incompetent",correct:false,explain:"Attempting unfamiliar care independently without support is unsafe and inappropriate; the nurse should disclose the unfamiliarity and seek appropriate guidance."},
+    {text:"Refuse to care for the client at all and leave the unit",correct:false,explain:"Simply refusing and leaving is not the appropriate professional response; the nurse should communicate the concern and work with the charge nurse to arrange safe care."},
+    {text:"Ask a fellow float nurse who is equally unfamiliar with the task for guidance",correct:false,explain:"Seeking guidance from someone equally unfamiliar with the task does not ensure safe care; the charge nurse or a qualified unit resource should be consulted instead."}
+  ]},
+{ stem:"What is the nurse's priority responsibility when delegating a task to unlicensed assistive personnel (UAP)?",
+  options:[
+    {text:"Ensure the task is within the UAP's scope of practice and provide appropriate direction, while retaining accountability for overall client care",correct:true,explain:"When delegating to UAP, the nurse must ensure the task is appropriate for the UAP's scope of practice and training, provide clear direction, and retain overall accountability for the client's care, since delegation does not transfer the nurse's ultimate responsibility."},
+    {text:"Delegate any task freely, since the UAP becomes fully responsible once the task is delegated",correct:false,explain:"The nurse retains accountability for the overall care and outcome even after delegating a task; responsibility is not fully transferred to the UAP."},
+    {text:"No specific considerations are needed when delegating tasks",correct:false,explain:"Delegation requires specific considerations, including scope of practice, appropriate direction, and retained nursing accountability."},
+    {text:"Delegate assessment and clinical judgment tasks routinely to UAP",correct:false,explain:"Assessment and clinical judgment tasks are not within the scope of practice for UAP and should not be delegated to them; delegation should be limited to routine, stable, non-judgment-based tasks."}
+  ]}
+];
+
+const FLASHCARDS = [
+{front:"Atelectasis timing", back:"1–3 days postoperatively. Collapse of alveoli — the most common postoperative complication."},
+{front:"Pneumonia timing", back:"3–5 days postoperatively. Inflammation of the alveoli."},
+{front:"Wound infection timing", back:"3–6 days postoperatively. Caused by poor aseptic technique or a contaminated wound."},
+{front:"Pneumonia/atelectasis intervention", back:"Encourage deep breathing, coughing, and incentive spirometer use."},
+{front:"Pulmonary embolism — priority action", back:"Notify the health care provider STAT; monitor VS; administer oxygen/medications as prescribed."},
+{front:"Hemorrhage — priority action", back:"Apply pressure to the bleeding site; notify HCP STAT; monitor VS; administer O2/IV fluids/blood as prescribed."},
+{front:"Shock — key intervention", back:"Elevate the legs; monitor VS, LOC, I&O, skin; administer O2 and IV fluids/blood/colloids as prescribed."},
+{front:"Positive Homans' sign", back:"Associated with thrombophlebitis."},
+{front:"Thrombophlebitis — positioning", back:"Elevate extremity 30° without popliteal pressure. Never allow the client to dangle legs."},
+{front:"Thrombophlebitis — medications", back:"Heparin sodium or warfarin (Coumadin) as prescribed."},
+{front:"Urinary retention — non-invasive interventions", back:"Privacy for voiding, warm water over perineum, running water sound — before catheterizing."},
+{front:"Constipation — fluid goal", back:"Up to 3000 mL/day unless contraindicated, plus high-fiber foods and early ambulation."},
+{front:"Paralytic ileus — diet status", back:"NPO until bowel sounds return."},
+{front:"Wound dehiscence", back:"Separation of wound edges from the suture line."},
+{front:"Wound evisceration", back:"Protrusion of internal organs through the incision — client may report a \"popping\" sensation."},
+{front:"Dehiscence/evisceration — positioning", back:"Low Fowler's with knees bent (abdominal incision)."},
+{front:"Dehiscence/evisceration — wound care", back:"Cover with a sterile normal saline dressing; notify HCP immediately."},
+{front:"Why splint the incision when coughing?", back:"Reduces strain on the incision to help prevent dehiscence/evisceration."},
+{front:"Ambulatory surgery discharge criteria", back:"Alert/oriented, has voided, no respiratory distress, ambulates/swallows/coughs, minimal pain/bleeding, no vomiting, has a ride home, HCP has signed release."},
+{front:"When is ambulatory surgery discharge teaching given?", back:"Prior to the procedure — both verbal and written, in the client's primary language."}
+];
+
+/* ======================= FLASHCARDS ======================= */
+let flashOrder = FLASHCARDS.map((_,i)=>i);
+let flashIdx = 0;
+
+function renderFlashcard(){
+  if(!FLASHCARDS.length) return;
+  const card = FLASHCARDS[flashOrder[flashIdx]];
+  document.getElementById('flashFront').textContent = card.front;
+  document.getElementById('flashBack').textContent = card.back;
+  document.getElementById('flashcard').classList.remove('flipped');
+  document.getElementById('flashIndex').textContent = flashIdx+1;
+  document.getElementById('flashTotal').textContent = FLASHCARDS.length;
+}
+function flipCard(){ document.getElementById('flashcard').classList.toggle('flipped'); }
+document.getElementById('flashPrev').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  flashIdx = (flashIdx - 1 + FLASHCARDS.length) % FLASHCARDS.length;
+  renderFlashcard();
+});
+document.getElementById('flashNext').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  flashIdx = (flashIdx + 1) % FLASHCARDS.length;
+  renderFlashcard();
+});
+document.getElementById('flashShuffle').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  flashOrder = shuffle(flashOrder.length ? flashOrder : FLASHCARDS.map((_,i)=>i));
+  flashIdx = 0;
+  renderFlashcard();
+});
+
+
+let activeQuestions = [];
+let currentIndex = 0;
+let score = 0;
+let questionState = [];
+let optionOrders = [];
+
+
+function toggleAnswer(id, btn){
+  const el = document.getElementById(id);
+  el.classList.toggle('show');
+  btn.textContent = el.classList.contains('show') ? 'Hide answer ▲' : 'Reveal answer ▼';
+}
+
+function showView(name){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+name).classList.add('active');
+  const crumbs = document.getElementById('crumbs');
+  const homeLink = "<span onclick=\"location.href='index.html'\">Home</span>";
+  if(name==='notes') crumbs.innerHTML = homeLink + " / Safety &amp; Infection Control / Course Notes";
+  else if(name==='flashcards') crumbs.innerHTML = homeLink + " / Safety &amp; Infection Control / Flashcards";
+  else if(name==='setup') crumbs.innerHTML = homeLink + " / Safety &amp; Infection Control / Practice Test";
+  else if(name==='cases') crumbs.innerHTML = homeLink + " / Safety &amp; Infection Control / Case Studies";
+  else if(name==='quiz') crumbs.innerHTML = homeLink + " / <span onclick=\"showView('setup')\">Safety &amp; Infection Control</span> / Practice Test";
+  ['tabNotesA','tabFlashA','tabSetupA','tabCasesA','tabNotesB','tabFlashB','tabSetupB','tabCasesB','tabNotesC','tabFlashC','tabSetupC','tabCasesC','tabNotesD','tabFlashD','tabSetupD','tabCasesD'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+    let kind = 'setup';
+    if(id.indexOf('Notes') !== -1) kind = 'notes';
+    else if(id.indexOf('Flash') !== -1) kind = 'flashcards';
+    else if(id.indexOf('Cases') !== -1) kind = 'cases';
+    el.classList.toggle('selected', kind === name || (kind==='setup' && name==='quiz'));
+  });
+
+  if(name === 'flashcards' && typeof renderFlashcard === 'function') renderFlashcard();
+  history.replaceState(null, '', '#'+name);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+(function initialRoute(){
+  const hash = (location.hash || '').replace('#','');
+  const validViews = ['notes','flashcards','setup','cases'];
+  showView(validViews.includes(hash) ? hash : 'setup');
+})();
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function startQuiz(n){
+  const indices = shuffle([...Array(QUESTIONS.length).keys()]).slice(0,n);
+  activeQuestions = indices.map(i=>QUESTIONS[i]);
+  questionState = new Array(activeQuestions.length).fill(null);
+  optionOrders = new Array(activeQuestions.length).fill(null);
+  score = 0;
+  currentIndex = 0;
+  document.getElementById('quizTitle').textContent = 'Practice Test — ' + n + ' Questions';
+  document.getElementById('finalOutOf').textContent = '/' + n;
+  buildPicker();
+  document.getElementById('quizArea').innerHTML='';
+  document.getElementById('summary').classList.remove('show');
+  updateStatus();
+  renderQuestion(0);
+  showView('quiz');
+}
+
+const pickerGrid = document.getElementById('pickerGrid');
+function buildPicker(){
+  pickerGrid.innerHTML = '';
+  activeQuestions.forEach((q,i)=>{
+    const btn = document.createElement('button');
+    btn.className = 'pick-btn';
+    btn.textContent = (i+1);
+    btn.title = 'Question ' + (i+1);
+    btn.addEventListener('click', ()=> goToQuestion(i));
+    pickerGrid.appendChild(btn);
+  });
+  refreshPicker();
+}
+function refreshPicker(){
+  const btns = pickerGrid.querySelectorAll('.pick-btn');
+  btns.forEach((btn,i)=>{
+    btn.classList.remove('current','correct','incorrect');
+    const st = questionState[i];
+    if(st) btn.classList.add(st.correct ? 'correct' : 'incorrect');
+    if(i === currentIndex) btn.classList.add('current');
+  });
+}
+
+function goToQuestion(idx){
+  currentIndex = idx;
+  document.getElementById('quizArea').innerHTML = '';
+  document.getElementById('summary').classList.remove('show');
+  renderQuestion(idx);
+  refreshPicker();
+  document.getElementById('quizArea').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function letter(i){ return String.fromCharCode(65+i); }
+
+function renderQuestion(qIndex){
+  const q = activeQuestions[qIndex];
+  const state = questionState[qIndex];
+  const quizArea = document.getElementById('quizArea');
+  const card = document.createElement('div');
+  card.className = 'qcard';
+
+  const meta = document.createElement('div');
+  meta.className = 'qmeta';
+  meta.innerHTML = `<span class="qnum">Q${qIndex+1} / ${activeQuestions.length}</span><span class="qtag">Safety &amp; Infection Control</span>` +
+    (q.isSAL ? `<span class="qsal">Select all that apply</span>` : '');
+  card.appendChild(meta);
+
+  const stem = document.createElement('p');
+  stem.className = 'stem';
+  stem.textContent = q.stem;
+  card.appendChild(stem);
+
+  const optsWrap = document.createElement('div');
+  optsWrap.className = 'options';
+  const banner = document.createElement('div');
+  banner.className = 'result-banner';
+
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'btn-next';
+  nextBtn.textContent = (qIndex === activeQuestions.length-1) ? 'See results →' : 'Next question →';
+
+  const prevBtn = document.createElement('button');
+  prevBtn.className = 'btn-prev';
+  prevBtn.textContent = '← Previous';
+  prevBtn.disabled = (qIndex === 0);
+  prevBtn.addEventListener('click', ()=>{ if(qIndex>0) goToQuestion(qIndex-1); });
+
+  if(!optionOrders[qIndex]){
+    optionOrders[qIndex] = shuffle(q.options.map((_,i)=>i));
+  }
+  const order = optionOrders[qIndex];
+
+  if(q.isSAL){
+    let selected = state ? new Set(state.selected) : new Set();
+    order.forEach((origIdx, pos)=>{
+      const opt = q.options[origIdx];
+      const el = document.createElement('div');
+      el.className = 'opt sal';
+      el.dataset.origIdx = origIdx;
+      el.innerHTML = `<span class="opt-letter">${selected.has(origIdx)?'☑':'☐'}</span><div><div class="opt-text">${opt.text}</div><div class="opt-explain" style="display:none"></div></div>`;
+      if(!state){
+        el.addEventListener('click', ()=>{
+          if(el.classList.contains('locked')) return;
+          if(selected.has(origIdx)){ selected.delete(origIdx); el.querySelector('.opt-letter').textContent='☐'; el.style.background='var(--paper)'; el.style.borderColor='var(--line)'; }
+          else { selected.add(origIdx); el.querySelector('.opt-letter').textContent='☑'; el.style.background='#F0E9FA'; el.style.borderColor='var(--pulse)'; }
+        });
+      }
+      optsWrap.appendChild(el);
+    });
+    card.appendChild(optsWrap);
+    if(state){
+      revealSAL(qIndex, state.selected, optsWrap, banner, state.correct);
+      nextBtn.classList.add('show');
+    } else {
+      const submitBtn = document.createElement('button');
+      submitBtn.className = 'btn-sal-submit';
+      submitBtn.textContent = 'Submit answer';
+      submitBtn.addEventListener('click', ()=>{
+        lockSAL(qIndex, selected, optsWrap, banner, nextBtn, submitBtn);
+      });
+      card.appendChild(submitBtn);
+    }
+  } else {
+    order.forEach((origIdx, pos)=>{
+      const opt = q.options[origIdx];
+      const el = document.createElement('div');
+      el.className = 'opt';
+      el.dataset.origIdx = origIdx;
+      el.innerHTML = `<span class="opt-letter">${letter(pos)}</span><div><div class="opt-text">${opt.text}</div><div class="opt-explain" style="display:none"></div></div>`;
+      if(!state){
+        el.addEventListener('click', ()=> lockSingle(qIndex, origIdx, optsWrap, banner, nextBtn));
+      }
+      optsWrap.appendChild(el);
+    });
+    card.appendChild(optsWrap);
+    if(state){
+      revealSingle(qIndex, state.selected, optsWrap, banner, state.correct);
+      nextBtn.classList.add('show');
+    }
+  }
+
+  card.appendChild(banner);
+  const actions = document.createElement('div');
+  actions.className = 'actions';
+  actions.appendChild(prevBtn);
+  actions.appendChild(nextBtn);
+  card.appendChild(actions);
+
+  nextBtn.addEventListener('click', ()=>{
+    if(qIndex+1 < activeQuestions.length){ goToQuestion(qIndex+1); }
+    else { showSummary(); }
+  });
+
+  quizArea.appendChild(card);
+}
+
+function revealSingle(qIndex, chosenIdx, optsWrap, banner, isCorrect){
+  const q = activeQuestions[qIndex];
+  const opts = optsWrap.querySelectorAll('.opt');
+  opts.forEach((el)=>{
+    const i = parseInt(el.dataset.origIdx, 10);
+    el.classList.add('locked');
+    const explainEl = el.querySelector('.opt-explain');
+    explainEl.textContent = q.options[i].explain;
+    explainEl.style.display = 'block';
+    if(q.options[i].correct){ el.classList.add('correct-choice'); }
+    else if(i === chosenIdx){ el.classList.add('incorrect-choice'); }
+    else { el.classList.add('dim'); }
+  });
+  banner.classList.add('show', isCorrect ? 'correct' : 'incorrect');
+  banner.innerHTML = isCorrect ? `<span>✓</span> Correct.` : `<span>✕</span> Not quite — the correct answer is highlighted above.`;
+}
+
+function revealSAL(qIndex, selectedArr, optsWrap, banner, allCorrect){
+  const q = activeQuestions[qIndex];
+  const selected = new Set(selectedArr);
+  const opts = optsWrap.querySelectorAll('.opt');
+  opts.forEach((el)=>{
+    const i = parseInt(el.dataset.origIdx, 10);
+    el.classList.add('locked');
+    const explainEl = el.querySelector('.opt-explain');
+    explainEl.textContent = q.options[i].explain;
+    explainEl.style.display = 'block';
+    const letterEl = el.querySelector('.opt-letter');
+    if(q.options[i].correct){ el.classList.add('correct-choice'); letterEl.textContent='✓'; }
+    else if(selected.has(i)){ el.classList.add('incorrect-choice'); letterEl.textContent='✕'; }
+    else { el.classList.add('dim'); letterEl.textContent='☐'; }
+  });
+  banner.classList.add('show', allCorrect ? 'correct' : 'incorrect');
+  banner.innerHTML = allCorrect ? `<span>✓</span> Correct — all applicable choices selected.` : `<span>✕</span> Not quite — correct choices are highlighted above.`;
+}
+
+function lockSingle(qIndex, chosenIdx, optsWrap, banner, nextBtn){
+  if(questionState[qIndex]) return;
+  const q = activeQuestions[qIndex];
+  const isCorrect = q.options[chosenIdx].correct;
+  questionState[qIndex] = { correct: isCorrect, selected: chosenIdx };
+  if(isCorrect) score++;
+  revealSingle(qIndex, chosenIdx, optsWrap, banner, isCorrect);
+  nextBtn.classList.add('show');
+  refreshPicker();
+  updateStatus();
+}
+
+function lockSAL(qIndex, selected, optsWrap, banner, nextBtn, submitBtn){
+  if(questionState[qIndex]) return;
+  const q = activeQuestions[qIndex];
+  const correctSet = new Set(q.options.map((o,i)=>o.correct?i:null).filter(v=>v!==null));
+  let allCorrect = correctSet.size === selected.size && [...correctSet].every(i=>selected.has(i));
+  questionState[qIndex] = { correct: allCorrect, selected: [...selected] };
+  if(allCorrect) score++;
+  submitBtn.style.display = 'none';
+  revealSAL(qIndex, [...selected], optsWrap, banner, allCorrect);
+  nextBtn.classList.add('show');
+  refreshPicker();
+  updateStatus();
+}
+
+function updateStatus(){
+  const answeredCount = questionState.filter(Boolean).length;
+  const total = activeQuestions.length || 1;
+  document.getElementById('progressFill').style.width = (answeredCount/total*100)+'%';
+  document.getElementById('scoreLabel').innerHTML = `<span>${score}</span> / ${answeredCount}`;
+}
+
+function showSummary(){
+  document.getElementById('quizArea').innerHTML = '';
+  const answeredCount = questionState.filter(Boolean).length;
+  document.getElementById('finalScore').textContent = score;
+  document.getElementById('finalOutOf').textContent = '/' + activeQuestions.length;
+  const pct = answeredCount ? Math.round(score/answeredCount*100) : 0;
+  const msgEl = document.getElementById('finalMsg');
+  if(answeredCount < activeQuestions.length){
+    msgEl.textContent = `You've answered ${answeredCount} of ${activeQuestions.length} questions (${score} correct so far). Use the picker above to finish the rest.`;
+  } else if(pct >= 90) msgEl.textContent = 'Excellent — strong command of pharmacology test-taking strategy.';
+  else if(pct >= 75) msgEl.textContent = 'Solid work. Revisit the missed rationales above before your exam.';
+  else if(pct >= 60) msgEl.textContent = 'Decent start — review the explanations above, especially on the concepts you missed.';
+  else msgEl.textContent = 'Worth another pass — scroll up and read every rationale carefully, then retake.';
+  document.getElementById('summary').classList.add('show');
+  document.getElementById('summary').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+/* ---------- Print / Save PDF ---------- */
+function buildPrintReport(){
+  const answeredCount = questionState.filter(Boolean).length;
+  const pct = answeredCount ? Math.round(score/answeredCount*100) : 0;
+  const now = new Date();
+  const dateStr = now.toLocaleDateString(undefined, { year:'numeric', month:'long', day:'numeric' });
+  const timeStr = now.toLocaleTimeString(undefined, { hour:'2-digit', minute:'2-digit' });
+
+  let html = '';
+  html += '<div class="rpt-header">';
+  html += '<h1>Safety &amp; Infection Control — Practice Test Results</h1>';
+  html += '<div class="rpt-meta">' + dateStr + ' at ' + timeStr + ' &middot; ' + activeQuestions.length + ' questions</div>';
+  html += '<div class="rpt-score">Score: ' + score + ' / ' + answeredCount + ' answered (' + pct + '%)</div>';
+  html += '</div>';
+
+  activeQuestions.forEach((q, qi) => {
+    const state = questionState[qi];
+    html += '<div class="rpt-q">';
+    html += '<div class="rq-num">Question ' + (qi+1) + (q.isSAL ? ' (Select all that apply)' : '') + '</div>';
+    html += '<div class="rq-stem">' + escapeHtml(q.stem) + '</div>';
+
+    q.options.forEach((opt, oi) => {
+      let cls = '';
+      let marker = '';
+      const chosen = state ? (q.isSAL ? state.selected.includes(oi) : state.selected === oi) : false;
+      if(opt.correct){ cls = 'correct'; marker = '✓ '; }
+      else if(chosen){ cls = 'incorrect'; marker = '✕ '; }
+      html += '<div class="rpt-opt ' + cls + '">' + marker + escapeHtml(opt.text) + '</div>';
+      html += '<div class="rpt-explain">' + escapeHtml(opt.explain) + '</div>';
+    });
+
+    if(state){
+      const isCorrect = state.correct;
+      html += '<div class="rpt-banner ' + (isCorrect ? 'correct' : 'incorrect') + '">' +
+        (isCorrect ? 'Answered correctly' : 'Answered incorrectly') + '</div>';
+    } else {
+      html += '<div class="rpt-banner">Not answered</div>';
+    }
+    html += '</div>';
+  });
+
+  document.getElementById('printReport').innerHTML = html;
+}
+
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+document.getElementById('printBtn').addEventListener('click', ()=>{
+  buildPrintReport();
+  window.print();
+});
+
+document.getElementById('resultsBtn').addEventListener('click', showSummary);
+document.getElementById('randomBtn').addEventListener('click', ()=>{
+  const idx = Math.floor(Math.random()*activeQuestions.length);
+  goToQuestion(idx);
+});
+document.getElementById('reviewBtn').addEventListener('click', ()=>{
+  document.getElementById('summary').classList.remove('show');
+  goToQuestion(currentIndex);
+});
+document.getElementById('setupBtn').addEventListener('click', ()=> showView('setup'));
+document.getElementById('restartBtn').addEventListener('click', ()=> startQuiz(activeQuestions.length));
+</script>
+</body>
+</html>

@@ -1,0 +1,1743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nursing NCLEX Review</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  :root{
+    --ink:#211B36;
+    --ink-soft:#524A6B;
+    --paper:#F7F5FB;
+    --card:#FFFFFF;
+    --line:#E2DCEF;
+    --pulse:#DC2626;
+    --pulse-dim:#FEE2E2;
+    --correct:#1B8A5A;
+    --correct-bg:#E7F5EE;
+    --incorrect:#C1443D;
+    --incorrect-bg:#FBEAE8;
+    --muted:#8A80A0;
+    --amber:#B8791A;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(520px circle at 4% -6%, rgba(220,38,38,0.2), transparent 60%),
+      radial-gradient(460px circle at 98% 2%, rgba(184,121,26,0.15), transparent 58%),
+      radial-gradient(480px circle at 6% 70%, rgba(27,138,90,0.12), transparent 58%),
+      linear-gradient(180deg, var(--paper) 0%, #ffffff 50%, var(--paper) 100%);
+    background-attachment:fixed;
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    padding:40px 20px 80px;
+  }
+  .wrap{max-width:860px;margin:0 auto;}
+  .view{display:none;}
+  .view.active{display:block;}
+
+  .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:10px;}
+  .brand{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--pulse);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;gap:8px;}
+  .brand:hover{color:var(--ink);}
+  .crumbs{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);}
+  .crumbs span{cursor:pointer;}
+  .crumbs span:hover{color:var(--pulse);}
+
+  .eyebrow{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--pulse);font-weight:600;margin-bottom:10px;}
+  h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(28px,5vw,40px);line-height:1.08;margin:0 0 6px;letter-spacing:-.01em;}
+  h2.section-title{font-family:'Fraunces',serif;font-weight:600;font-size:22px;margin:34px 0 12px;color:var(--ink);}
+  h2.section-title:first-of-type{margin-top:0;}
+  .subtitle{color:var(--ink-soft);font-size:15px;margin:0 0 26px;max-width:60ch;}
+
+  .ekg{width:100%;height:46px;margin-bottom:24px;overflow:hidden;}
+  .ekg svg{width:100%;height:100%;display:block;}
+  .ekg path{fill:none;stroke:var(--pulse);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  .ekg-trace{stroke-dasharray:1000;stroke-dashoffset:1000;animation:draw 2.6s ease-out forwards;}
+  @keyframes draw{to{stroke-dashoffset:0;}}
+  @media (prefers-reduced-motion:reduce){.ekg-trace{animation:none;stroke-dashoffset:0;}}
+
+  .topic-tabs{display:flex;gap:8px;margin-bottom:26px;flex-wrap:wrap;}
+  .tab-btn{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;padding:11px 18px;border-radius:9px;cursor:pointer;border:1.5px solid var(--line);background:var(--card);color:var(--ink-soft);}
+  .tab-btn:hover{border-color:var(--pulse);color:var(--pulse);}
+  .tab-btn.selected{background:var(--ink);border-color:var(--ink);color:#fff;}
+
+  .notes-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:30px 28px;}
+  .notes-card p{color:var(--ink-soft);font-size:14.5px;line-height:1.6;}
+  .note-table{width:100%;border-collapse:collapse;margin:10px 0 24px;font-size:13.5px;}
+  .note-table th{background:var(--ink);color:#fff;text-align:left;padding:9px 12px;font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.03em;text-transform:uppercase;}
+  .note-table td{padding:9px 12px;border-bottom:1px solid var(--line);color:var(--ink-soft);vertical-align:top;}
+  .note-table tr:nth-child(even) td{background:var(--paper);}
+  .note-table td b{color:var(--ink);}
+  .drugclass{border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:14px;background:var(--paper);}
+  .drugclass h4{margin:0 0 8px;font-family:'Inter',sans-serif;font-size:15px;color:var(--ink);}
+  .drugclass .suffix-tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--pulse);background:var(--pulse-dim);padding:2px 8px;border-radius:5px;margin-left:8px;}
+  .drugclass ul{margin:6px 0 0;padding-left:20px;color:var(--ink-soft);font-size:13.5px;line-height:1.6;}
+  .note-callout{border-left:3px solid var(--pulse);background:var(--pulse-dim);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13.5px;color:var(--ink);margin:14px 0;}
+  .note-callout b{color:var(--pulse);}
+  .casebox{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:14px;font-size:13.5px;color:var(--ink-soft);line-height:1.6;}
+  .casebox b{color:var(--ink);}
+  .stat-strip{display:flex;gap:14px;flex-wrap:wrap;margin:14px 0 26px;}
+  .stat-box{background:var(--pulse-dim);border-radius:10px;padding:12px 18px;flex:1;min-width:140px;}
+  .stat-box .big{font-family:'Fraunces',serif;font-size:26px;font-weight:600;color:var(--pulse);line-height:1;}
+  .stat-box .lbl{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.04em;margin-top:4px;}
+
+  .setup-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:32px 28px;text-align:center;}
+  .setup-card p{color:var(--ink-soft);font-size:14px;margin-bottom:24px;}
+  .count-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+  @media (max-width:560px){.count-grid{grid-template-columns:repeat(2,1fr);}}
+  .count-btn{background:var(--paper);border:1.5px solid var(--line);border-radius:12px;padding:22px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:all .12s ease;}
+  .count-btn:hover{border-color:var(--pulse);background:#FEECEC;}
+  .count-num{font-family:'Fraunces',serif;font-size:30px;font-weight:600;color:var(--ink);}
+  .count-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+
+  .picker{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px 20px;margin-bottom:22px;}
+  .picker-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:10px;flex-wrap:wrap;}
+  .picker-title{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;}
+  .picker-actions{display:flex;gap:8px;}
+  .mini-btn{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;background:var(--paper);border:1px solid var(--line);color:var(--ink-soft);padding:6px 11px;border-radius:7px;cursor:pointer;}
+  .mini-btn:hover{border-color:var(--pulse);color:var(--pulse);}
+  .picker-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:7px;}
+  @media (max-width:520px){.picker-grid{grid-template-columns:repeat(6,1fr);}}
+  .pick-btn{aspect-ratio:1;border-radius:8px;border:1.5px solid var(--line);background:var(--paper);font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:600;color:var(--ink-soft);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s ease;}
+  .pick-btn:hover{border-color:var(--pulse);color:var(--pulse);}
+  .pick-btn.current{border-color:var(--ink);box-shadow:0 0 0 2px var(--ink) inset;color:var(--ink);}
+  .pick-btn.correct{background:var(--correct-bg);border-color:var(--correct);color:var(--correct);}
+  .pick-btn.incorrect{background:var(--incorrect-bg);border-color:var(--incorrect);color:var(--incorrect);}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);}
+  .legend span{display:inline-flex;align-items:center;gap:5px;}
+  .dot{width:9px;height:9px;border-radius:3px;display:inline-block;}
+  .dot.unanswered{background:var(--paper);border:1.5px solid var(--line);}
+  .dot.correct{background:var(--correct-bg);border:1.5px solid var(--correct);}
+  .dot.incorrect{background:var(--incorrect-bg);border:1.5px solid var(--incorrect);}
+
+  .statusbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;}
+  .progress-track{flex:1;height:6px;background:var(--line);border-radius:4px;overflow:hidden;position:relative;}
+  .progress-fill{height:100%;background:var(--pulse);border-radius:4px;width:0%;transition:width .35s ease;}
+  .score-pill{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--ink);background:var(--card);border:1px solid var(--line);padding:6px 12px;border-radius:20px;white-space:nowrap;}
+  .score-pill span{color:var(--pulse);}
+
+  .qcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:28px 26px 24px;margin-bottom:20px;box-shadow:0 1px 2px rgba(33,27,54,.05);}
+  .qmeta{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
+  .qnum{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--pulse);background:var(--pulse-dim);padding:3px 9px;border-radius:6px;}
+  .qtag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;}
+  .qsal{font-family:'JetBrains Mono',monospace;font-size:11px;color:#B91C1C;letter-spacing:.03em;border:1px solid #FCA5A5;background:#FEF2F2;padding:2px 8px;border-radius:5px;}
+  .stem{font-size:18px;line-height:1.48;font-weight:600;color:var(--ink);margin:0 0 20px;}
+
+  .options{display:flex;flex-direction:column;gap:10px;}
+  .opt{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;padding:13px 14px;border:1.5px solid var(--line);background:var(--paper);border-radius:10px;cursor:pointer;font-family:'Inter',sans-serif;font-size:15px;color:var(--ink);transition:border-color .15s ease, background .15s ease, transform .1s ease;}
+  .opt:hover:not(.locked){border-color:var(--pulse);background:#FEECEC;}
+  .opt:active:not(.locked){transform:scale(.997);}
+  .opt:focus-visible{outline:2px solid var(--pulse);outline-offset:2px;}
+  .opt-letter{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:13px;color:var(--ink-soft);background:var(--card);border:1px solid var(--line);min-width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+  .opt-text{flex:1;line-height:1.45;}
+  .opt.correct-choice{border-color:var(--correct);background:var(--correct-bg);}
+  .opt.correct-choice .opt-letter{background:var(--correct);border-color:var(--correct);color:#fff;}
+  .opt.incorrect-choice{border-color:var(--incorrect);background:var(--incorrect-bg);}
+  .opt.incorrect-choice .opt-letter{background:var(--incorrect);border-color:var(--incorrect);color:#fff;}
+  .opt.locked{cursor:default;}
+  .opt.dim{opacity:.55;}
+  .opt-explain{margin-top:6px;font-size:13.5px;line-height:1.5;font-family:'Inter',sans-serif;}
+  .opt.correct-choice .opt-explain{color:#15694A;}
+  .opt.incorrect-choice .opt-explain{color:#96332E;}
+  .opt.dim .opt-explain{color:var(--muted);}
+  .opt.dim.correct-choice .opt-explain{color:var(--correct);}
+  .opt.sal .opt-letter{border-radius:5px;}
+
+  .result-banner{display:none;align-items:center;gap:10px;margin-top:18px;padding:11px 14px;border-radius:9px;font-size:14px;font-weight:600;font-family:'Inter',sans-serif;}
+  .result-banner.show{display:flex;}
+  .result-banner.correct{background:var(--correct-bg);color:var(--correct);}
+  .result-banner.incorrect{background:var(--incorrect-bg);color:var(--incorrect);}
+
+  .actions{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:10px;}
+  .btn-prev{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;background:var(--card);color:var(--ink-soft);border:1px solid var(--line);padding:11px 18px;border-radius:8px;cursor:pointer;}
+  .btn-prev:hover{border-color:var(--pulse);color:var(--pulse);}
+  .btn-prev:disabled{opacity:.4;cursor:not-allowed;}
+  .btn-next{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;letter-spacing:.03em;background:var(--ink);color:#fff;border:none;padding:11px 20px;border-radius:8px;cursor:pointer;display:none;align-items:center;gap:8px;}
+  .btn-next.show{display:inline-flex;}
+  .btn-next:hover{background:var(--pulse);}
+  .btn-sal-submit{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;background:var(--pulse);color:#fff;border:none;padding:11px 20px;border-radius:8px;cursor:pointer;margin-top:16px;}
+
+  .summary{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:36px 30px;text-align:center;display:none;}
+  .summary.show{display:block;}
+  .summary .big-score{font-family:'Fraunces',serif;font-size:56px;font-weight:600;color:var(--pulse);line-height:1;margin-bottom:6px;}
+  .summary .big-score sub{font-size:22px;font-weight:500;color:var(--muted);}
+  .summary p{color:var(--ink-soft);font-size:14px;margin:6px 0 22px;}
+  .btn-restart{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;background:var(--ink);color:#fff;border:none;padding:12px 22px;border-radius:8px;cursor:pointer;margin:4px;}
+  .btn-restart:hover{background:var(--pulse);}
+  .btn-restart.secondary{background:var(--card);color:var(--ink-soft);border:1px solid var(--line);}
+  .btn-restart.secondary:hover{color:var(--pulse);border-color:var(--pulse);}
+  .btn-restart.print-btn{background:var(--ink-soft);}
+  .btn-restart.print-btn:hover{background:var(--pulse);}
+
+  footer{text-align:center;margin-top:34px;font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;}
+
+
+  /* ---------- Flashcards ---------- */
+  .flash-wrap{max-width:480px;margin:0 auto;text-align:center;}
+  .flash-progress{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:14px;}
+  .flashcard{width:100%;height:260px;perspective:1200px;cursor:pointer;margin-bottom:20px;}
+  .flash-inner{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d;}
+  .flashcard.flipped .flash-inner{transform:rotateY(180deg);}
+  .flash-face{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:16px;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;padding:30px;font-family:'Inter',sans-serif;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.05);}
+  .flash-front{background:var(--card);font-size:18px;font-weight:600;color:var(--ink);}
+  .flash-back{background:var(--pulse-dim);transform:rotateY(180deg);color:var(--ink);font-weight:500;font-size:15px;line-height:1.5;}
+  .flash-tag{position:absolute;top:14px;left:16px;font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--pulse);font-weight:700;}
+  .flash-hint{position:absolute;bottom:12px;right:16px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);}
+  .flash-controls{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
+
+  /* ---------- Printable report (hidden on screen, shown only when printing) ---------- */
+  #printReport{display:none;}
+  @media print{
+    body *{visibility:hidden;}
+    #printReport, #printReport *{visibility:visible;}
+    #printReport{
+      display:block;position:absolute;top:0;left:0;width:100%;
+      padding:0;margin:0;background:#fff;color:#111;font-family:'Inter',sans-serif;
+    }
+    .wrap, .topbar, .view, footer{display:none !important;}
+    #printReport .rpt-header{border-bottom:2px solid #333;padding-bottom:10px;margin-bottom:16px;}
+    #printReport h1{font-family:'Fraunces',serif;font-size:22px;margin:0 0 4px;}
+    #printReport .rpt-meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:#555;}
+    #printReport .rpt-score{font-family:'Fraunces',serif;font-size:26px;font-weight:600;margin:10px 0;}
+    #printReport .rpt-q{page-break-inside:avoid;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid #ddd;}
+    #printReport .rpt-q .rq-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:#6B4FA0;font-weight:700;}
+    #printReport .rpt-q .rq-stem{font-weight:700;font-size:13px;margin:2px 0 6px;}
+    #printReport .rpt-opt{font-size:12px;margin:3px 0;padding-left:14px;}
+    #printReport .rpt-opt.correct{color:#15694A;font-weight:700;}
+    #printReport .rpt-opt.incorrect{color:#96332E;font-weight:700;text-decoration:underline;}
+    #printReport .rpt-explain{font-size:11px;color:#444;margin:1px 0 4px 14px;}
+    #printReport .rpt-banner{font-size:11px;font-weight:700;margin-top:2px;}
+    #printReport .rpt-banner.correct{color:#15694A;}
+    #printReport .rpt-banner.incorrect{color:#96332E;}
+  }
+
+  .case-card{border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin-bottom:22px;background:var(--card);}
+  .case-card h3{font-family:'Fraunces',serif;font-size:19px;margin:0 0 4px;color:var(--ink);}
+  .case-tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--pulse);background:var(--pulse-dim);padding:3px 9px;border-radius:5px;text-transform:uppercase;letter-spacing:.04em;display:inline-block;margin-bottom:12px;}
+  .case-vignette{font-size:14.5px;line-height:1.75;color:var(--ink-soft);margin-bottom:6px;}
+  .case-vignette b{color:var(--ink);}
+  .case-data{border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:var(--paper);font-size:13.5px;color:var(--ink-soft);margin:12px 0;line-height:1.7;}
+  .case-data b{color:var(--ink);}
+  .case-q{margin-top:18px;padding-top:16px;border-top:1px dashed var(--line);}
+  .case-q p.q-text{font-size:14px;color:var(--ink);margin:0 0 10px;font-weight:500;}
+  .reveal-btn{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--pulse);background:var(--pulse-dim);border:none;padding:7px 14px;border-radius:6px;cursor:pointer;letter-spacing:.02em;}
+  .reveal-btn:hover{opacity:.85;}
+  .reveal-answer{display:none;margin-top:12px;padding:12px 16px;background:var(--correct-bg);border-left:3px solid var(--correct);border-radius:0 8px 8px 0;font-size:13.5px;color:var(--ink);line-height:1.7;}
+  .reveal-answer.show{display:block;}
+  .reveal-answer b{color:var(--correct);}
+
+  /* ============ GLASS SURFACE OVERRIDE ============ */
+  .notes-card,.setup-card,.picker,.qcard,.summary,.flash-front,.case-card,
+  .score-pill,.secondary,.exam-banner-inner{
+    background:rgba(255,255,255,.6);
+    -webkit-backdrop-filter:blur(18px) saturate(160%);
+    backdrop-filter:blur(18px) saturate(160%);
+    border-color:rgba(255,255,255,.7);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.7), 0 10px 26px rgba(33,27,54,.06);
+  }
+  .tab-btn:not(.selected),.btn-prev,.mini-btn{
+    background:rgba(255,255,255,.45);
+    -webkit-backdrop-filter:blur(10px);
+    backdrop-filter:blur(10px);
+    border-color:rgba(255,255,255,.65);
+  }
+  .drugclass,.casebox,.case-data,.count-btn,.pick-btn,.opt,.dot.unanswered{
+    background:rgba(255,255,255,.35);
+    -webkit-backdrop-filter:blur(9px);
+    backdrop-filter:blur(9px);
+    border-color:rgba(255,255,255,.6);
+  }
+  .topbar{
+    background:rgba(255,255,255,.4);
+    -webkit-backdrop-filter:blur(14px);
+    backdrop-filter:blur(14px);
+    border:1px solid rgba(255,255,255,.6);
+    border-radius:12px;
+    padding:10px 16px;
+  }
+  @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+    .notes-card,.setup-card,.picker,.qcard,.summary,.flash-front,.case-card,
+    .score-pill,.secondary,.exam-banner-inner,.tab-btn:not(.selected),.btn-prev,
+    .mini-btn,.drugclass,.casebox,.case-data,.count-btn,.pick-btn,.opt,.topbar{
+      background:rgba(255,255,255,.94);
+    }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand" onclick="location.href='index.html'">◆ Nursing NCLEX Review</div>
+    <div class="crumbs" id="crumbs"></div>
+  </div>
+
+  <!-- ============ COURSE NOTES ============ -->
+  <div class="view" id="view-notes">
+    <div class="eyebrow">Acid-Base Balance</div>
+    <div class="topic-tabs">
+      <button class="tab-btn selected" id="tabNotesA" onclick="showView('notes')">Course Notes</button>
+      <button class="tab-btn" id="tabFlashA" onclick="showView('flashcards')">Flashcards</button>
+      <button class="tab-btn" id="tabSetupA" onclick="showView('setup')">Practice Test</button>
+      <button class="tab-btn" id="tabCasesA" onclick="showView('cases')">Case Studies</button>
+    </div>
+    <h1>Course Notes</h1>
+    <p class="subtitle">Strategy and high-alert medication reference for the NCLEX-RN Pharmacological and Parenteral Therapies section. Use this to study before or during the practice test.</p>
+    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
+
+    <div class="notes-card" id="notesContent"></div>
+
+    <div style="text-align:center;margin-top:20px;">
+      <button class="btn-restart" style="background:var(--pulse);" onclick="showView('setup')">Start practice test →</button>
+    </div>
+  </div>
+
+  <!-- ============ FLASHCARDS ============ -->
+  <div class="view" id="view-flashcards">
+    <div class="eyebrow">Acid-Base Balance</div>
+    <div class="topic-tabs">
+      <button class="tab-btn" id="tabNotesB" onclick="showView('notes')">Course Notes</button>
+      <button class="tab-btn selected" id="tabFlashB" onclick="showView('flashcards')">Flashcards</button>
+      <button class="tab-btn" id="tabSetupB" onclick="showView('setup')">Practice Test</button>
+      <button class="tab-btn" id="tabCasesB" onclick="showView('cases')">Case Studies</button>
+    </div>
+    <h1>Flashcards</h1>
+    <p class="subtitle">Tap a card to flip it. Use the arrows to move through the deck, or shuffle for random order.</p>
+    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
+
+    <div class="flash-wrap">
+      <div class="flash-progress">Card <span id="flashIndex">1</span> / <span id="flashTotal">1</span></div>
+      <div class="flashcard" id="flashcard" onclick="flipCard()">
+        <div class="flash-inner" id="flashInner">
+          <div class="flash-face flash-front">
+            <span class="flash-tag">Term</span>
+            <span id="flashFront"></span>
+            <span class="flash-hint">Tap to flip</span>
+          </div>
+          <div class="flash-face flash-back">
+            <span class="flash-tag">Answer</span>
+            <span id="flashBack"></span>
+          </div>
+        </div>
+      </div>
+      <div class="flash-controls">
+        <button class="mini-btn" id="flashPrev">← Prev</button>
+        <button class="mini-btn" id="flashShuffle">🔀 Shuffle</button>
+        <button class="mini-btn" id="flashNext">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SETUP ============ -->
+  <div class="view" id="view-setup">
+    <div class="eyebrow">Acid-Base Balance</div>
+    <div class="topic-tabs">
+      <button class="tab-btn" id="tabNotesC" onclick="showView('notes')">Course Notes</button>
+      <button class="tab-btn" id="tabFlashC" onclick="showView('flashcards')">Flashcards</button>
+      <button class="tab-btn selected" id="tabSetupC" onclick="showView('setup')">Practice Test</button>
+      <button class="tab-btn" id="tabCasesC" onclick="showView('cases')">Case Studies</button>
+    </div>
+    <h1>Practice Test</h1>
+    <p class="subtitle">Choose how many questions you want to take. Questions are randomly selected from a bank of 100 each time, and every option — right or wrong — comes with an explanation. Print or save a PDF of your results after every exam.</p>
+    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
+
+    <div class="setup-card">
+      <p>How many questions would you like to take?</p>
+      <div class="count-grid">
+        <button class="count-btn" onclick="startQuiz(10)"><span class="count-num">10</span><span class="count-label">Quick review</span></button>
+        <button class="count-btn" onclick="startQuiz(20)"><span class="count-num">20</span><span class="count-label">Standard</span></button>
+        <button class="count-btn" onclick="startQuiz(35)"><span class="count-num">35</span><span class="count-label">Extended</span></button>
+        <button class="count-btn" onclick="startQuiz(100)"><span class="count-num">100</span><span class="count-label">Full bank</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ CASE STUDIES ============ -->
+  <div class="view" id="view-cases">
+    <div class="eyebrow">Acid-Base Balance</div>
+    <div class="topic-tabs">
+      <button class="tab-btn" id="tabNotesD" onclick="showView('notes')">Course Notes</button>
+      <button class="tab-btn" id="tabFlashD" onclick="showView('flashcards')">Flashcards</button>
+      <button class="tab-btn" id="tabSetupD" onclick="showView('setup')">Practice Test</button>
+      <button class="tab-btn selected" id="tabCasesD" onclick="showView('cases')">Case Studies</button>
+    </div>
+    <h1>Case Studies</h1>
+    <p class="subtitle">Apply what you've reviewed to realistic clinical scenarios. Read each vignette, think through the reflection questions, then tap to reveal the rationale.</p>
+    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
+
+    <div class="cases-wrap" id="casesContent"></div>
+  </div>
+
+  <!-- ============ QUIZ ============ -->
+  <div class="view" id="view-quiz">
+    <div class="eyebrow">Acid-Base Balance</div>
+    <h1 id="quizTitle">Practice Test</h1>
+    <p class="subtitle">Choose an answer to see the correct choice and why every option is right or wrong. Jump to any question using the picker below.</p>
+    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
+
+    <div class="picker">
+      <div class="picker-head">
+        <span class="picker-title">Jump to a question</span>
+        <div class="picker-actions">
+          <button class="mini-btn" id="randomBtn">🎲 Random</button>
+          <button class="mini-btn" id="resultsBtn">View results</button>
+        </div>
+      </div>
+      <div class="picker-grid" id="pickerGrid"></div>
+      <div class="legend">
+        <span><span class="dot unanswered"></span>Unanswered</span>
+        <span><span class="dot correct"></span>Correct</span>
+        <span><span class="dot incorrect"></span>Incorrect</span>
+      </div>
+    </div>
+
+    <div class="statusbar">
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="score-pill">Score <span id="scoreLabel">0 / 0</span></div>
+    </div>
+
+    <div id="quizArea"></div>
+
+    <div class="summary" id="summary">
+      <div class="big-score"><span id="finalScore">0</span><sub id="finalOutOf">/20</sub></div>
+      <p id="finalMsg"></p>
+      <button class="btn-restart print-btn" id="printBtn">🖨️ Print / Save PDF</button>
+      <button class="btn-restart secondary" id="reviewBtn">Back to test</button>
+      <button class="btn-restart secondary" id="setupBtn">Change length</button>
+      <button class="btn-restart" id="restartBtn">New random set</button>
+    </div>
+  </div>
+
+  <footer>ACID-BASE BALANCE · PRACTICE SET</footer>
+</div>
+
+<!-- Printable results report — hidden on screen, populated and shown only for printing -->
+<div id="printReport"></div>
+
+<script>
+document.getElementById('casesContent').innerHTML = `
+<div class="case-card">
+    <span class="case-tag">Medical-Surgical Floor</span>
+    <h3>A Client with COPD and Worsening Confusion</h3>
+    <p class="case-vignette">A 68-year-old client with a long history of COPD is admitted for increasing shortness of breath and lethargy over the past two days. The nurse finds the client difficult to arouse, with slow, shallow respirations of 10/min and dusky nail beds. Family reports the client has been "sleeping all the time."</p>
+    <div class="case-data"><b>ABG:</b> pH 7.30 · PaCO2 58 mm Hg · HCO3 27 mEq/L · PaO2 58 mm Hg &nbsp;|&nbsp; <b>VS:</b> RR 10, HR 96, SpO2 86% on room air</div>
+    <div class="case-q">
+      <p class="q-text">Using the ROME method, how does the nurse interpret this ABG?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('ab_c1q1', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="ab_c1q1"><b>Answer:</b> pH is low (acidosis) and PaCO2 is high — both moving in <b>opposite</b> directions confirms a <b>respiratory</b> problem: respiratory acidosis. The HCO3 is elevated above normal (27), showing the kidneys have begun retaining bicarbonate to buffer the acidosis — this is a <b>partially compensated respiratory acidosis</b> because the pH has not yet returned to normal range.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What is the priority nursing action, and why?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('ab_c1q2', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="ab_c1q2"><b>Answer:</b> Priority is airway and oxygenation: position the client upright (high-Fowler's), apply low-flow supplemental oxygen as prescribed, and prepare for possible non-invasive ventilation. In chronic CO2 retainers, oxygen is titrated carefully (typically to keep SpO2 ~88–92%) because the hypoxic drive — not CO2 — is the client's primary respiratory stimulus; over-oxygenating can further blunt the drive to breathe and worsen hypercapnia.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">The client's family asks why he is so drowsy. What is the nurse's best explanation?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('ab_c1q3', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="ab_c1q3"><b>Answer:</b> Rising CO2 (hypercapnia) is a CNS depressant — it causes lethargy, confusion, and can progress to unresponsiveness if untreated. The drowsiness reflects worsening respiratory failure, not simple tiredness, and needs prompt intervention rather than letting the client "sleep it off."</div>
+    </div>
+  </div>
+<div class="case-card">
+    <span class="case-tag">Emergency Department</span>
+    <h3>A Young Adult with Panic Symptoms</h3>
+    <p class="case-vignette">A 22-year-old college student presents to the ED reporting she "can't catch her breath" during a stressful final exam period. She is breathing rapidly at 32/min, reports tingling around her mouth and in her fingertips, and appears anxious and tearful.</p>
+    <div class="case-data"><b>ABG:</b> pH 7.49 · PaCO2 29 mm Hg · HCO3 24 mEq/L · PaO2 98 mm Hg &nbsp;|&nbsp; <b>VS:</b> RR 32, HR 110, BP 138/86</div>
+    <div class="case-q">
+      <p class="q-text">Interpret this ABG using ROME.</p>
+      <button class="reveal-btn" onclick="toggleAnswer('ab_c2q1', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="ab_c2q1"><b>Answer:</b> pH is high (alkalosis) and PaCO2 is low — opposite directions again point to a <b>respiratory</b> disorder: respiratory alkalosis, caused by hyperventilation "blowing off" CO2. HCO3 is still normal, so this is an <b>uncompensated (acute) respiratory alkalosis</b> — the kidneys haven't had time to respond yet.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">Why is the client experiencing perioral and finger tingling?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('ab_c2q2', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="ab_c2q2"><b>Answer:</b> Respiratory alkalosis lowers ionized calcium available to nerve and muscle tissue, producing paresthesia (tingling of the fingers, toes, and around the mouth) and can progress to carpopedal spasm or tetany if uncorrected — hypocalcemia-like symptoms even though total serum calcium is unchanged.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What non-pharmacologic intervention helps most, and why?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('ab_c2q3', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="ab_c2q3"><b>Answer:</b> Coach the client to slow her breathing rate — cupping hands around the mouth and nose (or using a rebreathing mask, never a plain paper bag sealed tightly) lets her rebreathe some exhaled CO2, raising PaCO2 back toward normal. Calm, reassuring coaching to slow the respiratory rate directly treats the cause, unlike oxygen, which isn't the underlying problem here.</div>
+    </div>
+  </div>
+<div class="case-card">
+    <span class="case-tag">Medical-Surgical Floor</span>
+    <h3>Prolonged Vomiting and Muscle Cramping</h3>
+    <p class="case-vignette">A 45-year-old client has had persistent vomiting for three days from a suspected bowel obstruction and has an NG tube on continuous low suction. The nurse notes new muscle cramping in the client's hands and generalized weakness during morning assessment.</p>
+    <div class="case-data"><b>ABG:</b> pH 7.49 · PaCO2 47 mm Hg · HCO3 32 mEq/L · PaO2 92 mm Hg &nbsp;|&nbsp; <b>K+:</b> 3.1 mEq/L &nbsp;|&nbsp; <b>VS:</b> RR 12, HR 88</div>
+    <div class="case-q">
+      <p class="q-text">Using ROME, interpret this ABG.</p>
+      <button class="reveal-btn" onclick="toggleAnswer('ab_c3q1', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="ab_c3q1"><b>Answer:</b> pH is high (alkalosis) and HCO3 is high — pH and HCO3 moving in the <b>same</b> direction points to a <b>metabolic</b> disorder: metabolic alkalosis, caused by loss of hydrochloric acid through vomiting/NG suctioning. PaCO2 is mildly elevated above normal as the lungs slow breathing to retain CO2 and compensate — a <b>partially compensated metabolic alkalosis</b>.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What is the connection between this client's low potassium and the vomiting/NG suctioning?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('ab_c3q2', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="ab_c3q2"><b>Answer:</b> Vomiting and gastric suctioning cause loss of hydrogen and chloride ions, and the kidneys respond to the alkalosis by excreting potassium in exchange for retaining hydrogen ions — this renal compensation, combined with direct GI potassium loss, produces hypokalemia, which explains the muscle cramping and weakness.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What interventions does the nurse anticipate to correct this imbalance?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('ab_c3q3', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="ab_c3q3"><b>Answer:</b> Replace fluid, chloride, and potassium losses — typically IV normal saline (0.9% NaCl) with potassium chloride added as prescribed, since chloride replacement allows the kidneys to excrete bicarbonate instead of hydrogen ions, correcting the alkalosis. The nurse should also monitor for cardiac dysrhythmias related to hypokalemia and reassess electrolytes after replacement.</div>
+    </div>
+  </div>
+<div class="case-card">
+    <span class="case-tag">Emergency Department</span>
+    <h3>Aspirin Overdose</h3>
+    <p class="case-vignette">A 24-year-old is brought to the ED after intentionally taking a large amount of aspirin approximately 3 hours ago. She reports tinnitus (ringing in her ears) and nausea. The nurse notes she is breathing rapidly and deeply.</p>
+    <div class="case-data"><b>ABG:</b> pH 7.47 · PaCO2 26 mm Hg · HCO3 19 mEq/L · PaO2 96 mm Hg &nbsp;|&nbsp; <b>VS:</b> RR 34, HR 118 &nbsp;|&nbsp; <b>Salicylate level:</b> elevated</div>
+    <div class="case-q">
+      <p class="q-text">This ABG shows a high pH with both a low PaCO2 and a low HCO3 — how does the nurse make sense of this mixed picture?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('ab_c4q1', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="ab_c4q1"><b>Answer:</b> Early salicylate toxicity classically produces a <b>mixed</b> acid-base disorder: salicylates directly stimulate the medulla, causing hyperventilation and a primary respiratory alkalosis (low PaCO2, high pH), while simultaneously salicylic acid itself and disrupted cellular metabolism produce a primary metabolic acidosis (low HCO3). Early on, the respiratory alkalosis often dominates the pH, as seen here.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">Why is tinnitus an important assessment finding in this scenario?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('ab_c4q2', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="ab_c4q2"><b>Answer:</b> Tinnitus (and sometimes hearing loss) is a classic early sign of salicylate toxicity and can help confirm the diagnosis and estimate severity — it often appears before more dangerous findings and should prompt the nurse to anticipate salicylate level testing and toxicology involvement.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What is a priority nursing intervention anticipated for this client?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('ab_c4q3', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="ab_c4q3"><b>Answer:</b> Anticipate activated charcoal if within the appropriate time window, IV fluids, and alkalinization of the urine with sodium bicarbonate (which enhances salicylate excretion by the kidneys) as ordered. Continuous cardiac and neurologic monitoring is essential, since salicylate toxicity can progress to a dangerous, harder-to-treat metabolic acidosis as respiratory compensation fails over time.</div>
+    </div>
+  </div>
+<div class="case-card">
+    <span class="case-tag">Intensive Care Unit</span>
+    <h3>Prolonged Diarrhea and Metabolic Acidosis</h3>
+    <p class="case-vignette">A client recovering from a GI illness has had large-volume watery diarrhea for four days. The nurse notes the client is fatigued, breathing faster and deeper than usual, and reports abdominal cramping.</p>
+    <div class="case-data"><b>ABG:</b> pH 7.29 · PaCO2 30 mm Hg · HCO3 15 mEq/L · PaO2 95 mm Hg &nbsp;|&nbsp; <b>VS:</b> RR 26, HR 108</div>
+    <div class="case-q">
+      <p class="q-text">Using ROME, interpret this ABG.</p>
+      <button class="reveal-btn" onclick="toggleAnswer('ab_c5q1', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="ab_c5q1"><b>Answer:</b> pH is low (acidosis) and HCO3 is low — pH and HCO3 moving in the <b>same</b> direction points to a <b>metabolic</b> disorder: metabolic acidosis, from bicarbonate lost in large-volume diarrhea. PaCO2 is also below normal as the lungs increase rate/depth to blow off CO2 and raise pH — a <b>partially compensated metabolic acidosis</b>.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What is the connection between diarrhea and bicarbonate loss?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('ab_c5q2', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="ab_c5q2"><b>Answer:</b> Intestinal secretions, especially from the lower GI tract, are rich in bicarbonate; large-volume or prolonged diarrhea causes significant bicarbonate loss in the stool, directly lowering the body's buffering capacity and producing a normal-anion-gap metabolic acidosis.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What other electrolyte imbalance commonly accompanies this presentation, and why does it matter for nursing care?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('ab_c5q3', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="ab_c5q3"><b>Answer:</b> Hypokalemia commonly accompanies GI losses like diarrhea, since potassium is also lost in intestinal fluid. The nurse should anticipate cardiac monitoring and potassium replacement alongside fluid and bicarbonate correction, watching for muscle weakness and dysrhythmias associated with low potassium.</div>
+    </div>
+  </div>
+`;
+
+document.getElementById('notesContent').innerHTML = `
+<div class="stat-strip">
+  <div class="stat-box"><div class="big">7.35–7.45</div><div class="lbl">Normal arterial pH</div></div>
+  <div class="stat-box"><div class="big">4</div><div class="lbl">Primary acid-base imbalances</div></div>
+  <div class="stat-box"><div class="big">ROME</div><div class="lbl">Respiratory Opposite, Metabolic Equal</div></div>
+</div>
+
+<h2 class="section-title">Hydrogen Ions, Acids, and Bases</h2>
+<p><b>Hydrogen ions</b> are expressed as pH and circulate in the body as carbonic acid and hydrogen/organic acids. <b>Acids</b> are produced as end products of metabolism; the strength of an acid is determined by the number of hydrogen ions it contains, and the lungs and kidneys excrete acids every day. <b>Bases</b> contain no hydrogen ions — they accept hydrogen ions from acids to neutralize or decrease acid strength.</p>
+<div class="note-callout">Acid–base disturbances are commonly encountered in clinical practice, especially in critical care. Identifying the specific imbalance is essential to determining the underlying cause and appropriate treatment. ABGs are used to assess conditions such as asthma, COPD, embolism, and hypoxia.</div>
+
+<h2 class="section-title">Regulatory Systems for Hydrogen Ion Concentration</h2>
+<div class="drugclass"><h4>Buffers</h4>
+<ul><li>The fastest-acting regulatory system</li><li>Primary buffer system in extracellular fluid: the carbonic acid–bicarbonate system</li></ul></div>
+<div class="drugclass"><h4>Lungs</h4>
+<ul><li>In acidosis: pH decreases; respiratory rate and depth increase to exhale acids (CO2)</li><li>In alkalosis: pH increases; respiratory rate and depth decrease to retain acids (CO2)</li></ul></div>
+<div class="drugclass"><h4>Kidneys</h4>
+<ul><li>Perform the ultimate correction of acid-base disturbances (slowest but most complete)</li></ul></div>
+<div class="drugclass"><h4>Potassium</h4>
+<ul><li>Compensates for hydrogen ion level changes</li><li>In <b>acidosis:</b> potassium moves out of cells to make room for hydrogen ions → serum potassium increases</li><li>In <b>alkalosis:</b> potassium moves into cells → serum potassium decreases</li></ul></div>
+
+<h2 class="section-title">Normal Arterial Blood Gas (ABG) Values</h2>
+<table class="note-table">
+<tr><th>Component</th><th>Normal Range</th><th>Represents</th></tr>
+<tr><td><b>pH</b></td><td>7.35–7.45</td><td>Acidity/alkalinity — based on hydrogen ion concentration. pH &lt; 7.35 = acidemia; pH &gt; 7.45 = alkalemia</td></tr>
+<tr><td><b>PaCO2</b></td><td>35–45 mm Hg</td><td>Respiratory component. Controlled by the lungs. &gt;45 = hypoventilation (retaining CO2); &lt;35 = hyperventilation ("blowing off" CO2)</td></tr>
+<tr><td><b>PaO2</b></td><td>75–100 mm Hg</td><td>Partial pressure of dissolved oxygen</td></tr>
+<tr><td><b>HCO3</b></td><td>22–26 mEq/L</td><td>Metabolic component — bicarbonate, a major body base. Regulated by the kidneys</td></tr>
+<tr><td><b>SaO2</b></td><td>94–100%</td><td>Oxygen saturation — % of hemoglobin binding sites bound with oxygen; affected by pH, PCO2, and temperature</td></tr>
+</table>
+<div class="note-callout"><b>Respiratory failure</b> is defined as a PO2 less than 50 mm Hg and PCO2 greater than 50 mm Hg.</div>
+
+<h2 class="section-title">Determining FiO2</h2>
+<p>Room air FiO2 = 21%. Each liter of nasal cannula oxygen adds approximately 4%. <b>Example:</b> 2L NC = 21% + (4% × 2) = 29% FiO2.</p>
+
+<h2 class="section-title">COVID-19, Proning, &amp; P/F Ratio</h2>
+<p>Severe COVID-19 in adults is defined by: dyspnea (RR ≥30/min), SpO2 ≤93%, a PaO2:FiO2 (P/F) ratio &lt;300 mm Hg, and infiltrates in more than 50% of the lung field.</p>
+<div class="note-callout"><b>P/F Ratio</b> = PaO2 ÷ FiO2. <b>Normal:</b> 400–500 mm Hg. <b>ARDS:</b> ratio &lt;300; <b>severe ARDS:</b> ratio &lt;100.<br><b>Normal (unventilated):</b> PaO2 75–100 mm Hg, PaCO2 38–42 mm Hg. <b>On mechanical ventilation, concerning values:</b> PaO2 &lt;55 mm Hg, PaCO2 &gt;50 mm Hg.</div>
+
+<h2 class="section-title">Performing ABGs &amp; the Allen Test</h2>
+<div class="note-callout"><b>Before the procedure:</b> explain the test assesses blood oxygen and oxygenation level; explain the blood sample and potential discomfort; advise 30 minutes of rest before specimen collection; the site may be anesthetized with 1–2% lidocaine; specimen collection and post-procedure site care take about 10–15 minutes. Notify the person collecting the specimen if the client is on anticoagulants, aspirin, or other bleeding-prolonging supplements.</div>
+<div class="drugclass"><h4>Modified Allen Test (performed before radial artery puncture)</h4>
+<ul><li>Extend the client's wrist over a rolled towel; ask the client to make a fist with the hand extended over the towel</li><li>Use the second and third fingers (not the thumb, which has its own pulse) to locate the ulnar and radial pulses on the palmar wrist</li><li>Compress both arteries; ask the client to open/close the fist until the palm turns pale</li><li>Release pressure on the <b>ulnar artery only</b> — color should return to the palm within 5 seconds if the ulnar artery is functioning (a <b>positive Allen test</b>), confirming adequate collateral circulation before radial puncture</li><li>Repeat on the opposite hand; select the hand with faster color return (better circulation) for specimen collection</li></ul></div>
+<div class="note-callout"><b>Specimen handling:</b> collect in an air-free heparinized syringe — no room air should be introduced, since gases will begin equilibrating immediately. Apply a pressure dressing over the puncture site afterward.</div>
+<div class="note-callout"><b>Arterial line:</b> used for direct, continuous BP monitoring and for frequent ABG/blood sampling; the radial artery is the usual site.</div>
+
+<h2 class="section-title">The Four Primary Acid-Base Imbalances</h2>
+<table class="note-table">
+<tr><th>Imbalance</th><th>pH</th><th>PaCO2</th><th>HCO3</th></tr>
+<tr><td>Respiratory acidosis</td><td>↓</td><td>↑</td><td>Normal</td></tr>
+<tr><td>Respiratory alkalosis</td><td>↑</td><td>↓</td><td>Normal</td></tr>
+<tr><td>Metabolic acidosis</td><td>↓</td><td>Normal</td><td>↓</td></tr>
+<tr><td>Metabolic alkalosis</td><td>↑</td><td>Normal</td><td>↑</td></tr>
+</table>
+
+<div class="drugclass"><h4>Respiratory Acidosis <span class="suffix-tag">pH &lt;7.35, PaCO2 &gt;45</span></h4>
+<ul><li>Caused by inadequate ventilation and CO2 retention</li><li><b>Causes:</b> lung defects, obstructive airway disorders, respiratory depression, hypoventilation, sedatives/opioids, brain trauma</li><li><b>S/S:</b> lethargy, confusion, restlessness, weakness, cyanosis, tachycardia, headache, arrhythmias</li><li><b>Compensation:</b> kidneys retain bicarbonate and excrete excess hydrogen ions in urine</li><li><b>Interventions:</b> semi/high-Fowler's position, oxygen as prescribed, respiratory treatments, turn/cough/deep-breathe/CPT, hydrate, suction PRN</li></ul></div>
+<div class="drugclass"><h4>Respiratory Alkalosis <span class="suffix-tag">pH &gt;7.45, PaCO2 &lt;35</span></h4>
+<ul><li>Acute reduction of CO2 with proportionate reduction in plasma bicarbonate</li><li><b>Causes:</b> mechanical overventilation, hyperventilation (panic/hysteria), fever, pain, salicylates, hypoxia</li><li><b>S/S:</b> lightheadedness, confusion, tachypnea, numbness, tingling, dizziness, palpitations, paresthesia of fingers/toes</li><li><b>Compensation:</b> kidneys excrete excess bicarbonate in urine</li><li><b>Interventions:</b> prevent overly deep/rapid ventilator breaths, rebreathing mask or brown paper bag, emotional support</li></ul></div>
+<div class="drugclass"><h4>Metabolic Acidosis <span class="suffix-tag">pH &lt;7.35, HCO3 &lt;22</span></h4>
+<ul><li>Retention of acids or loss of bicarbonate buffers</li><li><b>Causes:</b> DKA, renal insufficiency, aspirin toxicity, severe diarrhea, malnutrition</li><li><b>S/S:</b> headache, confusion, restlessness, lethargy, tremors, nausea/vomiting, dysrhythmias, coma</li><li><b>Compensation:</b> hyperpnea and Kussmaul respirations as lungs try to exhale excess CO2</li><li><b>Interventions:</b> DKA — IV regular insulin as prescribed; AKI/CKD — dialysis, low-protein high-calorie diet as prescribed</li></ul></div>
+<div class="drugclass"><h4>Metabolic Alkalosis <span class="suffix-tag">pH &gt;7.45, HCO3 &gt;26</span></h4>
+<ul><li>Increased plasma bicarbonate, usually from acid loss (stomach/kidney), potassium depletion with diuretics, excess alkali intake, or adrenal hyperactivity</li><li><b>Causes:</b> diuretics, excessive vomiting/GI suctioning, excess sodium bicarbonate/antacid ingestion</li><li><b>S/S:</b> lethargy, dizziness, weakness, disorientation, nausea/vomiting, muscle cramps/twitching, convulsions, depressed respiration</li><li><b>Compensation:</b> respiratory rate/depth decrease to conserve CO2</li><li><b>Interventions:</b> safety precautions, administer sodium chloride, administer potassium chloride as prescribed</li></ul></div>
+
+<h2 class="section-title">Steps of ABG Interpretation</h2>
+<ol style="color:var(--ink-soft);font-size:14.5px;line-height:1.9;">
+<li><b>Examine the pH:</b> &gt;7.45 = alkalosis; &lt;7.35 = acidosis</li>
+<li><b>Examine PaCO2:</b> if high (&gt;45) → respiratory acidosis (with low pH); if low (&lt;35) → respiratory alkalosis (with high pH)</li>
+<li><b>Examine HCO3:</b> if high (&gt;26) → metabolic alkalosis (with high pH); if low (&lt;22) → metabolic acidosis (with low pH)</li>
+<li><b>Examine PaO2:</b> if low (&lt;75) → interference with ventilation/oxygenation; if normal → adequate oxygenation</li>
+</ol>
+
+<h2 class="section-title">ROME: Respiratory Opposite, Metabolic Equal</h2>
+<p>ROME is a memory aid for relating pH to CO2 (respiratory) or HCO3 (metabolic/renal): in <b>respiratory</b> imbalances, pH and CO2 move in <b>opposite</b> directions; in <b>metabolic</b> imbalances, pH and HCO3 move in the <b>same (equal)</b> direction.</p>
+
+<h2 class="section-title">Compensation</h2>
+<p>Compensation is the body's attempt to maintain homeostasis by adjusting CO2 and/or HCO3 to normalize pH. The opposing system (respiratory vs. renal) tries to correct the imbalance caused by the other. Neither system overcompensates — correction only brings pH to just past the border of normal.</p>
+<table class="note-table">
+<tr><th>Compensation Status</th><th>pH</th><th>PaCO2 &amp; HCO3</th></tr>
+<tr><td><b>Full compensation</b></td><td>Normal</td><td>Both abnormal</td></tr>
+<tr><td><b>Partial compensation</b></td><td>Abnormal</td><td>Both abnormal</td></tr>
+<tr><td><b>Uncompensated</b></td><td>Abnormal</td><td>Only one abnormal (the other is normal)</td></tr>
+</table>
+`;
+
+const QUESTIONS = [
+{ stem:"What is the normal range for arterial blood pH?",
+  options:[
+    {text:"7.35–7.45",correct:true,explain:"The normal arterial pH range is 7.35–7.45. A pH below 7.35 indicates acidemia, and a pH above 7.45 indicates alkalemia."},
+    {text:"6.35–6.45",correct:false,explain:"This range is far too acidic and incompatible with normal physiology; the correct normal pH range is 7.35–7.45."},
+    {text:"7.00–7.30",correct:false,explain:"This range falls below normal pH and would represent acidosis, not the normal range."},
+    {text:"7.50–7.70",correct:false,explain:"This range falls above normal pH and would represent alkalosis, not the normal range."}
+  ]},
+{ stem:"What is the normal range for PaCO2?",
+  options:[
+    {text:"35–45 mm Hg",correct:true,explain:"The normal PaCO2 range is 35–45 mm Hg, representing the respiratory component of acid-base balance, controlled by the lungs."},
+    {text:"22–26 mm Hg",correct:false,explain:"This range corresponds to normal HCO3 in mEq/L, not PaCO2."},
+    {text:"75–100 mm Hg",correct:false,explain:"This range corresponds to normal PaO2, not PaCO2."},
+    {text:"94–100 mm Hg",correct:false,explain:"This range corresponds to normal SaO2 (as a percentage), not PaCO2."}
+  ]},
+{ stem:"What is the normal range for HCO3 (bicarbonate)?",
+  options:[
+    {text:"22–26 mEq/L",correct:true,explain:"The normal HCO3 range is 22–26 mEq/L, representing the metabolic component of acid-base balance, regulated by the kidneys."},
+    {text:"35–45 mEq/L",correct:false,explain:"This range corresponds to normal PaCO2 in mm Hg, not HCO3."},
+    {text:"75–100 mEq/L",correct:false,explain:"This range corresponds to normal PaO2, not HCO3."},
+    {text:"7.35–7.45 mEq/L",correct:false,explain:"This range corresponds to normal pH, not HCO3."}
+  ]},
+{ stem:"What is the normal range for PaO2?",
+  options:[
+    {text:"75–100 mm Hg",correct:true,explain:"The normal PaO2 range is 75–100 mm Hg, representing the partial pressure of dissolved oxygen in arterial blood."},
+    {text:"35–45 mm Hg",correct:false,explain:"This range corresponds to normal PaCO2, not PaO2."},
+    {text:"22–26 mm Hg",correct:false,explain:"This range corresponds to normal HCO3 in mEq/L, not PaO2."},
+    {text:"94–100 mm Hg",correct:false,explain:"This range is close to but not the same as the normal PaO2 range; it is closer to the normal SaO2 percentage range."}
+  ]},
+{ stem:"What is the normal range for SaO2 (oxygen saturation)?",
+  options:[
+    {text:"94–100%",correct:true,explain:"The normal SaO2 range is 94–100%, reflecting the extent to which hemoglobin is saturated with oxygen."},
+    {text:"75–100%",correct:false,explain:"This range is broader than the actual normal SaO2 range of 94–100%."},
+    {text:"35–45%",correct:false,explain:"This value would represent severe hypoxia, far below the normal SaO2 range."},
+    {text:"22–26%",correct:false,explain:"This value would be incompatible with life; it does not represent normal SaO2."}
+  ]},
+{ stem:"How does the body respond to acidosis in terms of potassium regulation?",
+  options:[
+    {text:"Potassium moves out of cells to make room for hydrogen ions, increasing serum potassium",correct:true,explain:"In acidosis, potassium moves out of cells to make room for the excess hydrogen ions, causing serum potassium levels to increase."},
+    {text:"Potassium moves into cells, decreasing serum potassium",correct:false,explain:"This describes the response in alkalosis, not acidosis; in acidosis, potassium moves out of cells."},
+    {text:"Potassium levels are unaffected by acid-base status",correct:false,explain:"Potassium is directly affected by acid-base status as a compensatory mechanism for hydrogen ion level changes."},
+    {text:"Potassium is excreted entirely by the lungs during acidosis",correct:false,explain:"Potassium regulation in acid-base balance involves intracellular/extracellular shifts, not lung excretion."}
+  ]},
+{ stem:"How does the body respond to alkalosis in terms of potassium regulation?",
+  options:[
+    {text:"Potassium moves into cells, decreasing serum potassium",correct:true,explain:"In alkalosis, potassium moves into cells (as hydrogen ions move out to help buffer the alkalosis), causing serum potassium levels to decrease."},
+    {text:"Potassium moves out of cells, increasing serum potassium",correct:false,explain:"This describes the response in acidosis, not alkalosis; in alkalosis, potassium moves into cells."},
+    {text:"Potassium levels remain completely stable regardless of pH",correct:false,explain:"Potassium is directly affected by acid-base status; in alkalosis, serum potassium decreases as potassium shifts intracellularly."},
+    {text:"Potassium is retained by the kidneys during alkalosis, with no cellular shift",correct:false,explain:"The primary described mechanism is an intracellular shift of potassium during alkalosis, not solely renal retention."}
+  ]},
+{ stem:"Which regulatory system responds fastest to changes in hydrogen ion concentration in the blood?",
+  options:[
+    {text:"Buffers",correct:true,explain:"Buffers are the fastest-acting regulatory system for hydrogen ion concentration, with the carbonic acid–bicarbonate system being the primary buffer in extracellular fluid."},
+    {text:"The lungs",correct:false,explain:"The lungs respond quickly but not as fast as buffers, which act essentially immediately."},
+    {text:"The kidneys",correct:false,explain:"The kidneys perform the ultimate, but slowest, correction of acid-base disturbances — not the fastest response."},
+    {text:"The liver",correct:false,explain:"The liver is not identified as a primary regulatory system for hydrogen ion concentration in this content."}
+  ]},
+{ stem:"Which regulatory system performs the ultimate correction of acid-base disturbances?",
+  options:[
+    {text:"The kidneys",correct:true,explain:"The kidneys perform the ultimate correction of acid-base disturbances, though this process is slower than the immediate action of buffers or the lungs."},
+    {text:"Buffers",correct:false,explain:"Buffers act fastest but do not perform the ultimate, complete correction; that role belongs to the kidneys."},
+    {text:"The lungs",correct:false,explain:"The lungs provide a rapid respiratory response but do not perform the ultimate correction; that role belongs to the kidneys."},
+    {text:"The pancreas",correct:false,explain:"The pancreas is not identified as a regulatory system for acid-base balance in this content."}
+  ]},
+{ stem:"In acidosis, how does the respiratory system respond to help compensate?",
+  options:[
+    {text:"Respiratory rate and depth increase to exhale acids (CO2)",correct:true,explain:"In acidosis, the pH decreases, and the respiratory rate and depth increase in an attempt to exhale more CO2 (an acid), helping to compensate."},
+    {text:"Respiratory rate and depth decrease to retain acids",correct:false,explain:"This describes the compensatory response in alkalosis, not acidosis."},
+    {text:"The respiratory system has no compensatory role in acidosis",correct:false,explain:"The respiratory system plays a significant compensatory role in acidosis by increasing rate and depth to exhale CO2."},
+    {text:"Respiratory rate becomes irregular with no clear pattern",correct:false,explain:"The described compensatory pattern in acidosis is a clear increase in rate and depth, not an irregular, unpredictable pattern."}
+  ]},
+{ stem:"In alkalosis, how does the respiratory system respond to help compensate?",
+  options:[
+    {text:"Respiratory rate and depth decrease to retain acids (CO2)",correct:true,explain:"In alkalosis, the pH increases, and the respiratory rate and depth decrease in an attempt to retain more CO2 (an acid), helping to compensate."},
+    {text:"Respiratory rate and depth increase to exhale acids",correct:false,explain:"This describes the compensatory response in acidosis, not alkalosis."},
+    {text:"The respiratory system has no compensatory role in alkalosis",correct:false,explain:"The respiratory system plays a significant compensatory role in alkalosis by decreasing rate and depth to retain CO2."},
+    {text:"Respiratory rate increases dramatically to worsen the alkalosis",correct:false,explain:"This is the opposite of the actual compensatory response, which works to correct, not worsen, the imbalance."}
+  ]},
+{ stem:"What is the correct order of the second and third fingers' use when performing the modified Allen test?",
+  options:[
+    {text:"Use the second and third fingers to locate the ulnar and radial pulses; the thumb should not be used because it has its own pulse",correct:true,explain:"The second and third fingers are used to locate the ulnar and radial pulses on the palmar wrist surface; the thumb is avoided because it has its own pulse, which could be confused with the client's pulse."},
+    {text:"The thumb is the preferred finger for locating these pulses",correct:false,explain:"The thumb should specifically not be used to locate these pulses because it has its own pulse, which could cause confusion."},
+    {text:"Only the index finger is used to locate both pulses",correct:false,explain:"The second and third fingers (not solely the index finger) are used to locate the ulnar and radial pulses."},
+    {text:"Finger selection does not matter for this test",correct:false,explain:"Finger selection does matter — the thumb should specifically be avoided due to its own pulse."}
+  ]},
+{ stem:"During a modified Allen test, the nurse releases pressure on the ulnar artery only. What indicates a positive Allen test?",
+  options:[
+    {text:"Color returns to the palm within 5 seconds",correct:true,explain:"A positive Allen test is indicated when color returns to the palm within 5 seconds of releasing pressure on the ulnar artery, confirming adequate ulnar collateral circulation before radial artery puncture."},
+    {text:"Color does not return to the palm at all",correct:false,explain:"Failure of color to return indicates inadequate collateral circulation and a negative Allen test, not a positive one."},
+    {text:"The client reports no sensation in the hand",correct:false,explain:"Sensation is not the criterion used to interpret the Allen test; color return to the palm is the key finding."},
+    {text:"The radial pulse disappears completely",correct:false,explain:"This is not the criterion for a positive Allen test; the test looks at color return to the palm after releasing the ulnar artery."}
+  ]},
+{ stem:"Why is it important that no room air be introduced into the ABG collection syringe?",
+  options:[
+    {text:"Because the gases in the room and the sample will begin equilibrating immediately, altering the results",correct:true,explain:"Introducing room air into the collection container causes immediate equilibration between room air gases and the sample, which can significantly alter and invalidate the ABG results."},
+    {text:"Room air introduction has no effect on ABG results",correct:false,explain:"Room air introduction does have a significant effect on ABG results due to gas equilibration, which is why an air-free heparinized syringe is required."},
+    {text:"Room air only affects the pH value, not oxygen or CO2 levels",correct:false,explain:"Room air contamination can affect PaO2 and PaCO2 values as well, not just pH, due to gas equilibration."},
+    {text:"Room air is required to properly anticoagulate the sample",correct:false,explain:"Heparin, not room air, is what anticoagulates the ABG sample; room air introduction is something to avoid, not something required."}
+  ]},
+{ stem:"A client is receiving oxygen via nasal cannula at 2 L/min. What is the approximate FiO2 the client is receiving?",
+  options:[
+    {text:"29%",correct:true,explain:"Room air FiO2 is 21%, and each liter of nasal cannula oxygen adds approximately 4%. At 2 L/min: 21% + (4% × 2) = 29%."},
+    {text:"21%",correct:false,explain:"21% is room air FiO2 alone, without the additional oxygen from the nasal cannula."},
+    {text:"50%",correct:false,explain:"This significantly overstates the FiO2 provided by 2 L/min nasal cannula, which is approximately 29%."},
+    {text:"100%",correct:false,explain:"100% FiO2 would require a much higher-flow oxygen delivery device, not a 2 L/min nasal cannula."}
+  ]},
+{ stem:"What P/F (PaO2/FiO2) ratio is generally used to define ARDS?",
+  options:[
+    {text:"Less than 300 mm Hg",correct:true,explain:"A P/F ratio less than 300 mm Hg is generally used to define ARDS, with a ratio less than 100 mm Hg indicating severe ARDS."},
+    {text:"Less than 500 mm Hg",correct:false,explain:"A P/F ratio of 400–500 mm Hg is actually within the normal range; the ARDS threshold is lower, at less than 300 mm Hg."},
+    {text:"Greater than 300 mm Hg",correct:false,explain:"A P/F ratio greater than 300 mm Hg does not meet the ARDS threshold; ARDS is defined by a ratio less than 300 mm Hg."},
+    {text:"Less than 50 mm Hg",correct:false,explain:"This value is more extreme than the actual ARDS threshold of less than 300 mm Hg (with severe ARDS being less than 100 mm Hg)."}
+  ]},
+{ stem:"What P/F ratio threshold defines severe ARDS?",
+  options:[
+    {text:"Less than 100 mm Hg",correct:true,explain:"A P/F ratio less than 100 mm Hg defines severe ARDS, compared to less than 300 mm Hg for ARDS generally."},
+    {text:"Less than 400 mm Hg",correct:false,explain:"A P/F ratio of 400-500 mm Hg is within the normal range; this is not the severe ARDS threshold."},
+    {text:"Less than 300 mm Hg",correct:false,explain:"A P/F ratio less than 300 mm Hg defines ARDS generally; severe ARDS requires a lower ratio, less than 100 mm Hg."},
+    {text:"Greater than 500 mm Hg",correct:false,explain:"A ratio greater than 500 mm Hg would be above the normal range, not indicative of severe ARDS."}
+  ]},
+{ stem:"A client with severe COVID-19 would be expected to show which findings, according to the criteria for severe disease?",
+  isSAL:true,
+  options:[
+    {text:"Respiratory rate of 30 or more breaths per minute",correct:true,explain:"A respiratory rate of 30 or more breaths per minute (dyspnea) is one of the defining criteria for severe COVID-19."},
+    {text:"Blood oxygen saturation of 93% or less",correct:true,explain:"A blood oxygen saturation of 93% or less is one of the defining criteria for severe COVID-19."},
+    {text:"A P/F ratio of less than 300 mm Hg",correct:true,explain:"A P/F ratio of less than 300 mm Hg is one of the defining criteria for severe COVID-19."},
+    {text:"Infiltrates in less than 10% of the lung field",correct:false,explain:"Severe COVID-19 is defined by infiltrates in more than 50% of the lung field, not less than 10%."}
+  ]},
+{ stem:"A client's ABG shows pH 7.28, PaCO2 55 mm Hg, HCO3 24 mEq/L. What is the correct interpretation?",
+  options:[
+    {text:"Uncompensated respiratory acidosis",correct:true,explain:"The pH is low (acidosis) and PaCO2 is high (>45), consistent with respiratory acidosis. The HCO3 is within normal range (22-26), indicating the kidneys have not yet compensated, making this uncompensated respiratory acidosis."},
+    {text:"Uncompensated metabolic acidosis",correct:false,explain:"Metabolic acidosis is characterized by a low HCO3, but this client's HCO3 is normal; the abnormal PaCO2 points to a respiratory cause instead."},
+    {text:"Compensated respiratory alkalosis",correct:false,explain:"The pH is low, indicating acidosis, not alkalosis, ruling out this interpretation."},
+    {text:"Fully compensated metabolic alkalosis",correct:false,explain:"The pH is abnormal (low), not normal, which rules out full compensation, and the pattern of high PaCO2 with normal HCO3 points to respiratory acidosis, not metabolic alkalosis."}
+  ]},
+{ stem:"A client's ABG shows pH 7.50, PaCO2 28 mm Hg, HCO3 24 mEq/L. What is the correct interpretation?",
+  options:[
+    {text:"Uncompensated respiratory alkalosis",correct:true,explain:"The pH is high (alkalosis) and PaCO2 is low (<35), consistent with respiratory alkalosis. The HCO3 is within normal range (22-26), indicating no renal compensation yet, making this uncompensated respiratory alkalosis."},
+    {text:"Uncompensated metabolic alkalosis",correct:false,explain:"Metabolic alkalosis is characterized by a high HCO3, but this client's HCO3 is normal; the abnormal PaCO2 points to a respiratory cause instead."},
+    {text:"Compensated respiratory acidosis",correct:false,explain:"The pH is high, indicating alkalosis, not acidosis, ruling out this interpretation."},
+    {text:"Partially compensated metabolic acidosis",correct:false,explain:"The pH pattern (high, with low PaCO2 and normal HCO3) is consistent with uncompensated respiratory alkalosis, not metabolic acidosis of any compensation status."}
+  ]},
+{ stem:"A client's ABG shows pH 7.30, PaCO2 40 mm Hg, HCO3 18 mEq/L. What is the correct interpretation?",
+  options:[
+    {text:"Uncompensated metabolic acidosis",correct:true,explain:"The pH is low (acidosis) and HCO3 is low (<22), consistent with metabolic acidosis. The PaCO2 is within normal range (35-45), indicating no respiratory compensation yet, making this uncompensated metabolic acidosis."},
+    {text:"Uncompensated respiratory acidosis",correct:false,explain:"Respiratory acidosis is characterized by a high PaCO2, but this client's PaCO2 is normal; the abnormal HCO3 points to a metabolic cause instead."},
+    {text:"Compensated metabolic alkalosis",correct:false,explain:"The pH is low, indicating acidosis, not alkalosis, ruling out this interpretation."},
+    {text:"Fully compensated respiratory alkalosis",correct:false,explain:"The pH is abnormal (low) rather than normal, ruling out full compensation, and the pattern (low HCO3, normal PaCO2) points to metabolic acidosis, not respiratory alkalosis."}
+  ]},
+{ stem:"A client's ABG shows pH 7.48, PaCO2 42 mm Hg, HCO3 30 mEq/L. What is the correct interpretation?",
+  options:[
+    {text:"Uncompensated metabolic alkalosis",correct:true,explain:"The pH is high (alkalosis) and HCO3 is high (>26), consistent with metabolic alkalosis. The PaCO2 is within normal range (35-45), indicating no respiratory compensation yet, making this uncompensated metabolic alkalosis."},
+    {text:"Uncompensated respiratory alkalosis",correct:false,explain:"Respiratory alkalosis is characterized by a low PaCO2, but this client's PaCO2 is normal; the abnormal HCO3 points to a metabolic cause instead."},
+    {text:"Compensated respiratory acidosis",correct:false,explain:"The pH is high, indicating alkalosis, not acidosis, ruling out this interpretation."},
+    {text:"Partially compensated metabolic acidosis",correct:false,explain:"The pH pattern (high, with normal PaCO2 and high HCO3) is consistent with uncompensated metabolic alkalosis, not metabolic acidosis."}
+  ]},
+{ stem:"A client's ABG shows pH 7.36, PaCO2 55 mm Hg, HCO3 30 mEq/L. What is the correct interpretation?",
+  options:[
+    {text:"Fully compensated respiratory acidosis",correct:true,explain:"The pH is within normal range (7.35-7.45, though at the low end), while PaCO2 is high (respiratory acidosis pattern) and HCO3 is high (renal compensation). A normal pH with both PaCO2 and HCO3 abnormal indicates full compensation — in this case, of an underlying respiratory acidosis, since the pH sits at the low-normal end reflecting its acidotic origin."},
+    {text:"Uncompensated respiratory acidosis",correct:false,explain:"Uncompensated would mean the pH is abnormal; here, the pH has returned to within the normal range, indicating compensation has occurred."},
+    {text:"Uncompensated metabolic alkalosis",correct:false,explain:"The pH is normal, not abnormal, ruling out an uncompensated picture, and the primary disturbance reflected by the low-normal pH is respiratory (elevated PaCO2), not metabolic alkalosis."},
+    {text:"No acid-base imbalance is present",correct:false,explain:"Although the pH is within normal range, both the PaCO2 and HCO3 are abnormal, indicating a compensated imbalance is present rather than no imbalance at all."}
+  ]},
+{ stem:"A client's ABG shows pH 7.33, PaCO2 30 mm Hg, HCO3 16 mEq/L. What is the correct interpretation?",
+  options:[
+    {text:"Partially compensated metabolic acidosis",correct:true,explain:"The pH is abnormal (low, acidosis), HCO3 is low (metabolic acidosis pattern), and PaCO2 is also abnormal (low), reflecting respiratory compensation (hyperventilation to blow off CO2). Since the pH, PaCO2, and HCO3 are all abnormal, this represents partial compensation of a metabolic acidosis."},
+    {text:"Fully compensated metabolic acidosis",correct:false,explain:"Full compensation requires the pH to be within the normal range; here, the pH remains abnormal (7.33), indicating only partial compensation."},
+    {text:"Uncompensated metabolic acidosis",correct:false,explain:"Uncompensated would mean only the primary value (HCO3) is abnormal while PaCO2 remains normal; here, PaCO2 is also abnormal, indicating a compensatory response is underway."},
+    {text:"Uncompensated respiratory alkalosis",correct:false,explain:"The pH is low, indicating acidosis, not alkalosis, and the primary disturbance (low HCO3) is metabolic, not respiratory."}
+  ]},
+{ stem:"According to the ROME mnemonic, in a respiratory acid-base imbalance, how do pH and PaCO2 relate to each other?",
+  options:[
+    {text:"They move in opposite directions",correct:true,explain:"ROME stands for \"Respiratory Opposite, Metabolic Equal\" — in respiratory imbalances, pH and CO2 move in opposite directions (e.g., in respiratory acidosis, pH goes down while CO2 goes up)."},
+    {text:"They move in the same direction",correct:false,explain:"This describes the relationship in metabolic imbalances (pH and HCO3 move together), not respiratory imbalances, where pH and CO2 move in opposite directions."},
+    {text:"They are unrelated to each other",correct:false,explain:"pH and PaCO2 are directly related in respiratory imbalances — this relationship is the basis of the ROME mnemonic."},
+    {text:"PaCO2 always remains normal in respiratory imbalances",correct:false,explain:"PaCO2 is the primary abnormal value in respiratory imbalances by definition; it does not remain normal."}
+  ]},
+{ stem:"According to the ROME mnemonic, in a metabolic acid-base imbalance, how do pH and HCO3 relate to each other?",
+  options:[
+    {text:"They move in the same (equal) direction",correct:true,explain:"ROME stands for \"Respiratory Opposite, Metabolic Equal\" — in metabolic imbalances, pH and HCO3 move in the same direction (e.g., in metabolic acidosis, both pH and HCO3 decrease)."},
+    {text:"They move in opposite directions",correct:false,explain:"This describes the relationship in respiratory imbalances (pH and CO2 move oppositely), not metabolic imbalances, where pH and HCO3 move in the same direction."},
+    {text:"They are unrelated to each other",correct:false,explain:"pH and HCO3 are directly related in metabolic imbalances — this relationship is the basis of the ROME mnemonic."},
+    {text:"HCO3 always remains normal in metabolic imbalances",correct:false,explain:"HCO3 is the primary abnormal value in metabolic imbalances by definition; it does not remain normal."}
+  ]},
+{ stem:"What distinguishes \"full compensation\" from \"partial compensation\" in an acid-base imbalance?",
+  options:[
+    {text:"In full compensation, the pH returns to normal; in partial compensation, the pH remains abnormal even though PaCO2 and HCO3 are also both abnormal",correct:true,explain:"Full compensation is characterized by a normal pH with abnormal PaCO2 and HCO3, while partial compensation shows an abnormal pH along with abnormal PaCO2 and HCO3 — the pH hasn't fully normalized yet."},
+    {text:"In full compensation, only the pH is abnormal; in partial compensation, all three values are normal",correct:false,explain:"This description is inaccurate; full compensation is defined by a normal pH with abnormal PaCO2/HCO3, and partial compensation has all three values (pH, PaCO2, HCO3) abnormal."},
+    {text:"There is no meaningful difference between full and partial compensation",correct:false,explain:"There is a clinically meaningful and specifically defined difference between these two compensation statuses based on whether the pH has normalized."},
+    {text:"Full compensation means no acid-base imbalance exists at all",correct:false,explain:"Full compensation still reflects an underlying acid-base imbalance (with abnormal PaCO2 and HCO3); it is not the absence of an imbalance, just a normalized pH."}
+  ]},
+{ stem:"What defines an \"uncompensated\" acid-base imbalance?",
+  options:[
+    {text:"The pH is abnormal, and either PaCO2 or HCO3 is abnormal, while the other remains normal",correct:true,explain:"An uncompensated imbalance is characterized by an abnormal pH along with only one abnormal value (either PaCO2 or HCO3) — the opposing system has not yet responded to compensate."},
+    {text:"The pH, PaCO2, and HCO3 are all abnormal",correct:false,explain:"This describes partial compensation, not an uncompensated state, in which only one of PaCO2/HCO3 is abnormal alongside the pH."},
+    {text:"The pH is normal, but PaCO2 and HCO3 are both abnormal",correct:false,explain:"This describes full compensation, not an uncompensated state."},
+    {text:"All three values (pH, PaCO2, HCO3) are within normal range",correct:false,explain:"This would indicate no acid-base imbalance at all, not an uncompensated imbalance, which by definition has an abnormal pH."}
+  ]},
+{ stem:"What is the primary cause of respiratory acidosis?",
+  options:[
+    {text:"Inadequate ventilation with resulting retention of carbon dioxide",correct:true,explain:"Respiratory acidosis is caused by inadequate ventilation and the subsequent retention of carbon dioxide, reflected in a pH less than 7.35 and PaCO2 greater than 45 mm Hg."},
+    {text:"Excessive loss of carbon dioxide through hyperventilation",correct:false,explain:"This describes respiratory alkalosis, not respiratory acidosis."},
+    {text:"Loss of bicarbonate buffers",correct:false,explain:"Loss of bicarbonate buffers is a mechanism of metabolic acidosis, not respiratory acidosis."},
+    {text:"Excessive intake of alkali substances",correct:false,explain:"Excessive alkali intake is a cause of metabolic alkalosis, not respiratory acidosis."}
+  ]},
+{ stem:"Which conditions or factors are recognized causes of respiratory acidosis?",
+  isSAL:true,
+  options:[
+    {text:"Obstructive airway disorders",correct:true,explain:"Obstructive airway disorders are a recognized cause of respiratory acidosis due to impaired ventilation and CO2 retention."},
+    {text:"Respiratory depression from opioids or sedatives",correct:true,explain:"Respiratory depression from medications like opioids and sedatives is a recognized cause of respiratory acidosis."},
+    {text:"Brain trauma",correct:true,explain:"Brain trauma is a recognized cause of respiratory acidosis, potentially through impaired respiratory drive."},
+    {text:"Hyperventilation from panic or hysteria",correct:false,explain:"Hyperventilation from panic or hysteria is a cause of respiratory alkalosis, not respiratory acidosis."}
+  ]},
+{ stem:"A client in respiratory acidosis presents with lethargy, confusion, and tachycardia. What is the priority nursing intervention?",
+  options:[
+    {text:"Place the client in semi-Fowler's or high-Fowler's position and administer oxygen as prescribed",correct:true,explain:"For a client in respiratory acidosis, positioning in semi- or high-Fowler's position and administering oxygen as prescribed are priority interventions to improve ventilation and gas exchange."},
+    {text:"Place the client flat in a supine position to conserve energy",correct:false,explain:"A flat, supine position can worsen ventilation in a client with respiratory acidosis; upright positioning (semi/high-Fowler's) is preferred to optimize breathing."},
+    {text:"Restrict all fluids to reduce secretions",correct:false,explain:"Hydrating the client (not restricting fluids) is part of the recommended intervention set for respiratory acidosis, to help thin secretions for easier clearance."},
+    {text:"Encourage rapid, shallow breathing",correct:false,explain:"Rapid, shallow breathing does not address the underlying ventilation problem in respiratory acidosis; deep breathing and coughing (turn, cough, deep-breathe, CPT) are part of the recommended interventions."}
+  ]},
+{ stem:"How do the kidneys compensate for respiratory acidosis?",
+  options:[
+    {text:"By retaining bicarbonate and excreting excess hydrogen ions in the urine",correct:true,explain:"In respiratory acidosis, the kidneys attempt to compensate by retaining bicarbonate (to buffer the excess acid) and excreting excess hydrogen ions in the urine."},
+    {text:"By excreting bicarbonate and retaining hydrogen ions",correct:false,explain:"This is the opposite of the actual renal compensatory response in respiratory acidosis; the kidneys retain bicarbonate and excrete hydrogen ions."},
+    {text:"The kidneys play no role in compensating for respiratory acidosis",correct:false,explain:"The kidneys play a significant compensatory role in respiratory acidosis through bicarbonate retention and hydrogen ion excretion."},
+    {text:"By increasing respiratory rate",correct:false,explain:"Increasing respiratory rate is a lung-based compensatory mechanism, not a renal one; the kidneys compensate through bicarbonate/hydrogen ion handling."}
+  ]},
+{ stem:"What is the primary cause of respiratory alkalosis?",
+  options:[
+    {text:"An acute reduction of carbon dioxide, often from hyperventilation",correct:true,explain:"Respiratory alkalosis results from an acute reduction of carbon dioxide (often due to hyperventilation), reflected in a pH greater than 7.45 and PaCO2 less than 35 mm Hg."},
+    {text:"Retention of carbon dioxide from inadequate ventilation",correct:false,explain:"This describes respiratory acidosis, not respiratory alkalosis."},
+    {text:"Retention of acids from renal insufficiency",correct:false,explain:"This describes a mechanism of metabolic acidosis, not respiratory alkalosis."},
+    {text:"Loss of acid from excessive vomiting",correct:false,explain:"Loss of acid from vomiting is a cause of metabolic alkalosis, not respiratory alkalosis."}
+  ]},
+{ stem:"Which conditions are recognized causes of respiratory alkalosis?",
+  isSAL:true,
+  options:[
+    {text:"Overventilation by mechanical ventilators",correct:true,explain:"Overventilation by mechanical ventilators is a recognized cause of respiratory alkalosis from excessive CO2 elimination."},
+    {text:"Fever and pain",correct:true,explain:"Fever and pain are recognized causes of respiratory alkalosis, often through increased respiratory rate."},
+    {text:"Salicylate use",correct:true,explain:"Salicylates (e.g., aspirin) are a recognized cause of respiratory alkalosis."},
+    {text:"Opioid-induced respiratory depression",correct:false,explain:"Opioid-induced respiratory depression is a cause of respiratory acidosis (from hypoventilation and CO2 retention), not respiratory alkalosis."}
+  ]},
+{ stem:"A client with respiratory alkalosis from anxiety-related hyperventilation reports numbness and tingling in the fingers. What intervention would the nurse implement?",
+  options:[
+    {text:"Use a rebreathing mask or have the client breathe into a paper bag, and provide emotional support",correct:true,explain:"For anxiety-related hyperventilation causing respiratory alkalosis, having the client rebreathe exhaled air (via a rebreathing mask or paper bag) helps retain CO2 and correct the alkalosis, along with providing emotional support to address the underlying anxiety."},
+    {text:"Encourage the client to breathe even faster and deeper",correct:false,explain:"Encouraging faster, deeper breathing would worsen the CO2 loss and respiratory alkalosis, not correct it."},
+    {text:"Administer IV sodium bicarbonate immediately",correct:false,explain:"Administering sodium bicarbonate would worsen an existing alkalosis; this is not an appropriate intervention for respiratory alkalosis."},
+    {text:"Place the client in a high-Fowler's position and administer supplemental oxygen",correct:false,explain:"While useful in respiratory acidosis, this is not the targeted intervention for anxiety-related respiratory alkalosis, which specifically benefits from rebreathing techniques and emotional support."}
+  ]},
+{ stem:"What is the primary cause of metabolic acidosis?",
+  options:[
+    {text:"Retention of acids or loss of bicarbonate buffers, decreasing body pH",correct:true,explain:"Metabolic acidosis results from any process causing a decrease in pH due to retention of acids or loss of bicarbonate buffers, reflected in a pH less than 7.35 and HCO3 less than 22 mEq/L."},
+    {text:"Retention of carbon dioxide from hypoventilation",correct:false,explain:"This describes respiratory acidosis, not metabolic acidosis."},
+    {text:"Loss of carbon dioxide from hyperventilation",correct:false,explain:"This describes respiratory alkalosis, not metabolic acidosis."},
+    {text:"Increased plasma bicarbonate from vomiting",correct:false,explain:"Increased plasma bicarbonate describes metabolic alkalosis, not metabolic acidosis, which involves decreased bicarbonate."}
+  ]},
+{ stem:"Which conditions are recognized causes of metabolic acidosis?",
+  isSAL:true,
+  options:[
+    {text:"Diabetic ketoacidosis",correct:true,explain:"Diabetic ketoacidosis is a recognized cause of metabolic acidosis due to accumulation of ketoacids."},
+    {text:"Renal insufficiency",correct:true,explain:"Renal insufficiency is a recognized cause of metabolic acidosis due to impaired acid excretion."},
+    {text:"Severe diarrhea",correct:true,explain:"Severe diarrhea is a recognized cause of metabolic acidosis due to loss of bicarbonate-rich intestinal fluids."},
+    {text:"Excessive vomiting",correct:false,explain:"Excessive vomiting is a cause of metabolic alkalosis (from loss of gastric acid), not metabolic acidosis."}
+  ]},
+{ stem:"A client in diabetic ketoacidosis exhibits deep, rapid respirations. What is this compensatory breathing pattern called?",
+  options:[
+    {text:"Kussmaul respirations",correct:true,explain:"Kussmaul respirations — deep, rapid breathing — are the compensatory respiratory pattern seen in metabolic acidosis (such as DKA), as the lungs attempt to exhale excess CO2 to help raise the pH."},
+    {text:"Cheyne-Stokes respirations",correct:false,explain:"Cheyne-Stokes respirations describe a different pattern (alternating apnea and hyperpnea) not specifically associated with metabolic acidosis compensation in this content."},
+    {text:"Biot's respirations",correct:false,explain:"Biot's respirations describe an irregular breathing pattern with periods of apnea, not the compensatory hyperpnea pattern of metabolic acidosis."},
+    {text:"Agonal respirations",correct:false,explain:"Agonal respirations describe an abnormal gasping pattern seen near death, not the compensatory pattern of metabolic acidosis."}
+  ]},
+{ stem:"What is the priority nursing intervention for a client with metabolic acidosis due to diabetic ketoacidosis?",
+  options:[
+    {text:"Administer IV regular insulin as prescribed",correct:true,explain:"For metabolic acidosis due to DKA, administering IV regular insulin as prescribed is a priority intervention to correct the underlying ketoacidosis."},
+    {text:"Administer dialysis",correct:false,explain:"Dialysis is the intervention for metabolic acidosis due to acute kidney injury or chronic kidney disease, not specifically DKA."},
+    {text:"Restrict all IV fluids",correct:false,explain:"Restricting fluids is not an appropriate intervention for DKA; clients typically require fluid resuscitation alongside insulin therapy."},
+    {text:"Administer sodium bicarbonate as first-line therapy in all cases",correct:false,explain:"Insulin therapy, not routine sodium bicarbonate administration, is the described priority intervention for DKA-related metabolic acidosis."}
+  ]},
+{ stem:"What is the priority nursing intervention for a client with metabolic acidosis due to chronic kidney disease?",
+  options:[
+    {text:"Administer dialysis and a low-protein, high-calorie diet as prescribed",correct:true,explain:"For metabolic acidosis due to acute kidney injury or chronic kidney disease, administering dialysis as prescribed and providing a low-protein, high-calorie diet are the described priority interventions."},
+    {text:"Administer IV regular insulin",correct:false,explain:"IV regular insulin is the intervention for metabolic acidosis due to DKA, not chronic kidney disease."},
+    {text:"Encourage a high-protein diet to rebuild kidney function",correct:false,explain:"A low-protein, not high-protein, diet is recommended for clients with kidney disease-related metabolic acidosis, since protein metabolism produces additional acid load."},
+    {text:"Withhold all treatment until the client becomes symptomatic",correct:false,explain:"Withholding treatment is not appropriate; dialysis and dietary modification are the recommended proactive interventions."}
+  ]},
+{ stem:"What is the primary cause of metabolic alkalosis?",
+  options:[
+    {text:"An increase in plasma bicarbonate, often from loss of acid or excessive alkali intake",correct:true,explain:"Metabolic alkalosis results from a process in which plasma bicarbonate is increased, often due to acid loss from the stomach or kidney, potassium depletion with diuretics, excessive alkali intake, or adrenal hyperactivity, reflected in a pH greater than 7.45 and HCO3 greater than 26 mEq/L."},
+    {text:"A decrease in plasma bicarbonate from renal insufficiency",correct:false,explain:"A decrease in plasma bicarbonate describes metabolic acidosis, not metabolic alkalosis."},
+    {text:"Retention of carbon dioxide from hypoventilation",correct:false,explain:"This describes respiratory acidosis, not metabolic alkalosis."},
+    {text:"Loss of carbon dioxide from hyperventilation",correct:false,explain:"This describes respiratory alkalosis, not metabolic alkalosis."}
+  ]},
+{ stem:"Which conditions are recognized causes of metabolic alkalosis?",
+  isSAL:true,
+  options:[
+    {text:"Diuretic therapy",correct:true,explain:"Diuretic therapy is a recognized cause of metabolic alkalosis, particularly through potassium depletion and acid loss."},
+    {text:"Excessive vomiting or GI suctioning",correct:true,explain:"Excessive vomiting or GI suctioning causes loss of gastric acid, a recognized cause of metabolic alkalosis."},
+    {text:"Ingestion of excess sodium bicarbonate or antacids",correct:true,explain:"Ingestion of excess sodium bicarbonate or antacids is a recognized cause of metabolic alkalosis."},
+    {text:"Severe diarrhea",correct:false,explain:"Severe diarrhea is a cause of metabolic acidosis (from bicarbonate loss in stool), not metabolic alkalosis."}
+  ]},
+{ stem:"A client with metabolic alkalosis reports muscle cramps and twitching. What intervention should the nurse anticipate?",
+  options:[
+    {text:"Administer sodium chloride and potassium chloride as prescribed",correct:true,explain:"Interventions for metabolic alkalosis include administering sodium chloride and potassium chloride as prescribed, along with instituting safety precautions given the risk of convulsions."},
+    {text:"Administer IV regular insulin",correct:false,explain:"IV regular insulin is the intervention for DKA-related metabolic acidosis, not metabolic alkalosis."},
+    {text:"Administer sodium bicarbonate",correct:false,explain:"Administering sodium bicarbonate would worsen an existing metabolic alkalosis, not treat it."},
+    {text:"Encourage the client to breathe into a paper bag",correct:false,explain:"This intervention is used for respiratory alkalosis (to retain CO2), not metabolic alkalosis, which has a different underlying mechanism."}
+  ]},
+{ stem:"Why should the nurse institute safety precautions for a client with significant metabolic alkalosis?",
+  options:[
+    {text:"Because metabolic alkalosis can cause convulsions and disorientation",correct:true,explain:"Metabolic alkalosis is associated with signs and symptoms including lethargy, dizziness, weakness, disorientation, and convulsions, making safety precautions an important nursing intervention."},
+    {text:"Because metabolic alkalosis has no significant neurologic effects",correct:false,explain:"Metabolic alkalosis does have significant neurologic effects, including disorientation and convulsions, which is exactly why safety precautions are needed."},
+    {text:"Because metabolic alkalosis always causes immediate cardiac arrest",correct:false,explain:"While dysrhythmias and tachycardia can occur, immediate cardiac arrest is not described as a universal, immediate outcome; safety precautions relate broadly to the neurologic and neuromuscular symptoms."},
+    {text:"Safety precautions are not indicated for metabolic alkalosis",correct:false,explain:"Safety precautions are specifically indicated given the risk of convulsions, dizziness, and disorientation associated with metabolic alkalosis."}
+  ]},
+{ stem:"A client's ABG results show a low PaO2 (60 mm Hg) with a normal pH, PaCO2, and HCO3. What does this finding suggest?",
+  options:[
+    {text:"Interference with the ventilation/oxygenation process, despite normal acid-base balance",correct:true,explain:"A low PaO2 (<75 mm Hg) with otherwise normal pH, PaCO2, and HCO3 suggests an oxygenation problem separate from the acid-base balance itself — indicating interference with the ventilation or oxygenation process."},
+    {text:"A definite acid-base imbalance requiring immediate correction of pH",correct:false,explain:"Since the pH, PaCO2, and HCO3 are all normal, there is no acid-base imbalance in this scenario; the concern is specifically with oxygenation, reflected in the PaO2."},
+    {text:"This is a normal, expected finding requiring no further assessment",correct:false,explain:"A PaO2 of 60 mm Hg is below the normal range (75-100 mm Hg) and does warrant further assessment of the client's oxygenation status, even though the acid-base values are normal."},
+    {text:"This indicates the client is hyperventilating",correct:false,explain:"Hyperventilation would be reflected in a low PaCO2, which is normal in this scenario; the isolated low PaO2 points to an oxygenation issue instead."}
+  ]},
+{ stem:"What laboratory or clinical parameter is specifically examined in Step 4 of the ABG interpretation process?",
+  options:[
+    {text:"PaO2 — if low, it indicates interference with the ventilation process; if normal, the client is getting adequate oxygen",correct:true,explain:"Step 4 of ABG interpretation examines PaO2: if low (<75 mm Hg), it indicates interference with the ventilation/oxygenation process; if normal, it indicates the client is getting adequate oxygen."},
+    {text:"pH — to determine acidosis or alkalosis",correct:false,explain:"Examining pH is Step 1 of the interpretation process, not Step 4."},
+    {text:"PaCO2 — to determine a respiratory cause",correct:false,explain:"Examining PaCO2 is Step 2 of the interpretation process, not Step 4."},
+    {text:"HCO3 — to determine a metabolic cause",correct:false,explain:"Examining HCO3 is Step 3 of the interpretation process, not Step 4."}
+  ]},
+{ stem:"According to the systematic ABG interpretation steps, what is examined first?",
+  options:[
+    {text:"The pH, to determine if the client is in acidosis or alkalosis",correct:true,explain:"Step 1 of ABG interpretation is to examine the pH: is it high (alkalosis, >7.45) or low (acidosis, <7.35)?"},
+    {text:"The PaO2, to assess oxygenation",correct:false,explain:"PaO2 is examined in Step 4, the final step, not the first step of the interpretation process."},
+    {text:"The PaCO2, to determine a respiratory cause",correct:false,explain:"PaCO2 is examined in Step 2, after the pH has been assessed first."},
+    {text:"The HCO3, to determine a metabolic cause",correct:false,explain:"HCO3 is examined in Step 3, after both pH and PaCO2 have been assessed."}
+  ]},
+{ stem:"A client's ABG shows pH 7.31, PaCO2 32 mm Hg, HCO3 16 mEq/L, PaO2 88 mm Hg. What is the correct interpretation?",
+  options:[
+    {text:"Partially compensated metabolic acidosis",correct:true,explain:"The pH is low (acidosis), HCO3 is low (metabolic acidosis pattern), and PaCO2 is also low (respiratory compensation via hyperventilation to blow off CO2). Since pH, HCO3, and PaCO2 are all abnormal, this is partial compensation of metabolic acidosis."},
+    {text:"Fully compensated metabolic acidosis",correct:false,explain:"Full compensation requires the pH to be within normal range (7.35–7.45); here the pH remains low at 7.31, indicating only partial, not full, compensation."},
+    {text:"Uncompensated respiratory alkalosis",correct:false,explain:"The pH is low, indicating acidosis, not alkalosis, and the primary disturbance (low HCO3) is metabolic, not respiratory."},
+    {text:"Uncompensated metabolic acidosis",correct:false,explain:"Uncompensated would mean PaCO2 remains normal; here PaCO2 is also abnormal (low), indicating a compensatory response is occurring."}
+  ]},
+{ stem:"A client's ABG shows pH 7.36, PaCO2 30 mm Hg, HCO3 17 mEq/L, PaO2 92 mm Hg. What is the correct interpretation?",
+  options:[
+    {text:"Fully compensated metabolic acidosis",correct:true,explain:"The pH is within normal range (7.35–7.45, at the low-normal end), while HCO3 is low (metabolic acidosis pattern) and PaCO2 is low (respiratory compensation). A normal pH with both PaCO2 and HCO3 abnormal indicates full compensation of the underlying metabolic acidosis, reflected by the pH sitting at the low-normal end."},
+    {text:"Uncompensated metabolic acidosis",correct:false,explain:"Uncompensated would mean the pH is abnormal; here the pH has returned to within normal range, indicating compensation has occurred."},
+    {text:"Partially compensated respiratory alkalosis",correct:false,explain:"The primary disturbance reflected by the low-normal pH is metabolic (low HCO3), not respiratory alkalosis."},
+    {text:"No acid-base imbalance present",correct:false,explain:"Although the pH is within normal range, both HCO3 and PaCO2 are abnormal, indicating a compensated imbalance is present, not the complete absence of one."}
+  ]},
+{ stem:"A client's ABG shows pH 7.49, PaCO2 30 mm Hg, HCO3 23 mEq/L, PaO2 95 mm Hg. What is the correct interpretation?",
+  options:[
+    {text:"Uncompensated respiratory alkalosis",correct:true,explain:"The pH is high (alkalosis) and PaCO2 is low (<35), consistent with respiratory alkalosis; HCO3 is within normal range (22–26), indicating no renal compensation has yet occurred, making this uncompensated respiratory alkalosis."},
+    {text:"Fully compensated respiratory alkalosis",correct:false,explain:"Full compensation requires a normal pH; here the pH remains abnormal (elevated at 7.49), indicating this is uncompensated, not fully compensated."},
+    {text:"Uncompensated metabolic alkalosis",correct:false,explain:"HCO3 is within normal range, ruling out a primary metabolic alkalosis; the abnormal PaCO2 points to a respiratory cause instead."},
+    {text:"Partially compensated respiratory acidosis",correct:false,explain:"The pH is high, indicating alkalosis, not acidosis, ruling out this interpretation."}
+  ]},
+{ stem:"A client's ABG shows pH 7.42, PaCO2 48 mm Hg, HCO3 30 mEq/L, PaO2 80 mm Hg. What is the correct interpretation?",
+  options:[
+    {text:"Fully compensated respiratory acidosis",correct:true,explain:"The pH is within normal range (at the high-normal end), while PaCO2 is elevated (respiratory acidosis pattern) and HCO3 is elevated (renal compensation). A normal pH with both values abnormal indicates full compensation of the underlying respiratory acidosis, with the pH sitting at the high-normal end reflecting the direction of compensation."},
+    {text:"Uncompensated respiratory acidosis",correct:false,explain:"Uncompensated would mean the pH is outside the normal range; here the pH has returned to within normal limits, indicating compensation has occurred."},
+    {text:"Fully compensated metabolic alkalosis",correct:false,explain:"The primary disturbance reflected here (elevated PaCO2 driving the process, with HCO3 elevated as compensation) is respiratory acidosis, not metabolic alkalosis."},
+    {text:"No acid-base imbalance present",correct:false,explain:"Although pH is normal, PaCO2 and HCO3 are both abnormal, indicating a compensated imbalance, not the complete absence of one."}
+  ]},
+{ stem:"A client's ABG shows pH 7.20, PaCO2 60 mm Hg, HCO3 22 mEq/L, PaO2 65 mm Hg. What is the correct interpretation, and what does the PaO2 suggest?",
+  options:[
+    {text:"Uncompensated respiratory acidosis with concurrent hypoxemia",correct:true,explain:"The pH is markedly low (severe acidosis) with a high PaCO2, and HCO3 is within normal range, indicating uncompensated respiratory acidosis; the low PaO2 (below 75 mm Hg) additionally indicates hypoxemia, suggesting significant respiratory compromise requiring urgent intervention."},
+    {text:"Fully compensated respiratory acidosis with normal oxygenation",correct:false,explain:"The pH is markedly abnormal (not normal), ruling out full compensation, and the PaO2 of 65 mm Hg is below normal, indicating hypoxemia, not normal oxygenation."},
+    {text:"Uncompensated metabolic acidosis with normal oxygenation",correct:false,explain:"HCO3 is within normal range, ruling out a primary metabolic acidosis, and the PaO2 is below normal (hypoxemia), not normal."},
+    {text:"A normal ABG requiring no intervention",correct:false,explain:"This ABG shows severe acidosis with hypoxemia, both requiring urgent clinical attention, not a normal, reassuring result."}
+  ]},
+{ stem:"A client with a nasogastric tube on continuous suction for several days develops the following ABG: pH 7.48, PaCO2 44 mm Hg, HCO3 30 mEq/L. What is the correct interpretation, and what is the likely cause?",
+  options:[
+    {text:"Uncompensated metabolic alkalosis, likely due to loss of gastric acid (hydrochloric acid) from NG suction",correct:true,explain:"The pH is high (alkalosis) with an elevated HCO3 (metabolic alkalosis pattern) and a normal PaCO2, indicating uncompensated metabolic alkalosis; this is a classic presentation from prolonged NG suction, which removes hydrochloric acid from the stomach."},
+    {text:"Uncompensated respiratory alkalosis, likely due to hyperventilation",correct:false,explain:"PaCO2 is within normal range, ruling out a primary respiratory alkalosis; the elevated HCO3 points to a metabolic cause consistent with the client's NG suction history."},
+    {text:"Fully compensated metabolic alkalosis",correct:false,explain:"The pH remains abnormal (elevated), which rules out full compensation; PaCO2 is normal, indicating no respiratory compensation has yet occurred."},
+    {text:"A normal ABG unrelated to the NG suction",correct:false,explain:"This ABG shows a clear metabolic alkalosis pattern that is directly related to the client's NG suction and resulting acid loss, not a normal, unrelated result."}
+  ]},
+{ stem:"A client in diabetic ketoacidosis has the following ABG: pH 7.18, PaCO2 20 mm Hg, HCO3 10 mEq/L. What is the correct interpretation?",
+  options:[
+    {text:"Partially compensated metabolic acidosis",correct:true,explain:"The pH is markedly low (severe acidosis) with a low HCO3 (metabolic acidosis pattern from ketoacid accumulation) and a low PaCO2 (respiratory compensation via Kussmaul respirations). Since pH, HCO3, and PaCO2 are all abnormal, this represents partial compensation of severe metabolic acidosis."},
+    {text:"Uncompensated metabolic acidosis",correct:false,explain:"Uncompensated would mean PaCO2 remains normal; here PaCO2 is also markedly abnormal (low), indicating significant respiratory compensation (Kussmaul respirations) is occurring."},
+    {text:"Fully compensated metabolic acidosis",correct:false,explain:"Full compensation requires the pH to be within normal range; here the pH remains markedly abnormal (7.18), indicating only partial compensation despite the significant respiratory effort."},
+    {text:"Uncompensated respiratory alkalosis",correct:false,explain:"The pH is low, indicating acidosis, not alkalosis, and the primary disturbance (low HCO3 from ketoacids) is metabolic, not respiratory."}
+  ]},
+{ stem:"What compensatory breathing pattern would the nurse expect to observe in a client with severe metabolic acidosis, such as from DKA?",
+  options:[
+    {text:"Kussmaul respirations — deep, rapid breathing to exhale CO2 and raise the pH",correct:true,explain:"Kussmaul respirations (deep, rapid breathing) are the classic compensatory pattern in severe metabolic acidosis, as the lungs work to exhale more CO2 (an acid) in an attempt to raise the pH back toward normal."},
+    {text:"Slow, shallow breathing to retain CO2",correct:false,explain:"This describes the compensatory pattern for metabolic alkalosis, not metabolic acidosis, which is compensated by deep, rapid breathing to exhale CO2."},
+    {text:"No respiratory compensation occurs in metabolic acidosis",correct:false,explain:"The respiratory system does provide significant compensation in metabolic acidosis, specifically through Kussmaul respirations."},
+    {text:"Cheyne-Stokes respirations",correct:false,explain:"Cheyne-Stokes respirations (a pattern of alternating apnea and hyperpnea) is not the classic compensatory pattern for metabolic acidosis; Kussmaul respirations are."}
+  ]},
+{ stem:"A client with COPD has a chronically elevated PaCO2 (baseline 55 mm Hg) with a compensated, near-normal pH. What does this indicate about the client's acid-base status?",
+  options:[
+    {text:"This represents chronic (compensated) respiratory acidosis, where the kidneys have adapted over time to retain bicarbonate and normalize the pH",correct:true,explain:"In chronic respiratory conditions like COPD, the kidneys adapt over time to retain bicarbonate, compensating for the chronically elevated PaCO2 and bringing the pH back to a near-normal range — this represents chronic, compensated respiratory acidosis, which is this client's new baseline."},
+    {text:"This represents an acute, uncompensated respiratory alkalosis",correct:false,explain:"This is not respiratory alkalosis (which would show a low, not elevated, PaCO2); this pattern reflects chronic, compensated respiratory acidosis."},
+    {text:"This is a normal ABG requiring no special consideration for this client",correct:false,explain:"While this may be this specific client's adapted baseline, it should not be treated as a universally normal ABG; it reflects chronic compensated respiratory acidosis unique to their condition, and their baseline should be documented and considered in future assessments."},
+    {text:"This indicates the client is in acute respiratory failure requiring emergency intervention",correct:false,explain:"A chronically elevated PaCO2 with a compensated, near-normal pH represents the client's adapted baseline, not necessarily acute respiratory failure, which would show more significant pH derangement or acute changes from this established baseline."}
+  ]},
+{ stem:"Why is it important for the nurse to know a client's baseline ABG values, particularly in someone with chronic respiratory disease like COPD?",
+  options:[
+    {text:"A client's chronic baseline values (e.g., elevated PaCO2) may be their new normal, so current results should be compared to their own baseline rather than only standard reference ranges",correct:true,explain:"Clients with chronic respiratory disease may have an adapted, compensated baseline (e.g., a chronically elevated PaCO2 with near-normal pH); knowing this baseline is essential so the nurse can recognize a clinically significant acute change from that client's normal, rather than assuming all deviation from standard reference ranges represents new pathology."},
+    {text:"Baseline values have no relevance to interpreting current ABG results",correct:false,explain:"Baseline values are highly relevant, especially for clients with chronic respiratory disease whose \"normal\" may differ from standard reference ranges."},
+    {text:"All clients should be interpreted using only standard reference ranges regardless of chronic disease history",correct:false,explain:"For clients with chronic respiratory disease, comparing only to standard reference ranges without considering their adapted baseline can lead to inappropriate or unnecessary interventions."},
+    {text:"Baseline ABG values are only relevant for clients on mechanical ventilation",correct:false,explain:"Baseline ABG values are relevant for any client with chronic respiratory disease, not exclusively those on mechanical ventilation."}
+  ]},
+{ stem:"A client hyperventilating due to acute anxiety has the following ABG: pH 7.52, PaCO2 26 mm Hg, HCO3 24 mEq/L. What is the correct interpretation?",
+  options:[
+    {text:"Uncompensated respiratory alkalosis",correct:true,explain:"The pH is high (alkalosis) with a low PaCO2 (respiratory alkalosis pattern) and a normal HCO3, indicating no renal compensation has yet occurred — consistent with an acute process like anxiety-induced hyperventilation."},
+    {text:"Uncompensated metabolic alkalosis",correct:false,explain:"HCO3 is within normal range, ruling out a primary metabolic alkalosis; the abnormal PaCO2 points to a respiratory cause consistent with hyperventilation."},
+    {text:"Partially compensated respiratory alkalosis",correct:false,explain:"HCO3 remains within normal range, indicating no compensatory response has yet occurred; this is uncompensated, not partially compensated."},
+    {text:"Fully compensated respiratory acidosis",correct:false,explain:"The pH is high, indicating alkalosis, not acidosis, ruling out this interpretation."}
+  ]},
+{ stem:"A client's ABG reveals pH 7.34, PaCO2 46 mm Hg, HCO3 24 mEq/L. Using the ROME mnemonic, how should the nurse interpret this result?",
+  options:[
+    {text:"Respiratory acidosis (uncompensated) — pH and PaCO2 move in opposite directions (pH down, PaCO2 up), while HCO3 remains normal",correct:true,explain:"Applying ROME (Respiratory Opposite): the pH is low and PaCO2 is high — moving in opposite directions — indicating a respiratory disturbance (acidosis). Since HCO3 is normal, no metabolic compensation has occurred yet, making this uncompensated respiratory acidosis."},
+    {text:"Metabolic acidosis — pH and HCO3 move in the same direction",correct:false,explain:"HCO3 is within normal range, so this does not fit the ROME pattern for a metabolic disturbance, which would show pH and HCO3 moving together; this is a respiratory disturbance instead."},
+    {text:"Respiratory alkalosis",correct:false,explain:"The pH is low, indicating acidosis, not alkalosis; this rules out respiratory alkalosis."},
+    {text:"This result cannot be interpreted using the ROME mnemonic",correct:false,explain:"This result can be interpreted using ROME; the pH/PaCO2 relationship (opposite directions) clearly points to a respiratory acidosis pattern."}
+  ]},
+{ stem:"A client's ABG reveals pH 7.48, PaCO2 40 mm Hg, HCO3 29 mEq/L. Using the ROME mnemonic, how should the nurse interpret this result?",
+  options:[
+    {text:"Metabolic alkalosis (uncompensated) — pH and HCO3 move in the same direction (both elevated), while PaCO2 remains normal",correct:true,explain:"Applying ROME (Metabolic Equal): the pH is high and HCO3 is high — moving in the same direction — indicating a metabolic disturbance (alkalosis). Since PaCO2 is normal, no respiratory compensation has occurred yet, making this uncompensated metabolic alkalosis."},
+    {text:"Respiratory alkalosis — pH and PaCO2 move in opposite directions",correct:false,explain:"PaCO2 is within normal range, so this does not fit the ROME pattern for a respiratory disturbance; this is a metabolic disturbance instead, reflected in the elevated HCO3."},
+    {text:"Respiratory acidosis",correct:false,explain:"The pH is high, indicating alkalosis, not acidosis; this rules out respiratory acidosis."},
+    {text:"This result cannot be interpreted using the ROME mnemonic",correct:false,explain:"This result can be interpreted using ROME; the pH/HCO3 relationship (same direction) clearly points to a metabolic alkalosis pattern."}
+  ]},
+{ stem:"A client with severe, prolonged vomiting has the following ABG: pH 7.53, PaCO2 47 mm Hg, HCO3 34 mEq/L. What is the correct interpretation?",
+  options:[
+    {text:"Partially compensated metabolic alkalosis",correct:true,explain:"The pH is high (alkalosis), HCO3 is elevated (metabolic alkalosis pattern from acid loss with vomiting), and PaCO2 is also elevated (respiratory compensation — slower, shallower breathing to retain CO2). Since all three values are abnormal, this is partial compensation of metabolic alkalosis."},
+    {text:"Fully compensated metabolic alkalosis",correct:false,explain:"Full compensation requires the pH to be within the normal range; here the pH remains markedly elevated (7.53), indicating only partial compensation."},
+    {text:"Uncompensated metabolic alkalosis",correct:false,explain:"Uncompensated would mean PaCO2 remains normal; here PaCO2 is also elevated, indicating a compensatory respiratory response is occurring."},
+    {text:"Uncompensated respiratory acidosis",correct:false,explain:"The pH is high, indicating alkalosis, not acidosis, and the primary disturbance (elevated HCO3 from vomiting-related acid loss) is metabolic, not respiratory."}
+  ]},
+{ stem:"A client is being weaned from mechanical ventilation. The respiratory therapist notes the client's spontaneous respiratory rate has increased significantly, and a repeat ABG shows a lower PaCO2 than the client's prior baseline. What might this suggest?",
+  options:[
+    {text:"The client may be hyperventilating, potentially from anxiety, pain, or inadequate ventilator support during weaning, and should be assessed further",correct:true,explain:"An increased respiratory rate with a falling PaCO2 during a weaning trial can suggest hyperventilation from causes such as anxiety, pain, or inadequate ventilator support, and this finding warrants further assessment of the client's readiness for weaning and comfort status."},
+    {text:"This is always an expected, reassuring sign of successful weaning requiring no further assessment",correct:false,explain:"While some changes are expected during weaning, an increased rate with falling PaCO2 warrants assessment rather than being assumed reassuring without further evaluation, since it could indicate distress or inadequate support."},
+    {text:"This finding indicates the client should be immediately re-sedated and no longer be weaned",correct:false,explain:"This is an overly extreme response; the appropriate action is further assessment of the underlying cause, not necessarily immediate re-sedation and abandonment of the weaning process."},
+    {text:"This finding is unrelated to the weaning process",correct:false,explain:"This finding is directly related to the weaning process and the client's respiratory status during it, not an unrelated finding."}
+  ]},
+{ stem:"A client's ABG shows a PaO2 of 58 mm Hg while receiving supplemental oxygen at 2L via nasal cannula. What does this finding suggest?",
+  options:[
+    {text:"Significant hypoxemia despite supplemental oxygen, warranting further evaluation and possible escalation of respiratory support",correct:true,explain:"A PaO2 of 58 mm Hg is well below the normal range (75–100 mm Hg) even with supplemental oxygen, indicating significant hypoxemia that warrants further evaluation of the underlying cause and possible escalation of oxygen therapy or other respiratory support."},
+    {text:"This is a normal, expected PaO2 for a client on supplemental oxygen",correct:false,explain:"A PaO2 of 58 mm Hg is not normal, even with supplemental oxygen; it reflects significant hypoxemia requiring further evaluation."},
+    {text:"This finding indicates the client no longer needs any oxygen therapy",correct:false,explain:"This finding indicates inadequate oxygenation despite current therapy, suggesting a need for further evaluation or escalation of support, not discontinuation of oxygen."},
+    {text:"This value only reflects venous, not arterial, oxygen status",correct:false,explain:"An ABG (arterial blood gas) specifically reflects arterial oxygen status (PaO2), not venous oxygen status."}
+  ]},
+{ stem:"A client's SaO2 is 90% while their ABG shows a PaO2 of 58 mm Hg. What does the relationship between these two values reflect?",
+  options:[
+    {text:"The oxyhemoglobin dissociation curve, where at lower PaO2 levels, relatively small changes in PaO2 can correspond to larger changes in SaO2",correct:true,explain:"The relationship between PaO2 and SaO2 follows the oxyhemoglobin dissociation curve, which is not linear; at lower PaO2 levels (as in this scenario), relatively small changes in PaO2 can result in more significant drops in SaO2, which is clinically important to understand when interpreting these values together."},
+    {text:"PaO2 and SaO2 always change in a perfectly linear, one-to-one relationship",correct:false,explain:"PaO2 and SaO2 do not have a simple linear relationship; their relationship follows the oxyhemoglobin dissociation curve, which is curvilinear, especially at lower oxygen levels."},
+    {text:"These two values have no meaningful relationship to each other",correct:false,explain:"PaO2 and SaO2 are directly related through the oxyhemoglobin dissociation curve, even though that relationship is not a simple linear one."},
+    {text:"SaO2 is always higher than what the PaO2 would predict",correct:false,explain:"This is not a universal rule; the relationship depends on where on the oxyhemoglobin dissociation curve the values fall, and various factors (pH, temperature, PaCO2) can shift the curve in either direction."}
+  ]},
+{ stem:"Which factors can shift the oxyhemoglobin dissociation curve, affecting the relationship between PaO2 and SaO2?",
+  isSAL:true,
+  options:[
+    {text:"pH",correct:true,explain:"pH is one of the factors that can shift the oxyhemoglobin dissociation curve, affecting hemoglobin's affinity for oxygen."},
+    {text:"Temperature",correct:true,explain:"Body temperature is one of the factors that can shift the oxyhemoglobin dissociation curve."},
+    {text:"PaCO2",correct:true,explain:"PaCO2 is one of the factors that can shift the oxyhemoglobin dissociation curve, affecting hemoglobin's affinity for oxygen."},
+    {text:"Serum sodium level",correct:false,explain:"Serum sodium is not one of the classically recognized factors that shifts the oxyhemoglobin dissociation curve; pH, temperature, and PaCO2 (along with 2,3-DPG) are the key factors."}
+  ]},
+{ stem:"A client with a respiratory rate of 8 breaths/minute after opioid administration would be expected to show which ABG pattern?",
+  options:[
+    {text:"Respiratory acidosis, with an elevated PaCO2 due to hypoventilation",correct:true,explain:"A significantly reduced respiratory rate (8 breaths/minute) from opioid-induced respiratory depression would cause hypoventilation and CO2 retention, resulting in respiratory acidosis with an elevated PaCO2."},
+    {text:"Respiratory alkalosis, with a decreased PaCO2",correct:false,explain:"A decreased respiratory rate would cause CO2 retention (elevated PaCO2) and respiratory acidosis, not the decreased PaCO2 seen in respiratory alkalosis."},
+    {text:"No expected change in ABG values from this respiratory rate",correct:false,explain:"A respiratory rate this low would be expected to significantly affect ABG values, specifically causing CO2 retention and respiratory acidosis, not produce no change."},
+    {text:"Metabolic acidosis exclusively, unrelated to the respiratory rate",correct:false,explain:"This scenario describes a primary respiratory problem (hypoventilation from opioid effect), which would cause respiratory, not primarily metabolic, acidosis."}
+  ]},
+{ stem:"What is the priority nursing action for a client with a respiratory rate of 8 breaths/minute and decreased level of consciousness after opioid administration?",
+  options:[
+    {text:"Stimulate the client, prepare to administer naloxone as prescribed, and notify the provider",correct:true,explain:"A respiratory rate of 8/min with decreased consciousness after opioids suggests opioid-induced respiratory depression; the priority actions are to stimulate the client, prepare to administer naloxone (the opioid antagonist) as prescribed, and notify the provider promptly."},
+    {text:"Administer an additional dose of the opioid to help the client relax",correct:false,explain:"Administering more opioid would worsen the respiratory depression and is dangerous in this situation."},
+    {text:"Continue routine monitoring with no change in the plan of care",correct:false,explain:"A respiratory rate this low with decreased consciousness represents a significant safety concern requiring immediate action, not continuation of unchanged routine monitoring."},
+    {text:"Increase the opioid infusion rate to ensure adequate pain control",correct:false,explain:"Increasing the opioid dose would further worsen the respiratory depression and is contraindicated in this situation."}
+  ]},
+{ stem:"A client hyperventilating on a mechanical ventilator (over-ventilation) develops which ABG pattern?",
+  options:[
+    {text:"Respiratory alkalosis, with a decreased PaCO2 from excessive CO2 elimination",correct:true,explain:"Overventilation by a mechanical ventilator causes excessive elimination of CO2, resulting in a decreased PaCO2 and respiratory alkalosis (elevated pH)."},
+    {text:"Respiratory acidosis, with an increased PaCO2",correct:false,explain:"Overventilation causes excessive CO2 elimination (decreased PaCO2), leading to respiratory alkalosis, not respiratory acidosis (which would show an increased PaCO2)."},
+    {text:"No expected change in ABG values from overventilation",correct:false,explain:"Overventilation by a mechanical ventilator would be expected to significantly affect ABG values, specifically causing decreased PaCO2 and respiratory alkalosis."},
+    {text:"Metabolic alkalosis exclusively, unrelated to ventilator settings",correct:false,explain:"This scenario describes a primary respiratory problem (excessive ventilation), which would cause respiratory, not primarily metabolic, alkalosis."}
+  ]},
+{ stem:"What ventilator adjustment might the respiratory therapist consider for a client showing signs of overventilation-induced respiratory alkalosis?",
+  options:[
+    {text:"Decreasing the respiratory rate and/or tidal volume settings to reduce CO2 elimination",correct:true,explain:"To address overventilation-induced respiratory alkalosis, the respiratory rate and/or tidal volume settings on the ventilator may be decreased to reduce excessive CO2 elimination and help normalize the PaCO2 and pH."},
+    {text:"Increasing the respiratory rate and tidal volume further",correct:false,explain:"Increasing these settings would worsen the overventilation and respiratory alkalosis, not correct it."},
+    {text:"No ventilator adjustment is ever appropriate for this finding",correct:false,explain:"Ventilator settings can and should be adjusted to address overventilation-induced respiratory alkalosis; this is a relevant and appropriate intervention."},
+    {text:"Administering sodium bicarbonate as the primary intervention",correct:false,explain:"Administering sodium bicarbonate would worsen an existing alkalosis, not correct it; adjusting ventilator settings to address the underlying overventilation is the more appropriate intervention."}
+  ]},
+{ stem:"A client with salicylate (aspirin) toxicity often presents with a mixed acid-base disorder. What combination is classically seen in early salicylate toxicity?",
+  options:[
+    {text:"Respiratory alkalosis (from direct stimulation of the respiratory center) combined with an evolving metabolic acidosis (from accumulating acids)",correct:true,explain:"Salicylate toxicity classically presents with a mixed picture: early respiratory alkalosis from direct stimulation of the respiratory center by salicylates, which can be followed by or coexist with a metabolic acidosis as salicylate and other acids accumulate."},
+    {text:"Respiratory acidosis combined with metabolic alkalosis",correct:false,explain:"This is not the classic pattern seen in salicylate toxicity, which involves respiratory alkalosis and metabolic acidosis, not their opposites."},
+    {text:"No acid-base disturbance is associated with salicylate toxicity",correct:false,explain:"Salicylate toxicity is specifically and classically associated with acid-base disturbances, particularly this mixed respiratory alkalosis/metabolic acidosis picture."},
+    {text:"Only metabolic alkalosis occurs with salicylate toxicity",correct:false,explain:"Salicylate toxicity classically involves respiratory alkalosis and metabolic acidosis together, not isolated metabolic alkalosis."}
+  ]},
+{ stem:"A client presents to the ED after ingesting a large quantity of aspirin. What early symptom is classically associated with salicylate's direct stimulation of the respiratory center?",
+  options:[
+    {text:"Tachypnea/hyperventilation",correct:true,explain:"Salicylates directly stimulate the respiratory center in the brainstem, causing tachypnea/hyperventilation, which is an early classic sign of salicylate toxicity, contributing to the respiratory alkalosis component of this mixed disorder."},
+    {text:"Bradypnea",correct:false,explain:"Salicylates cause increased, not decreased, respiratory rate through direct stimulation of the respiratory center; bradypnea is not the expected early finding."},
+    {text:"No respiratory changes occur with salicylate toxicity",correct:false,explain:"Salicylate toxicity does cause a specific, recognized respiratory change — tachypnea/hyperventilation — from direct respiratory center stimulation."},
+    {text:"Complete respiratory arrest as the first sign",correct:false,explain:"Tachypnea/hyperventilation, not immediate respiratory arrest, is the classic early finding in salicylate toxicity."}
+  ]},
+{ stem:"A client with chronic renal failure often develops metabolic acidosis. What is the underlying mechanism for this acid-base disturbance?",
+  options:[
+    {text:"The kidneys lose the ability to adequately excrete hydrogen ions and regenerate bicarbonate, leading to acid accumulation",correct:true,explain:"In chronic renal failure, the kidneys lose their normal capacity to excrete hydrogen ions and regenerate bicarbonate, leading to progressive accumulation of acid in the body and resulting metabolic acidosis."},
+    {text:"The kidneys excrete excessive bicarbonate, causing metabolic acidosis",correct:false,explain:"While the mechanism does involve impaired bicarbonate regeneration, the core problem is failure to adequately excrete acid/regenerate bicarbonate, not an active excessive excretion of bicarbonate as the primary driver."},
+    {text:"Renal failure has no relationship to acid-base balance",correct:false,explain:"Renal failure has a direct and significant relationship to acid-base balance, given the kidneys' central role in acid-base regulation."},
+    {text:"Renal failure causes metabolic alkalosis, not acidosis",correct:false,explain:"Renal failure classically causes metabolic acidosis (from impaired acid excretion), not metabolic alkalosis."}
+  ]},
+{ stem:"What laboratory finding, in addition to the ABG, would the nurse expect to see in a client with metabolic acidosis due to chronic renal failure?",
+  options:[
+    {text:"Elevated BUN and creatinine, reflecting the underlying renal dysfunction",correct:true,explain:"Since this metabolic acidosis is caused by chronic renal failure, the nurse would expect to see elevated BUN and creatinine, reflecting the underlying renal dysfunction responsible for the acid-base disturbance."},
+    {text:"Decreased BUN and creatinine",correct:false,explain:"Renal failure is associated with elevated, not decreased, BUN and creatinine, reflecting reduced kidney function."},
+    {text:"No expected changes in renal function labs",correct:false,explain:"Renal function labs (BUN, creatinine) would be expected to show clear abnormalities (elevation) given the underlying renal failure causing this metabolic acidosis."},
+    {text:"Decreased serum potassium",correct:false,explain:"Renal failure is more commonly associated with hyperkalemia (elevated, not decreased, potassium) due to impaired renal potassium excretion, particularly in the context of metabolic acidosis, which can further raise serum potassium."}
+  ]},
+{ stem:"A client with a large volume of chronic diarrhea is at risk for which acid-base disturbance, and why?",
+  options:[
+    {text:"Metabolic acidosis, from significant loss of bicarbonate-rich intestinal fluids",correct:true,explain:"Chronic diarrhea causes significant loss of bicarbonate-rich intestinal fluids, leading to metabolic acidosis from the resulting bicarbonate deficit."},
+    {text:"Metabolic alkalosis, from loss of gastric acid",correct:false,explain:"Loss of gastric acid (causing metabolic alkalosis) is associated with vomiting/NG suction, not diarrhea, which causes loss of bicarbonate-rich fluids and metabolic acidosis instead."},
+    {text:"Respiratory acidosis exclusively",correct:false,explain:"Diarrhea causes a primary metabolic disturbance (acidosis from bicarbonate loss), not a primary respiratory disturbance."},
+    {text:"No acid-base disturbance is associated with diarrhea",correct:false,explain:"Diarrhea is specifically and classically associated with metabolic acidosis due to bicarbonate loss in the stool."}
+  ]},
+{ stem:"A client with severe, chronic diarrhea has the following ABG: pH 7.30, PaCO2 32 mm Hg, HCO3 15 mEq/L. What compensatory mechanism explains the low PaCO2?",
+  options:[
+    {text:"Respiratory compensation — increased rate and depth of breathing to exhale more CO2, helping raise the pH toward normal",correct:true,explain:"In metabolic acidosis, the respiratory system compensates by increasing the rate and depth of breathing to exhale more CO2, which helps raise the pH back toward normal; this explains the low PaCO2 accompanying the low HCO3 in this scenario."},
+    {text:"Renal compensation exclusively",correct:false,explain:"The change in PaCO2 reflects respiratory, not renal, compensation; the kidneys are actually the source of the primary problem here (bicarbonate loss via GI tract, though the kidneys are not directly compensating via PaCO2 changes, which is a lung function)."},
+    {text:"This PaCO2 change is unrelated to any compensatory mechanism",correct:false,explain:"This PaCO2 change specifically reflects the expected respiratory compensatory response to the underlying metabolic acidosis, not an unrelated or random finding."},
+    {text:"This represents a primary respiratory alkalosis unrelated to the diarrhea",correct:false,explain:"This is not a primary respiratory process; it is a compensatory response (decreased PaCO2) to the primary metabolic acidosis caused by the diarrhea-related bicarbonate loss."}
+  ]},
+{ stem:"A client is prescribed acetazolamide, a carbonic anhydrase inhibitor. What acid-base effect would the nurse anticipate with this medication?",
+  options:[
+    {text:"Mild metabolic acidosis, since this medication promotes renal bicarbonate excretion",correct:true,explain:"Acetazolamide inhibits carbonic anhydrase, promoting renal bicarbonate excretion, which can result in a mild metabolic acidosis as an expected pharmacologic effect."},
+    {text:"Metabolic alkalosis",correct:false,explain:"Acetazolamide promotes bicarbonate loss, which would cause metabolic acidosis, not metabolic alkalosis."},
+    {text:"No acid-base effect is associated with this medication",correct:false,explain:"Acetazolamide does have a recognized acid-base effect (mild metabolic acidosis) related to its mechanism of promoting renal bicarbonate excretion."},
+    {text:"Respiratory acidosis exclusively",correct:false,explain:"This medication's acid-base effect is metabolic (via renal bicarbonate handling), not primarily respiratory."}
+  ]},
+{ stem:"A client receiving large volumes of lactated Ringer's solution has an ABG that shows an elevated HCO3 with a normal PaCO2. What might explain this finding?",
+  options:[
+    {text:"Lactate in the solution is metabolized to bicarbonate by the liver, which can raise serum HCO3 with large-volume administration",correct:true,explain:"Lactated Ringer's solution contains lactate, which is metabolized by the liver into bicarbonate; large-volume administration can therefore raise serum HCO3 levels, which is an important consideration when interpreting ABG results in a client receiving this fluid."},
+    {text:"Lactated Ringer's has no effect on acid-base balance",correct:false,explain:"Lactated Ringer's does have a recognized potential effect on acid-base balance through its lactate content being metabolized to bicarbonate."},
+    {text:"This finding indicates the client is in respiratory failure",correct:false,explain:"This finding relates to the metabolic effect of the IV fluid's lactate content, not primarily a respiratory process or failure."},
+    {text:"Lactated Ringer's causes metabolic acidosis, not an elevated HCO3",correct:false,explain:"This is the opposite of the actual expected effect; the lactate is converted to bicarbonate, which would tend to raise, not lower, HCO3 and could contribute to alkalosis with large volumes, not acidosis."}
+  ]},
+{ stem:"A client's ABG shows pH 7.38, PaCO2 38 mm Hg, HCO3 23 mEq/L, PaO2 96 mm Hg. How should the nurse interpret this result?",
+  options:[
+    {text:"A normal ABG, with all values within normal reference ranges and no evidence of an acid-base imbalance",correct:true,explain:"All values in this ABG — pH (7.35–7.45), PaCO2 (35–45), HCO3 (22–26), and PaO2 (75–100) — fall within normal reference ranges, indicating a normal acid-base and oxygenation status with no imbalance present."},
+    {text:"Compensated respiratory acidosis",correct:false,explain:"There is no abnormality in any of these values requiring compensation to explain; this is simply a normal ABG."},
+    {text:"Uncompensated metabolic alkalosis",correct:false,explain:"All values are within normal range; there is no evidence of any acid-base disturbance, compensated or uncompensated."},
+    {text:"This ABG cannot be interpreted without additional information",correct:false,explain:"This ABG can be fully and confidently interpreted as normal, since all four values fall within their respective normal reference ranges."}
+  ]},
+{ stem:"Which of the following statements about the relationship between potassium and pH is accurate?",
+  options:[
+    {text:"In acidosis, potassium shifts out of cells (raising serum potassium); in alkalosis, potassium shifts into cells (lowering serum potassium)",correct:true,explain:"This describes the correct, well-established relationship: in acidosis, hydrogen ions move into cells and potassium moves out to maintain electroneutrality, raising serum potassium; in alkalosis, the reverse occurs, with potassium shifting into cells and lowering serum potassium."},
+    {text:"In acidosis, potassium shifts into cells; in alkalosis, potassium shifts out of cells",correct:false,explain:"This reverses the actual relationship; acidosis causes potassium to shift out of cells (raising serum levels), while alkalosis causes potassium to shift into cells (lowering serum levels)."},
+    {text:"Potassium levels are completely unaffected by acid-base status",correct:false,explain:"Potassium levels are significantly affected by acid-base status through this well-documented intracellular/extracellular shifting mechanism."},
+    {text:"This relationship only applies to metabolic, not respiratory, acid-base disturbances",correct:false,explain:"This potassium-pH relationship applies broadly across acid-base disturbances, not exclusively to metabolic causes."}
+  ]},
+{ stem:"A client in DKA with a pH of 7.15 has a serum potassium of 5.8 mEq/L (elevated). What should the nurse anticipate regarding potassium as treatment with insulin begins?",
+  options:[
+    {text:"As the acidosis is corrected with insulin therapy, potassium will shift back into cells, and serum potassium levels are expected to fall, requiring close monitoring and often supplementation",correct:true,explain:"As DKA is treated with insulin and the acidosis corrects, potassium that had shifted out of cells due to acidosis will shift back into cells, causing serum potassium to fall — often significantly — requiring close monitoring and frequently potassium supplementation even though the initial level was elevated."},
+    {text:"Potassium levels will remain completely unchanged throughout treatment",correct:false,explain:"Potassium levels are expected to change significantly as the acidosis is corrected, given the well-established relationship between pH and potassium shifts."},
+    {text:"Potassium levels will continue to rise throughout treatment",correct:false,explain:"As the acidosis corrects, potassium is expected to shift back into cells and serum levels to fall, not continue rising."},
+    {text:"No potassium monitoring is needed once insulin therapy begins",correct:false,explain:"Close potassium monitoring is essential throughout DKA treatment, given the expected significant shifts as the acidosis is corrected."}
+  ]},
+{ stem:"A client's ABG shows a PaCO2 of 55 mm Hg. Independent of the pH, what does this specifically indicate about the client's ventilation status?",
+  options:[
+    {text:"Hypoventilation — the client is retaining more CO2 than normal",correct:true,explain:"A PaCO2 above the normal range (35–45 mm Hg) at 55 mm Hg specifically indicates hypoventilation, meaning the client is not adequately eliminating CO2 through breathing, resulting in CO2 retention."},
+    {text:"Hyperventilation — the client is exhaling excessive CO2",correct:false,explain:"A PaCO2 below normal range would indicate hyperventilation; a PaCO2 of 55 mm Hg (above normal) indicates hypoventilation, the opposite condition."},
+    {text:"Normal ventilation status",correct:false,explain:"A PaCO2 of 55 mm Hg is above the normal range and does not reflect normal ventilation; it indicates hypoventilation."},
+    {text:"This value provides no information about ventilation status",correct:false,explain:"PaCO2 is specifically the parameter that reflects ventilation status; this value does provide meaningful information about hypoventilation."}
+  ]},
+{ stem:"A client's ABG shows a PaCO2 of 28 mm Hg. Independent of the pH, what does this specifically indicate about the client's ventilation status?",
+  options:[
+    {text:"Hyperventilation — the client is exhaling more CO2 than normal",correct:true,explain:"A PaCO2 below the normal range (35–45 mm Hg) at 28 mm Hg specifically indicates hyperventilation, meaning the client is exhaling more CO2 than normal, often through increased rate and/or depth of breathing."},
+    {text:"Hypoventilation — the client is retaining excessive CO2",correct:false,explain:"A PaCO2 above normal range would indicate hypoventilation; a PaCO2 of 28 mm Hg (below normal) indicates hyperventilation, the opposite condition."},
+    {text:"Normal ventilation status",correct:false,explain:"A PaCO2 of 28 mm Hg is below the normal range and does not reflect normal ventilation; it indicates hyperventilation."},
+    {text:"This value provides no information about ventilation status",correct:false,explain:"PaCO2 is specifically the parameter that reflects ventilation status; this value does provide meaningful information about hyperventilation."}
+  ]},
+{ stem:"A client with a large pulmonary embolism develops sudden dyspnea and hypoxemia. What acid-base disturbance is initially most likely, and why?",
+  options:[
+    {text:"Respiratory alkalosis, due to reflex tachypnea/hyperventilation triggered by hypoxemia and anxiety",correct:true,explain:"A pulmonary embolism classically causes sudden hypoxemia, which triggers reflex tachypnea and hyperventilation (often compounded by anxiety), leading to excessive CO2 elimination and an initial respiratory alkalosis, even though gas exchange is impaired in the affected lung area."},
+    {text:"Respiratory acidosis, due to immediate hypoventilation",correct:false,explain:"A PE classically causes an initial hyperventilation response (from hypoxemia and anxiety), not hypoventilation, leading to respiratory alkalosis rather than acidosis in the early phase."},
+    {text:"Metabolic acidosis exclusively, unrelated to the respiratory event",correct:false,explain:"The initial acid-base change in PE is a primary respiratory disturbance (alkalosis from hyperventilation), not primarily a metabolic one, though severe, prolonged hypoxemia could eventually contribute to lactic (metabolic) acidosis if tissue oxygenation is significantly compromised."},
+    {text:"No acid-base disturbance is associated with pulmonary embolism",correct:false,explain:"Pulmonary embolism is classically associated with an acid-base disturbance (initial respiratory alkalosis from reflex hyperventilation)."}
+  ]},
+{ stem:"A client's ABG values fluctuate significantly between two draws taken minutes apart, with no change in the client's clinical status. What should the nurse consider as a possible explanation?",
+  options:[
+    {text:"A technical or sampling issue (e.g., air bubble contamination, delayed processing, or improper handling) rather than a true physiologic change",correct:true,explain:"When ABG values fluctuate significantly without a corresponding change in clinical status, technical or sampling issues — such as air bubble contamination of the sample, delayed processing, or improper handling — should be considered as a possible explanation, and the accuracy of the sample/technique should be reviewed."},
+    {text:"This always represents a true, significant physiologic change requiring immediate major intervention",correct:false,explain:"Given the lack of corresponding clinical change, a technical/sampling issue should be considered before assuming this represents a major true physiologic shift, though clinical correlation always remains important."},
+    {text:"ABG values never vary between draws under any circumstances",correct:false,explain:"ABG values can vary due to sampling technique and other factors; this statement inaccurately suggests they are always perfectly consistent."},
+    {text:"This finding should be ignored completely with no further action",correct:false,explain:"This finding should prompt consideration of possible technical issues and correlation with the client's clinical status, not simply be ignored without any follow-up."}
+  ]},
+{ stem:"What is a key difference between a venous blood gas (VBG) and an arterial blood gas (ABG)?",
+  options:[
+    {text:"A VBG reflects venous (deoxygenated) blood gas values, which differ from arterial values, particularly for PaO2, and is not an appropriate substitute for assessing oxygenation status",correct:true,explain:"A venous blood gas reflects the composition of venous (deoxygenated) blood, which differs notably from arterial values — especially for oxygen-related parameters — making a VBG generally inappropriate as a substitute for an ABG when oxygenation status specifically needs to be assessed, though VBG can sometimes provide useful information about pH and CO2 trends in certain contexts."},
+    {text:"A VBG and ABG provide identical values with no clinically relevant differences",correct:false,explain:"VBG and ABG values, especially oxygen-related parameters, differ meaningfully and are not interchangeable for assessing oxygenation status."},
+    {text:"A VBG is always preferred over an ABG for all clinical purposes",correct:false,explain:"An ABG remains the standard for assessing oxygenation status and overall acid-base balance in most clinical situations; VBG has more limited, specific uses."},
+    {text:"A VBG cannot provide any useful clinical information",correct:false,explain:"A VBG can provide some useful information, particularly regarding pH and CO2 trends in certain contexts, even though it is not an appropriate substitute for assessing oxygenation via PaO2."}
+  ]},
+{ stem:"A client's ABG shows pH 7.44, PaCO2 33 mm Hg, HCO3 22 mEq/L, PaO2 78 mm Hg. What is the correct interpretation?",
+  options:[
+    {text:"Fully compensated respiratory alkalosis",correct:true,explain:"The pH is within normal range (at the high-normal end), PaCO2 is low (respiratory alkalosis pattern), and HCO3 is at the low-normal end (renal compensation via bicarbonate excretion). A normal pH with abnormal PaCO2 and low-normal HCO3 indicates full compensation of the underlying respiratory alkalosis."},
+    {text:"Uncompensated respiratory alkalosis",correct:false,explain:"Uncompensated would mean the pH is abnormal; here the pH is within normal range, indicating compensation has occurred."},
+    {text:"Fully compensated metabolic acidosis",correct:false,explain:"The primary disturbance reflected by the high-normal pH and low PaCO2 is respiratory (alkalosis), not metabolic acidosis."},
+    {text:"No acid-base imbalance present",correct:false,explain:"Although pH is normal, both PaCO2 and HCO3 show meaningful shifts from the center of their ranges, indicating a compensated imbalance is present."}
+  ]},
+{ stem:"A client's ABG shows pH 7.29, PaCO2 50 mm Hg, HCO3 24 mEq/L, PaO2 70 mm Hg. What is the correct interpretation?",
+  options:[
+    {text:"Uncompensated respiratory acidosis with hypoxemia",correct:true,explain:"The pH is low (acidosis) with an elevated PaCO2 (respiratory acidosis pattern) and a normal HCO3, indicating no metabolic compensation has yet occurred; the low PaO2 also indicates concurrent hypoxemia."},
+    {text:"Fully compensated respiratory acidosis",correct:false,explain:"Full compensation requires a normal pH; here the pH remains abnormal (low), indicating this is uncompensated."},
+    {text:"Uncompensated metabolic acidosis",correct:false,explain:"HCO3 is within normal range, ruling out a primary metabolic acidosis; the abnormal PaCO2 points to a respiratory cause."},
+    {text:"A normal ABG with only mild hypoxemia",correct:false,explain:"This ABG shows clear acidosis (low pH) with an elevated PaCO2, which is not a normal result; hypoxemia is an additional, separate finding."}
+  ]},
+{ stem:"A client's ABG shows pH 7.41, PaCO2 41 mm Hg, HCO3 25 mEq/L, PaO2 62 mm Hg. How should the nurse interpret this ABG?",
+  options:[
+    {text:"Normal acid-base balance with isolated hypoxemia",correct:true,explain:"The pH, PaCO2, and HCO3 are all within normal reference ranges, indicating normal acid-base balance; however, the PaO2 of 62 mm Hg is below normal (75–100 mm Hg), indicating isolated hypoxemia requiring further evaluation and likely oxygen therapy."},
+    {text:"Compensated respiratory alkalosis with normal oxygenation",correct:false,explain:"All acid-base values are normal, so there is no imbalance requiring compensation, and the PaO2 is below normal (hypoxemia), not normal oxygenation."},
+    {text:"Uncompensated metabolic acidosis",correct:false,explain:"All acid-base values (pH, PaCO2, HCO3) are within normal range; there is no evidence of metabolic acidosis in this result."},
+    {text:"A completely normal ABG requiring no follow-up",correct:false,explain:"While the acid-base values are normal, the low PaO2 indicating hypoxemia does require follow-up and is not something to disregard."}
+  ]},
+{ stem:"A client is admitted with severe anxiety and reports numbness and tingling around the mouth and in the fingers. An ABG reveals pH 7.49, PaCO2 29 mm Hg. What is the connection between this client's symptoms and their ABG?",
+  options:[
+    {text:"The hyperventilation-induced respiratory alkalosis is causing decreased ionized calcium, leading to the perioral and peripheral paresthesias",correct:true,explain:"Hyperventilation-induced respiratory alkalosis causes a shift in calcium binding to albumin, decreasing ionized (free) calcium even though total calcium may be unchanged; this drop in ionized calcium is responsible for the perioral and peripheral paresthesias/tingling classically seen with hyperventilation."},
+    {text:"These symptoms are entirely unrelated to the client's respiratory alkalosis",correct:false,explain:"These symptoms are a classic, directly related manifestation of the client's hyperventilation-induced respiratory alkalosis and its effect on ionized calcium."},
+    {text:"This presentation indicates a primary calcium disorder unrelated to breathing pattern",correct:false,explain:"While the symptoms relate to calcium physiology, the underlying cause here is specifically the client's hyperventilation and resulting respiratory alkalosis, not a primary, independent calcium disorder."},
+    {text:"This presentation is caused by hypoventilation",correct:false,explain:"This presentation is caused by hyperventilation (reflected in the low PaCO2), not hypoventilation."}
+  ]},
+{ stem:"What is the priority nursing intervention for a client experiencing acute hyperventilation with associated perioral tingling and carpopedal spasm?",
+  options:[
+    {text:"Coach the client to slow their breathing, consider a rebreathing technique as appropriate, and provide reassurance/emotional support",correct:true,explain:"For acute hyperventilation causing symptomatic respiratory alkalosis, coaching the client to slow their breathing rate, potentially using a rebreathing technique (such as a paper bag, if appropriate for the clinical situation), and providing reassurance/emotional support are key interventions to help the client retain CO2 and resolve symptoms."},
+    {text:"Encourage the client to breathe even faster to \"get it out of their system\"",correct:false,explain:"Encouraging faster breathing would worsen the hyperventilation and associated respiratory alkalosis, not help resolve it."},
+    {text:"Administer IV calcium gluconate immediately as the first-line intervention",correct:false,explain:"While the symptoms relate to decreased ionized calcium, the primary intervention is addressing the underlying hyperventilation itself; IV calcium is not the typical first-line approach for this presentation."},
+    {text:"No intervention is needed since these symptoms are not clinically significant",correct:false,explain:"These symptoms are clinically significant and distressing to the client, warranting active intervention to address the underlying hyperventilation."}
+  ]},
+{ stem:"A client is receiving IV sodium bicarbonate for severe metabolic acidosis. What is a potential risk of administering this medication too rapidly or in excessive amounts?",
+  options:[
+    {text:"Overcorrection leading to metabolic alkalosis, along with risks of hypernatremia and fluid overload",correct:true,explain:"Rapid or excessive IV sodium bicarbonate administration carries the risk of overcorrecting the acidosis into metabolic alkalosis, as well as risks of hypernatremia (from the sodium load) and fluid overload, requiring careful, monitored administration."},
+    {text:"No risks are associated with rapid sodium bicarbonate administration",correct:false,explain:"Rapid or excessive sodium bicarbonate administration does carry recognized risks (overcorrection to alkalosis, hypernatremia, fluid overload), making this statement inaccurate."},
+    {text:"This medication can only cause hypokalemia, with no other risks",correct:false,explain:"While electrolyte shifts can occur, the primary described risks of rapid/excessive sodium bicarbonate are overcorrection to alkalosis, hypernatremia, and fluid overload, not isolated hypokalemia."},
+    {text:"Rapid administration is always preferred regardless of the client's clinical status",correct:false,explain:"Rapid administration is not always preferred; careful, monitored administration is important given the risks of overcorrection and other complications."}
+  ]},
+{ stem:"A client's arterial blood gas is drawn, and the nurse notes visible air bubbles in the syringe before it is capped. What is the appropriate action?",
+  options:[
+    {text:"Expel the air bubbles immediately and cap the syringe promptly, since air exposure can alter the ABG results, particularly PaO2 and PaCO2",correct:true,explain:"Air bubbles in an ABG syringe should be expelled immediately, and the syringe capped promptly, since air exposure can cause gas equilibration between the sample and room air, falsely altering the PaO2 and PaCO2 results."},
+    {text:"The air bubbles have no effect on the accuracy of the results",correct:false,explain:"Air bubbles do have a significant effect on ABG accuracy, particularly for PaO2 and PaCO2, due to gas equilibration with room air."},
+    {text:"The sample should be left as is and sent to the lab without any correction",correct:false,explain:"The air should be expelled and the syringe capped promptly before sending the sample, not left as is, to help preserve sample accuracy."},
+    {text:"Air bubbles only affect the pH value, with no impact on other parameters",correct:false,explain:"Air bubbles primarily and significantly affect PaO2 and PaCO2 (through gas equilibration), not exclusively pH."}
+  ]},
+{ stem:"A client's ABG is drawn but not analyzed for over an hour, left at room temperature. What effect might this delay have on the results?",
+  options:[
+    {text:"Ongoing cellular metabolism in the sample can falsely lower the PaO2 and pH while raising the PaCO2 if not properly stored/analyzed promptly",correct:true,explain:"If an ABG sample sits for an extended period without proper cooling or prompt analysis, ongoing cellular metabolism (particularly by white blood cells) within the sample can consume oxygen and produce CO2, falsely lowering PaO2 and pH while raising PaCO2 compared to the client's actual in-vivo values."},
+    {text:"Delayed analysis has no effect on ABG accuracy regardless of storage conditions",correct:false,explain:"Delayed analysis, especially without proper cooling, can significantly affect ABG accuracy due to ongoing cellular metabolism within the sample."},
+    {text:"Delayed analysis only affects the HCO3 value",correct:false,explain:"Delayed analysis primarily affects PaO2, PaCO2, and pH due to ongoing cellular metabolism, not specifically or exclusively HCO3."},
+    {text:"Samples can be left at room temperature indefinitely with no need for prompt processing",correct:false,explain:"Prompt processing (or proper cooling if delay is unavoidable) is important for ABG sample accuracy; indefinite delay at room temperature is not appropriate."}
+  ]},
+{ stem:"A client's arterial line is used to obtain a blood gas sample. What is an important nursing consideration before drawing the sample from this line?",
+  options:[
+    {text:"Properly clear the line of any flush solution or heparinized saline to avoid diluting or contaminating the sample and altering the results",correct:true,explain:"Before drawing a blood gas sample from an arterial line, the nurse must properly clear the line of any flush solution or heparinized saline (per facility protocol, typically by withdrawing an appropriate waste sample first) to avoid diluting or contaminating the specimen, which could falsely alter the results."},
+    {text:"No special preparation is needed before drawing a sample from an arterial line",correct:false,explain:"Specific preparation (clearing the line appropriately) is needed before drawing an ABG sample from an arterial line to ensure accurate results."},
+    {text:"The arterial line should be flushed with a large volume of normal saline immediately before sampling with no waste withdrawal",correct:false,explain:"Simply flushing without appropriately withdrawing a waste sample first can dilute or contaminate the specimen; proper technique per facility protocol should be followed."},
+    {text:"Arterial line samples never require any special handling different from direct arterial puncture samples",correct:false,explain:"Arterial line samples do require specific handling (clearing the line properly) that differs from direct arterial puncture, given the presence of flush solution in the line."}
+  ]},
+{ stem:"A client's ABG reveals a PaCO2 of 42 mm Hg and a pH of 7.20, with a calculated anion gap that is significantly elevated. What does an elevated anion gap suggest about the underlying metabolic acidosis?",
+  options:[
+    {text:"The acidosis is likely due to accumulation of unmeasured acids (e.g., ketoacids, lactic acid, or toxins), rather than pure bicarbonate loss",correct:true,explain:"An elevated anion gap metabolic acidosis suggests the acidosis is due to accumulation of unmeasured acids (such as ketoacids in DKA, lactic acid, or certain toxins/poisonings), as opposed to a normal anion gap acidosis, which is more typically associated with direct bicarbonate loss (e.g., from diarrhea)."},
+    {text:"The anion gap has no relevance to distinguishing causes of metabolic acidosis",correct:false,explain:"The anion gap is specifically useful for helping distinguish between different underlying causes of metabolic acidosis, making this statement inaccurate."},
+    {text:"An elevated anion gap always indicates a respiratory, not metabolic, cause",correct:false,explain:"The anion gap is specifically a tool used to further categorize metabolic acidosis, not respiratory disturbances."},
+    {text:"An elevated anion gap indicates the client has metabolic alkalosis, not acidosis",correct:false,explain:"The anion gap concept is specifically applied to further characterize metabolic acidosis; this client's pH of 7.20 already confirms acidosis, not alkalosis."}
+  ]},
+{ stem:"Which conditions are classically associated with an elevated anion gap metabolic acidosis?",
+  isSAL:true,
+  options:[
+    {text:"Diabetic ketoacidosis",correct:true,explain:"DKA is a classic cause of elevated anion gap metabolic acidosis due to accumulation of ketoacids."},
+    {text:"Lactic acidosis (e.g., from severe sepsis or shock)",correct:true,explain:"Lactic acidosis from conditions like severe sepsis or shock is a classic cause of elevated anion gap metabolic acidosis."},
+    {text:"Severe renal failure",correct:true,explain:"Severe renal failure is a classic cause of elevated anion gap metabolic acidosis due to accumulation of unexcreted acids and other unmeasured anions."},
+    {text:"Diarrhea-related bicarbonate loss",correct:false,explain:"Diarrhea-related metabolic acidosis is classically associated with a normal, not elevated, anion gap, since it involves direct bicarbonate loss rather than accumulation of unmeasured acids."}
+  ]},
+{ stem:"A client with septic shock develops a lactate level of 6.5 mmol/L (elevated) along with metabolic acidosis on ABG. What does the elevated lactate suggest?",
+  options:[
+    {text:"Tissue hypoperfusion and anaerobic metabolism, contributing to the metabolic (lactic) acidosis",correct:true,explain:"An elevated lactate level in septic shock reflects tissue hypoperfusion, where inadequate oxygen delivery forces cells into anaerobic metabolism, producing lactic acid and contributing to the metabolic acidosis seen on the ABG."},
+    {text:"Adequate tissue perfusion with no clinical concern",correct:false,explain:"An elevated lactate is a marker of inadequate, not adequate, tissue perfusion, and is a significant clinical concern in septic shock requiring aggressive management."},
+    {text:"This finding is unrelated to the client's acid-base status",correct:false,explain:"Elevated lactate is directly related to and a contributing cause of the client's metabolic acidosis, not an unrelated finding."},
+    {text:"This finding indicates respiratory, not metabolic, compromise",correct:false,explain:"Elevated lactate specifically reflects a metabolic process (anaerobic metabolism from hypoperfusion), not a primary respiratory issue."}
+  ]},
+{ stem:"What is the priority nursing goal when caring for a client with septic shock and lactic acidosis?",
+  options:[
+    {text:"Improve tissue perfusion and oxygen delivery through fluid resuscitation, vasopressors as needed, and treating the underlying infection",correct:true,explain:"The priority goal in septic shock with lactic acidosis is to improve tissue perfusion and oxygen delivery — through appropriate fluid resuscitation, vasopressor support as needed, and prompt treatment of the underlying infection — which addresses the root cause of the lactic acidosis rather than just the acid-base numbers themselves."},
+    {text:"Administer sodium bicarbonate as the primary and sole intervention",correct:false,explain:"While bicarbonate may be considered in some severe cases, the priority goal is addressing the underlying cause (poor perfusion and infection), not simply administering bicarbonate as the sole intervention."},
+    {text:"Restrict all IV fluids to avoid worsening the client's condition",correct:false,explain:"Fluid resuscitation is typically a key part of managing septic shock to improve perfusion, not something to restrict, unless otherwise clinically contraindicated."},
+    {text:"No specific intervention is needed since lactic acidosis will resolve on its own",correct:false,explain:"Lactic acidosis in septic shock requires active intervention (improving perfusion, treating infection); it will not reliably resolve without addressing the underlying cause."}
+  ]},
+{ stem:"A client's ABG shows pH 7.35, PaCO2 45 mm Hg, HCO3 24 mEq/L. Which statement best describes this result?",
+  options:[
+    {text:"This is at the low-normal/high-normal borderline of both pH and PaCO2, but technically remains within normal limits with no clear imbalance",correct:true,explain:"A pH of 7.35 and PaCO2 of 45 mm Hg both sit exactly at the edge of the normal range; since neither value falls outside the normal reference range, and HCO3 is normal, this result is technically within normal limits, though it warrants attention to trend and clinical correlation."},
+    {text:"This is a clear, definitive respiratory acidosis",correct:false,explain:"Since both pH and PaCO2 remain within (at the edge of) normal reference ranges, this does not represent a clear, definitive acidosis; borderline values require clinical correlation and trending rather than an automatic imbalance diagnosis."},
+    {text:"This is a clear, definitive metabolic alkalosis",correct:false,explain:"HCO3 is normal, and this does not fit a metabolic alkalosis pattern; the values here are at the normal range borderline, not indicative of alkalosis."},
+    {text:"This ABG cannot be assessed in any way",correct:false,explain:"This ABG can be assessed — the values are at the edge of normal, which is a meaningful and describable finding, not something that defies interpretation."}
+  ]},
+{ stem:"A client's respiratory status is being closely monitored after a large dose of IV opioid for pain management. Which assessment finding would be most concerning and warrant immediate ABG evaluation?",
+  options:[
+    {text:"A decrease in respiratory rate to 6 breaths/minute with decreased responsiveness",correct:true,explain:"A respiratory rate of 6 breaths/minute with decreased responsiveness is a significant, concerning finding suggestive of opioid-induced respiratory depression, warranting immediate assessment, intervention, and likely ABG evaluation to assess for resulting respiratory acidosis and hypoxemia."},
+    {text:"A respiratory rate of 16 breaths/minute with the client resting comfortably",correct:false,explain:"A respiratory rate of 16 breaths/minute with the client comfortable is a normal, reassuring finding, not one requiring urgent ABG evaluation."},
+    {text:"Mild, transient itching at the IV site",correct:false,explain:"Mild, transient itching is a common, generally minor finding with opioid administration and does not by itself indicate a need for urgent ABG evaluation."},
+    {text:"A stable heart rate within the client's normal baseline range",correct:false,explain:"A stable heart rate within the client's normal range is a reassuring finding, not one that would prompt urgent ABG evaluation."}
+  ]}
+];
+
+const FLASHCARDS = [
+{front:"Normal pH range", back:"7.35–7.45. Below = acidemia, above = alkalemia."},
+{front:"Normal PaCO2 range", back:"35–45 mm Hg. Respiratory component, controlled by the lungs. >45 = hypoventilation, <35 = hyperventilation."},
+{front:"Normal HCO3 range", back:"22–26 mEq/L. Metabolic component, regulated by the kidneys."},
+{front:"Normal PaO2 range", back:"75–100 mm Hg."},
+{front:"Normal SaO2 range", back:"94–100%."},
+{front:"ROME mnemonic", back:"Respiratory Opposite, Metabolic Equal — describes how pH relates to CO2 (opposite) vs. HCO3 (equal)."},
+{front:"Respiratory acidosis pattern", back:"pH ↓, PaCO2 ↑, HCO3 normal. Caused by inadequate ventilation/CO2 retention."},
+{front:"Respiratory alkalosis pattern", back:"pH ↑, PaCO2 ↓, HCO3 normal. Caused by hyperventilation/excess CO2 loss."},
+{front:"Metabolic acidosis pattern", back:"pH ↓, PaCO2 normal, HCO3 ↓. Caused by acid retention or bicarbonate loss (e.g., DKA, renal failure, diarrhea)."},
+{front:"Metabolic alkalosis pattern", back:"pH ↑, PaCO2 normal, HCO3 ↑. Caused by acid loss or excess bicarbonate (e.g., vomiting, diuretics)."},
+{front:"Kussmaul respirations", back:"Deep, rapid breathing — the compensatory pattern for metabolic acidosis (e.g., DKA)."},
+{front:"Full compensation", back:"pH normal; PaCO2 and HCO3 both abnormal."},
+{front:"Partial compensation", back:"pH, PaCO2, and HCO3 all abnormal."},
+{front:"Uncompensated", back:"pH abnormal; only one of PaCO2/HCO3 is abnormal (the other is normal)."},
+{front:"Potassium shift in acidosis", back:"Potassium moves OUT of cells — serum potassium increases."},
+{front:"Potassium shift in alkalosis", back:"Potassium moves INTO cells — serum potassium decreases."},
+{front:"Positive Allen test", back:"Color returns to the palm within 5 seconds after releasing the ulnar artery — confirms adequate collateral circulation before radial puncture."},
+{front:"FiO2 calculation for nasal cannula", back:"Room air = 21%; each liter of NC adds ~4%. Example: 2L NC = 21% + 8% = 29%."},
+{front:"P/F ratio (PaO2/FiO2)", back:"Normal: 400–500 mm Hg. ARDS: <300 mm Hg. Severe ARDS: <100 mm Hg."},
+{front:"Respiratory failure definition", back:"PaO2 less than 50 mm Hg and PaCO2 greater than 50 mm Hg."},
+{front:"Fastest-acting acid-base regulator", back:"Buffers (especially the carbonic acid–bicarbonate system) — faster than the lungs or kidneys."},
+{front:"Slowest but most complete acid-base regulator", back:"The kidneys — perform the ultimate correction of acid-base disturbances."}
+];
+
+/* ======================= FLASHCARDS ======================= */
+let flashOrder = FLASHCARDS.map((_,i)=>i);
+let flashIdx = 0;
+
+function renderFlashcard(){
+  if(!FLASHCARDS.length) return;
+  const card = FLASHCARDS[flashOrder[flashIdx]];
+  document.getElementById('flashFront').textContent = card.front;
+  document.getElementById('flashBack').textContent = card.back;
+  document.getElementById('flashcard').classList.remove('flipped');
+  document.getElementById('flashIndex').textContent = flashIdx+1;
+  document.getElementById('flashTotal').textContent = FLASHCARDS.length;
+}
+function flipCard(){ document.getElementById('flashcard').classList.toggle('flipped'); }
+document.getElementById('flashPrev').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  flashIdx = (flashIdx - 1 + FLASHCARDS.length) % FLASHCARDS.length;
+  renderFlashcard();
+});
+document.getElementById('flashNext').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  flashIdx = (flashIdx + 1) % FLASHCARDS.length;
+  renderFlashcard();
+});
+document.getElementById('flashShuffle').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  flashOrder = shuffle(flashOrder.length ? flashOrder : FLASHCARDS.map((_,i)=>i));
+  flashIdx = 0;
+  renderFlashcard();
+});
+
+
+let activeQuestions = [];
+let currentIndex = 0;
+let score = 0;
+let questionState = [];
+let optionOrders = [];
+
+
+function toggleAnswer(id, btn){
+  const el = document.getElementById(id);
+  el.classList.toggle('show');
+  btn.textContent = el.classList.contains('show') ? 'Hide answer ▲' : 'Reveal answer ▼';
+}
+
+function showView(name){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+name).classList.add('active');
+  const crumbs = document.getElementById('crumbs');
+  const homeLink = "<span onclick=\"location.href='index.html'\">Home</span>";
+  if(name==='notes') crumbs.innerHTML = homeLink + " / Acid-Base Balance / Course Notes";
+  else if(name==='flashcards') crumbs.innerHTML = homeLink + " / Acid-Base Balance / Flashcards";
+  else if(name==='setup') crumbs.innerHTML = homeLink + " / Acid-Base Balance / Practice Test";
+  else if(name==='cases') crumbs.innerHTML = homeLink + " / Acid-Base Balance / Case Studies";
+  else if(name==='quiz') crumbs.innerHTML = homeLink + " / <span onclick=\"showView('setup')\">Acid-Base Balance</span> / Practice Test";
+  ['tabNotesA','tabFlashA','tabSetupA','tabCasesA','tabNotesB','tabFlashB','tabSetupB','tabCasesB','tabNotesC','tabFlashC','tabSetupC','tabCasesC','tabNotesD','tabFlashD','tabSetupD','tabCasesD'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+    let kind = 'setup';
+    if(id.indexOf('Notes') !== -1) kind = 'notes';
+    else if(id.indexOf('Flash') !== -1) kind = 'flashcards';
+    else if(id.indexOf('Cases') !== -1) kind = 'cases';
+    el.classList.toggle('selected', kind === name || (kind==='setup' && name==='quiz'));
+  });
+
+  if(name === 'flashcards' && typeof renderFlashcard === 'function') renderFlashcard();
+  history.replaceState(null, '', '#'+name);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+(function initialRoute(){
+  const hash = (location.hash || '').replace('#','');
+  const validViews = ['notes','flashcards','setup','cases'];
+  showView(validViews.includes(hash) ? hash : 'setup');
+})();
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function startQuiz(n){
+  const indices = shuffle([...Array(QUESTIONS.length).keys()]).slice(0,n);
+  activeQuestions = indices.map(i=>QUESTIONS[i]);
+  questionState = new Array(activeQuestions.length).fill(null);
+  optionOrders = new Array(activeQuestions.length).fill(null);
+  score = 0;
+  currentIndex = 0;
+  document.getElementById('quizTitle').textContent = 'Practice Test — ' + n + ' Questions';
+  document.getElementById('finalOutOf').textContent = '/' + n;
+  buildPicker();
+  document.getElementById('quizArea').innerHTML='';
+  document.getElementById('summary').classList.remove('show');
+  updateStatus();
+  renderQuestion(0);
+  showView('quiz');
+}
+
+const pickerGrid = document.getElementById('pickerGrid');
+function buildPicker(){
+  pickerGrid.innerHTML = '';
+  activeQuestions.forEach((q,i)=>{
+    const btn = document.createElement('button');
+    btn.className = 'pick-btn';
+    btn.textContent = (i+1);
+    btn.title = 'Question ' + (i+1);
+    btn.addEventListener('click', ()=> goToQuestion(i));
+    pickerGrid.appendChild(btn);
+  });
+  refreshPicker();
+}
+function refreshPicker(){
+  const btns = pickerGrid.querySelectorAll('.pick-btn');
+  btns.forEach((btn,i)=>{
+    btn.classList.remove('current','correct','incorrect');
+    const st = questionState[i];
+    if(st) btn.classList.add(st.correct ? 'correct' : 'incorrect');
+    if(i === currentIndex) btn.classList.add('current');
+  });
+}
+
+function goToQuestion(idx){
+  currentIndex = idx;
+  document.getElementById('quizArea').innerHTML = '';
+  document.getElementById('summary').classList.remove('show');
+  renderQuestion(idx);
+  refreshPicker();
+  document.getElementById('quizArea').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function letter(i){ return String.fromCharCode(65+i); }
+
+function renderQuestion(qIndex){
+  const q = activeQuestions[qIndex];
+  const state = questionState[qIndex];
+  const quizArea = document.getElementById('quizArea');
+  const card = document.createElement('div');
+  card.className = 'qcard';
+
+  const meta = document.createElement('div');
+  meta.className = 'qmeta';
+  meta.innerHTML = `<span class="qnum">Q${qIndex+1} / ${activeQuestions.length}</span><span class="qtag">Acid-Base Balance</span>` +
+    (q.isSAL ? `<span class="qsal">Select all that apply</span>` : '');
+  card.appendChild(meta);
+
+  const stem = document.createElement('p');
+  stem.className = 'stem';
+  stem.textContent = q.stem;
+  card.appendChild(stem);
+
+  const optsWrap = document.createElement('div');
+  optsWrap.className = 'options';
+  const banner = document.createElement('div');
+  banner.className = 'result-banner';
+
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'btn-next';
+  nextBtn.textContent = (qIndex === activeQuestions.length-1) ? 'See results →' : 'Next question →';
+
+  const prevBtn = document.createElement('button');
+  prevBtn.className = 'btn-prev';
+  prevBtn.textContent = '← Previous';
+  prevBtn.disabled = (qIndex === 0);
+  prevBtn.addEventListener('click', ()=>{ if(qIndex>0) goToQuestion(qIndex-1); });
+
+  if(!optionOrders[qIndex]){
+    optionOrders[qIndex] = shuffle(q.options.map((_,i)=>i));
+  }
+  const order = optionOrders[qIndex];
+
+  if(q.isSAL){
+    let selected = state ? new Set(state.selected) : new Set();
+    order.forEach((origIdx, pos)=>{
+      const opt = q.options[origIdx];
+      const el = document.createElement('div');
+      el.className = 'opt sal';
+      el.dataset.origIdx = origIdx;
+      el.innerHTML = `<span class="opt-letter">${selected.has(origIdx)?'☑':'☐'}</span><div><div class="opt-text">${opt.text}</div><div class="opt-explain" style="display:none"></div></div>`;
+      if(!state){
+        el.addEventListener('click', ()=>{
+          if(el.classList.contains('locked')) return;
+          if(selected.has(origIdx)){ selected.delete(origIdx); el.querySelector('.opt-letter').textContent='☐'; el.style.background='var(--paper)'; el.style.borderColor='var(--line)'; }
+          else { selected.add(origIdx); el.querySelector('.opt-letter').textContent='☑'; el.style.background='#F0E9FA'; el.style.borderColor='var(--pulse)'; }
+        });
+      }
+      optsWrap.appendChild(el);
+    });
+    card.appendChild(optsWrap);
+    if(state){
+      revealSAL(qIndex, state.selected, optsWrap, banner, state.correct);
+      nextBtn.classList.add('show');
+    } else {
+      const submitBtn = document.createElement('button');
+      submitBtn.className = 'btn-sal-submit';
+      submitBtn.textContent = 'Submit answer';
+      submitBtn.addEventListener('click', ()=>{
+        lockSAL(qIndex, selected, optsWrap, banner, nextBtn, submitBtn);
+      });
+      card.appendChild(submitBtn);
+    }
+  } else {
+    order.forEach((origIdx, pos)=>{
+      const opt = q.options[origIdx];
+      const el = document.createElement('div');
+      el.className = 'opt';
+      el.dataset.origIdx = origIdx;
+      el.innerHTML = `<span class="opt-letter">${letter(pos)}</span><div><div class="opt-text">${opt.text}</div><div class="opt-explain" style="display:none"></div></div>`;
+      if(!state){
+        el.addEventListener('click', ()=> lockSingle(qIndex, origIdx, optsWrap, banner, nextBtn));
+      }
+      optsWrap.appendChild(el);
+    });
+    card.appendChild(optsWrap);
+    if(state){
+      revealSingle(qIndex, state.selected, optsWrap, banner, state.correct);
+      nextBtn.classList.add('show');
+    }
+  }
+
+  card.appendChild(banner);
+  const actions = document.createElement('div');
+  actions.className = 'actions';
+  actions.appendChild(prevBtn);
+  actions.appendChild(nextBtn);
+  card.appendChild(actions);
+
+  nextBtn.addEventListener('click', ()=>{
+    if(qIndex+1 < activeQuestions.length){ goToQuestion(qIndex+1); }
+    else { showSummary(); }
+  });
+
+  quizArea.appendChild(card);
+}
+
+function revealSingle(qIndex, chosenIdx, optsWrap, banner, isCorrect){
+  const q = activeQuestions[qIndex];
+  const opts = optsWrap.querySelectorAll('.opt');
+  opts.forEach((el)=>{
+    const i = parseInt(el.dataset.origIdx, 10);
+    el.classList.add('locked');
+    const explainEl = el.querySelector('.opt-explain');
+    explainEl.textContent = q.options[i].explain;
+    explainEl.style.display = 'block';
+    if(q.options[i].correct){ el.classList.add('correct-choice'); }
+    else if(i === chosenIdx){ el.classList.add('incorrect-choice'); }
+    else { el.classList.add('dim'); }
+  });
+  banner.classList.add('show', isCorrect ? 'correct' : 'incorrect');
+  banner.innerHTML = isCorrect ? `<span>✓</span> Correct.` : `<span>✕</span> Not quite — the correct answer is highlighted above.`;
+}
+
+function revealSAL(qIndex, selectedArr, optsWrap, banner, allCorrect){
+  const q = activeQuestions[qIndex];
+  const selected = new Set(selectedArr);
+  const opts = optsWrap.querySelectorAll('.opt');
+  opts.forEach((el)=>{
+    const i = parseInt(el.dataset.origIdx, 10);
+    el.classList.add('locked');
+    const explainEl = el.querySelector('.opt-explain');
+    explainEl.textContent = q.options[i].explain;
+    explainEl.style.display = 'block';
+    const letterEl = el.querySelector('.opt-letter');
+    if(q.options[i].correct){ el.classList.add('correct-choice'); letterEl.textContent='✓'; }
+    else if(selected.has(i)){ el.classList.add('incorrect-choice'); letterEl.textContent='✕'; }
+    else { el.classList.add('dim'); letterEl.textContent='☐'; }
+  });
+  banner.classList.add('show', allCorrect ? 'correct' : 'incorrect');
+  banner.innerHTML = allCorrect ? `<span>✓</span> Correct — all applicable choices selected.` : `<span>✕</span> Not quite — correct choices are highlighted above.`;
+}
+
+function lockSingle(qIndex, chosenIdx, optsWrap, banner, nextBtn){
+  if(questionState[qIndex]) return;
+  const q = activeQuestions[qIndex];
+  const isCorrect = q.options[chosenIdx].correct;
+  questionState[qIndex] = { correct: isCorrect, selected: chosenIdx };
+  if(isCorrect) score++;
+  revealSingle(qIndex, chosenIdx, optsWrap, banner, isCorrect);
+  nextBtn.classList.add('show');
+  refreshPicker();
+  updateStatus();
+}
+
+function lockSAL(qIndex, selected, optsWrap, banner, nextBtn, submitBtn){
+  if(questionState[qIndex]) return;
+  const q = activeQuestions[qIndex];
+  const correctSet = new Set(q.options.map((o,i)=>o.correct?i:null).filter(v=>v!==null));
+  let allCorrect = correctSet.size === selected.size && [...correctSet].every(i=>selected.has(i));
+  questionState[qIndex] = { correct: allCorrect, selected: [...selected] };
+  if(allCorrect) score++;
+  submitBtn.style.display = 'none';
+  revealSAL(qIndex, [...selected], optsWrap, banner, allCorrect);
+  nextBtn.classList.add('show');
+  refreshPicker();
+  updateStatus();
+}
+
+function updateStatus(){
+  const answeredCount = questionState.filter(Boolean).length;
+  const total = activeQuestions.length || 1;
+  document.getElementById('progressFill').style.width = (answeredCount/total*100)+'%';
+  document.getElementById('scoreLabel').innerHTML = `<span>${score}</span> / ${answeredCount}`;
+}
+
+function showSummary(){
+  document.getElementById('quizArea').innerHTML = '';
+  const answeredCount = questionState.filter(Boolean).length;
+  document.getElementById('finalScore').textContent = score;
+  document.getElementById('finalOutOf').textContent = '/' + activeQuestions.length;
+  const pct = answeredCount ? Math.round(score/answeredCount*100) : 0;
+  const msgEl = document.getElementById('finalMsg');
+  if(answeredCount < activeQuestions.length){
+    msgEl.textContent = `You've answered ${answeredCount} of ${activeQuestions.length} questions (${score} correct so far). Use the picker above to finish the rest.`;
+  } else if(pct >= 90) msgEl.textContent = 'Excellent — strong command of pharmacology test-taking strategy.';
+  else if(pct >= 75) msgEl.textContent = 'Solid work. Revisit the missed rationales above before your exam.';
+  else if(pct >= 60) msgEl.textContent = 'Decent start — review the explanations above, especially on the concepts you missed.';
+  else msgEl.textContent = 'Worth another pass — scroll up and read every rationale carefully, then retake.';
+  document.getElementById('summary').classList.add('show');
+  document.getElementById('summary').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+/* ---------- Print / Save PDF ---------- */
+function buildPrintReport(){
+  const answeredCount = questionState.filter(Boolean).length;
+  const pct = answeredCount ? Math.round(score/answeredCount*100) : 0;
+  const now = new Date();
+  const dateStr = now.toLocaleDateString(undefined, { year:'numeric', month:'long', day:'numeric' });
+  const timeStr = now.toLocaleTimeString(undefined, { hour:'2-digit', minute:'2-digit' });
+
+  let html = '';
+  html += '<div class="rpt-header">';
+  html += '<h1>Acid-Base Balance — Practice Test Results</h1>';
+  html += '<div class="rpt-meta">' + dateStr + ' at ' + timeStr + ' &middot; ' + activeQuestions.length + ' questions</div>';
+  html += '<div class="rpt-score">Score: ' + score + ' / ' + answeredCount + ' answered (' + pct + '%)</div>';
+  html += '</div>';
+
+  activeQuestions.forEach((q, qi) => {
+    const state = questionState[qi];
+    html += '<div class="rpt-q">';
+    html += '<div class="rq-num">Question ' + (qi+1) + (q.isSAL ? ' (Select all that apply)' : '') + '</div>';
+    html += '<div class="rq-stem">' + escapeHtml(q.stem) + '</div>';
+
+    q.options.forEach((opt, oi) => {
+      let cls = '';
+      let marker = '';
+      const chosen = state ? (q.isSAL ? state.selected.includes(oi) : state.selected === oi) : false;
+      if(opt.correct){ cls = 'correct'; marker = '✓ '; }
+      else if(chosen){ cls = 'incorrect'; marker = '✕ '; }
+      html += '<div class="rpt-opt ' + cls + '">' + marker + escapeHtml(opt.text) + '</div>';
+      html += '<div class="rpt-explain">' + escapeHtml(opt.explain) + '</div>';
+    });
+
+    if(state){
+      const isCorrect = state.correct;
+      html += '<div class="rpt-banner ' + (isCorrect ? 'correct' : 'incorrect') + '">' +
+        (isCorrect ? 'Answered correctly' : 'Answered incorrectly') + '</div>';
+    } else {
+      html += '<div class="rpt-banner">Not answered</div>';
+    }
+    html += '</div>';
+  });
+
+  document.getElementById('printReport').innerHTML = html;
+}
+
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+document.getElementById('printBtn').addEventListener('click', ()=>{
+  buildPrintReport();
+  window.print();
+});
+
+document.getElementById('resultsBtn').addEventListener('click', showSummary);
+document.getElementById('randomBtn').addEventListener('click', ()=>{
+  const idx = Math.floor(Math.random()*activeQuestions.length);
+  goToQuestion(idx);
+});
+document.getElementById('reviewBtn').addEventListener('click', ()=>{
+  document.getElementById('summary').classList.remove('show');
+  goToQuestion(currentIndex);
+});
+document.getElementById('setupBtn').addEventListener('click', ()=> showView('setup'));
+document.getElementById('restartBtn').addEventListener('click', ()=> startQuiz(activeQuestions.length));
+</script>
+</body>
+</html>

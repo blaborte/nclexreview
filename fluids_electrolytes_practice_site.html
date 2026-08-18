@@ -1,0 +1,1732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nursing NCLEX Review</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  :root{
+    --ink:#211B36;
+    --ink-soft:#524A6B;
+    --paper:#F7F5FB;
+    --card:#FFFFFF;
+    --line:#E2DCEF;
+    --pulse:#2563EB;
+    --pulse-dim:#DBEAFE;
+    --correct:#1B8A5A;
+    --correct-bg:#E7F5EE;
+    --incorrect:#C1443D;
+    --incorrect-bg:#FBEAE8;
+    --muted:#8A80A0;
+    --amber:#B8791A;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(520px circle at 4% -6%, rgba(37,99,235,0.2), transparent 60%),
+      radial-gradient(460px circle at 98% 2%, rgba(184,121,26,0.15), transparent 58%),
+      radial-gradient(480px circle at 6% 70%, rgba(27,138,90,0.12), transparent 58%),
+      linear-gradient(180deg, var(--paper) 0%, #ffffff 50%, var(--paper) 100%);
+    background-attachment:fixed;
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    padding:40px 20px 80px;
+  }
+  .wrap{max-width:860px;margin:0 auto;}
+  .view{display:none;}
+  .view.active{display:block;}
+
+  .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:10px;}
+  .brand{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--pulse);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;gap:8px;}
+  .brand:hover{color:var(--ink);}
+  .crumbs{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);}
+  .crumbs span{cursor:pointer;}
+  .crumbs span:hover{color:var(--pulse);}
+
+  .eyebrow{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--pulse);font-weight:600;margin-bottom:10px;}
+  h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(28px,5vw,40px);line-height:1.08;margin:0 0 6px;letter-spacing:-.01em;}
+  h2.section-title{font-family:'Fraunces',serif;font-weight:600;font-size:22px;margin:34px 0 12px;color:var(--ink);}
+  h2.section-title:first-of-type{margin-top:0;}
+  .subtitle{color:var(--ink-soft);font-size:15px;margin:0 0 26px;max-width:60ch;}
+
+  .ekg{width:100%;height:46px;margin-bottom:24px;overflow:hidden;}
+  .ekg svg{width:100%;height:100%;display:block;}
+  .ekg path{fill:none;stroke:var(--pulse);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  .ekg-trace{stroke-dasharray:1000;stroke-dashoffset:1000;animation:draw 2.6s ease-out forwards;}
+  @keyframes draw{to{stroke-dashoffset:0;}}
+  @media (prefers-reduced-motion:reduce){.ekg-trace{animation:none;stroke-dashoffset:0;}}
+
+  .topic-tabs{display:flex;gap:8px;margin-bottom:26px;flex-wrap:wrap;}
+  .tab-btn{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;padding:11px 18px;border-radius:9px;cursor:pointer;border:1.5px solid var(--line);background:var(--card);color:var(--ink-soft);}
+  .tab-btn:hover{border-color:var(--pulse);color:var(--pulse);}
+  .tab-btn.selected{background:var(--ink);border-color:var(--ink);color:#fff;}
+
+  .notes-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:30px 28px;}
+  .notes-card p{color:var(--ink-soft);font-size:14.5px;line-height:1.6;}
+  .note-table{width:100%;border-collapse:collapse;margin:10px 0 24px;font-size:13.5px;}
+  .note-table th{background:var(--ink);color:#fff;text-align:left;padding:9px 12px;font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.03em;text-transform:uppercase;}
+  .note-table td{padding:9px 12px;border-bottom:1px solid var(--line);color:var(--ink-soft);vertical-align:top;}
+  .note-table tr:nth-child(even) td{background:var(--paper);}
+  .note-table td b{color:var(--ink);}
+  .drugclass{border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:14px;background:var(--paper);}
+  .drugclass h4{margin:0 0 8px;font-family:'Inter',sans-serif;font-size:15px;color:var(--ink);}
+  .drugclass .suffix-tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--pulse);background:var(--pulse-dim);padding:2px 8px;border-radius:5px;margin-left:8px;}
+  .drugclass ul{margin:6px 0 0;padding-left:20px;color:var(--ink-soft);font-size:13.5px;line-height:1.6;}
+  .note-callout{border-left:3px solid var(--pulse);background:var(--pulse-dim);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13.5px;color:var(--ink);margin:14px 0;}
+  .note-callout b{color:var(--pulse);}
+  .casebox{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:14px;font-size:13.5px;color:var(--ink-soft);line-height:1.6;}
+  .casebox b{color:var(--ink);}
+  .stat-strip{display:flex;gap:14px;flex-wrap:wrap;margin:14px 0 26px;}
+  .stat-box{background:var(--pulse-dim);border-radius:10px;padding:12px 18px;flex:1;min-width:140px;}
+  .stat-box .big{font-family:'Fraunces',serif;font-size:26px;font-weight:600;color:var(--pulse);line-height:1;}
+  .stat-box .lbl{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.04em;margin-top:4px;}
+
+  .setup-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:32px 28px;text-align:center;}
+  .setup-card p{color:var(--ink-soft);font-size:14px;margin-bottom:24px;}
+  .count-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+  @media (max-width:560px){.count-grid{grid-template-columns:repeat(2,1fr);}}
+  .count-btn{background:var(--paper);border:1.5px solid var(--line);border-radius:12px;padding:22px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:all .12s ease;}
+  .count-btn:hover{border-color:var(--pulse);background:#DCE9FE;}
+  .count-num{font-family:'Fraunces',serif;font-size:30px;font-weight:600;color:var(--ink);}
+  .count-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+
+  .picker{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px 20px;margin-bottom:22px;}
+  .picker-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:10px;flex-wrap:wrap;}
+  .picker-title{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;}
+  .picker-actions{display:flex;gap:8px;}
+  .mini-btn{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;background:var(--paper);border:1px solid var(--line);color:var(--ink-soft);padding:6px 11px;border-radius:7px;cursor:pointer;}
+  .mini-btn:hover{border-color:var(--pulse);color:var(--pulse);}
+  .picker-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:7px;}
+  @media (max-width:520px){.picker-grid{grid-template-columns:repeat(6,1fr);}}
+  .pick-btn{aspect-ratio:1;border-radius:8px;border:1.5px solid var(--line);background:var(--paper);font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:600;color:var(--ink-soft);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s ease;}
+  .pick-btn:hover{border-color:var(--pulse);color:var(--pulse);}
+  .pick-btn.current{border-color:var(--ink);box-shadow:0 0 0 2px var(--ink) inset;color:var(--ink);}
+  .pick-btn.correct{background:var(--correct-bg);border-color:var(--correct);color:var(--correct);}
+  .pick-btn.incorrect{background:var(--incorrect-bg);border-color:var(--incorrect);color:var(--incorrect);}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);}
+  .legend span{display:inline-flex;align-items:center;gap:5px;}
+  .dot{width:9px;height:9px;border-radius:3px;display:inline-block;}
+  .dot.unanswered{background:var(--paper);border:1.5px solid var(--line);}
+  .dot.correct{background:var(--correct-bg);border:1.5px solid var(--correct);}
+  .dot.incorrect{background:var(--incorrect-bg);border:1.5px solid var(--incorrect);}
+
+  .statusbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;}
+  .progress-track{flex:1;height:6px;background:var(--line);border-radius:4px;overflow:hidden;position:relative;}
+  .progress-fill{height:100%;background:var(--pulse);border-radius:4px;width:0%;transition:width .35s ease;}
+  .score-pill{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--ink);background:var(--card);border:1px solid var(--line);padding:6px 12px;border-radius:20px;white-space:nowrap;}
+  .score-pill span{color:var(--pulse);}
+
+  .qcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:28px 26px 24px;margin-bottom:20px;box-shadow:0 1px 2px rgba(33,27,54,.05);}
+  .qmeta{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
+  .qnum{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--pulse);background:var(--pulse-dim);padding:3px 9px;border-radius:6px;}
+  .qtag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;}
+  .qsal{font-family:'JetBrains Mono',monospace;font-size:11px;color:#1D4ED8;letter-spacing:.03em;border:1px solid #BFDBFE;background:#EFF6FF;padding:2px 8px;border-radius:5px;}
+  .stem{font-size:18px;line-height:1.48;font-weight:600;color:var(--ink);margin:0 0 20px;}
+
+  .options{display:flex;flex-direction:column;gap:10px;}
+  .opt{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;padding:13px 14px;border:1.5px solid var(--line);background:var(--paper);border-radius:10px;cursor:pointer;font-family:'Inter',sans-serif;font-size:15px;color:var(--ink);transition:border-color .15s ease, background .15s ease, transform .1s ease;}
+  .opt:hover:not(.locked){border-color:var(--pulse);background:#DCE9FE;}
+  .opt:active:not(.locked){transform:scale(.997);}
+  .opt:focus-visible{outline:2px solid var(--pulse);outline-offset:2px;}
+  .opt-letter{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:13px;color:var(--ink-soft);background:var(--card);border:1px solid var(--line);min-width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+  .opt-text{flex:1;line-height:1.45;}
+  .opt.correct-choice{border-color:var(--correct);background:var(--correct-bg);}
+  .opt.correct-choice .opt-letter{background:var(--correct);border-color:var(--correct);color:#fff;}
+  .opt.incorrect-choice{border-color:var(--incorrect);background:var(--incorrect-bg);}
+  .opt.incorrect-choice .opt-letter{background:var(--incorrect);border-color:var(--incorrect);color:#fff;}
+  .opt.locked{cursor:default;}
+  .opt.dim{opacity:.55;}
+  .opt-explain{margin-top:6px;font-size:13.5px;line-height:1.5;font-family:'Inter',sans-serif;}
+  .opt.correct-choice .opt-explain{color:#15694A;}
+  .opt.incorrect-choice .opt-explain{color:#96332E;}
+  .opt.dim .opt-explain{color:var(--muted);}
+  .opt.dim.correct-choice .opt-explain{color:var(--correct);}
+  .opt.sal .opt-letter{border-radius:5px;}
+
+  .result-banner{display:none;align-items:center;gap:10px;margin-top:18px;padding:11px 14px;border-radius:9px;font-size:14px;font-weight:600;font-family:'Inter',sans-serif;}
+  .result-banner.show{display:flex;}
+  .result-banner.correct{background:var(--correct-bg);color:var(--correct);}
+  .result-banner.incorrect{background:var(--incorrect-bg);color:var(--incorrect);}
+
+  .actions{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:10px;}
+  .btn-prev{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;background:var(--card);color:var(--ink-soft);border:1px solid var(--line);padding:11px 18px;border-radius:8px;cursor:pointer;}
+  .btn-prev:hover{border-color:var(--pulse);color:var(--pulse);}
+  .btn-prev:disabled{opacity:.4;cursor:not-allowed;}
+  .btn-next{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;letter-spacing:.03em;background:var(--ink);color:#fff;border:none;padding:11px 20px;border-radius:8px;cursor:pointer;display:none;align-items:center;gap:8px;}
+  .btn-next.show{display:inline-flex;}
+  .btn-next:hover{background:var(--pulse);}
+  .btn-sal-submit{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;background:var(--pulse);color:#fff;border:none;padding:11px 20px;border-radius:8px;cursor:pointer;margin-top:16px;}
+
+  .summary{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:36px 30px;text-align:center;display:none;}
+  .summary.show{display:block;}
+  .summary .big-score{font-family:'Fraunces',serif;font-size:56px;font-weight:600;color:var(--pulse);line-height:1;margin-bottom:6px;}
+  .summary .big-score sub{font-size:22px;font-weight:500;color:var(--muted);}
+  .summary p{color:var(--ink-soft);font-size:14px;margin:6px 0 22px;}
+  .btn-restart{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;background:var(--ink);color:#fff;border:none;padding:12px 22px;border-radius:8px;cursor:pointer;margin:4px;}
+  .btn-restart:hover{background:var(--pulse);}
+  .btn-restart.secondary{background:var(--card);color:var(--ink-soft);border:1px solid var(--line);}
+  .btn-restart.secondary:hover{color:var(--pulse);border-color:var(--pulse);}
+  .btn-restart.print-btn{background:var(--ink-soft);}
+  .btn-restart.print-btn:hover{background:var(--pulse);}
+
+  footer{text-align:center;margin-top:34px;font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;}
+
+
+  /* ---------- Flashcards ---------- */
+  .flash-wrap{max-width:480px;margin:0 auto;text-align:center;}
+  .flash-progress{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:14px;}
+  .flashcard{width:100%;height:260px;perspective:1200px;cursor:pointer;margin-bottom:20px;}
+  .flash-inner{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d;}
+  .flashcard.flipped .flash-inner{transform:rotateY(180deg);}
+  .flash-face{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:16px;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;padding:30px;font-family:'Inter',sans-serif;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.05);}
+  .flash-front{background:var(--card);font-size:18px;font-weight:600;color:var(--ink);}
+  .flash-back{background:var(--pulse-dim);transform:rotateY(180deg);color:var(--ink);font-weight:500;font-size:15px;line-height:1.5;}
+  .flash-tag{position:absolute;top:14px;left:16px;font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--pulse);font-weight:700;}
+  .flash-hint{position:absolute;bottom:12px;right:16px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);}
+  .flash-controls{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
+
+  /* ---------- Printable report (hidden on screen, shown only when printing) ---------- */
+  #printReport{display:none;}
+  @media print{
+    body *{visibility:hidden;}
+    #printReport, #printReport *{visibility:visible;}
+    #printReport{
+      display:block;position:absolute;top:0;left:0;width:100%;
+      padding:0;margin:0;background:#fff;color:#111;font-family:'Inter',sans-serif;
+    }
+    .wrap, .topbar, .view, footer{display:none !important;}
+    #printReport .rpt-header{border-bottom:2px solid #333;padding-bottom:10px;margin-bottom:16px;}
+    #printReport h1{font-family:'Fraunces',serif;font-size:22px;margin:0 0 4px;}
+    #printReport .rpt-meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:#555;}
+    #printReport .rpt-score{font-family:'Fraunces',serif;font-size:26px;font-weight:600;margin:10px 0;}
+    #printReport .rpt-q{page-break-inside:avoid;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid #ddd;}
+    #printReport .rpt-q .rq-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:#6B4FA0;font-weight:700;}
+    #printReport .rpt-q .rq-stem{font-weight:700;font-size:13px;margin:2px 0 6px;}
+    #printReport .rpt-opt{font-size:12px;margin:3px 0;padding-left:14px;}
+    #printReport .rpt-opt.correct{color:#15694A;font-weight:700;}
+    #printReport .rpt-opt.incorrect{color:#96332E;font-weight:700;text-decoration:underline;}
+    #printReport .rpt-explain{font-size:11px;color:#444;margin:1px 0 4px 14px;}
+    #printReport .rpt-banner{font-size:11px;font-weight:700;margin-top:2px;}
+    #printReport .rpt-banner.correct{color:#15694A;}
+    #printReport .rpt-banner.incorrect{color:#96332E;}
+  }
+
+  .case-card{border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin-bottom:22px;background:var(--card);}
+  .case-card h3{font-family:'Fraunces',serif;font-size:19px;margin:0 0 4px;color:var(--ink);}
+  .case-tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--pulse);background:var(--pulse-dim);padding:3px 9px;border-radius:5px;text-transform:uppercase;letter-spacing:.04em;display:inline-block;margin-bottom:12px;}
+  .case-vignette{font-size:14.5px;line-height:1.75;color:var(--ink-soft);margin-bottom:6px;}
+  .case-vignette b{color:var(--ink);}
+  .case-data{border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:var(--paper);font-size:13.5px;color:var(--ink-soft);margin:12px 0;line-height:1.7;}
+  .case-data b{color:var(--ink);}
+  .case-q{margin-top:18px;padding-top:16px;border-top:1px dashed var(--line);}
+  .case-q p.q-text{font-size:14px;color:var(--ink);margin:0 0 10px;font-weight:500;}
+  .reveal-btn{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--pulse);background:var(--pulse-dim);border:none;padding:7px 14px;border-radius:6px;cursor:pointer;letter-spacing:.02em;}
+  .reveal-btn:hover{opacity:.85;}
+  .reveal-answer{display:none;margin-top:12px;padding:12px 16px;background:var(--correct-bg);border-left:3px solid var(--correct);border-radius:0 8px 8px 0;font-size:13.5px;color:var(--ink);line-height:1.7;}
+  .reveal-answer.show{display:block;}
+  .reveal-answer b{color:var(--correct);}
+
+  /* ============ GLASS SURFACE OVERRIDE ============ */
+  .notes-card,.setup-card,.picker,.qcard,.summary,.flash-front,.case-card,
+  .score-pill,.secondary,.exam-banner-inner{
+    background:rgba(255,255,255,.6);
+    -webkit-backdrop-filter:blur(18px) saturate(160%);
+    backdrop-filter:blur(18px) saturate(160%);
+    border-color:rgba(255,255,255,.7);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.7), 0 10px 26px rgba(33,27,54,.06);
+  }
+  .tab-btn:not(.selected),.btn-prev,.mini-btn{
+    background:rgba(255,255,255,.45);
+    -webkit-backdrop-filter:blur(10px);
+    backdrop-filter:blur(10px);
+    border-color:rgba(255,255,255,.65);
+  }
+  .drugclass,.casebox,.case-data,.count-btn,.pick-btn,.opt,.dot.unanswered{
+    background:rgba(255,255,255,.35);
+    -webkit-backdrop-filter:blur(9px);
+    backdrop-filter:blur(9px);
+    border-color:rgba(255,255,255,.6);
+  }
+  .topbar{
+    background:rgba(255,255,255,.4);
+    -webkit-backdrop-filter:blur(14px);
+    backdrop-filter:blur(14px);
+    border:1px solid rgba(255,255,255,.6);
+    border-radius:12px;
+    padding:10px 16px;
+  }
+  @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+    .notes-card,.setup-card,.picker,.qcard,.summary,.flash-front,.case-card,
+    .score-pill,.secondary,.exam-banner-inner,.tab-btn:not(.selected),.btn-prev,
+    .mini-btn,.drugclass,.casebox,.case-data,.count-btn,.pick-btn,.opt,.topbar{
+      background:rgba(255,255,255,.94);
+    }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand" onclick="location.href='index.html'">◆ Nursing NCLEX Review</div>
+    <div class="crumbs" id="crumbs"></div>
+  </div>
+
+  <!-- ============ COURSE NOTES ============ -->
+  <div class="view" id="view-notes">
+    <div class="eyebrow">Fluids &amp; Electrolytes</div>
+    <div class="topic-tabs">
+      <button class="tab-btn selected" id="tabNotesA" onclick="showView('notes')">Course Notes</button>
+      <button class="tab-btn" id="tabFlashA" onclick="showView('flashcards')">Flashcards</button>
+      <button class="tab-btn" id="tabSetupA" onclick="showView('setup')">Practice Test</button>
+      <button class="tab-btn" id="tabCasesA" onclick="showView('cases')">Case Studies</button>
+    </div>
+    <h1>Course Notes</h1>
+    <p class="subtitle">Strategy and high-alert medication reference for the NCLEX-RN Pharmacological and Parenteral Therapies section. Use this to study before or during the practice test.</p>
+    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
+
+    <div class="notes-card" id="notesContent"></div>
+
+    <div style="text-align:center;margin-top:20px;">
+      <button class="btn-restart" style="background:var(--pulse);" onclick="showView('setup')">Start practice test →</button>
+    </div>
+  </div>
+
+  <!-- ============ FLASHCARDS ============ -->
+  <div class="view" id="view-flashcards">
+    <div class="eyebrow">Fluids &amp; Electrolytes</div>
+    <div class="topic-tabs">
+      <button class="tab-btn" id="tabNotesB" onclick="showView('notes')">Course Notes</button>
+      <button class="tab-btn selected" id="tabFlashB" onclick="showView('flashcards')">Flashcards</button>
+      <button class="tab-btn" id="tabSetupB" onclick="showView('setup')">Practice Test</button>
+      <button class="tab-btn" id="tabCasesB" onclick="showView('cases')">Case Studies</button>
+    </div>
+    <h1>Flashcards</h1>
+    <p class="subtitle">Tap a card to flip it. Use the arrows to move through the deck, or shuffle for random order.</p>
+    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
+
+    <div class="flash-wrap">
+      <div class="flash-progress">Card <span id="flashIndex">1</span> / <span id="flashTotal">1</span></div>
+      <div class="flashcard" id="flashcard" onclick="flipCard()">
+        <div class="flash-inner" id="flashInner">
+          <div class="flash-face flash-front">
+            <span class="flash-tag">Term</span>
+            <span id="flashFront"></span>
+            <span class="flash-hint">Tap to flip</span>
+          </div>
+          <div class="flash-face flash-back">
+            <span class="flash-tag">Answer</span>
+            <span id="flashBack"></span>
+          </div>
+        </div>
+      </div>
+      <div class="flash-controls">
+        <button class="mini-btn" id="flashPrev">← Prev</button>
+        <button class="mini-btn" id="flashShuffle">🔀 Shuffle</button>
+        <button class="mini-btn" id="flashNext">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SETUP ============ -->
+  <div class="view" id="view-setup">
+    <div class="eyebrow">Fluids &amp; Electrolytes</div>
+    <div class="topic-tabs">
+      <button class="tab-btn" id="tabNotesC" onclick="showView('notes')">Course Notes</button>
+      <button class="tab-btn" id="tabFlashC" onclick="showView('flashcards')">Flashcards</button>
+      <button class="tab-btn selected" id="tabSetupC" onclick="showView('setup')">Practice Test</button>
+      <button class="tab-btn" id="tabCasesC" onclick="showView('cases')">Case Studies</button>
+    </div>
+    <h1>Practice Test</h1>
+    <p class="subtitle">Choose how many questions you want to take. Questions are randomly selected from a bank of 100 each time, and every option — right or wrong — comes with an explanation. Print or save a PDF of your results after every exam.</p>
+    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
+
+    <div class="setup-card">
+      <p>How many questions would you like to take?</p>
+      <div class="count-grid">
+        <button class="count-btn" onclick="startQuiz(10)"><span class="count-num">10</span><span class="count-label">Quick review</span></button>
+        <button class="count-btn" onclick="startQuiz(20)"><span class="count-num">20</span><span class="count-label">Standard</span></button>
+        <button class="count-btn" onclick="startQuiz(35)"><span class="count-num">35</span><span class="count-label">Extended</span></button>
+        <button class="count-btn" onclick="startQuiz(100)"><span class="count-num">100</span><span class="count-label">Full bank</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ CASE STUDIES ============ -->
+  <div class="view" id="view-cases">
+    <div class="eyebrow">Fluids &amp; Electrolytes</div>
+    <div class="topic-tabs">
+      <button class="tab-btn" id="tabNotesD" onclick="showView('notes')">Course Notes</button>
+      <button class="tab-btn" id="tabFlashD" onclick="showView('flashcards')">Flashcards</button>
+      <button class="tab-btn" id="tabSetupD" onclick="showView('setup')">Practice Test</button>
+      <button class="tab-btn selected" id="tabCasesD" onclick="showView('cases')">Case Studies</button>
+    </div>
+    <h1>Case Studies</h1>
+    <p class="subtitle">Apply what you've reviewed to realistic clinical scenarios. Read each vignette, think through the reflection questions, then tap to reveal the rationale.</p>
+    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
+
+    <div class="cases-wrap" id="casesContent"></div>
+  </div>
+
+  <!-- ============ QUIZ ============ -->
+  <div class="view" id="view-quiz">
+    <div class="eyebrow">Fluids &amp; Electrolytes</div>
+    <h1 id="quizTitle">Practice Test</h1>
+    <p class="subtitle">Choose an answer to see the correct choice and why every option is right or wrong. Jump to any question using the picker below.</p>
+    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
+
+    <div class="picker">
+      <div class="picker-head">
+        <span class="picker-title">Jump to a question</span>
+        <div class="picker-actions">
+          <button class="mini-btn" id="randomBtn">🎲 Random</button>
+          <button class="mini-btn" id="resultsBtn">View results</button>
+        </div>
+      </div>
+      <div class="picker-grid" id="pickerGrid"></div>
+      <div class="legend">
+        <span><span class="dot unanswered"></span>Unanswered</span>
+        <span><span class="dot correct"></span>Correct</span>
+        <span><span class="dot incorrect"></span>Incorrect</span>
+      </div>
+    </div>
+
+    <div class="statusbar">
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="score-pill">Score <span id="scoreLabel">0 / 0</span></div>
+    </div>
+
+    <div id="quizArea"></div>
+
+    <div class="summary" id="summary">
+      <div class="big-score"><span id="finalScore">0</span><sub id="finalOutOf">/20</sub></div>
+      <p id="finalMsg"></p>
+      <button class="btn-restart print-btn" id="printBtn">🖨️ Print / Save PDF</button>
+      <button class="btn-restart secondary" id="reviewBtn">Back to test</button>
+      <button class="btn-restart secondary" id="setupBtn">Change length</button>
+      <button class="btn-restart" id="restartBtn">New random set</button>
+    </div>
+  </div>
+
+  <footer>FLUIDS &amp; ELECTROLYTES · PRACTICE SET</footer>
+</div>
+
+<!-- Printable results report — hidden on screen, populated and shown only for printing -->
+<div id="printReport"></div>
+
+<script>
+document.getElementById('casesContent').innerHTML = `
+<div class="case-card">
+    <span class="case-tag">Long-Term Care Facility</span>
+    <h3>Fluid Volume Deficit in an Older Adult</h3>
+    <p class="case-vignette">An 84-year-old resident has had loose stools for two days and has been eating and drinking poorly. The nurse notes the resident is more confused than baseline, and skin tenting is present over the sternum. The family reports she has "barely touched" her water pitcher.</p>
+    <div class="case-data"><b>VS:</b> HR 112, BP 98/60 (sitting) → 82/52 (standing) &nbsp;|&nbsp; <b>Weight:</b> down 4 lb in 2 days &nbsp;|&nbsp; <b>Urine:</b> dark, concentrated, decreased output</div>
+    <div class="case-q">
+      <p class="q-text">What findings confirm fluid volume deficit (dehydration) in this resident?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('fe_c1q1', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="fe_c1q1"><b>Answer:</b> Tachycardia, orthostatic hypotension (BP drop on standing), poor skin turgor (tenting), acute weight loss (a 1-day weight change reflects fluid, not tissue), dark concentrated urine with decreased output, and new/worsened confusion — confusion in an older adult is a classic, sometimes under-recognized, dehydration sign.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">Why is orthostatic BP measurement important here, and how is it properly assessed?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('fe_c1q2', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="fe_c1q2"><b>Answer:</b> It quantifies volume depletion and fall risk: measure BP and HR lying down, then again after standing (or sitting) for 1–3 minutes. A drop of ≥20 mmHg systolic or ≥10 mmHg diastolic, especially with symptoms like dizziness, confirms orthostatic hypotension and signals a real safety risk for falls.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What is the priority nursing intervention besides notifying the provider?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('fe_c1q3', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="fe_c1q3"><b>Answer:</b> Implement fall precautions immediately (bed low, call light in reach, assist with ambulation) given orthostatic changes and confusion, while initiating oral or IV fluid replacement as ordered. Rehydration should be gradual in an older adult to avoid fluid overload, since cardiac and renal reserve are often reduced with age.</div>
+    </div>
+  </div>
+<div class="case-card">
+    <span class="case-tag">Dialysis Unit</span>
+    <h3>Hyperkalemia in a Client with Renal Failure</h3>
+    <p class="case-vignette">A 58-year-old client with end-stage renal disease missed his last two dialysis sessions due to transportation issues. He presents with generalized muscle weakness and reports his "heart feels like it's skipping." The nurse obtains an EKG.</p>
+    <div class="case-data"><b>K+:</b> 6.8 mEq/L &nbsp;|&nbsp; <b>EKG:</b> peaked T waves, widened QRS &nbsp;|&nbsp; <b>VS:</b> HR 52 and irregular, BP 148/92</div>
+    <div class="case-q">
+      <p class="q-text">What is the priority nursing concern, and why?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('fe_c2q1', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="fe_c2q1"><b>Answer:</b> Cardiac dysrhythmia risk — hyperkalemia directly affects cardiac muscle excitability. Peaked T waves and a widening QRS are early-to-late EKG warning signs that can progress to a lethal ventricular dysrhythmia or asystole if potassium isn't lowered urgently. Continuous cardiac monitoring is essential.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">The provider orders IV calcium gluconate. What is the purpose of this medication, and does it lower the potassium level?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('fe_c2q2', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="fe_c2q2"><b>Answer:</b> Calcium gluconate stabilizes the cardiac cell membrane, protecting the heart from the dysrhythmia-causing effects of high potassium — but it does NOT lower the serum potassium level itself. Additional measures (insulin with dextrose, sodium bicarbonate, sodium polystyrene sulfonate, or dialysis) are needed to actually reduce potassium.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">Why does IV regular insulin (with dextrose) help treat hyperkalemia?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('fe_c2q3', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="fe_c2q3"><b>Answer:</b> Insulin activates the sodium-potassium ATPase pump, driving potassium from the bloodstream into the cells — this temporarily lowers serum potassium (it doesn't remove it from the body). Dextrose is given alongside insulin to prevent hypoglycemia. Since this only shifts potassium intracellularly, dialysis remains the definitive treatment for this client.</div>
+    </div>
+  </div>
+<div class="case-card">
+    <span class="case-tag">Medical-Surgical Floor</span>
+    <h3>Hypomagnesemia in a Client with Chronic Alcohol Use</h3>
+    <p class="case-vignette">A 47-year-old client admitted for alcohol withdrawal develops a tremor and reports muscle twitching. The nurse assesses hyperactive deep tendon reflexes and notes a positive Chvostek sign (facial twitching when tapping over the facial nerve) during the neuro exam.</p>
+    <div class="case-data"><b>Mg2+:</b> 1.1 mEq/L (low) &nbsp;|&nbsp; <b>Ca2+:</b> 8.2 mg/dL (low-normal) &nbsp;|&nbsp; <b>VS:</b> HR 108, irregular</div>
+    <div class="case-q">
+      <p class="q-text">What is the connection between this client's chronic alcohol use and his low magnesium level?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('fe_c3q1', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="fe_c3q1"><b>Answer:</b> Chronic alcohol use is a common cause of hypomagnesemia through poor dietary intake, impaired GI absorption, and increased renal magnesium excretion — all of which are frequently seen together in clients with alcohol use disorder, making this a classic presentation to recognize.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">Why does this client also have a positive Chvostek sign, and what does that finding indicate?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('fe_c3q2', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="fe_c3q2"><b>Answer:</b> Magnesium and calcium regulation are closely linked — hypomagnesemia impairs parathyroid hormone release and action, which can lead to hypocalcemia. Chvostek sign (facial twitching with tapping over the facial nerve) reflects neuromuscular irritability from low calcium/magnesium and is a hallmark bedside sign the nurse should assess for alongside Trousseau sign.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What is the priority safety concern for this client, and what should the nurse have available at the bedside?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('fe_c3q3', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="fe_c3q3"><b>Answer:</b> Cardiac dysrhythmias and seizure risk are the priority concerns with significant hypomagnesemia — the irregular heart rate already noted needs continuous cardiac monitoring. Seizure precautions (padded side rails, suction and oxygen readily available) should be in place, and IV magnesium replacement should be given slowly with cardiac monitoring, since rapid IV magnesium can cause hypotension and cardiac arrest.</div>
+    </div>
+  </div>
+<div class="case-card">
+    <span class="case-tag">Oncology Unit</span>
+    <h3>Hypercalcemia in a Client with Bone Metastases</h3>
+    <p class="case-vignette">A client with metastatic breast cancer to the bone reports increasing constipation, nausea, and fatigue over the past week, along with feeling "generally foggy." Family reports she has seemed more confused than her baseline.</p>
+    <div class="case-data"><b>Ca2+:</b> 12.6 mg/dL (elevated) &nbsp;|&nbsp; <b>VS:</b> HR 58, BP 108/64 &nbsp;|&nbsp; <b>Reported:</b> constipation, polyuria, confusion</div>
+    <div class="case-q">
+      <p class="q-text">How do this client's symptoms relate to her elevated calcium level?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('fe_c4q1', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="fe_c4q1"><b>Answer:</b> Hypercalcemia broadly slows neuromuscular and GI function — constipation, nausea, fatigue, confusion, and bradycardia are all consistent with hypercalcemia, and bone metastases are a well-known cause since malignant bone destruction releases calcium into the bloodstream.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What is the priority nursing intervention for this client?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('fe_c4q2', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="fe_c4q2"><b>Answer:</b> Promote fluid intake and anticipate IV normal saline hydration as ordered, which helps dilute serum calcium and increase renal calcium excretion — this is typically the first-line intervention, often followed by medications like bisphosphonates or calcitonin for malignancy-related hypercalcemia. Encourage mobility as tolerated, since immobility worsens bone calcium release.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What cardiac monitoring consideration is important with significant hypercalcemia?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('fe_c4q3', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="fe_c4q3"><b>Answer:</b> Hypercalcemia can shorten the QT interval and predispose to dysrhythmias, so continuous cardiac monitoring is warranted with clinically significant elevations — the nurse should watch for bradycardia and be alert for any new rhythm changes as treatment begins.</div>
+    </div>
+  </div>
+<div class="case-card">
+    <span class="case-tag">Post-Surgical Unit</span>
+    <h3>Fluid Volume Excess After IV Fluid Resuscitation</h3>
+    <p class="case-vignette">A client received several liters of IV fluids over the past 24 hours following major surgery with significant blood loss. On assessment, the nurse notes new bilateral crackles at the lung bases, 2+ pitting edema in both lower extremities, and increasing shortness of breath with mild exertion.</p>
+    <div class="case-data"><b>Weight:</b> up 6 lb since surgery &nbsp;|&nbsp; <b>Lung sounds:</b> bilateral basilar crackles &nbsp;|&nbsp; <b>VS:</b> RR 24, SpO2 91% on room air, BP 152/94</div>
+    <div class="case-q">
+      <p class="q-text">What findings confirm fluid volume excess in this client?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('fe_c5q1', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="fe_c5q1"><b>Answer:</b> Rapid weight gain (a 1-day gain reflects fluid, not tissue), new bilateral crackles (fluid in the alveoli/interstitial spaces), peripheral edema, increased BP, and worsening respiratory status with dropping SpO2 are all classic signs of fluid overload, especially in the context of large-volume IV fluid administration.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What is the priority nursing action for this client?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('fe_c5q2', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="fe_c5q2"><b>Answer:</b> Position the client upright (high-Fowler's) to ease breathing, apply supplemental oxygen as ordered, notify the provider, and anticipate a slowed IV rate and possibly a diuretic order — respiratory status takes priority here given the dropping SpO2 and crackles suggesting early pulmonary edema.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">Why is daily weight monitoring particularly valuable for detecting fluid status changes like this one?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('fe_c5q3', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="fe_c5q3"><b>Answer:</b> Daily weight is one of the most sensitive indicators of fluid balance — 1 liter (about 2.2 lb) of fluid retention shows up as weight gain often before edema or lung sounds become obviously abnormal, making consistent daily weights (same time, same scale, similar clothing) a key early-warning tool for clients at risk of fluid overload.</div>
+    </div>
+  </div>
+`;
+
+document.getElementById('notesContent').innerHTML = `
+<div class="stat-strip">
+  <div class="stat-box"><div class="big">2</div><div class="lbl">Priority concepts: Cellular Regulation, Fluids &amp; Electrolytes</div></div>
+  <div class="stat-box"><div class="big">4</div><div class="lbl">IV solution types</div></div>
+  <div class="stat-box"><div class="big">5</div><div class="lbl">Major electrolytes: Na, K, Ca, Mg, PO4</div></div>
+</div>
+
+<h2 class="section-title">Fluid and Electrolyte Balance</h2>
+<p>Fluid balance is closely linked to and affected by electrolyte concentration. Age, sex, and amount of fat affect distribution of body fluids. Fluid intake is regulated through the thirst drive. Fluid loss occurs through several routes: kidney, skin, lungs, and intestinal tract.</p>
+<div class="note-callout"><b>At higher risk</b> for fluid-related problems: infants and older adults, compared to younger adults.<br><b>Body fluid transport:</b> diffusion, osmosis, filtration, hydrostatic pressure — fluid moves across the semipermeable cell membrane.<br><b>Body fluid intake and output:</b> through skin, lungs, gastrointestinal (GI) tract, and kidneys.</div>
+
+<h2 class="section-title">Types of IV Solutions</h2>
+<table class="note-table">
+<tr><th>Solution &amp; Type</th><th>Uses</th></tr>
+<tr><td>0.9% saline (NS) — Isotonic</td><td>Extracellular fluid deficits with low serum sodium/chloride and metabolic acid–base imbalances. Used before or after infusion of blood products.</td></tr>
+<tr><td>Ringer's lactate (LR) — Isotonic</td><td>Extracellular fluid deficits such as fluid loss from burns, bleeding, and dehydration from loss of bile or diarrhea.</td></tr>
+<tr><td>5% dextrose in water (D5W) — Isotonic at administration</td><td>Replaces deficits of total body water. Dextrose is metabolized quickly, so tonicity drops (may become hypotonic); not used alone to expand extracellular fluid volume, since dilution of electrolytes can occur.</td></tr>
+<tr><td>5% dextrose in 0.225% saline (D5/¼NS) — Isotonic at administration</td><td>Used as initial fluid for hydration; provides more water than sodium. Commonly used as maintenance fluid. Becomes hypotonic as dextrose metabolizes.</td></tr>
+<tr><td>5% dextrose in 0.9% saline (D5/NS) — Hypertonic</td><td>Extracellular fluid deficits with low serum sodium/chloride and metabolic alkalosis.</td></tr>
+<tr><td>5% dextrose in 0.45% saline (D5/½NS) — Hypertonic</td><td>Used as initial hydration fluid; provides more water than sodium. Commonly used as maintenance fluid.</td></tr>
+<tr><td>5% dextrose in Ringer's lactate — Hypertonic</td><td>Extracellular fluid deficits such as fluid loss from burns, bleeding, and dehydration from loss of bile or diarrhea.</td></tr>
+</table>
+<div class="note-callout"><b>Isotonic fluids</b> have approximately the same solute concentration as blood plasma, so IV fluid will not directly shift fluid into or out of cells — it stays in the intravascular and interstitial spaces.<br><b>Normal Saline (NS):</b> the go-to IV fluid for rehydration and maintenance. Useful for IV hydration, hypovolemic hyponatremia, with blood transfusions, hypotension, sepsis, shock. <b>Caution with:</b> CHF, ESRD, SIADH, large quantities.<br><b>Lactated Ringer's (LR):</b> an alternative to NS, sometimes preferred. Useful for dehydration, maintenance fluids, ongoing fluid losses, sepsis, pancreatitis, burns, surgical patients. <b>Avoid in:</b> severe renal failure, severe liver failure, hyperkalemia, hypercalcemia, metabolic alkalosis &gt;7.5, blood transfusions.</div>
+
+<h2 class="section-title">Fluid Volume Deficit vs. Excess</h2>
+<table class="note-table">
+<tr><th>Imbalance</th><th>Contributing Factors</th><th>Signs/Symptoms &amp; Labs</th></tr>
+<tr><td><b>Fluid volume deficit (hypovolemia)</b></td><td>Loss of water/electrolytes (vomiting, diarrhea, fistulas, fever, sweating, burns, blood loss, GI suction, third-spacing); decreased intake (anorexia, nausea, inability to access fluid); diabetes insipidus; uncontrolled diabetes</td><td>Acute weight loss, ↓ skin turgor, oliguria, concentrated urine, prolonged capillary refill, low CVP, ↓ BP, flattened neck veins, dizziness, weakness, thirst, confusion, ↑ pulse, muscle cramps, sunken eyes, nausea, cool/clammy/pale skin. <b>Labs:</b> ↑ Hgb/Hct, ↑ serum &amp; urine osmolality, ↓ urine sodium, ↑ BUN/creatinine, ↑ urine specific gravity</td></tr>
+<tr><td><b>Fluid volume excess (hypervolemia)</b></td><td>Compromised regulatory mechanisms (kidney injury, heart failure, cirrhosis); overzealous sodium-containing fluid administration; fluid shifts (e.g., burn treatment); prolonged corticosteroid therapy, severe stress, hyperaldosteronism</td><td>Acute weight gain, peripheral edema, ascites, distended jugular veins, crackles, elevated CVP, dyspnea, ↑ BP, bounding pulse and cough, ↑ RR, ↑ urine output. <b>Labs:</b> ↓ Hgb/Hct, ↓ serum &amp; urine osmolality, ↓ urine sodium and specific gravity</td></tr>
+</table>
+<div class="note-callout"><b>Normal fluid balance reference:</b> Intake (ingested water 1200–1500 mL, ingested food 800–1100 mL, metabolic oxidation 300 mL) totals ~2300–2900 mL. Output (kidneys 1500 mL, insensible skin loss 600–800 mL, insensible lung loss 400–600 mL, GI tract 100 mL) totals ~2600–3000 mL.</div>
+
+<h2 class="section-title">The Main Electrolytes</h2>
+<p>Sodium (Na⁺), chloride (Cl⁻), magnesium (Mg²⁺), calcium (Ca²⁺), and potassium (K⁺) work together to balance fluids in the body, maintain proper blood pH, and carry electrical signals from nerves to muscles.</p>
+
+<h2 class="section-title">Potassium Imbalances</h2>
+<div class="drugclass"><h4>Hypokalemia <span class="suffix-tag">K⁺ &lt; 3.5 mEq/L</span></h4>
+<ul><li><b>ECG:</b> ST depression, shallow/flat/inverted T wave, prominent U wave</li><li><b>Contributing factors:</b> diarrhea, vomiting, gastric suction, corticosteroids, hyperaldosteronism, certain antibiotics/antifungals, bulimia, osmotic diuresis, alkalosis, starvation, diuretics, digoxin toxicity</li></ul></div>
+<div class="drugclass"><h4>Hyperkalemia <span class="suffix-tag">K⁺ &gt; 5.1 mEq/L</span></h4>
+<ul><li><b>ECG:</b> tall peaked T waves, flat P waves, widened QRS complexes, prolonged PR interval — progressing to absent P waves and further QRS widening as severity increases</li><li><b>Contributing factors:</b> pseudohyperkalemia, oliguric kidney injury, potassium-sparing diuretics with renal insufficiency, metabolic acidosis, Addison disease, crush injury, burns, stored blood transfusions, rapid IV potassium administration, ACE inhibitors, NSAIDs, cyclosporine</li></ul></div>
+<div class="note-callout"><b>Hypokalemia — early neuromuscular:</b> muscle weakness, leg cramps, paresthesias, hyporeflexia. <b>Hyperkalemia — early:</b> muscle twitches, cramps, paresthesias (tingling/burning then numbness in hands/feet/mouth). <b>Hyperkalemia — late:</b> profound weakness, ascending flaccid paralysis (trunk, head, respiratory muscles affected at lethal levels).</div>
+
+<h2 class="section-title">Sodium Imbalances</h2>
+<div class="drugclass"><h4>Hyponatremia <span class="suffix-tag">Na⁺ &lt; 135 mEq/L</span></h4>
+<ul><li>Symptoms: confusion, short temper, fatigue, convulsions/seizures, weakness, loss of consciousness/coma, low blood pressure, nausea/vomiting</li><li>Causes: loss of sodium (diuretics, GI fluid loss, renal disease, adrenal insufficiency); gain of water (excess D5W, hypotonic tube feedings, SIADH); hyperglycemia and heart failure also cause a relative loss of sodium</li></ul></div>
+<div class="drugclass"><h4>Hypernatremia <span class="suffix-tag">Na⁺ &gt; 145 mEq/L</span></h4>
+<ul><li><b>"MODEL" mnemonic for causes:</b> <b>M</b>edications/meals (excess sodium intake), <b>O</b>smotic diuretics, <b>D</b>iabetes insipidus, <b>E</b>xcessive H₂O loss, <b>L</b>ow H₂O intake</li><li>Fluid deprivation, hypertonic tube feedings, heatstroke, hyperventilation, watery diarrhea, burns, diaphoresis, excess corticosteroid/sodium bicarbonate administration</li></ul></div>
+<div class="note-callout"><b style="color:var(--incorrect)">⚠ Danger — Osmotic Demyelination Syndrome (central pontine myelinolysis):</b> damage to nerve myelin sheaths, usually from excessively rapid correction of very low serum sodium. Initial symptoms appear 2–3 days after correction: depressed awareness, dysarthria/mutism, dysphagia. Over the next 1–2 weeks: impaired thinking, weakness/paralysis in the limbs, stiffness, impaired sensation, coordination difficulty. At its most severe: coma, "locked-in" syndrome, and death. Sodium correction must be gradual and controlled.</div>
+
+<h2 class="section-title">Calcium Imbalances</h2>
+<div class="drugclass"><h4>Hypocalcemia <span class="suffix-tag">Ca²⁺ &lt; 8.6 mg/dL</span></h4>
+<ul><li><b>ECG:</b> prolonged ST segment, prolonged QT interval</li><li><b>Positive Chvostek sign:</b> contraction of facial muscles in response to a light tap over the facial nerve in front of the ear</li><li><b>Positive Trousseau sign:</b> carpopedal spasm induced by inflating a BP cuff above systolic pressure</li><li>Causes: hypoparathyroidism (may follow thyroid surgery/neck dissection), malabsorption, pancreatitis, alkalosis, vitamin D deficiency, massive blood transfusion, chronic diarrhea, alcoholism</li></ul></div>
+<div class="drugclass"><h4>Hypercalcemia <span class="suffix-tag">Ca²⁺ &gt; 10–10.5 mg/dL</span></h4>
+<ul><li><b>ECG:</b> shortened ST segment, widened T wave, heart block</li><li>Causes: hyperparathyroidism, malignant neoplastic disease, prolonged immobilization, overuse of calcium supplements, vitamin D excess, thiazide diuretic use, digoxin toxicity</li></ul></div>
+
+<h2 class="section-title">Magnesium Imbalances</h2>
+<div class="drugclass"><h4>Hypomagnesemia <span class="suffix-tag">Mg²⁺ &lt; 1.6–1.8 mg/dL</span></h4>
+<ul><li><b>ECG:</b> tall T waves, depressed ST segment</li><li>Causes: chronic alcoholism, hyperparathyroidism, hyperaldosteronism, diuretic phase of AKI, malabsorptive disorders, DKA, refeeding after starvation, chronic laxative use, certain drugs (gentamicin, cisplatin, cyclosporine)</li></ul></div>
+<div class="drugclass"><h4>Hypermagnesemia <span class="suffix-tag">Mg²⁺ &gt; 2.6 mg/dL</span></h4>
+<ul><li><b>ECG:</b> prolonged PR interval, widened QRS complexes</li><li>Causes: oliguric phase of AKI (especially with magnesium-containing medications), adrenal insufficiency, excessive IV magnesium administration, DKA, hypothyroidism</li></ul></div>
+
+<h2 class="section-title">Phosphorus Imbalances</h2>
+<div class="drugclass"><h4>Hypophosphatemia <span class="suffix-tag">PO4 &lt; 2.7 mg/dL</span></h4>
+<ul><li>Accompanied by an <b>increased</b> serum calcium level</li><li>Causes: refeeding after starvation, alcohol withdrawal, DKA, respiratory/metabolic alkalosis, low magnesium/potassium, hyperparathyroidism, vomiting, diarrhea, hyperventilation, vitamin D deficiency, burns</li></ul></div>
+<div class="drugclass"><h4>Hyperphosphatemia <span class="suffix-tag">PO4 &gt; 4.5 mg/dL</span></h4>
+<ul><li>Accompanied by a <b>decreased</b> serum calcium level — related health problems focus on hypocalcemia</li><li>Causes: acidosis, renal failure, hypocalcemia, massive blood transfusion, hyperthyroidism</li><li><b>Interventions:</b> administer phosphate-binding medications; dietary changes to decrease high-phosphorus foods; teach client to take phosphate binders with or immediately following meals</li></ul></div>
+`;
+
+const QUESTIONS = [
+{ stem:"Which population groups are at higher risk for fluid-related problems compared to younger adults?",
+  isSAL:true,
+  options:[
+    {text:"Infants",correct:true,explain:"Infants have a higher proportion of body water and less physiologic reserve, making them higher risk for fluid-related problems."},
+    {text:"Older adults",correct:true,explain:"Older adults have decreased renal concentrating ability and thirst response, making them higher risk for fluid-related problems."},
+    {text:"Healthy young adults",correct:false,explain:"Healthy young adults are not identified as a higher-risk group; infants and older adults are the groups specifically at increased risk."},
+    {text:"Middle-aged athletes",correct:false,explain:"Middle-aged athletes are not identified as a higher-risk group for fluid-related problems."}
+  ]},
+{ stem:"By what mechanisms does body fluid move across the semipermeable cell membrane?",
+  isSAL:true,
+  options:[
+    {text:"Diffusion",correct:true,explain:"Diffusion is one of the mechanisms of body fluid transport across the semipermeable cell membrane."},
+    {text:"Osmosis",correct:true,explain:"Osmosis is one of the mechanisms of body fluid transport across the semipermeable cell membrane."},
+    {text:"Filtration",correct:true,explain:"Filtration is one of the mechanisms of body fluid transport across the semipermeable cell membrane."},
+    {text:"Active muscular contraction",correct:false,explain:"Active muscular contraction is not one of the described mechanisms of fluid transport; diffusion, osmosis, filtration, and hydrostatic pressure are."}
+  ]},
+{ stem:"Through which routes does the body lose fluid?",
+  isSAL:true,
+  options:[
+    {text:"Kidneys",correct:true,explain:"The kidneys are a primary route of fluid output."},
+    {text:"Skin",correct:true,explain:"The skin is a route of insensible fluid loss."},
+    {text:"Lungs",correct:true,explain:"The lungs are a route of insensible fluid loss."},
+    {text:"Gastrointestinal tract",correct:true,explain:"The GI tract is a route of fluid loss/output."}
+  ]},
+{ stem:"Why is normal saline (0.9% NS) considered an isotonic solution?",
+  options:[
+    {text:"It has approximately the same solute concentration as blood plasma, so it does not directly shift fluid into or out of cells",correct:true,explain:"Isotonic fluids like NS have approximately the same concentration of solutes as blood plasma, so the fluid stays in the intravascular and interstitial spaces rather than shifting fluid into or out of cells."},
+    {text:"It has a much higher solute concentration than plasma, pulling fluid out of cells",correct:false,explain:"This describes a hypertonic solution, not an isotonic one like normal saline."},
+    {text:"It has a much lower solute concentration than plasma, causing fluid to shift into cells",correct:false,explain:"This describes a hypotonic solution, not an isotonic one like normal saline."},
+    {text:"It contains no electrolytes at all",correct:false,explain:"Normal saline does contain electrolytes (sodium and chloride); it is isotonic due to its solute concentration matching plasma, not due to an absence of electrolytes."}
+  ]},
+{ stem:"A client with CHF is receiving IV normal saline. What is the nurse's priority concern?",
+  options:[
+    {text:"Fluid overload, since normal saline requires caution in clients with CHF",correct:true,explain:"Normal saline requires caution in clients with CHF, ESRD, or SIADH, and in large quantities, due to the risk of fluid overload in a client whose heart cannot effectively manage additional volume."},
+    {text:"Hypoglycemia, since normal saline contains dextrose",correct:false,explain:"Normal saline (0.9% NS) does not contain dextrose, so hypoglycemia is not a relevant concern from this fluid."},
+    {text:"Hepatotoxicity",correct:false,explain:"Hepatotoxicity is not a recognized concern with normal saline administration."},
+    {text:"Ototoxicity",correct:false,explain:"Ototoxicity is not associated with normal saline; it is a concern with rapid IV furosemide administration."}
+  ]},
+{ stem:"For which condition should lactated Ringer's (LR) solution generally be avoided?",
+  options:[
+    {text:"Severe liver failure",correct:true,explain:"LR should be avoided in severe liver failure, since the liver metabolizes the lactate in this solution, and severe liver failure impairs this process; LR should also be avoided in severe renal failure, hyperkalemia, hypercalcemia, and metabolic alkalosis >7.5."},
+    {text:"Dehydration",correct:false,explain:"Dehydration is actually a use for LR, not a condition in which it should be avoided."},
+    {text:"Burns",correct:false,explain:"Burns are actually a use for LR, not a condition in which it should be avoided."},
+    {text:"Sepsis",correct:false,explain:"Sepsis is actually a use for LR, not a condition in which it should be avoided."}
+  ]},
+{ stem:"Why is D5W (5% dextrose in water) not used alone to expand extracellular fluid volume?",
+  options:[
+    {text:"Because the dextrose is metabolized quickly, tonicity decreases, and dilution of electrolytes can occur",correct:true,explain:"D5W is isotonic at the time of administration, but as dextrose is metabolized, the tonicity of the remaining fluid decreases (may become hypotonic), which can dilute electrolytes rather than effectively expanding extracellular fluid volume."},
+    {text:"Because it is always hypertonic and will pull fluid out of cells",correct:false,explain:"D5W is isotonic at administration, not hypertonic, and its tonicity decreases (not increases) after dextrose metabolism."},
+    {text:"Because it contains too much sodium",correct:false,explain:"D5W does not contain sodium; it is dextrose dissolved in water, which is why it does not effectively expand extracellular volume."},
+    {text:"Because it must always be given with insulin",correct:false,explain:"D5W does not require co-administration with insulin as a routine matter; this is not the reason it is not used alone to expand extracellular fluid volume."}
+  ]},
+{ stem:"A client with fluid volume deficit (hypovolemia) would be expected to show which assessment findings?",
+  isSAL:true,
+  options:[
+    {text:"Decreased skin turgor",correct:true,explain:"Decreased skin turgor is a classic finding in fluid volume deficit."},
+    {text:"Concentrated urine with oliguria",correct:true,explain:"Concentrated, decreased urine output is expected in fluid volume deficit as the kidneys conserve water."},
+    {text:"Flattened neck veins",correct:true,explain:"Flattened neck and hand veins in dependent positions are expected findings in fluid volume deficit."},
+    {text:"Bounding pulse and elevated CVP",correct:false,explain:"A bounding pulse and elevated CVP are findings of fluid volume excess, not fluid volume deficit, which presents with a thready, increased pulse rate and decreased CVP."}
+  ]},
+{ stem:"A client with fluid volume excess (hypervolemia) would be expected to show which assessment findings?",
+  isSAL:true,
+  options:[
+    {text:"Peripheral edema and ascites",correct:true,explain:"Peripheral edema and ascites are classic findings of fluid volume excess."},
+    {text:"Distended neck veins",correct:true,explain:"Distended neck and hand veins are an expected cardiovascular finding in fluid volume excess."},
+    {text:"Crackles on lung auscultation",correct:true,explain:"Moist crackles on auscultation are an expected respiratory finding in fluid volume excess."},
+    {text:"Flat neck veins and orthostatic hypotension",correct:false,explain:"Flat neck veins and orthostatic hypotension are findings of fluid volume deficit, not fluid volume excess, which presents with distended neck veins and elevated blood pressure."}
+  ]},
+{ stem:"Which laboratory findings would the nurse expect in a client with fluid volume deficit?",
+  options:[
+    {text:"Increased hemoglobin/hematocrit, increased BUN, increased urine specific gravity",correct:true,explain:"Fluid volume deficit causes hemoconcentration, leading to increased hemoglobin/hematocrit, increased BUN and creatinine, and increased urine specific gravity as the kidneys try to conserve water."},
+    {text:"Decreased hemoglobin/hematocrit, decreased BUN, decreased urine specific gravity",correct:false,explain:"These findings describe fluid volume excess (hemodilution), not fluid volume deficit."},
+    {text:"Increased serum potassium only, with no other lab changes",correct:false,explain:"Fluid volume deficit is characterized by a broader pattern of hemoconcentration findings, not isolated to serum potassium."},
+    {text:"No expected laboratory changes",correct:false,explain:"Fluid volume deficit does produce recognizable laboratory changes, including increased hemoglobin/hematocrit, BUN, and urine specific gravity."}
+  ]},
+{ stem:"According to normal fluid balance references, what is the approximate daily total fluid output through the kidneys?",
+  options:[
+    {text:"About 1500 mL",correct:true,explain:"The kidneys account for approximately 1500 mL of daily fluid output, the largest single route of output."},
+    {text:"About 100 mL",correct:false,explain:"This figure is closer to the amount of fluid output through the GI tract, not the kidneys."},
+    {text:"About 5000 mL",correct:false,explain:"This substantially overstates typical daily renal fluid output."},
+    {text:"About 300 mL",correct:false,explain:"This figure is closer to the fluid gained through metabolic oxidation, not renal output."}
+  ]},
+{ stem:"What is the defining serum potassium level for hypokalemia?",
+  options:[
+    {text:"Less than 3.5 mEq/L",correct:true,explain:"Hypokalemia is defined as a serum potassium level less than 3.5 mEq/L."},
+    {text:"Less than 5.1 mEq/L",correct:false,explain:"This value does not represent the hypokalemia threshold; 3.5 mEq/L is the defining cutoff."},
+    {text:"Greater than 5.1 mEq/L",correct:false,explain:"This value describes hyperkalemia, not hypokalemia."},
+    {text:"Less than 1.6 mEq/L",correct:false,explain:"This value is far below the actual hypokalemia threshold of less than 3.5 mEq/L."}
+  ]},
+{ stem:"Which ECG changes are associated with hypokalemia?",
+  isSAL:true,
+  options:[
+    {text:"ST segment depression",correct:true,explain:"ST segment depression is a recognized ECG change associated with hypokalemia."},
+    {text:"Shallow, flat, or inverted T wave",correct:true,explain:"A shallow, flat, or inverted T wave is a recognized ECG change associated with hypokalemia."},
+    {text:"Prominent U wave",correct:true,explain:"A prominent U wave is a classic ECG change associated with hypokalemia."},
+    {text:"Tall peaked T waves",correct:false,explain:"Tall peaked T waves are associated with hyperkalemia, not hypokalemia."}
+  ]},
+{ stem:"What is the defining serum potassium level for hyperkalemia?",
+  options:[
+    {text:"Exceeds 5.1 mEq/L",correct:true,explain:"Hyperkalemia is defined as a serum potassium level that exceeds 5.1 mEq/L."},
+    {text:"Exceeds 3.5 mEq/L",correct:false,explain:"This value does not represent the hyperkalemia threshold; 5.1 mEq/L is the defining cutoff."},
+    {text:"Less than 3.5 mEq/L",correct:false,explain:"This value describes hypokalemia, not hyperkalemia."},
+    {text:"Exceeds 10 mEq/L",correct:false,explain:"This value substantially overstates the actual hyperkalemia threshold of exceeding 5.1 mEq/L."}
+  ]},
+{ stem:"Which ECG changes are associated with hyperkalemia?",
+  isSAL:true,
+  options:[
+    {text:"Tall peaked T waves",correct:true,explain:"Tall peaked T waves are a hallmark ECG change of hyperkalemia."},
+    {text:"Flat P waves",correct:true,explain:"Flat P waves are a recognized ECG change of hyperkalemia, progressing to absent P waves as severity increases."},
+    {text:"Widened QRS complexes",correct:true,explain:"Widened QRS complexes are a recognized ECG change of hyperkalemia, worsening with severity."},
+    {text:"Prominent U wave",correct:false,explain:"A prominent U wave is associated with hypokalemia, not hyperkalemia."}
+  ]},
+{ stem:"A client with severe, untreated hyperkalemia is at risk for which late neuromuscular finding?",
+  options:[
+    {text:"Ascending flaccid paralysis, potentially involving the trunk, head, and respiratory muscles at lethal potassium levels",correct:true,explain:"As hyperkalemia progresses, late findings include profound weakness and ascending flaccid paralysis, which can affect the trunk, head, and respiratory muscles when the serum potassium level reaches a lethal level."},
+    {text:"Hyperreflexia and muscle spasticity",correct:false,explain:"Hyperkalemia is associated with weakness and diminished/absent deep tendon reflexes, not hyperreflexia or spasticity."},
+    {text:"Increased muscle tone with rigidity",correct:false,explain:"Hyperkalemia causes progressive muscle weakness, not increased tone or rigidity."},
+    {text:"No neuromuscular effects occur with hyperkalemia",correct:false,explain:"Hyperkalemia does have significant, well-documented neuromuscular effects, progressing from early muscle twitches and paresthesias to late profound weakness and paralysis."}
+  ]},
+{ stem:"Which medications or conditions can contribute to the development of hyperkalemia?",
+  isSAL:true,
+  options:[
+    {text:"ACE inhibitors",correct:true,explain:"ACE inhibitors reduce aldosterone-mediated potassium excretion and are a recognized contributing factor to hyperkalemia."},
+    {text:"NSAIDs",correct:true,explain:"NSAIDs are a recognized contributing factor to hyperkalemia."},
+    {text:"Oliguric kidney injury",correct:true,explain:"Oliguric kidney injury reduces potassium excretion and is a recognized contributing factor to hyperkalemia."},
+    {text:"Loop diuretics",correct:false,explain:"Loop diuretics cause potassium loss (contributing to hypokalemia), not hyperkalemia."}
+  ]},
+{ stem:"What is the defining serum sodium level for hyponatremia?",
+  options:[
+    {text:"Less than 135 mEq/L",correct:true,explain:"Hyponatremia is defined as a serum sodium level less than 135 mEq/L."},
+    {text:"Less than 145 mEq/L",correct:false,explain:"This is not the specific hyponatremia threshold; 135 mEq/L is the defining cutoff."},
+    {text:"Greater than 145 mEq/L",correct:false,explain:"This value describes hypernatremia, not hyponatremia."},
+    {text:"Less than 100 mEq/L",correct:false,explain:"This value is well below the actual hyponatremia threshold of less than 135 mEq/L."}
+  ]},
+{ stem:"What is the defining serum sodium level for hypernatremia?",
+  options:[
+    {text:"Exceeds 145 mEq/L",correct:true,explain:"Hypernatremia is defined as a serum sodium level that exceeds 145 mEq/L."},
+    {text:"Exceeds 135 mEq/L",correct:false,explain:"This is not the specific hypernatremia threshold; 145 mEq/L is the defining cutoff."},
+    {text:"Less than 135 mEq/L",correct:false,explain:"This value describes hyponatremia, not hypernatremia."},
+    {text:"Exceeds 200 mEq/L",correct:false,explain:"This value substantially overstates the actual hypernatremia threshold of exceeding 145 mEq/L."}
+  ]},
+{ stem:"Using the \"MODEL\" mnemonic for causes of hypernatremia, what does the \"O\" represent?",
+  options:[
+    {text:"Osmotic diuretics",correct:true,explain:"In the MODEL mnemonic for hypernatremia causes, \"O\" stands for osmotic diuretics, which increase free water loss relative to sodium."},
+    {text:"Oral rehydration therapy",correct:false,explain:"Oral rehydration therapy is not part of the MODEL mnemonic; \"O\" stands for osmotic diuretics."},
+    {text:"Obesity",correct:false,explain:"Obesity is not part of the MODEL mnemonic; \"O\" stands for osmotic diuretics."},
+    {text:"Overhydration",correct:false,explain:"Overhydration is not part of the MODEL mnemonic; \"O\" stands for osmotic diuretics."}
+  ]},
+{ stem:"Using the \"MODEL\" mnemonic for causes of hypernatremia, what do the \"E\" and \"L\" represent?",
+  options:[
+    {text:"Excessive H2O loss and Low H2O intake",correct:true,explain:"In the MODEL mnemonic, \"E\" stands for excessive H2O loss and \"L\" stands for low H2O intake, both of which concentrate serum sodium."},
+    {text:"Electrolyte replacement and Liver disease",correct:false,explain:"These are not part of the MODEL mnemonic; \"E\" and \"L\" stand for excessive H2O loss and low H2O intake, respectively."},
+    {text:"Edema and Lethargy",correct:false,explain:"These are not part of the MODEL mnemonic; \"E\" and \"L\" stand for excessive H2O loss and low H2O intake."},
+    {text:"Excess sodium and Low potassium",correct:false,explain:"These are not part of the MODEL mnemonic in this content; \"E\" and \"L\" specifically stand for excessive H2O loss and low H2O intake."}
+  ]},
+{ stem:"A client's severe hyponatremia is corrected too rapidly. Two to three days later, the client develops depressed level of awareness, dysarthria, and dysphagia. What condition should the nurse suspect?",
+  options:[
+    {text:"Osmotic demyelination syndrome (central pontine myelinolysis)",correct:true,explain:"Osmotic demyelination syndrome results from excessively rapid correction of very low serum sodium, damaging the myelin sheaths around nerves. Initial symptoms — depressed awareness, dysarthria/mutism, and dysphagia — characteristically appear 2 to 3 days after the sodium correction."},
+    {text:"Hypercalcemia",correct:false,explain:"This presentation is not characteristic of hypercalcemia; it is the classic early presentation of osmotic demyelination syndrome following overly rapid sodium correction."},
+    {text:"Expected, harmless improvement from sodium correction",correct:false,explain:"This is a serious, potentially permanent complication, not a harmless or expected finding after sodium correction."},
+    {text:"Hypermagnesemia",correct:false,explain:"This presentation is not characteristic of hypermagnesemia; it is the classic presentation of osmotic demyelination syndrome."}
+  ]},
+{ stem:"If untreated or unrecognized, what is the most severe potential outcome of osmotic demyelination syndrome?",
+  options:[
+    {text:"Coma, \"locked-in\" syndrome, and death",correct:true,explain:"At its most severe, osmotic demyelination syndrome can lead to coma, \"locked-in\" syndrome (complete paralysis of voluntary muscles except those controlling the eyes), and death, underscoring the importance of gradual, controlled sodium correction."},
+    {text:"Complete recovery within 24 hours in all cases",correct:false,explain:"While some people improve over weeks to months, this condition can also cause permanent disability, and severe cases do not resolve within 24 hours."},
+    {text:"Mild, temporary headache only",correct:false,explain:"This significantly understates the seriousness of osmotic demyelination syndrome, which can progress to severe, permanent, or fatal outcomes."},
+    {text:"Improved cognitive function",correct:false,explain:"Osmotic demyelination syndrome causes impaired, not improved, cognitive and neurologic function, and can lead to permanent disability."}
+  ]},
+{ stem:"What is the defining serum calcium level for hypocalcemia?",
+  options:[
+    {text:"Lower than 8.6 mg/dL",correct:true,explain:"Hypocalcemia is defined as a serum calcium level lower than 8.6 mg/dL."},
+    {text:"Lower than 10 mg/dL",correct:false,explain:"This is not the specific hypocalcemia threshold used in this content; 8.6 mg/dL is the defining cutoff."},
+    {text:"Higher than 10 mg/dL",correct:false,explain:"This value describes hypercalcemia, not hypocalcemia."},
+    {text:"Lower than 2.7 mg/dL",correct:false,explain:"This value is far below the actual hypocalcemia threshold and closer to the hypophosphatemia range."}
+  ]},
+{ stem:"The nurse taps lightly over a client's facial nerve in front of the ear and observes facial muscle contraction. What is this finding called, and what does it indicate?",
+  options:[
+    {text:"A positive Chvostek sign, indicating possible hypocalcemia",correct:true,explain:"A positive Chvostek sign — contraction of facial muscles elicited by a light tap over the facial nerve in front of the ear — indicates neuromuscular irritability associated with hypocalcemia."},
+    {text:"A positive Trousseau sign, indicating possible hyperkalemia",correct:false,explain:"This describes the Chvostek sign, not the Trousseau sign (which involves a BP cuff and carpopedal spasm), and it indicates hypocalcemia, not hyperkalemia."},
+    {text:"A normal, expected finding with no clinical significance",correct:false,explain:"This is a clinically significant finding (a positive Chvostek sign) indicating possible hypocalcemia, not a normal finding to disregard."},
+    {text:"A sign of hypermagnesemia",correct:false,explain:"This finding is associated with hypocalcemia, not hypermagnesemia."}
+  ]},
+{ stem:"The nurse inflates a blood pressure cuff above the client's systolic pressure and observes a carpopedal spasm. What is this finding called, and what does it indicate?",
+  options:[
+    {text:"A positive Trousseau sign, indicating possible hypocalcemia",correct:true,explain:"A positive Trousseau sign — a carpopedal spasm induced by inflating a BP cuff above systolic pressure — indicates neuromuscular irritability associated with hypocalcemia."},
+    {text:"A positive Chvostek sign, indicating possible hyperkalemia",correct:false,explain:"This describes the Trousseau sign, not the Chvostek sign (which involves tapping the facial nerve), and it indicates hypocalcemia, not hyperkalemia."},
+    {text:"A normal response to cuff inflation with no clinical meaning",correct:false,explain:"This is a clinically significant finding (a positive Trousseau sign) indicating possible hypocalcemia."},
+    {text:"A sign of hyponatremia",correct:false,explain:"This finding is associated with hypocalcemia, not hyponatremia."}
+  ]},
+{ stem:"Which ECG changes are associated with hypocalcemia?",
+  options:[
+    {text:"Prolonged ST segment and prolonged QT interval",correct:true,explain:"Hypocalcemia is associated with a prolonged ST segment and prolonged QT interval on ECG."},
+    {text:"Shortened ST segment and widened T wave",correct:false,explain:"These ECG changes are associated with hypercalcemia, not hypocalcemia."},
+    {text:"Tall peaked T waves and flat P waves",correct:false,explain:"These ECG changes are associated with hyperkalemia, not hypocalcemia."},
+    {text:"Prolonged PR interval and widened QRS complexes",correct:false,explain:"These ECG changes are associated with hypermagnesemia, not hypocalcemia."}
+  ]},
+{ stem:"What is the defining serum calcium level for hypercalcemia?",
+  options:[
+    {text:"Exceeds approximately 10–10.5 mg/dL",correct:true,explain:"Hypercalcemia is generally defined as a serum calcium level that exceeds approximately 10 to 10.5 mg/dL."},
+    {text:"Exceeds 8.6 mg/dL",correct:false,explain:"This value is not the hypercalcemia threshold; it is close to the hypocalcemia cutoff."},
+    {text:"Lower than 8.6 mg/dL",correct:false,explain:"This value describes hypocalcemia, not hypercalcemia."},
+    {text:"Exceeds 20 mg/dL",correct:false,explain:"This value substantially overstates the actual hypercalcemia threshold of approximately 10–10.5 mg/dL."}
+  ]},
+{ stem:"Which ECG changes are associated with hypercalcemia?",
+  options:[
+    {text:"Shortened ST segment, widened T wave, heart block",correct:true,explain:"Hypercalcemia is associated with a shortened ST segment, a widened T wave, and heart block on ECG."},
+    {text:"Prolonged ST segment and prolonged QT interval",correct:false,explain:"These ECG changes are associated with hypocalcemia, not hypercalcemia."},
+    {text:"Tall T waves and depressed ST segment",correct:false,explain:"These ECG changes are associated with hypomagnesemia, not hypercalcemia."},
+    {text:"Prominent U wave",correct:false,explain:"A prominent U wave is associated with hypokalemia, not hypercalcemia."}
+  ]},
+{ stem:"Which of the following is a recognized cause of hypercalcemia?",
+  options:[
+    {text:"Hyperparathyroidism",correct:true,explain:"Hyperparathyroidism is a recognized cause of hypercalcemia, along with malignant neoplastic disease, prolonged immobilization, overuse of calcium supplements, vitamin D excess, and digoxin toxicity."},
+    {text:"Hypoparathyroidism",correct:false,explain:"Hypoparathyroidism is associated with hypocalcemia, not hypercalcemia."},
+    {text:"Vitamin D deficiency",correct:false,explain:"Vitamin D deficiency is associated with hypocalcemia, not hypercalcemia."},
+    {text:"Massive transfusion of citrated blood",correct:false,explain:"Massive transfusion of citrated blood is associated with hypocalcemia (citrate binds calcium), not hypercalcemia."}
+  ]},
+{ stem:"What is the defining serum magnesium level for hypomagnesemia?",
+  options:[
+    {text:"Lower than approximately 1.6–1.8 mg/dL",correct:true,explain:"Hypomagnesemia is defined as a serum magnesium level lower than approximately 1.6 to 1.8 mg/dL."},
+    {text:"Lower than 2.6 mg/dL",correct:false,explain:"This value is close to the hypermagnesemia threshold, not the hypomagnesemia threshold."},
+    {text:"Higher than 2.6 mg/dL",correct:false,explain:"This value describes hypermagnesemia, not hypomagnesemia."},
+    {text:"Lower than 8.6 mg/dL",correct:false,explain:"This value is far above the actual magnesium range and closer to the calcium reference range."}
+  ]},
+{ stem:"Which ECG changes are associated with hypomagnesemia?",
+  options:[
+    {text:"Tall T waves and depressed ST segment",correct:true,explain:"Hypomagnesemia is associated with tall T waves and a depressed ST segment on ECG."},
+    {text:"Prolonged PR interval and widened QRS complexes",correct:false,explain:"These ECG changes are associated with hypermagnesemia, not hypomagnesemia."},
+    {text:"Shortened ST segment and widened T wave",correct:false,explain:"These ECG changes are associated with hypercalcemia, not hypomagnesemia."},
+    {text:"Prominent U wave",correct:false,explain:"A prominent U wave is associated with hypokalemia, not hypomagnesemia."}
+  ]},
+{ stem:"What is the defining serum magnesium level for hypermagnesemia?",
+  options:[
+    {text:"Exceeds 2.6 mg/dL",correct:true,explain:"Hypermagnesemia is defined as a serum magnesium level that exceeds 2.6 mg/dL."},
+    {text:"Exceeds 1.6 mg/dL",correct:false,explain:"This value is close to the hypomagnesemia threshold, not the hypermagnesemia threshold."},
+    {text:"Lower than 1.6 mg/dL",correct:false,explain:"This value describes hypomagnesemia, not hypermagnesemia."},
+    {text:"Exceeds 10 mg/dL",correct:false,explain:"This value substantially overstates the actual hypermagnesemia threshold of exceeding 2.6 mg/dL."}
+  ]},
+{ stem:"Which ECG changes are associated with hypermagnesemia?",
+  options:[
+    {text:"Prolonged PR interval and widened QRS complexes",correct:true,explain:"Hypermagnesemia is associated with a prolonged PR interval and widened QRS complexes on ECG."},
+    {text:"Tall T waves and depressed ST segment",correct:false,explain:"These ECG changes are associated with hypomagnesemia, not hypermagnesemia."},
+    {text:"Prolonged ST segment and prolonged QT interval",correct:false,explain:"These ECG changes are associated with hypocalcemia, not hypermagnesemia."},
+    {text:"Tall peaked T waves and flat P waves",correct:false,explain:"These ECG changes are associated with hyperkalemia, not hypermagnesemia."}
+  ]},
+{ stem:"Which condition is a recognized cause of hypomagnesemia?",
+  options:[
+    {text:"Chronic alcoholism",correct:true,explain:"Chronic alcoholism is a recognized cause of hypomagnesemia, along with hyperparathyroidism, hyperaldosteronism, malabsorptive disorders, DKA, and refeeding after starvation."},
+    {text:"Adrenal insufficiency",correct:false,explain:"Adrenal insufficiency is more specifically associated with hypermagnesemia, not hypomagnesemia."},
+    {text:"Hypothyroidism",correct:false,explain:"Hypothyroidism is more specifically associated with hypermagnesemia, not hypomagnesemia."},
+    {text:"Oliguric phase of acute kidney injury",correct:false,explain:"The oliguric phase of AKI is associated with hypermagnesemia (reduced excretion), not hypomagnesemia."}
+  ]},
+{ stem:"A client with hypophosphatemia would be expected to also have which finding in serum calcium?",
+  options:[
+    {text:"An increased serum calcium level",correct:true,explain:"Hypophosphatemia is typically accompanied by an increased serum calcium level, reflecting the inverse relationship between these two electrolytes."},
+    {text:"A decreased serum calcium level",correct:false,explain:"A decreased serum calcium level accompanies hyperphosphatemia (the opposite imbalance), not hypophosphatemia."},
+    {text:"No change in serum calcium",correct:false,explain:"Phosphorus and calcium have a well-documented inverse relationship, so hypophosphatemia is expected to be accompanied by a calcium change (an increase), not no change."},
+    {text:"A decreased serum magnesium level",correct:false,explain:"While low magnesium can be a contributing factor to hypophosphatemia, the specific accompanying finding highlighted is an increased serum calcium level, not a magnesium change."}
+  ]},
+{ stem:"A client with hyperphosphatemia would be expected to also have which finding in serum calcium, and what clinical problems result?",
+  options:[
+    {text:"A decreased serum calcium level; related health problems focus on hypocalcemia",correct:true,explain:"Hyperphosphatemia is accompanied by a decreased serum calcium level, and the clinical problems that occur as serum phosphorus levels rise are focused on hypocalcemia."},
+    {text:"An increased serum calcium level; related health problems focus on hypercalcemia",correct:false,explain:"This describes the opposite relationship; hyperphosphatemia is accompanied by decreased, not increased, calcium, with clinical concerns centered on hypocalcemia."},
+    {text:"No relationship exists between phosphorus and calcium levels",correct:false,explain:"Phosphorus and calcium have a well-documented inverse relationship; hyperphosphatemia is specifically accompanied by decreased calcium."},
+    {text:"An increased serum magnesium level",correct:false,explain:"The specific accompanying electrolyte change highlighted for hyperphosphatemia is decreased calcium, not an increase in magnesium."}
+  ]},
+{ stem:"What is the defining serum phosphorus level for hyperphosphatemia?",
+  options:[
+    {text:"Exceeds 4.5 mg/dL",correct:true,explain:"Hyperphosphatemia is defined as a serum phosphorus level that exceeds 4.5 mg/dL."},
+    {text:"Exceeds 2.7 mg/dL",correct:false,explain:"This value is close to the hypophosphatemia threshold, not the hyperphosphatemia threshold."},
+    {text:"Lower than 2.7 mg/dL",correct:false,explain:"This value describes hypophosphatemia, not hyperphosphatemia."},
+    {text:"Exceeds 10 mg/dL",correct:false,explain:"This value substantially overstates the actual hyperphosphatemia threshold of exceeding 4.5 mg/dL."}
+  ]},
+{ stem:"What nursing interventions are appropriate for a client with hyperphosphatemia?",
+  isSAL:true,
+  options:[
+    {text:"Administer phosphate-binding medications",correct:true,explain:"Administering phosphate-binding medications is a key intervention for managing hyperphosphatemia."},
+    {text:"Teach the client to take phosphate binders with or immediately following meals",correct:true,explain:"Phosphate binders should be taken with or immediately following meals to effectively bind dietary phosphorus."},
+    {text:"Encourage dietary changes to decrease intake of high-phosphorus foods",correct:true,explain:"Decreasing intake of high-phosphorus foods is an appropriate dietary intervention for hyperphosphatemia."},
+    {text:"Encourage the client to increase intake of high-phosphorus foods",correct:false,explain:"This is the opposite of appropriate teaching; clients with hyperphosphatemia should decrease, not increase, intake of high-phosphorus foods."}
+  ]},
+{ stem:"What is a recognized cause of hyperphosphatemia?",
+  options:[
+    {text:"Acute kidney injury and chronic kidney disease",correct:true,explain:"Acute kidney injury and chronic kidney disease are recognized causes of hyperphosphatemia due to reduced renal phosphorus excretion, along with excessive phosphorus intake, vitamin D excess, and massive blood transfusion."},
+    {text:"Refeeding after starvation",correct:false,explain:"Refeeding after starvation is a recognized cause of hypophosphatemia, not hyperphosphatemia."},
+    {text:"Chronic laxative use",correct:false,explain:"Chronic laxative use is a recognized cause of hypomagnesemia, not specifically listed as a cause of hyperphosphatemia in this content."},
+    {text:"Vitamin D deficiency",correct:false,explain:"Vitamin D deficiency is associated with hypophosphatemia (and hypocalcemia), not hyperphosphatemia."}
+  ]},
+{ stem:"A client receiving a rapid infusion of IV potassium chloride reports muscle weakness and the nurse notes new ECG changes. What is the priority nursing action?",
+  options:[
+    {text:"Stop the infusion and notify the provider immediately",correct:true,explain:"New muscle weakness and ECG changes during a potassium infusion suggest developing hyperkalemia, a potentially life-threatening electrolyte imbalance; the infusion should be stopped and the provider notified immediately."},
+    {text:"Increase the infusion rate to complete it more quickly",correct:false,explain:"Increasing the infusion rate would worsen a developing hyperkalemia and is dangerous in this situation."},
+    {text:"Continue the infusion as ordered with no changes",correct:false,explain:"Continuing an infusion in the face of new weakness and ECG changes ignores signs of a potentially serious complication and is not safe."},
+    {text:"Document the finding and reassess in 4 hours",correct:false,explain:"Waiting 4 hours to reassess is not appropriate when acute signs of a potentially dangerous electrolyte imbalance are present; prompt action is needed."}
+  ]},
+{ stem:"A client's serum sodium is being corrected for severe hyponatremia. What is the priority nursing consideration regarding the rate of correction?",
+  options:[
+    {text:"Sodium correction should be gradual and controlled to avoid osmotic demyelination syndrome",correct:true,explain:"Rapid correction of severe hyponatremia risks osmotic demyelination syndrome (central pontine myelinolysis), a serious and potentially permanent neurologic complication; correction must be gradual and controlled."},
+    {text:"Sodium should be corrected as rapidly as possible to prevent further complications",correct:false,explain:"Rapid sodium correction is dangerous and increases the risk of osmotic demyelination syndrome; correction should be gradual, not as rapid as possible."},
+    {text:"The rate of sodium correction has no clinical significance",correct:false,explain:"The rate of sodium correction is highly clinically significant, given the serious risk of osmotic demyelination syndrome with overly rapid correction."},
+    {text:"Sodium correction should only be monitored for its effect on potassium levels",correct:false,explain:"While overall electrolyte monitoring is important, the priority consideration specific to sodium correction rate is the risk of osmotic demyelination syndrome, not solely potassium effects."}
+  ]},
+{ stem:"A client with a serum magnesium level of 3.2 mg/dL is noted to have diminished deep tendon reflexes and drowsiness. What should the nurse suspect?",
+  options:[
+    {text:"Hypermagnesemia",correct:true,explain:"A serum magnesium level above 2.6 mg/dL, along with diminished/absent deep tendon reflexes and drowsiness progressing to lethargy, is consistent with hypermagnesemia."},
+    {text:"Hypomagnesemia",correct:false,explain:"Hypomagnesemia presents with tachycardia, hypertension, and neuromuscular irritability (twitches, hyperreflexia), not diminished reflexes and drowsiness — and the given magnesium level of 3.2 mg/dL is elevated, not low."},
+    {text:"Hypercalcemia",correct:false,explain:"While hypercalcemia can also cause diminished reflexes, the specific lab value given (elevated magnesium) points to hypermagnesemia in this scenario."},
+    {text:"Hypokalemia",correct:false,explain:"The lab value given is a magnesium level, not a potassium level, and hypokalemia does not typically present with diminished reflexes and drowsiness as its hallmark findings."}
+  ]},
+{ stem:"A client with a serum potassium level of 2.9 mEq/L is on digoxin therapy. What is the nurse's priority concern?",
+  options:[
+    {text:"Hypokalemia increases the risk of digoxin toxicity",correct:true,explain:"Hypokalemia is a recognized contributing factor to digoxin toxicity; a serum potassium of 2.9 mEq/L (below the 3.5 mEq/L threshold for hypokalemia) in a client on digoxin is a priority safety concern requiring prompt attention."},
+    {text:"Hypokalemia has no relationship to digoxin therapy",correct:false,explain:"Hypokalemia is specifically identified as a contributing factor to digoxin toxicity, making this an important relationship to recognize, not an unrelated finding."},
+    {text:"This potassium level indicates hyperkalemia",correct:false,explain:"A potassium level of 2.9 mEq/L is below 3.5 mEq/L, meeting the definition of hypokalemia, not hyperkalemia."},
+    {text:"Digoxin should be increased to compensate for the low potassium",correct:false,explain:"Increasing digoxin in the setting of hypokalemia would further increase the risk of digoxin toxicity, not compensate safely for the electrolyte imbalance."}
+  ]},
+{ stem:"A client receiving IV D5/0.45% saline (a hypertonic solution) for maintenance fluids asks why they need this particular fluid. What is the nurse's best explanation?",
+  options:[
+    {text:"It is used as an initial hydration fluid because it provides more water than sodium, and it is commonly used for maintenance fluids",correct:true,explain:"D5/½NS is a hypertonic solution commonly used as an initial hydration and maintenance fluid, since it provides more water relative to sodium content."},
+    {text:"It is used exclusively to treat severe hyperkalemia",correct:false,explain:"This is not the primary use described for D5/½NS; it is used for hydration and maintenance fluid needs."},
+    {text:"It is the preferred fluid for clients in severe fluid overload",correct:false,explain:"This is not an appropriate use for this fluid; hypertonic dextrose-saline solutions are used for hydration/maintenance, not specifically for treating severe fluid overload."},
+    {text:"It contains no dextrose and is used only for electrolyte replacement",correct:false,explain:"D5/½NS does contain 5% dextrose, as reflected in its name, so this statement is inaccurate."}
+  ]},
+{ stem:"Which client would be at greatest risk for developing hypocalcemia?",
+  options:[
+    {text:"A client who recently underwent thyroid surgery with neck dissection",correct:true,explain:"Thyroid surgery or radical neck dissection can result in hypoparathyroidism (from inadvertent parathyroid gland disruption), which is a recognized cause of hypocalcemia."},
+    {text:"A client with hyperparathyroidism",correct:false,explain:"Hyperparathyroidism is a cause of hypercalcemia, not hypocalcemia."},
+    {text:"A client taking calcium supplements",correct:false,explain:"Overuse of calcium supplements is a cause of hypercalcemia, not hypocalcemia."},
+    {text:"A client with prolonged immobilization",correct:false,explain:"Prolonged immobilization is a cause of hypercalcemia (from bone demineralization), not hypocalcemia."}
+  ]},
+{ stem:"Which client would be at greatest risk for developing hyperkalemia?",
+  options:[
+    {text:"A client with oliguric acute kidney injury taking an ACE inhibitor",correct:true,explain:"Oliguric kidney injury reduces potassium excretion, and ACE inhibitors further reduce aldosterone-mediated potassium excretion — the combination places this client at significant risk for hyperkalemia."},
+    {text:"A client taking a loop diuretic with normal renal function",correct:false,explain:"Loop diuretics cause potassium loss and are more associated with hypokalemia risk, not hyperkalemia, especially with normal renal function."},
+    {text:"A client with chronic diarrhea",correct:false,explain:"Chronic diarrhea causes potassium loss and is a contributing factor to hypokalemia, not hyperkalemia."},
+    {text:"A client on long-term corticosteroid therapy",correct:false,explain:"Long-term corticosteroid therapy is associated with potassium loss and hypokalemia risk, not hyperkalemia."}
+  ]},
+{ stem:"A client's ABG and electrolyte panel reveal a serum phosphorus of 1.8 mg/dL after several days of parenteral nutrition following prolonged starvation. What should the nurse recognize?",
+  options:[
+    {text:"This is consistent with hypophosphatemia, a recognized risk during refeeding after starvation",correct:true,explain:"A serum phosphorus of 1.8 mg/dL is below the 2.7 mg/dL hypophosphatemia threshold, and refeeding after starvation (as well as parenteral nutrition) is a recognized contributing factor to hypophosphatemia."},
+    {text:"This is a normal phosphorus level requiring no further action",correct:false,explain:"A phosphorus level of 1.8 mg/dL is below the normal/hypophosphatemia threshold and is not a normal finding requiring no action."},
+    {text:"This is consistent with hyperphosphatemia",correct:false,explain:"A phosphorus level of 1.8 mg/dL is well below the 4.5 mg/dL hyperphosphatemia threshold; this value is consistent with hypophosphatemia, not hyperphosphatemia."},
+    {text:"This finding is unrelated to the client's nutritional history",correct:false,explain:"This finding is directly related to the client's nutritional history — refeeding after starvation is a specifically recognized contributing factor to hypophosphatemia."}
+  ]},
+{ stem:"A client receiving IV fluid therapy develops crackles on lung auscultation, distended neck veins, and a bounding pulse. What condition should the nurse suspect, and what is the priority action?",
+  options:[
+    {text:"Fluid volume excess; slow the IV rate and notify the provider",correct:true,explain:"Crackles, distended neck veins, and a bounding pulse are classic findings of fluid volume excess; the nurse should slow the IV infusion rate and notify the provider promptly to prevent further fluid overload."},
+    {text:"Fluid volume deficit; increase the IV rate",correct:false,explain:"These findings (crackles, distended neck veins, bounding pulse) indicate fluid volume excess, not deficit; increasing the IV rate would worsen the client's condition."},
+    {text:"A normal, expected response to IV fluid therapy requiring no action",correct:false,explain:"These findings indicate a developing complication (fluid volume excess) requiring prompt intervention, not a normal, expected response requiring no action."},
+    {text:"Hypokalemia",correct:false,explain:"This presentation is not primarily an electrolyte imbalance; it reflects fluid volume excess related to the IV therapy itself."}
+  ]},
+{ stem:"A client with severe fluid volume deficit is prescribed an isotonic IV solution. Why is an isotonic, rather than hypotonic, solution generally preferred for initial resuscitation?",
+  options:[
+    {text:"Isotonic solutions stay within the intravascular and interstitial spaces, effectively expanding circulating volume without causing rapid fluid shifts into cells",correct:true,explain:"Isotonic solutions have the same osmolality as plasma, so they remain in the intravascular and interstitial compartments, effectively expanding circulating volume for resuscitation, without causing the rapid fluid shifts into cells that hypotonic solutions can cause."},
+    {text:"Hypotonic solutions are always safer and preferred for volume resuscitation",correct:false,explain:"Hypotonic solutions are not generally preferred for rapid volume resuscitation, since they can cause fluid to shift into cells rather than effectively expanding circulating volume."},
+    {text:"There is no difference in clinical effect between isotonic and hypotonic solutions for resuscitation",correct:false,explain:"There is a clinically meaningful difference — isotonic solutions expand intravascular volume effectively, while hypotonic solutions can cause fluid shifts into cells, making them less ideal for rapid resuscitation."},
+    {text:"Isotonic solutions are used exclusively to treat hyperkalemia",correct:false,explain:"Isotonic solutions are used broadly for volume resuscitation and maintenance, not exclusively for treating hyperkalemia."}
+  ]},
+{ stem:"A client receiving a hypertonic IV solution (e.g., 3% saline) for severe symptomatic hyponatremia requires which priority nursing monitoring?",
+  options:[
+    {text:"Frequent neurologic assessments and serum sodium levels to ensure gradual, controlled correction and avoid osmotic demyelination syndrome",correct:true,explain:"Hypertonic saline for severe hyponatremia requires frequent neurologic assessments and serum sodium monitoring to ensure the correction occurs gradually and in a controlled manner, given the serious risk of osmotic demyelination syndrome with overly rapid correction."},
+    {text:"No specific monitoring is required beyond routine vital signs",correct:false,explain:"Hypertonic saline administration requires specific, frequent neurologic and serum sodium monitoring beyond routine vital signs, given the serious risks involved."},
+    {text:"Only urine output needs to be monitored, with no need for neurologic assessment",correct:false,explain:"While urine output is relevant, neurologic assessment and serum sodium monitoring are the priority parameters given the demyelination risk with hypertonic saline."},
+    {text:"Hypertonic saline requires no more caution than isotonic solutions",correct:false,explain:"Hypertonic saline requires significantly more caution and monitoring than isotonic solutions, given its potent effect on serum sodium and osmolality."}
+  ]},
+{ stem:"A client with third-spacing of fluids (e.g., from severe burns) would be expected to show which combination of findings?",
+  options:[
+    {text:"Signs of intravascular fluid volume deficit despite overall total body fluid retention or edema formation",correct:true,explain:"Third-spacing involves fluid shifting out of the intravascular space into a non-functional space (e.g., interstitial tissue, a body cavity), so the client can show signs of intravascular volume deficit (hypotension, tachycardia) even while total body fluid is retained or edema is present in the affected area."},
+    {text:"Only signs of fluid volume excess, with no intravascular deficit component",correct:false,explain:"Third-spacing specifically involves a component of intravascular volume deficit, not solely fluid volume excess findings."},
+    {text:"No clinical findings at all, since third-spaced fluid does not affect the client",correct:false,explain:"Third-spacing does produce clinical findings — signs of intravascular deficit despite fluid being present elsewhere in the body — and is not asymptomatic."},
+    {text:"Only signs of fluid volume deficit, with no fluid retention anywhere in the body",correct:false,explain:"Third-spacing involves fluid being retained in a non-functional space (edema or a body cavity) while the intravascular space is deficient, not an absence of fluid retention altogether."}
+  ]},
+{ stem:"A client with severe hyperkalemia (K+ 6.8 mEq/L) and ECG changes is prescribed IV calcium gluconate. What is the purpose of this medication in this situation?",
+  options:[
+    {text:"To stabilize the cardiac cell membrane and reduce the risk of life-threatening dysrhythmias, without directly lowering the serum potassium level",correct:true,explain:"IV calcium gluconate is given in severe hyperkalemia to stabilize the cardiac cell membrane and reduce the risk of life-threatening dysrhythmias; it does not lower the serum potassium level itself, so additional therapies are still needed to reduce potassium."},
+    {text:"To directly lower the serum potassium level",correct:false,explain:"Calcium gluconate does not lower serum potassium; it protects the heart from the effects of hyperkalemia while other measures (insulin/glucose, dialysis, etc.) are used to actually reduce the potassium level."},
+    {text:"To treat hypocalcemia, which is the primary underlying issue",correct:false,explain:"Calcium gluconate is given here for cardiac membrane stabilization in the setting of hyperkalemia, not because hypocalcemia is the primary underlying issue."},
+    {text:"To replace the need for other potassium-lowering interventions",correct:false,explain:"Calcium gluconate does not replace potassium-lowering interventions (such as insulin/glucose or dialysis); it is used alongside them to protect the heart while potassium is being reduced."}
+  ]},
+{ stem:"A client with severe hyperkalemia is treated with IV regular insulin and dextrose. What is the mechanism by which this combination lowers serum potassium?",
+  options:[
+    {text:"Insulin drives potassium into cells, temporarily lowering the serum potassium level; dextrose is given to prevent hypoglycemia from the insulin",correct:true,explain:"IV insulin promotes the movement of potassium from the extracellular space into cells, temporarily lowering serum potassium; dextrose is co-administered to prevent hypoglycemia that would otherwise result from the insulin dose."},
+    {text:"Insulin permanently removes potassium from the body",correct:false,explain:"Insulin causes a temporary intracellular shift of potassium, not permanent removal from the body; actual removal requires other interventions such as dialysis or potassium-binding agents."},
+    {text:"Dextrose directly lowers serum potassium independent of insulin",correct:false,explain:"Dextrose itself does not lower potassium; it is given specifically to counteract the hypoglycemic effect of the administered insulin."},
+    {text:"This combination has no effect on serum potassium levels",correct:false,explain:"This combination does have a well-established, clinically significant effect of temporarily lowering serum potassium through an intracellular shift."}
+  ]},
+{ stem:"A client with hyperkalemia is prescribed sodium polystyrene sulfonate. What is the mechanism of action of this medication?",
+  options:[
+    {text:"It binds potassium in the GI tract, promoting its excretion in the stool",correct:true,explain:"Sodium polystyrene sulfonate is a cation-exchange resin that binds potassium in the GI tract, promoting its excretion in the stool and thereby lowering total body potassium."},
+    {text:"It causes a temporary intracellular shift of potassium, similar to insulin",correct:false,explain:"This describes the mechanism of insulin/dextrose therapy, not sodium polystyrene sulfonate, which works by actually removing potassium from the body via the GI tract."},
+    {text:"It stabilizes the cardiac cell membrane, similar to calcium gluconate",correct:false,explain:"Cardiac membrane stabilization is the role of calcium gluconate, not sodium polystyrene sulfonate, which works through GI potassium binding and excretion."},
+    {text:"It has no effect on potassium levels",correct:false,explain:"Sodium polystyrene sulfonate does have a direct, clinically significant effect on lowering total body potassium through GI binding and excretion."}
+  ]},
+{ stem:"A client receiving potassium chloride IV replacement reports pain at the IV site, and the nurse notes the site is not infiltrated. What is the priority nursing consideration?",
+  options:[
+    {text:"IV potassium is known to cause significant vein irritation, so the infusion rate and concentration should be verified as appropriate, and the site monitored closely",correct:true,explain:"IV potassium chloride is known to cause significant vein irritation and pain, so the nurse should verify the infusion rate and concentration are within safe limits and monitor the site closely, even without frank infiltration, since burning/pain is a recognized effect of this medication."},
+    {text:"This finding is unrelated to the potassium infusion and requires no specific consideration",correct:false,explain:"Pain at the IV site during potassium infusion is a recognized, medication-related effect requiring specific attention, not something unrelated to disregard."},
+    {text:"IV potassium should always be given via rapid IV push to minimize discomfort",correct:false,explain:"IV potassium must never be given via rapid IV push, as this can cause fatal cardiac arrhythmias; it must be administered via a controlled infusion, typically diluted and rate-limited."},
+    {text:"The infusion should be stopped permanently and never restarted",correct:false,explain:"While the concentration/rate should be verified and the site monitored, this does not necessarily mean permanent discontinuation; the priority is verifying safe administration parameters."}
+  ]},
+{ stem:"Why must IV potassium chloride never be administered via rapid IV push?",
+  options:[
+    {text:"Rapid IV push of potassium can cause fatal cardiac arrhythmias, including cardiac arrest",correct:true,explain:"Rapid IV push of potassium chloride can cause a sudden, dangerous spike in serum potassium, leading to fatal cardiac arrhythmias, including cardiac arrest; it must always be given as a controlled, diluted infusion."},
+    {text:"Rapid IV push has no significant risk associated with potassium administration",correct:false,explain:"Rapid IV push of potassium carries a severe, life-threatening risk (fatal arrhythmias), making this statement inaccurate."},
+    {text:"Rapid IV push would only cause mild, transient discomfort with no cardiac risk",correct:false,explain:"The risk of rapid IV potassium push is far more serious than mild discomfort; it can cause fatal cardiac arrhythmias."},
+    {text:"Rapid IV push is the preferred method for potassium administration in emergencies",correct:false,explain:"Rapid IV push is never the preferred or safe method for potassium administration, even in emergencies; it must always be given as a controlled, diluted infusion."}
+  ]},
+{ stem:"A client with hypokalemia is prescribed oral potassium chloride supplementation. What teaching point is important regarding administration?",
+  options:[
+    {text:"Take the medication with food or a full glass of water to minimize GI irritation",correct:true,explain:"Oral potassium chloride should be taken with food or a full glass of water to help minimize GI irritation, a common adverse effect of this supplement."},
+    {text:"Take the medication on a completely empty stomach for best absorption",correct:false,explain:"Taking potassium chloride on an empty stomach can increase GI irritation; taking it with food or fluids is the recommended approach."},
+    {text:"Crush all potassium chloride tablets before administration",correct:false,explain:"Extended-release potassium chloride formulations should generally not be crushed, as this can alter the release profile and increase the risk of GI irritation or mucosal injury."},
+    {text:"No special administration considerations are needed for oral potassium supplements",correct:false,explain:"There are specific administration considerations (taking with food/fluids, not crushing extended-release forms) for oral potassium supplements to minimize adverse effects."}
+  ]},
+{ stem:"A client with chronic kidney disease is at increased risk for which electrolyte imbalance, and why?",
+  options:[
+    {text:"Hyperkalemia, due to the kidneys' reduced ability to excrete potassium",correct:true,explain:"Clients with chronic kidney disease are at increased risk for hyperkalemia because the kidneys' reduced excretory capacity impairs the normal elimination of potassium from the body."},
+    {text:"Hypokalemia, due to excessive renal potassium excretion",correct:false,explain:"CKD is more associated with reduced potassium excretion (hyperkalemia risk), not excessive excretion causing hypokalemia."},
+    {text:"No electrolyte imbalances are associated with chronic kidney disease",correct:false,explain:"Chronic kidney disease is strongly associated with electrolyte imbalances, particularly hyperkalemia, given impaired renal excretion."},
+    {text:"Hypercalcemia exclusively, with no relationship to potassium",correct:false,explain:"While CKD does affect calcium/phosphorus balance as well, potassium retention (hyperkalemia) is a hallmark and directly relevant electrolyte concern in CKD."}
+  ]},
+{ stem:"A client with CKD and hyperkalemia is prescribed a low-potassium diet. Which foods should the nurse instruct the client to limit?",
+  isSAL:true,
+  options:[
+    {text:"Bananas",correct:true,explain:"Bananas are high in potassium and should be limited in a client following a low-potassium diet."},
+    {text:"Oranges and orange juice",correct:true,explain:"Oranges and orange juice are high in potassium and should be limited in a client following a low-potassium diet."},
+    {text:"Potatoes",correct:true,explain:"Potatoes are high in potassium and should be limited in a client following a low-potassium diet."},
+    {text:"White bread",correct:false,explain:"White bread is relatively low in potassium compared to foods like bananas, oranges, and potatoes, and is not typically restricted on a low-potassium diet."}
+  ]},
+{ stem:"A client on a diuretic that causes significant potassium loss asks about foods that could help maintain their potassium level. Which foods should the nurse recommend?",
+  isSAL:true,
+  options:[
+    {text:"Bananas",correct:true,explain:"Bananas are a well-known potassium-rich food that can help support potassium intake in a client experiencing diuretic-induced potassium loss."},
+    {text:"Avocados",correct:true,explain:"Avocados are rich in potassium and can help support potassium intake."},
+    {text:"Spinach",correct:true,explain:"Spinach is rich in potassium and can help support potassium intake."},
+    {text:"White rice",correct:false,explain:"White rice is relatively low in potassium and would not be a specifically recommended food for boosting potassium intake."}
+  ]},
+{ stem:"A client with severe hypercalcemia is prescribed IV normal saline followed by a loop diuretic (e.g., furosemide). What is the purpose of this combination therapy?",
+  options:[
+    {text:"To promote calcium excretion through the kidneys while avoiding fluid overload from the saline",correct:true,explain:"IV normal saline promotes urinary calcium excretion by increasing renal blood flow and sodium delivery, and adding a loop diuretic like furosemide further enhances calcium excretion while helping prevent fluid overload from the volume of saline administered."},
+    {text:"To directly bind calcium in the bloodstream",correct:false,explain:"This combination does not directly bind calcium; it works by promoting renal calcium excretion through increased urine flow and diuresis."},
+    {text:"To treat hypocalcemia, which is the underlying issue",correct:false,explain:"This treatment approach is used for hypercalcemia, not hypocalcemia; the goal is to lower, not raise, the serum calcium level."},
+    {text:"To increase calcium absorption from the GI tract",correct:false,explain:"This treatment works through renal excretion of calcium, not increased GI absorption, which would worsen rather than help hypercalcemia."}
+  ]},
+{ stem:"A client with hypercalcemia due to malignancy is prescribed a bisphosphonate (e.g., zoledronic acid). What is the mechanism of action of this medication class?",
+  options:[
+    {text:"Inhibits osteoclast-mediated bone resorption, reducing the release of calcium into the bloodstream",correct:true,explain:"Bisphosphonates inhibit osteoclast activity, reducing bone resorption and the associated release of calcium into the bloodstream, making them effective for treating malignancy-related hypercalcemia."},
+    {text:"Directly binds calcium in the GI tract to prevent absorption",correct:false,explain:"This describes a different mechanism (like calcium-binding resins); bisphosphonates work by inhibiting osteoclast-mediated bone resorption, not GI calcium binding."},
+    {text:"Increases renal excretion of calcium as its primary mechanism",correct:false,explain:"While bisphosphonates ultimately help lower serum calcium, their primary mechanism is inhibiting bone resorption (osteoclast activity), not directly promoting renal excretion."},
+    {text:"Has no effect on bone metabolism",correct:false,explain:"Bisphosphonates specifically target bone metabolism by inhibiting osteoclast-mediated resorption; this is their primary mechanism of action."}
+  ]},
+{ stem:"A client with acute hypocalcemia and tetany requires IV calcium replacement. What is a priority nursing safety consideration during administration?",
+  options:[
+    {text:"Administer slowly via an infusion pump while monitoring the client's cardiac rhythm, since rapid IV calcium administration can cause dangerous arrhythmias",correct:true,explain:"IV calcium should be administered slowly via an infusion pump with cardiac monitoring, since rapid administration can cause bradycardia, hypotension, and dangerous cardiac arrhythmias."},
+    {text:"IV calcium can be safely administered via rapid IV push in any clinical situation",correct:false,explain:"Rapid IV push of calcium is not safe and can cause dangerous cardiac effects; it should be given as a slow, controlled infusion with monitoring."},
+    {text:"No cardiac monitoring is needed during IV calcium administration",correct:false,explain:"Cardiac monitoring is an important safety consideration during IV calcium administration, given the risk of arrhythmias with rapid infusion."},
+    {text:"IV calcium should always be mixed with potassium chloride in the same infusion",correct:false,explain:"IV calcium and potassium are not routinely co-administered in the same infusion as a standard practice; each has its own specific safe administration requirements."}
+  ]},
+{ stem:"A client with hypomagnesemia is also found to have persistent hypokalemia despite potassium replacement. What should the nurse recognize about this relationship?",
+  options:[
+    {text:"Hypomagnesemia can make hypokalemia refractory to treatment, since magnesium is needed for proper intracellular potassium regulation",correct:true,explain:"Magnesium is required for proper functioning of the sodium-potassium pump and intracellular potassium regulation, so hypomagnesemia can make hypokalemia difficult to correct until the magnesium deficiency is also addressed."},
+    {text:"Magnesium and potassium levels have no physiologic relationship to each other",correct:false,explain:"Magnesium and potassium do have an important physiologic relationship, and correcting magnesium is often necessary to successfully correct concurrent hypokalemia."},
+    {text:"This finding indicates the potassium replacement dose should be significantly increased regardless of magnesium status",correct:false,explain:"Simply increasing potassium replacement without addressing the underlying magnesium deficiency is unlikely to resolve the hypokalemia, since magnesium correction is often necessary first."},
+    {text:"This relationship only applies to sodium, not potassium",correct:false,explain:"This magnesium-potassium relationship is specifically well-documented and relevant, not limited to sodium."}
+  ]},
+{ stem:"A client receiving IV magnesium sulfate for severe hypomagnesemia should be monitored for which signs of magnesium toxicity?",
+  isSAL:true,
+  options:[
+    {text:"Diminished or absent deep tendon reflexes",correct:true,explain:"Diminished or absent deep tendon reflexes are an early and important sign of magnesium toxicity that should be monitored during IV magnesium administration."},
+    {text:"Respiratory depression",correct:true,explain:"Respiratory depression is a serious sign of magnesium toxicity, reflecting the drug's effect on skeletal muscle including respiratory muscles."},
+    {text:"Hypotension",correct:true,explain:"Hypotension is a recognized sign of magnesium toxicity due to its vasodilatory and cardiac depressant effects."},
+    {text:"Hyperreflexia",correct:false,explain:"Magnesium toxicity causes diminished, not increased (hyper-), reflexes; hyperreflexia would be more consistent with hypomagnesemia, not toxicity from excess magnesium."}
+  ]},
+{ stem:"What is the antidote for magnesium sulfate toxicity?",
+  options:[
+    {text:"Calcium gluconate",correct:true,explain:"Calcium gluconate is the antidote for magnesium sulfate toxicity, as calcium antagonizes the effects of excess magnesium at the neuromuscular junction."},
+    {text:"Protamine sulfate",correct:false,explain:"Protamine sulfate is the antidote for heparin, not magnesium sulfate."},
+    {text:"Vitamin K",correct:false,explain:"Vitamin K is the antidote for warfarin, not magnesium sulfate."},
+    {text:"Naloxone",correct:false,explain:"Naloxone is the antidote for opioids, not magnesium sulfate."}
+  ]},
+{ stem:"A pregnant client receiving magnesium sulfate for preeclampsia develops a respiratory rate of 10 breaths/minute and absent deep tendon reflexes. What is the priority nursing action?",
+  options:[
+    {text:"Stop the magnesium sulfate infusion immediately and prepare to administer calcium gluconate as prescribed",correct:true,explain:"A respiratory rate of 10/min and absent deep tendon reflexes are signs of significant magnesium toxicity; the infusion should be stopped immediately, and calcium gluconate (the antidote) should be prepared for administration as prescribed."},
+    {text:"Increase the magnesium sulfate infusion rate to ensure adequate seizure prophylaxis",correct:false,explain:"Increasing the infusion rate would worsen the client's magnesium toxicity and is dangerous given the signs already present."},
+    {text:"Continue the infusion at the current rate with no changes, since this is an expected finding",correct:false,explain:"This presentation (respiratory depression and absent reflexes) indicates significant toxicity requiring immediate action, not continuation without change."},
+    {text:"Administer additional oral magnesium supplementation",correct:false,explain:"Administering more magnesium would worsen the client's toxicity; the priority is stopping the infusion and preparing the antidote."}
+  ]},
+{ stem:"A client with a serum sodium of 128 mEq/L reports headache, nausea, and muscle cramps. What is the priority nursing action?",
+  options:[
+    {text:"Notify the provider and assess for further neurologic changes, since this represents hyponatremia requiring evaluation and likely intervention",correct:true,explain:"A serum sodium of 128 mEq/L is below the normal range (135–145 mEq/L) and, combined with symptoms like headache, nausea, and muscle cramps, requires prompt provider notification and close neurologic monitoring given the risk of progression to more severe symptoms."},
+    {text:"No action is needed since this is a mild, expected finding",correct:false,explain:"A sodium of 128 mEq/L with associated symptoms is not a mild, expected finding requiring no action; it warrants provider notification and monitoring."},
+    {text:"Administer a hypertonic solution immediately without provider notification",correct:false,explain:"Hypertonic saline administration requires a provider order and careful, gradual correction; it should not be administered independently without provider involvement given the serious risks of overly rapid correction."},
+    {text:"Restrict all sodium intake completely",correct:false,explain:"Complete sodium restriction is not the appropriate response to hyponatremia; the underlying cause and appropriate correction strategy should guide management, which may or may not include fluid restriction depending on the type of hyponatremia."}
+  ]},
+{ stem:"A client with SIADH (syndrome of inappropriate antidiuretic hormone) presents with hyponatremia. What is the underlying mechanism of this imbalance?",
+  options:[
+    {text:"Excess ADH causes excessive water reabsorption in the kidneys, diluting serum sodium",correct:true,explain:"In SIADH, excess ADH secretion causes the kidneys to reabsorb excessive water, which dilutes the serum sodium concentration, resulting in a dilutional hyponatremia despite normal or even increased total body sodium."},
+    {text:"SIADH causes excessive sodium loss through the kidneys with no effect on water balance",correct:false,explain:"SIADH is primarily a water balance issue (excess water reabsorption from too much ADH), not primarily a sodium loss issue."},
+    {text:"SIADH has no relationship to sodium or water balance",correct:false,explain:"SIADH is directly related to water balance (via ADH) and its dilutional effect on serum sodium."},
+    {text:"SIADH causes decreased ADH secretion, leading to excessive water loss",correct:false,explain:"This describes diabetes insipidus, the opposite condition; SIADH involves excess, not decreased, ADH secretion."}
+  ]},
+{ stem:"What is the priority nursing intervention for a client with SIADH-related hyponatremia?",
+  options:[
+    {text:"Fluid restriction, as prescribed, to reduce the dilutional effect on serum sodium",correct:true,explain:"Fluid restriction is a primary intervention for SIADH-related hyponatremia, since the underlying problem is water retention diluting the serum sodium; restricting fluid intake helps correct this dilutional effect."},
+    {text:"Encourage increased free water intake to help balance electrolytes",correct:false,explain:"Increasing free water intake would worsen SIADH-related hyponatremia, since the underlying problem is already excess water retention; fluid restriction, not increased intake, is indicated."},
+    {text:"Administer large volumes of hypotonic IV fluids",correct:false,explain:"Hypotonic IV fluids would worsen hyponatremia in a client with SIADH; this is not an appropriate intervention."},
+    {text:"No fluid-related intervention is needed for SIADH",correct:false,explain:"Fluid management (specifically restriction) is a key, directly relevant intervention for SIADH-related hyponatremia."}
+  ]},
+{ stem:"A client with diabetes insipidus (not SIADH) presents with severe polyuria and rising serum sodium. What is the priority nursing intervention regarding fluids?",
+  options:[
+    {text:"Encourage or provide adequate free water replacement to match ongoing losses and prevent worsening hypernatremia",correct:true,explain:"Since diabetes insipidus causes excessive water loss through the kidneys, adequate free water replacement (oral or IV) is essential to match ongoing losses and prevent worsening hypernatremia and dehydration."},
+    {text:"Restrict fluid intake to prevent further complications",correct:false,explain:"Fluid restriction would worsen a client with diabetes insipidus, who is already losing excessive free water; adequate replacement is needed, not restriction."},
+    {text:"No fluid-related intervention is needed for diabetes insipidus",correct:false,explain:"Fluid management (adequate replacement) is a key, directly relevant intervention for diabetes insipidus given the excessive water loss."},
+    {text:"Administer a loop diuretic to further increase urine output",correct:false,explain:"Administering a diuretic would worsen the client's already excessive urine output and water loss; this is not an appropriate intervention for diabetes insipidus."}
+  ]},
+{ stem:"A client's serum osmolality is elevated at 310 mOsm/kg. What does this finding generally indicate?",
+  options:[
+    {text:"The blood is more concentrated than normal, often reflecting dehydration, hypernatremia, or hyperglycemia",correct:true,explain:"An elevated serum osmolality (above the normal range of approximately 275–295 mOsm/kg) indicates the blood is more concentrated than normal, commonly reflecting conditions such as dehydration, hypernatremia, or hyperglycemia."},
+    {text:"The blood is more dilute than normal",correct:false,explain:"An elevated, not decreased, serum osmolality indicates the blood is more concentrated, not more dilute, than normal."},
+    {text:"This value has no clinical significance",correct:false,explain:"An elevated serum osmolality is a clinically significant finding that warrants further evaluation for its underlying cause, such as dehydration or hyperglycemia."},
+    {text:"This finding is only relevant to potassium balance",correct:false,explain:"Serum osmolality reflects overall solute concentration in the blood (influenced by sodium, glucose, BUN, etc.), not specifically potassium balance."}
+  ]},
+{ stem:"A client with severe dehydration has a urine specific gravity of 1.035. What does this finding indicate?",
+  options:[
+    {text:"Concentrated urine, consistent with the body's attempt to conserve water in the setting of dehydration",correct:true,explain:"A urine specific gravity of 1.035 (above the normal range of approximately 1.005–1.030) indicates concentrated urine, reflecting the kidneys' effort to conserve water in response to dehydration."},
+    {text:"Dilute urine, indicating fluid volume excess",correct:false,explain:"A specific gravity of 1.035 is elevated, indicating concentrated (not dilute) urine, which is consistent with fluid volume deficit, not excess."},
+    {text:"A normal finding with no clinical significance",correct:false,explain:"This elevated specific gravity is a clinically significant finding consistent with the client's dehydration, not a normal, insignificant result."},
+    {text:"Kidney failure with an inability to concentrate urine",correct:false,explain:"This finding actually shows the kidneys ARE able to concentrate urine effectively in response to dehydration, which is the opposite of an inability to concentrate urine."}
+  ]},
+{ stem:"A client receiving total parenteral nutrition (TPN) should be monitored closely for which electrolyte disturbance, particularly at the start of therapy?",
+  options:[
+    {text:"Hypophosphatemia, hypokalemia, and hypomagnesemia, collectively known as refeeding syndrome",correct:true,explain:"Refeeding syndrome, characterized by hypophosphatemia, hypokalemia, and hypomagnesemia, is a significant risk when starting nutritional support (including TPN) in a malnourished client, as the shift back to carbohydrate metabolism drives these electrolytes into cells."},
+    {text:"Hyperkalemia exclusively, with no other electrolyte concerns",correct:false,explain:"TPN initiation is specifically associated with the risk of refeeding syndrome, causing decreases in phosphorus, potassium, and magnesium, not isolated hyperkalemia."},
+    {text:"No electrolyte monitoring is needed with TPN therapy",correct:false,explain:"Close electrolyte monitoring is essential with TPN therapy, particularly at initiation, given the risk of refeeding syndrome."},
+    {text:"Only calcium levels require monitoring during TPN therapy",correct:false,explain:"While calcium can be part of overall monitoring, the classic refeeding syndrome electrolytes to prioritize are phosphorus, potassium, and magnesium."}
+  ]},
+{ stem:"A client with a nasogastric tube on continuous suction is at risk for which acid-base and electrolyte disturbance?",
+  options:[
+    {text:"Metabolic alkalosis and hypokalemia, from loss of gastric acid and potassium",correct:true,explain:"Continuous NG suction removes gastric contents rich in hydrochloric acid and potassium, placing the client at risk for metabolic alkalosis (from acid loss) and hypokalemia (from potassium loss)."},
+    {text:"Metabolic acidosis and hyperkalemia",correct:false,explain:"NG suction causes loss of acid and potassium, leading to metabolic alkalosis and hypokalemia, not metabolic acidosis and hyperkalemia."},
+    {text:"No electrolyte or acid-base disturbances are associated with NG suction",correct:false,explain:"NG suction is specifically associated with metabolic alkalosis and hypokalemia due to loss of gastric acid and potassium."},
+    {text:"Respiratory alkalosis exclusively",correct:false,explain:"NG suction is specifically associated with a metabolic (not respiratory) disturbance, given the direct loss of gastric acid and electrolytes."}
+  ]},
+{ stem:"A client with prolonged vomiting develops metabolic alkalosis. What compensatory respiratory response would the nurse expect?",
+  options:[
+    {text:"Decreased respiratory rate and depth, to retain CO2 and help lower the pH toward normal",correct:true,explain:"In metabolic alkalosis, the respiratory system compensates by decreasing respiratory rate and depth to retain CO2 (an acid), which helps lower the elevated pH back toward normal."},
+    {text:"Increased respiratory rate and depth, to exhale more CO2",correct:false,explain:"This describes the compensatory response for metabolic acidosis, not metabolic alkalosis; in metabolic alkalosis, the respiratory rate decreases to retain CO2."},
+    {text:"No respiratory compensation occurs for metabolic alkalosis",correct:false,explain:"The respiratory system does provide compensation for metabolic alkalosis, specifically through decreased rate and depth to retain CO2."},
+    {text:"The kidneys, not the lungs, provide the only compensation for this imbalance",correct:false,explain:"While the kidneys are the primary correctors of metabolic disturbances long-term, the respiratory system provides more immediate compensation by adjusting rate and depth."}
+  ]},
+{ stem:"A client with a serum potassium of 6.2 mEq/L has new, wide QRS complexes and absent P waves on ECG. What is the priority nursing action?",
+  options:[
+    {text:"Notify the provider immediately and prepare for emergency treatment, given the risk of life-threatening cardiac arrhythmia",correct:true,explain:"A potassium of 6.2 mEq/L with wide QRS complexes and absent P waves indicates severe, potentially life-threatening hyperkalemia with significant cardiac conduction changes, requiring immediate provider notification and emergency treatment (such as calcium gluconate, insulin/dextrose, and other measures)."},
+    {text:"Continue routine monitoring with no change in the plan of care",correct:false,explain:"This ECG presentation with severe hyperkalemia represents a medical emergency requiring immediate action, not continuation of routine, unchanged care."},
+    {text:"Administer a potassium supplement to correct the imbalance",correct:false,explain:"Administering additional potassium would be dangerous and is the opposite of what is needed; this client requires potassium-lowering treatment, not supplementation."},
+    {text:"Wait for repeat labs in 4 hours before taking any action",correct:false,explain:"Waiting 4 hours is not appropriate given the severity of this presentation (ECG changes with critically elevated potassium); immediate action is required."}
+  ]},
+{ stem:"A client with excessive diaphoresis from prolonged strenuous exercise in hot weather, without adequate fluid replacement, is at risk for which fluid and electrolyte disturbance?",
+  options:[
+    {text:"Fluid volume deficit and hyponatremia (if replacing losses with water alone) or hypernatremia (if sweat losses exceed water intake)",correct:true,explain:"Excessive sweating without adequate replacement can lead to fluid volume deficit; the sodium effect depends on the balance of losses and intake — replacing with water alone can lead to hyponatremia, while inadequate overall fluid replacement relative to free water loss can lead to hypernatremia."},
+    {text:"Fluid volume excess exclusively",correct:false,explain:"Excessive sweating without fluid replacement causes fluid volume deficit, not excess."},
+    {text:"No fluid or electrolyte disturbance is associated with excessive sweating",correct:false,explain:"Excessive sweating is directly associated with fluid and electrolyte disturbances, given the loss of both water and electrolytes (including sodium) in sweat."},
+    {text:"Hyperkalemia exclusively",correct:false,explain:"Excessive sweating is not specifically associated with hyperkalemia as its hallmark electrolyte disturbance; fluid volume deficit and sodium imbalances are the more directly relevant concerns."}
+  ]},
+{ stem:"A client with heart failure is prescribed a potassium-sparing diuretic (e.g., spironolactone) along with a potassium supplement. What is the priority nursing concern with this combination?",
+  options:[
+    {text:"Increased risk of hyperkalemia from the combined effect of a potassium-sparing medication and potassium supplementation",correct:true,explain:"Combining a potassium-sparing diuretic with potassium supplementation increases the risk of hyperkalemia, since the diuretic already reduces potassium excretion while the supplement adds more potassium intake; this combination requires careful monitoring."},
+    {text:"Increased risk of hypokalemia from this combination",correct:false,explain:"The concern with this specific combination is hyperkalemia, not hypokalemia, given the additive potassium-retaining/supplementing effects."},
+    {text:"No interaction or concern exists with this combination",correct:false,explain:"There is a significant, well-recognized concern (hyperkalemia risk) with combining a potassium-sparing diuretic and potassium supplementation."},
+    {text:"This combination is the standard, safest approach with no monitoring required",correct:false,explain:"While this combination may sometimes be used clinically, it requires careful potassium monitoring given the hyperkalemia risk, not an assumption of safety without monitoring."}
+  ]},
+{ stem:"A client with ascites due to liver cirrhosis is at risk for which fluid and electrolyte disturbances?",
+  isSAL:true,
+  options:[
+    {text:"Third-spacing of fluid into the peritoneal cavity",correct:true,explain:"Ascites represents third-spacing of fluid into the peritoneal cavity, a recognized complication of liver cirrhosis."},
+    {text:"Hyponatremia, often dilutional in nature",correct:true,explain:"Clients with cirrhosis and ascites are at risk for dilutional hyponatremia due to complex neurohormonal changes affecting water retention."},
+    {text:"Hypokalemia, often related to secondary hyperaldosteronism and diuretic therapy",correct:true,explain:"Secondary hyperaldosteronism (common in cirrhosis) and diuretic therapy used to manage ascites both increase the risk of hypokalemia in these clients."},
+    {text:"Hypercalcemia as a hallmark, expected finding",correct:false,explain:"Hypercalcemia is not a hallmark expected finding of cirrhosis/ascites; the more relevant electrolyte disturbances are hyponatremia and hypokalemia."}
+  ]},
+{ stem:"A client with fluid volume deficit and evidence of hemoconcentration also has an elevated BUN-to-creatinine ratio. What does this finding suggest?",
+  options:[
+    {text:"Prerenal azotemia related to decreased renal perfusion from volume depletion",correct:true,explain:"An elevated BUN-to-creatinine ratio in the setting of volume depletion suggests prerenal azotemia, reflecting decreased renal perfusion (rather than intrinsic kidney damage) secondary to fluid volume deficit."},
+    {text:"Fluid volume excess",correct:false,explain:"This presentation is associated with fluid volume deficit and its effects on renal perfusion, not fluid volume excess."},
+    {text:"A normal, expected finding with no clinical significance",correct:false,explain:"An elevated BUN-to-creatinine ratio in this context is a clinically significant finding suggesting a specific pattern of renal perfusion compromise, not something to disregard."},
+    {text:"Intrinsic kidney damage unrelated to fluid status",correct:false,explain:"This specific pattern (elevated BUN-to-creatinine ratio with volume depletion) points to a prerenal (perfusion-related) cause rather than intrinsic kidney damage."}
+  ]},
+{ stem:"A client is prescribed 0.45% saline (half-normal saline, a hypotonic solution) for maintenance fluid therapy. What is an important nursing consideration when administering hypotonic solutions?",
+  options:[
+    {text:"Monitor for signs of cellular swelling and increased intracranial pressure, since hypotonic solutions can cause fluid to shift into cells",correct:true,explain:"Hypotonic solutions like 0.45% saline have a lower solute concentration than plasma, causing fluid to shift into cells; this requires monitoring for cellular swelling, and hypotonic solutions are used cautiously (or avoided) in clients at risk for increased intracranial pressure."},
+    {text:"Hypotonic solutions carry no unique risks compared to isotonic solutions",correct:false,explain:"Hypotonic solutions do carry a unique risk (fluid shifting into cells, cellular swelling) not shared with isotonic solutions, making this statement inaccurate."},
+    {text:"Hypotonic solutions are always the safest choice for any client requiring IV fluids",correct:false,explain:"Hypotonic solutions are not universally the safest choice; they require specific consideration and can be inappropriate or even dangerous in certain clinical situations, such as increased intracranial pressure risk."},
+    {text:"Hypotonic solutions cause fluid to shift out of cells",correct:false,explain:"This is the opposite effect; hypotonic solutions cause fluid to shift into cells, not out of them."}
+  ]},
+{ stem:"A client receiving IV fluids develops sudden dyspnea, crackles, and a drop in oxygen saturation. What is the priority nursing action?",
+  options:[
+    {text:"Stop or significantly slow the IV infusion, raise the head of the bed, administer oxygen as needed, and notify the provider",correct:true,explain:"These findings suggest acute pulmonary edema from fluid volume excess; priority actions include slowing/stopping the infusion, positioning the client upright (high Fowler's) to ease breathing, administering oxygen as needed, and notifying the provider immediately."},
+    {text:"Increase the IV infusion rate to flush the system",correct:false,explain:"Increasing the infusion rate would worsen the fluid overload and respiratory distress; the infusion should be slowed or stopped instead."},
+    {text:"Place the client flat in a supine position",correct:false,explain:"A supine position can worsen respiratory distress in this situation; the client should be positioned upright to ease breathing."},
+    {text:"Continue the infusion at the current rate and reassess in one hour",correct:false,explain:"Waiting an hour without intervention is not appropriate given the acute respiratory distress; immediate action is required."}
+  ]},
+{ stem:"A client with fluid volume deficit due to severe diarrhea is prescribed oral rehydration therapy. Why might oral rehydration solutions be preferred over plain water alone in this situation?",
+  options:[
+    {text:"Oral rehydration solutions contain a balanced mix of electrolytes and glucose that supports both water and electrolyte replacement, and enhances intestinal water absorption",correct:true,explain:"Oral rehydration solutions are formulated with a specific balance of electrolytes (sodium, potassium) and glucose, which not only replaces lost electrolytes but also enhances intestinal sodium and water absorption through the glucose-sodium co-transport mechanism, making them more effective than plain water alone."},
+    {text:"Plain water alone is always superior for rehydration in any situation",correct:false,explain:"Plain water alone does not replace lost electrolytes and can even worsen electrolyte imbalances in significant fluid losses; oral rehydration solutions are specifically formulated to address this."},
+    {text:"There is no difference between oral rehydration solutions and plain water",correct:false,explain:"There is a meaningful difference — oral rehydration solutions provide balanced electrolyte replacement and enhanced absorption, unlike plain water alone."},
+    {text:"Oral rehydration solutions are used only to treat hyperkalemia",correct:false,explain:"Oral rehydration solutions are used broadly for fluid and electrolyte replacement in conditions like diarrhea-related fluid loss, not specifically to treat hyperkalemia."}
+  ]},
+{ stem:"A client with long-term proton pump inhibitor (PPI) use is found to have hypomagnesemia. What should the nurse recognize about this relationship?",
+  options:[
+    {text:"Long-term PPI use is a recognized risk factor for hypomagnesemia, thought to be related to impaired intestinal magnesium absorption",correct:true,explain:"Long-term proton pump inhibitor use is a recognized risk factor for hypomagnesemia, believed to be related to impaired intestinal magnesium absorption with chronic acid suppression."},
+    {text:"PPIs have no relationship to magnesium levels",correct:false,explain:"PPIs do have a recognized relationship to magnesium levels, specifically an association with hypomagnesemia with long-term use."},
+    {text:"PPIs cause hypermagnesemia, not hypomagnesemia",correct:false,explain:"The recognized association with long-term PPI use is hypomagnesemia (low magnesium), not hypermagnesemia."},
+    {text:"This finding is coincidental and requires no further consideration",correct:false,explain:"This is a recognized, clinically relevant medication-related risk factor, not simply a coincidental finding to disregard."}
+  ]},
+{ stem:"A client with a serum sodium of 152 mEq/L has dry, sticky mucous membranes and reports extreme thirst. What type of IV fluid would the provider most likely initially prescribe?",
+  options:[
+    {text:"A hypotonic solution, to help dilute the elevated serum sodium and rehydrate cells gradually",correct:true,explain:"For hypernatremia (serum sodium 152 mEq/L, above the 145 mEq/L threshold) with signs of dehydration, a hypotonic solution is often used to gradually dilute the elevated serum sodium and rehydrate cells, with careful, gradual correction to avoid cerebral edema from overly rapid correction."},
+    {text:"A hypertonic solution, to further raise the serum sodium",correct:false,explain:"A hypertonic solution would further raise the already elevated serum sodium, worsening the hypernatremia; this would not be appropriate."},
+    {text:"No IV fluids are indicated for this client",correct:false,explain:"This client shows clear signs of dehydration and hypernatremia requiring fluid replacement; IV fluids are indicated, guided by careful clinical judgment regarding tonicity and rate."},
+    {text:"A potassium-only IV solution with no other components",correct:false,explain:"A potassium-only solution would not address this client's fluid and sodium imbalance; a hypotonic fluid approach is more appropriate for hypernatremia."}
+  ]},
+{ stem:"When correcting hypernatremia, why is it important to lower the serum sodium gradually rather than rapidly?",
+  options:[
+    {text:"Rapid correction can cause fluid to shift into brain cells too quickly, leading to cerebral edema",correct:true,explain:"Just as with hyponatremia correction, overly rapid correction of hypernatremia can cause fluid to shift into brain cells too quickly (since the brain has adapted to the elevated osmolality), leading to cerebral edema, so gradual correction is essential."},
+    {text:"Rapid correction has no risk and is always preferred when possible",correct:false,explain:"Rapid correction of hypernatremia does carry a significant risk (cerebral edema) and is not the preferred approach; gradual correction is recommended."},
+    {text:"Gradual correction is only a preference with no real clinical basis",correct:false,explain:"Gradual correction of hypernatremia has a clear clinical basis — preventing cerebral edema from fluid shifts — not merely a preference without rationale."},
+    {text:"This consideration only applies to hyponatremia correction, not hypernatremia",correct:false,explain:"This consideration about gradual correction to prevent cerebral fluid shift complications applies to both hyponatremia and hypernatremia correction, not exclusively to hyponatremia."}
+  ]},
+{ stem:"A client's laboratory results show a serum albumin of 2.1 g/dL (low) along with peripheral edema. How might low albumin contribute to this client's edema?",
+  options:[
+    {text:"Decreased plasma oncotic pressure from low albumin allows fluid to shift out of the vascular space into the interstitial tissue",correct:true,explain:"Albumin is a major contributor to plasma oncotic pressure, which normally helps keep fluid within the vascular space; when albumin is low, oncotic pressure decreases, allowing fluid to shift into the interstitial space and cause edema."},
+    {text:"Low albumin has no relationship to fluid balance or edema formation",correct:false,explain:"Low albumin has a well-established relationship to fluid balance through its effect on oncotic pressure, directly contributing to edema formation."},
+    {text:"Low albumin causes fluid to shift into the vascular space, reducing edema",correct:false,explain:"This is the opposite of the actual mechanism; low albumin causes fluid to shift out of, not into, the vascular space, contributing to edema."},
+    {text:"Albumin levels only affect potassium balance, not fluid distribution",correct:false,explain:"Albumin's primary relevant role here is in fluid distribution through oncotic pressure, not potassium balance."}
+  ]},
+{ stem:"A client is admitted with severe burns covering 40% of their body surface area. What fluid and electrolyte shift should the nurse anticipate in the initial 24–48 hours?",
+  options:[
+    {text:"Fluid shifting from the intravascular space into the interstitial space (third-spacing), along with significant fluid volume deficit risk",correct:true,explain:"In the initial period after severe burns, increased capillary permeability causes fluid (and protein) to shift from the intravascular space into the interstitial space (third-spacing/edema at and around the burn site), placing the client at significant risk for intravascular fluid volume deficit despite overall fluid retention in the tissues."},
+    {text:"Fluid shifting from the interstitial space into the intravascular space, with no risk of volume deficit",correct:false,explain:"This is the opposite of the expected shift; in the initial burn period, fluid moves out of, not into, the intravascular space, creating volume deficit risk."},
+    {text:"No significant fluid shifts are expected with severe burns",correct:false,explain:"Severe burns are specifically associated with significant fluid shifts (third-spacing) due to increased capillary permeability, not an absence of fluid shifting."},
+    {text:"Fluid volume excess exclusively, with no deficit component",correct:false,explain:"While third-spacing does cause localized fluid accumulation, the intravascular space experiences a deficit, making this an incomplete description of the expected fluid shift."}
+  ]},
+{ stem:"A client with fluid volume excess is prescribed a low-sodium diet. What is the rationale for this dietary restriction?",
+  options:[
+    {text:"Sodium restriction helps reduce water retention, since water tends to follow sodium in the body",correct:true,explain:"Because water follows sodium in the body, restricting dietary sodium intake helps reduce overall fluid retention, making it an important dietary intervention for clients with fluid volume excess."},
+    {text:"Sodium restriction has no effect on fluid balance",correct:false,explain:"Sodium restriction does have a direct effect on fluid balance, given the close relationship between sodium and water retention in the body."},
+    {text:"Sodium restriction is used specifically to treat hyperkalemia",correct:false,explain:"Sodium restriction is specifically aimed at reducing fluid retention in fluid volume excess, not primarily to treat hyperkalemia."},
+    {text:"Sodium restriction increases water retention",correct:false,explain:"This is the opposite of the actual effect; sodium restriction helps decrease, not increase, water retention."}
+  ]},
+{ stem:"A client's serum chloride level is significantly elevated. With which type of acid-base or fluid disturbance is hyperchloremia most commonly associated?",
+  options:[
+    {text:"Metabolic acidosis, since chloride and bicarbonate have an inverse relationship in maintaining acid-base balance",correct:true,explain:"Chloride and bicarbonate have an inverse relationship in the body; when chloride is elevated, bicarbonate is often relatively decreased, which can contribute to or reflect a non-anion-gap metabolic acidosis."},
+    {text:"Respiratory alkalosis exclusively",correct:false,explain:"Hyperchloremia is more classically associated with metabolic acidosis given the inverse chloride-bicarbonate relationship, not specifically respiratory alkalosis."},
+    {text:"Hyperchloremia has no relationship to acid-base balance",correct:false,explain:"Chloride does have a recognized relationship to acid-base balance through its inverse relationship with bicarbonate."},
+    {text:"Metabolic alkalosis exclusively",correct:false,explain:"Hyperchloremia is more classically associated with metabolic acidosis, not metabolic alkalosis, given the inverse chloride-bicarbonate relationship."}
+  ]},
+{ stem:"A client receiving large volumes of 0.9% normal saline over a short period is at risk for which acid-base disturbance?",
+  options:[
+    {text:"Hyperchloremic metabolic acidosis, sometimes called \"saline-induced\" acidosis",correct:true,explain:"Administering large volumes of normal saline (which has a relatively high chloride content compared to plasma) can lead to hyperchloremic metabolic acidosis, sometimes referred to as saline-induced or dilutional acidosis."},
+    {text:"Respiratory acidosis",correct:false,explain:"This is not a respiratory disturbance; large-volume normal saline administration is specifically associated with a metabolic (hyperchloremic) acidosis."},
+    {text:"No acid-base disturbance is associated with normal saline administration",correct:false,explain:"Large-volume normal saline administration is specifically associated with a recognized risk of hyperchloremic metabolic acidosis."},
+    {text:"Metabolic alkalosis",correct:false,explain:"Large-volume normal saline is associated with metabolic acidosis (from the high chloride load), not metabolic alkalosis."}
+  ]},
+{ stem:"A client with diabetes insipidus who is unable to access water (e.g., due to altered consciousness) is at high risk for which severe complication?",
+  options:[
+    {text:"Severe hypernatremia and dehydration",correct:true,explain:"A client with diabetes insipidus who cannot access water to replace ongoing excessive urinary water losses is at high risk for severe hypernatremia and dehydration, since they cannot compensate for the water loss through the normal thirst-drinking mechanism."},
+    {text:"Severe hyponatremia",correct:false,explain:"The risk in this scenario is hypernatremia (from ongoing free water loss without replacement), not hyponatremia."},
+    {text:"Hyperkalemia",correct:false,explain:"This scenario primarily poses a risk of severe sodium and water imbalance (hypernatremia/dehydration), not specifically hyperkalemia."},
+    {text:"No significant risk exists as long as urine output continues normally",correct:false,explain:"Continued high urine output without water replacement is exactly the mechanism that creates significant risk in this scenario, not a reassuring sign."}
+  ]},
+{ stem:"A client's arterial blood gas shows a low bicarbonate level. Independent of the respiratory values, what does this specifically suggest?",
+  options:[
+    {text:"A metabolic acid-base disturbance, specifically consistent with metabolic acidosis or compensation for respiratory alkalosis",correct:true,explain:"A low bicarbonate level reflects the metabolic component of acid-base balance and is consistent with metabolic acidosis (primary) or renal compensation for a primary respiratory alkalosis."},
+    {text:"A respiratory disturbance exclusively",correct:false,explain:"Bicarbonate specifically reflects the metabolic, not respiratory, component of acid-base balance; PaCO2 reflects the respiratory component."},
+    {text:"No clinical significance",correct:false,explain:"A low bicarbonate level is a clinically significant finding requiring interpretation in the context of the full acid-base picture, not something without significance."},
+    {text:"A fluid volume disturbance exclusively, unrelated to acid-base balance",correct:false,explain:"While fluid status can indirectly relate to acid-base balance, bicarbonate is specifically a marker of the metabolic acid-base component, not solely a fluid volume marker."}
+  ]},
+{ stem:"A client on long-term corticosteroid therapy develops hypokalemia, hypernatremia, and edema. What is the underlying mechanism for this electrolyte pattern?",
+  options:[
+    {text:"Corticosteroids can have mineralocorticoid effects, promoting sodium and water retention while increasing potassium excretion",correct:true,explain:"Corticosteroids, particularly at higher doses, can exhibit mineralocorticoid-like effects, promoting renal sodium and water retention (contributing to hypernatremia and edema) while increasing potassium excretion (contributing to hypokalemia)."},
+    {text:"Corticosteroids have no effect on electrolyte or fluid balance",correct:false,explain:"Corticosteroids do have well-documented effects on electrolyte and fluid balance, including this characteristic hypokalemia/hypernatremia/edema pattern."},
+    {text:"Corticosteroids cause hyperkalemia and hyponatremia exclusively",correct:false,explain:"This is the opposite of the actual pattern; corticosteroids more classically cause hypokalemia and sodium/water retention (potentially leading to hypernatremia and edema)."},
+    {text:"This pattern is unrelated to the corticosteroid therapy",correct:false,explain:"This electrolyte pattern is directly related to the known mineralocorticoid effects of corticosteroid therapy."}
+  ]},
+{ stem:"A client with hyperaldosteronism (excess aldosterone) would be expected to show which electrolyte pattern?",
+  options:[
+    {text:"Hypokalemia and sodium/water retention (potentially with hypertension)",correct:true,explain:"Aldosterone promotes renal sodium and water retention while increasing potassium excretion, so excess aldosterone (hyperaldosteronism) leads to hypokalemia along with sodium and water retention, often resulting in hypertension."},
+    {text:"Hyperkalemia and sodium/water loss",correct:false,explain:"This is the opposite of the expected pattern; excess aldosterone causes potassium loss (hypokalemia) and sodium/water retention, not hyperkalemia and sodium/water loss."},
+    {text:"No electrolyte disturbance is associated with hyperaldosteronism",correct:false,explain:"Hyperaldosteronism is specifically and classically associated with a hypokalemia and sodium/water retention pattern."},
+    {text:"Hypercalcemia as the primary finding",correct:false,explain:"The primary, classic electrolyte pattern in hyperaldosteronism involves potassium and sodium/water balance, not primarily calcium."}
+  ]},
+{ stem:"A client with Addison's disease (adrenal insufficiency, including aldosterone deficiency) would be expected to show which electrolyte pattern?",
+  options:[
+    {text:"Hyperkalemia and hyponatremia, related to insufficient aldosterone activity",correct:true,explain:"With aldosterone deficiency in Addison's disease, the kidneys retain less sodium and excrete less potassium than normal, leading to hyperkalemia and hyponatremia, along with volume depletion."},
+    {text:"Hypokalemia and hypernatremia",correct:false,explain:"This is the opposite of the expected pattern in Addison's disease; aldosterone deficiency leads to hyperkalemia and hyponatremia, not hypokalemia and hypernatremia."},
+    {text:"No electrolyte disturbance is associated with Addison's disease",correct:false,explain:"Addison's disease is specifically and classically associated with a hyperkalemia and hyponatremia pattern due to aldosterone deficiency."},
+    {text:"Hypercalcemia as the primary finding",correct:false,explain:"The primary, classic electrolyte pattern in Addison's disease involves potassium and sodium balance, not primarily calcium."}
+  ]},
+{ stem:"A client is undergoing rapid correction of severe hyperglycemia (blood glucose >600 mg/dL) with IV insulin. What electrolyte requires the closest monitoring during this treatment?",
+  options:[
+    {text:"Potassium, since insulin drives potassium into cells, which can cause significant hypokalemia during treatment",correct:true,explain:"As with DKA treatment, insulin therapy for severe hyperglycemia drives potassium into cells, which can cause a significant drop in serum potassium during treatment, requiring close monitoring and often supplementation even if the client started with normal or elevated potassium."},
+    {text:"Calcium, with no need to monitor potassium during insulin therapy",correct:false,explain:"While overall electrolytes should be monitored, potassium is the electrolyte most directly and urgently affected by insulin therapy in this setting."},
+    {text:"No electrolyte monitoring is needed during insulin therapy for hyperglycemia",correct:false,explain:"Electrolyte monitoring, especially of potassium, is a critical component of safely managing insulin therapy for severe hyperglycemia."},
+    {text:"Magnesium exclusively, with no relevance of potassium",correct:false,explain:"While magnesium can also be affected, potassium is the electrolyte with the most direct and clinically significant risk related specifically to insulin's mechanism of action in this setting."}
+  ]},
+{ stem:"A client with severe hypoalbuminemia due to nephrotic syndrome develops significant peripheral edema. What is the most appropriate dietary consideration to help address the underlying fluid shift?",
+  options:[
+    {text:"Adequate protein intake as prescribed, since the underlying low albumin (a protein) contributes to the fluid shift via decreased oncotic pressure",correct:true,explain:"Since low serum albumin (a protein) reduces plasma oncotic pressure and contributes to fluid shifting into the interstitial space, addressing protein intake (as appropriately prescribed, balanced against the client's renal status) is a relevant nutritional consideration alongside other management strategies."},
+    {text:"Complete protein restriction with no dietary protein at all",correct:false,explain:"Complete protein restriction would not address the underlying low albumin problem and is not an appropriate blanket recommendation; protein needs must be individually balanced against renal status."},
+    {text:"Diet has no relevance to this client's fluid status",correct:false,explain:"Diet, particularly protein intake, does have relevance to this client's fluid status given the role of albumin (a protein) in oncotic pressure and fluid distribution."},
+    {text:"Increased sodium intake to help retain fluid in the vascular space",correct:false,explain:"Increased sodium intake would not appropriately address this client's edema and could worsen fluid retention; sodium is generally restricted, not increased, in clients with significant edema."}
+  ]}
+];
+
+
+const FLASHCARDS = [
+{front:"Hypokalemia threshold", back:"Serum potassium less than 3.5 mEq/L. ECG: ST depression, flat/inverted T wave, prominent U wave."},
+{front:"Hyperkalemia threshold", back:"Serum potassium exceeds 5.1 mEq/L. ECG: tall peaked T waves, flat P waves, widened QRS, prolonged PR interval."},
+{front:"Hyponatremia threshold", back:"Serum sodium less than 135 mEq/L."},
+{front:"Hypernatremia threshold", back:"Serum sodium exceeds 145 mEq/L. Remember \"MODEL\": Medications/meals, Osmotic diuretics, Diabetes insipidus, Excessive H2O loss, Low H2O intake."},
+{front:"Osmotic demyelination syndrome", back:"Damage to nerve myelin from correcting severe hyponatremia too rapidly. Symptoms (dysarthria, dysphagia, depressed awareness) appear 2-3 days later; can progress to locked-in syndrome or death."},
+{front:"Hypocalcemia threshold", back:"Serum calcium lower than 8.6 mg/dL. ECG: prolonged ST segment, prolonged QT interval."},
+{front:"Hypercalcemia threshold", back:"Serum calcium exceeds ~10-10.5 mg/dL. ECG: shortened ST segment, widened T wave, heart block."},
+{front:"Chvostek sign", back:"Facial muscle contraction from a light tap over the facial nerve in front of the ear — indicates hypocalcemia."},
+{front:"Trousseau sign", back:"Carpopedal spasm induced by inflating a BP cuff above systolic pressure — indicates hypocalcemia."},
+{front:"Hypomagnesemia threshold", back:"Serum magnesium lower than ~1.6-1.8 mg/dL. ECG: tall T waves, depressed ST segment."},
+{front:"Hypermagnesemia threshold", back:"Serum magnesium exceeds 2.6 mg/dL. ECG: prolonged PR interval, widened QRS complexes."},
+{front:"Hypophosphatemia threshold", back:"Serum phosphorus lower than 2.7 mg/dL. Accompanied by an increased serum calcium level."},
+{front:"Hyperphosphatemia threshold", back:"Serum phosphorus exceeds 4.5 mg/dL. Accompanied by a decreased serum calcium level; clinical problems focus on hypocalcemia."},
+{front:"Phosphate binder teaching", back:"Take with or immediately following meals."},
+{front:"Normal saline (NS) — caution with", back:"CHF, ESRD, SIADH, and large quantities."},
+{front:"Lactated Ringer's (LR) — avoid in", back:"Severe renal failure, severe liver failure, hyperkalemia, hypercalcemia, metabolic alkalosis >7.5, blood transfusions."},
+{front:"Why isn't D5W used alone to expand ECF volume?", back:"Dextrose is metabolized quickly; tonicity drops (may become hypotonic) and dilution of electrolytes can occur."},
+{front:"Fluid volume deficit — cardiovascular signs", back:"Thready increased pulse, decreased BP, orthostatic hypotension, flat neck veins, decreased CVP."},
+{front:"Fluid volume excess — cardiovascular signs", back:"Bounding increased pulse, elevated BP, distended neck veins, elevated CVP."},
+{front:"Body fluid transport mechanisms", back:"Diffusion, osmosis, filtration, hydrostatic pressure — across the semipermeable cell membrane."},
+{front:"Highest-risk groups for fluid imbalance", back:"Infants and older adults, compared to younger adults."}
+];
+
+/* ======================= FLASHCARDS ======================= */
+let flashOrder = FLASHCARDS.map((_,i)=>i);
+let flashIdx = 0;
+
+function renderFlashcard(){
+  if(!FLASHCARDS.length) return;
+  const card = FLASHCARDS[flashOrder[flashIdx]];
+  document.getElementById('flashFront').textContent = card.front;
+  document.getElementById('flashBack').textContent = card.back;
+  document.getElementById('flashcard').classList.remove('flipped');
+  document.getElementById('flashIndex').textContent = flashIdx+1;
+  document.getElementById('flashTotal').textContent = FLASHCARDS.length;
+}
+function flipCard(){ document.getElementById('flashcard').classList.toggle('flipped'); }
+document.getElementById('flashPrev').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  flashIdx = (flashIdx - 1 + FLASHCARDS.length) % FLASHCARDS.length;
+  renderFlashcard();
+});
+document.getElementById('flashNext').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  flashIdx = (flashIdx + 1) % FLASHCARDS.length;
+  renderFlashcard();
+});
+document.getElementById('flashShuffle').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  flashOrder = shuffle(flashOrder.length ? flashOrder : FLASHCARDS.map((_,i)=>i));
+  flashIdx = 0;
+  renderFlashcard();
+});
+
+
+let activeQuestions = [];
+let currentIndex = 0;
+let score = 0;
+let questionState = [];
+let optionOrders = [];
+
+
+function toggleAnswer(id, btn){
+  const el = document.getElementById(id);
+  el.classList.toggle('show');
+  btn.textContent = el.classList.contains('show') ? 'Hide answer ▲' : 'Reveal answer ▼';
+}
+
+function showView(name){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+name).classList.add('active');
+  const crumbs = document.getElementById('crumbs');
+  const homeLink = "<span onclick=\"location.href='index.html'\">Home</span>";
+  if(name==='notes') crumbs.innerHTML = homeLink + " / Fluids &amp; Electrolytes / Course Notes";
+  else if(name==='flashcards') crumbs.innerHTML = homeLink + " / Fluids &amp; Electrolytes / Flashcards";
+  else if(name==='setup') crumbs.innerHTML = homeLink + " / Fluids &amp; Electrolytes / Practice Test";
+  else if(name==='cases') crumbs.innerHTML = homeLink + " / Fluids &amp; Electrolytes / Case Studies";
+  else if(name==='quiz') crumbs.innerHTML = homeLink + " / <span onclick=\"showView('setup')\">Fluids &amp; Electrolytes</span> / Practice Test";
+  ['tabNotesA','tabFlashA','tabSetupA','tabCasesA','tabNotesB','tabFlashB','tabSetupB','tabCasesB','tabNotesC','tabFlashC','tabSetupC','tabCasesC','tabNotesD','tabFlashD','tabSetupD','tabCasesD'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+    let kind = 'setup';
+    if(id.indexOf('Notes') !== -1) kind = 'notes';
+    else if(id.indexOf('Flash') !== -1) kind = 'flashcards';
+    else if(id.indexOf('Cases') !== -1) kind = 'cases';
+    el.classList.toggle('selected', kind === name || (kind==='setup' && name==='quiz'));
+  });
+
+  if(name === 'flashcards' && typeof renderFlashcard === 'function') renderFlashcard();
+  history.replaceState(null, '', '#'+name);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+(function initialRoute(){
+  const hash = (location.hash || '').replace('#','');
+  const validViews = ['notes','flashcards','setup','cases'];
+  showView(validViews.includes(hash) ? hash : 'setup');
+})();
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function startQuiz(n){
+  const indices = shuffle([...Array(QUESTIONS.length).keys()]).slice(0,n);
+  activeQuestions = indices.map(i=>QUESTIONS[i]);
+  questionState = new Array(activeQuestions.length).fill(null);
+  optionOrders = new Array(activeQuestions.length).fill(null);
+  score = 0;
+  currentIndex = 0;
+  document.getElementById('quizTitle').textContent = 'Practice Test — ' + n + ' Questions';
+  document.getElementById('finalOutOf').textContent = '/' + n;
+  buildPicker();
+  document.getElementById('quizArea').innerHTML='';
+  document.getElementById('summary').classList.remove('show');
+  updateStatus();
+  renderQuestion(0);
+  showView('quiz');
+}
+
+const pickerGrid = document.getElementById('pickerGrid');
+function buildPicker(){
+  pickerGrid.innerHTML = '';
+  activeQuestions.forEach((q,i)=>{
+    const btn = document.createElement('button');
+    btn.className = 'pick-btn';
+    btn.textContent = (i+1);
+    btn.title = 'Question ' + (i+1);
+    btn.addEventListener('click', ()=> goToQuestion(i));
+    pickerGrid.appendChild(btn);
+  });
+  refreshPicker();
+}
+function refreshPicker(){
+  const btns = pickerGrid.querySelectorAll('.pick-btn');
+  btns.forEach((btn,i)=>{
+    btn.classList.remove('current','correct','incorrect');
+    const st = questionState[i];
+    if(st) btn.classList.add(st.correct ? 'correct' : 'incorrect');
+    if(i === currentIndex) btn.classList.add('current');
+  });
+}
+
+function goToQuestion(idx){
+  currentIndex = idx;
+  document.getElementById('quizArea').innerHTML = '';
+  document.getElementById('summary').classList.remove('show');
+  renderQuestion(idx);
+  refreshPicker();
+  document.getElementById('quizArea').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function letter(i){ return String.fromCharCode(65+i); }
+
+function renderQuestion(qIndex){
+  const q = activeQuestions[qIndex];
+  const state = questionState[qIndex];
+  const quizArea = document.getElementById('quizArea');
+  const card = document.createElement('div');
+  card.className = 'qcard';
+
+  const meta = document.createElement('div');
+  meta.className = 'qmeta';
+  meta.innerHTML = `<span class="qnum">Q${qIndex+1} / ${activeQuestions.length}</span><span class="qtag">Fluids &amp; Electrolytes</span>` +
+    (q.isSAL ? `<span class="qsal">Select all that apply</span>` : '');
+  card.appendChild(meta);
+
+  const stem = document.createElement('p');
+  stem.className = 'stem';
+  stem.textContent = q.stem;
+  card.appendChild(stem);
+
+  const optsWrap = document.createElement('div');
+  optsWrap.className = 'options';
+  const banner = document.createElement('div');
+  banner.className = 'result-banner';
+
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'btn-next';
+  nextBtn.textContent = (qIndex === activeQuestions.length-1) ? 'See results →' : 'Next question →';
+
+  const prevBtn = document.createElement('button');
+  prevBtn.className = 'btn-prev';
+  prevBtn.textContent = '← Previous';
+  prevBtn.disabled = (qIndex === 0);
+  prevBtn.addEventListener('click', ()=>{ if(qIndex>0) goToQuestion(qIndex-1); });
+
+  if(!optionOrders[qIndex]){
+    optionOrders[qIndex] = shuffle(q.options.map((_,i)=>i));
+  }
+  const order = optionOrders[qIndex];
+
+  if(q.isSAL){
+    let selected = state ? new Set(state.selected) : new Set();
+    order.forEach((origIdx, pos)=>{
+      const opt = q.options[origIdx];
+      const el = document.createElement('div');
+      el.className = 'opt sal';
+      el.dataset.origIdx = origIdx;
+      el.innerHTML = `<span class="opt-letter">${selected.has(origIdx)?'☑':'☐'}</span><div><div class="opt-text">${opt.text}</div><div class="opt-explain" style="display:none"></div></div>`;
+      if(!state){
+        el.addEventListener('click', ()=>{
+          if(el.classList.contains('locked')) return;
+          if(selected.has(origIdx)){ selected.delete(origIdx); el.querySelector('.opt-letter').textContent='☐'; el.style.background='var(--paper)'; el.style.borderColor='var(--line)'; }
+          else { selected.add(origIdx); el.querySelector('.opt-letter').textContent='☑'; el.style.background='#F0E9FA'; el.style.borderColor='var(--pulse)'; }
+        });
+      }
+      optsWrap.appendChild(el);
+    });
+    card.appendChild(optsWrap);
+    if(state){
+      revealSAL(qIndex, state.selected, optsWrap, banner, state.correct);
+      nextBtn.classList.add('show');
+    } else {
+      const submitBtn = document.createElement('button');
+      submitBtn.className = 'btn-sal-submit';
+      submitBtn.textContent = 'Submit answer';
+      submitBtn.addEventListener('click', ()=>{
+        lockSAL(qIndex, selected, optsWrap, banner, nextBtn, submitBtn);
+      });
+      card.appendChild(submitBtn);
+    }
+  } else {
+    order.forEach((origIdx, pos)=>{
+      const opt = q.options[origIdx];
+      const el = document.createElement('div');
+      el.className = 'opt';
+      el.dataset.origIdx = origIdx;
+      el.innerHTML = `<span class="opt-letter">${letter(pos)}</span><div><div class="opt-text">${opt.text}</div><div class="opt-explain" style="display:none"></div></div>`;
+      if(!state){
+        el.addEventListener('click', ()=> lockSingle(qIndex, origIdx, optsWrap, banner, nextBtn));
+      }
+      optsWrap.appendChild(el);
+    });
+    card.appendChild(optsWrap);
+    if(state){
+      revealSingle(qIndex, state.selected, optsWrap, banner, state.correct);
+      nextBtn.classList.add('show');
+    }
+  }
+
+  card.appendChild(banner);
+  const actions = document.createElement('div');
+  actions.className = 'actions';
+  actions.appendChild(prevBtn);
+  actions.appendChild(nextBtn);
+  card.appendChild(actions);
+
+  nextBtn.addEventListener('click', ()=>{
+    if(qIndex+1 < activeQuestions.length){ goToQuestion(qIndex+1); }
+    else { showSummary(); }
+  });
+
+  quizArea.appendChild(card);
+}
+
+function revealSingle(qIndex, chosenIdx, optsWrap, banner, isCorrect){
+  const q = activeQuestions[qIndex];
+  const opts = optsWrap.querySelectorAll('.opt');
+  opts.forEach((el)=>{
+    const i = parseInt(el.dataset.origIdx, 10);
+    el.classList.add('locked');
+    const explainEl = el.querySelector('.opt-explain');
+    explainEl.textContent = q.options[i].explain;
+    explainEl.style.display = 'block';
+    if(q.options[i].correct){ el.classList.add('correct-choice'); }
+    else if(i === chosenIdx){ el.classList.add('incorrect-choice'); }
+    else { el.classList.add('dim'); }
+  });
+  banner.classList.add('show', isCorrect ? 'correct' : 'incorrect');
+  banner.innerHTML = isCorrect ? `<span>✓</span> Correct.` : `<span>✕</span> Not quite — the correct answer is highlighted above.`;
+}
+
+function revealSAL(qIndex, selectedArr, optsWrap, banner, allCorrect){
+  const q = activeQuestions[qIndex];
+  const selected = new Set(selectedArr);
+  const opts = optsWrap.querySelectorAll('.opt');
+  opts.forEach((el)=>{
+    const i = parseInt(el.dataset.origIdx, 10);
+    el.classList.add('locked');
+    const explainEl = el.querySelector('.opt-explain');
+    explainEl.textContent = q.options[i].explain;
+    explainEl.style.display = 'block';
+    const letterEl = el.querySelector('.opt-letter');
+    if(q.options[i].correct){ el.classList.add('correct-choice'); letterEl.textContent='✓'; }
+    else if(selected.has(i)){ el.classList.add('incorrect-choice'); letterEl.textContent='✕'; }
+    else { el.classList.add('dim'); letterEl.textContent='☐'; }
+  });
+  banner.classList.add('show', allCorrect ? 'correct' : 'incorrect');
+  banner.innerHTML = allCorrect ? `<span>✓</span> Correct — all applicable choices selected.` : `<span>✕</span> Not quite — correct choices are highlighted above.`;
+}
+
+function lockSingle(qIndex, chosenIdx, optsWrap, banner, nextBtn){
+  if(questionState[qIndex]) return;
+  const q = activeQuestions[qIndex];
+  const isCorrect = q.options[chosenIdx].correct;
+  questionState[qIndex] = { correct: isCorrect, selected: chosenIdx };
+  if(isCorrect) score++;
+  revealSingle(qIndex, chosenIdx, optsWrap, banner, isCorrect);
+  nextBtn.classList.add('show');
+  refreshPicker();
+  updateStatus();
+}
+
+function lockSAL(qIndex, selected, optsWrap, banner, nextBtn, submitBtn){
+  if(questionState[qIndex]) return;
+  const q = activeQuestions[qIndex];
+  const correctSet = new Set(q.options.map((o,i)=>o.correct?i:null).filter(v=>v!==null));
+  let allCorrect = correctSet.size === selected.size && [...correctSet].every(i=>selected.has(i));
+  questionState[qIndex] = { correct: allCorrect, selected: [...selected] };
+  if(allCorrect) score++;
+  submitBtn.style.display = 'none';
+  revealSAL(qIndex, [...selected], optsWrap, banner, allCorrect);
+  nextBtn.classList.add('show');
+  refreshPicker();
+  updateStatus();
+}
+
+function updateStatus(){
+  const answeredCount = questionState.filter(Boolean).length;
+  const total = activeQuestions.length || 1;
+  document.getElementById('progressFill').style.width = (answeredCount/total*100)+'%';
+  document.getElementById('scoreLabel').innerHTML = `<span>${score}</span> / ${answeredCount}`;
+}
+
+function showSummary(){
+  document.getElementById('quizArea').innerHTML = '';
+  const answeredCount = questionState.filter(Boolean).length;
+  document.getElementById('finalScore').textContent = score;
+  document.getElementById('finalOutOf').textContent = '/' + activeQuestions.length;
+  const pct = answeredCount ? Math.round(score/answeredCount*100) : 0;
+  const msgEl = document.getElementById('finalMsg');
+  if(answeredCount < activeQuestions.length){
+    msgEl.textContent = `You've answered ${answeredCount} of ${activeQuestions.length} questions (${score} correct so far). Use the picker above to finish the rest.`;
+  } else if(pct >= 90) msgEl.textContent = 'Excellent — strong command of pharmacology test-taking strategy.';
+  else if(pct >= 75) msgEl.textContent = 'Solid work. Revisit the missed rationales above before your exam.';
+  else if(pct >= 60) msgEl.textContent = 'Decent start — review the explanations above, especially on the concepts you missed.';
+  else msgEl.textContent = 'Worth another pass — scroll up and read every rationale carefully, then retake.';
+  document.getElementById('summary').classList.add('show');
+  document.getElementById('summary').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+/* ---------- Print / Save PDF ---------- */
+function buildPrintReport(){
+  const answeredCount = questionState.filter(Boolean).length;
+  const pct = answeredCount ? Math.round(score/answeredCount*100) : 0;
+  const now = new Date();
+  const dateStr = now.toLocaleDateString(undefined, { year:'numeric', month:'long', day:'numeric' });
+  const timeStr = now.toLocaleTimeString(undefined, { hour:'2-digit', minute:'2-digit' });
+
+  let html = '';
+  html += '<div class="rpt-header">';
+  html += '<h1>Fluids &amp; Electrolytes — Practice Test Results</h1>';
+  html += '<div class="rpt-meta">' + dateStr + ' at ' + timeStr + ' &middot; ' + activeQuestions.length + ' questions</div>';
+  html += '<div class="rpt-score">Score: ' + score + ' / ' + answeredCount + ' answered (' + pct + '%)</div>';
+  html += '</div>';
+
+  activeQuestions.forEach((q, qi) => {
+    const state = questionState[qi];
+    html += '<div class="rpt-q">';
+    html += '<div class="rq-num">Question ' + (qi+1) + (q.isSAL ? ' (Select all that apply)' : '') + '</div>';
+    html += '<div class="rq-stem">' + escapeHtml(q.stem) + '</div>';
+
+    q.options.forEach((opt, oi) => {
+      let cls = '';
+      let marker = '';
+      const chosen = state ? (q.isSAL ? state.selected.includes(oi) : state.selected === oi) : false;
+      if(opt.correct){ cls = 'correct'; marker = '✓ '; }
+      else if(chosen){ cls = 'incorrect'; marker = '✕ '; }
+      html += '<div class="rpt-opt ' + cls + '">' + marker + escapeHtml(opt.text) + '</div>';
+      html += '<div class="rpt-explain">' + escapeHtml(opt.explain) + '</div>';
+    });
+
+    if(state){
+      const isCorrect = state.correct;
+      html += '<div class="rpt-banner ' + (isCorrect ? 'correct' : 'incorrect') + '">' +
+        (isCorrect ? 'Answered correctly' : 'Answered incorrectly') + '</div>';
+    } else {
+      html += '<div class="rpt-banner">Not answered</div>';
+    }
+    html += '</div>';
+  });
+
+  document.getElementById('printReport').innerHTML = html;
+}
+
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+document.getElementById('printBtn').addEventListener('click', ()=>{
+  buildPrintReport();
+  window.print();
+});
+
+document.getElementById('resultsBtn').addEventListener('click', showSummary);
+document.getElementById('randomBtn').addEventListener('click', ()=>{
+  const idx = Math.floor(Math.random()*activeQuestions.length);
+  goToQuestion(idx);
+});
+document.getElementById('reviewBtn').addEventListener('click', ()=>{
+  document.getElementById('summary').classList.remove('show');
+  goToQuestion(currentIndex);
+});
+document.getElementById('setupBtn').addEventListener('click', ()=> showView('setup'));
+document.getElementById('restartBtn').addEventListener('click', ()=> startQuiz(activeQuestions.length));
+</script>
+</body>
+</html>

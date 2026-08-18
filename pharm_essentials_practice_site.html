@@ -1,0 +1,1713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nursing NCLEX Review</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  :root{
+    --ink:#211B36;
+    --ink-soft:#524A6B;
+    --paper:#F7F5FB;
+    --card:#FFFFFF;
+    --line:#E2DCEF;
+    --pulse:#6B4FA0;
+    --pulse-dim:#EAE3F5;
+    --correct:#1B8A5A;
+    --correct-bg:#E7F5EE;
+    --incorrect:#C1443D;
+    --incorrect-bg:#FBEAE8;
+    --muted:#8A80A0;
+    --amber:#B8791A;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(520px circle at 4% -6%, rgba(107,79,160,0.2), transparent 60%),
+      radial-gradient(460px circle at 98% 2%, rgba(184,121,26,0.15), transparent 58%),
+      radial-gradient(480px circle at 6% 70%, rgba(27,138,90,0.12), transparent 58%),
+      linear-gradient(180deg, var(--paper) 0%, #ffffff 50%, var(--paper) 100%);
+    background-attachment:fixed;
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    padding:40px 20px 80px;
+  }
+  .wrap{max-width:860px;margin:0 auto;}
+  .view{display:none;}
+  .view.active{display:block;}
+
+  .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:10px;}
+  .brand{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--pulse);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;gap:8px;}
+  .brand:hover{color:var(--ink);}
+  .crumbs{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);}
+  .crumbs span{cursor:pointer;}
+  .crumbs span:hover{color:var(--pulse);}
+
+  .eyebrow{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--pulse);font-weight:600;margin-bottom:10px;}
+  h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(28px,5vw,40px);line-height:1.08;margin:0 0 6px;letter-spacing:-.01em;}
+  h2.section-title{font-family:'Fraunces',serif;font-weight:600;font-size:22px;margin:34px 0 12px;color:var(--ink);}
+  h2.section-title:first-of-type{margin-top:0;}
+  .subtitle{color:var(--ink-soft);font-size:15px;margin:0 0 26px;max-width:60ch;}
+
+  .ekg{width:100%;height:46px;margin-bottom:24px;overflow:hidden;}
+  .ekg svg{width:100%;height:100%;display:block;}
+  .ekg path{fill:none;stroke:var(--pulse);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  .ekg-trace{stroke-dasharray:1000;stroke-dashoffset:1000;animation:draw 2.6s ease-out forwards;}
+  @keyframes draw{to{stroke-dashoffset:0;}}
+  @media (prefers-reduced-motion:reduce){.ekg-trace{animation:none;stroke-dashoffset:0;}}
+
+  .topic-tabs{display:flex;gap:8px;margin-bottom:26px;flex-wrap:wrap;}
+  .tab-btn{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;padding:11px 18px;border-radius:9px;cursor:pointer;border:1.5px solid var(--line);background:var(--card);color:var(--ink-soft);}
+  .tab-btn:hover{border-color:var(--pulse);color:var(--pulse);}
+  .tab-btn.selected{background:var(--ink);border-color:var(--ink);color:#fff;}
+
+  .notes-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:30px 28px;}
+  .notes-card p{color:var(--ink-soft);font-size:14.5px;line-height:1.6;}
+  .note-table{width:100%;border-collapse:collapse;margin:10px 0 24px;font-size:13.5px;}
+  .note-table th{background:var(--ink);color:#fff;text-align:left;padding:9px 12px;font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.03em;text-transform:uppercase;}
+  .note-table td{padding:9px 12px;border-bottom:1px solid var(--line);color:var(--ink-soft);vertical-align:top;}
+  .note-table tr:nth-child(even) td{background:var(--paper);}
+  .note-table td b{color:var(--ink);}
+  .drugclass{border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:14px;background:var(--paper);}
+  .drugclass h4{margin:0 0 8px;font-family:'Inter',sans-serif;font-size:15px;color:var(--ink);}
+  .drugclass .suffix-tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--pulse);background:var(--pulse-dim);padding:2px 8px;border-radius:5px;margin-left:8px;}
+  .drugclass ul{margin:6px 0 0;padding-left:20px;color:var(--ink-soft);font-size:13.5px;line-height:1.6;}
+  .note-callout{border-left:3px solid var(--pulse);background:var(--pulse-dim);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13.5px;color:var(--ink);margin:14px 0;}
+  .note-callout b{color:var(--pulse);}
+  .casebox{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:14px;font-size:13.5px;color:var(--ink-soft);line-height:1.6;}
+  .casebox b{color:var(--ink);}
+  .stat-strip{display:flex;gap:14px;flex-wrap:wrap;margin:14px 0 26px;}
+  .stat-box{background:var(--pulse-dim);border-radius:10px;padding:12px 18px;flex:1;min-width:140px;}
+  .stat-box .big{font-family:'Fraunces',serif;font-size:26px;font-weight:600;color:var(--pulse);line-height:1;}
+  .stat-box .lbl{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.04em;margin-top:4px;}
+
+  .setup-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:32px 28px;text-align:center;}
+  .setup-card p{color:var(--ink-soft);font-size:14px;margin-bottom:24px;}
+  .count-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+  @media (max-width:560px){.count-grid{grid-template-columns:repeat(2,1fr);}}
+  .count-btn{background:var(--paper);border:1.5px solid var(--line);border-radius:12px;padding:22px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:all .12s ease;}
+  .count-btn:hover{border-color:var(--pulse);background:#F0E9FA;}
+  .count-num{font-family:'Fraunces',serif;font-size:30px;font-weight:600;color:var(--ink);}
+  .count-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+
+  .picker{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px 20px;margin-bottom:22px;}
+  .picker-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:10px;flex-wrap:wrap;}
+  .picker-title{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;}
+  .picker-actions{display:flex;gap:8px;}
+  .mini-btn{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;background:var(--paper);border:1px solid var(--line);color:var(--ink-soft);padding:6px 11px;border-radius:7px;cursor:pointer;}
+  .mini-btn:hover{border-color:var(--pulse);color:var(--pulse);}
+  .picker-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:7px;}
+  @media (max-width:520px){.picker-grid{grid-template-columns:repeat(6,1fr);}}
+  .pick-btn{aspect-ratio:1;border-radius:8px;border:1.5px solid var(--line);background:var(--paper);font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:600;color:var(--ink-soft);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s ease;}
+  .pick-btn:hover{border-color:var(--pulse);color:var(--pulse);}
+  .pick-btn.current{border-color:var(--ink);box-shadow:0 0 0 2px var(--ink) inset;color:var(--ink);}
+  .pick-btn.correct{background:var(--correct-bg);border-color:var(--correct);color:var(--correct);}
+  .pick-btn.incorrect{background:var(--incorrect-bg);border-color:var(--incorrect);color:var(--incorrect);}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);}
+  .legend span{display:inline-flex;align-items:center;gap:5px;}
+  .dot{width:9px;height:9px;border-radius:3px;display:inline-block;}
+  .dot.unanswered{background:var(--paper);border:1.5px solid var(--line);}
+  .dot.correct{background:var(--correct-bg);border:1.5px solid var(--correct);}
+  .dot.incorrect{background:var(--incorrect-bg);border:1.5px solid var(--incorrect);}
+
+  .statusbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;}
+  .progress-track{flex:1;height:6px;background:var(--line);border-radius:4px;overflow:hidden;position:relative;}
+  .progress-fill{height:100%;background:var(--pulse);border-radius:4px;width:0%;transition:width .35s ease;}
+  .score-pill{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--ink);background:var(--card);border:1px solid var(--line);padding:6px 12px;border-radius:20px;white-space:nowrap;}
+  .score-pill span{color:var(--pulse);}
+
+  .qcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:28px 26px 24px;margin-bottom:20px;box-shadow:0 1px 2px rgba(33,27,54,.05);}
+  .qmeta{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
+  .qnum{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--pulse);background:var(--pulse-dim);padding:3px 9px;border-radius:6px;}
+  .qtag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;}
+  .qsal{font-family:'JetBrains Mono',monospace;font-size:11px;color:#8A5A1A;letter-spacing:.03em;border:1px solid #EAD3A3;background:#FBF3E3;padding:2px 8px;border-radius:5px;}
+  .stem{font-size:18px;line-height:1.48;font-weight:600;color:var(--ink);margin:0 0 20px;}
+
+  .options{display:flex;flex-direction:column;gap:10px;}
+  .opt{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;padding:13px 14px;border:1.5px solid var(--line);background:var(--paper);border-radius:10px;cursor:pointer;font-family:'Inter',sans-serif;font-size:15px;color:var(--ink);transition:border-color .15s ease, background .15s ease, transform .1s ease;}
+  .opt:hover:not(.locked){border-color:var(--pulse);background:#F0E9FA;}
+  .opt:active:not(.locked){transform:scale(.997);}
+  .opt:focus-visible{outline:2px solid var(--pulse);outline-offset:2px;}
+  .opt-letter{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:13px;color:var(--ink-soft);background:var(--card);border:1px solid var(--line);min-width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+  .opt-text{flex:1;line-height:1.45;}
+  .opt.correct-choice{border-color:var(--correct);background:var(--correct-bg);}
+  .opt.correct-choice .opt-letter{background:var(--correct);border-color:var(--correct);color:#fff;}
+  .opt.incorrect-choice{border-color:var(--incorrect);background:var(--incorrect-bg);}
+  .opt.incorrect-choice .opt-letter{background:var(--incorrect);border-color:var(--incorrect);color:#fff;}
+  .opt.locked{cursor:default;}
+  .opt.dim{opacity:.55;}
+  .opt-explain{margin-top:6px;font-size:13.5px;line-height:1.5;font-family:'Inter',sans-serif;}
+  .opt.correct-choice .opt-explain{color:#15694A;}
+  .opt.incorrect-choice .opt-explain{color:#96332E;}
+  .opt.dim .opt-explain{color:var(--muted);}
+  .opt.dim.correct-choice .opt-explain{color:var(--correct);}
+  .opt.sal .opt-letter{border-radius:5px;}
+
+  .result-banner{display:none;align-items:center;gap:10px;margin-top:18px;padding:11px 14px;border-radius:9px;font-size:14px;font-weight:600;font-family:'Inter',sans-serif;}
+  .result-banner.show{display:flex;}
+  .result-banner.correct{background:var(--correct-bg);color:var(--correct);}
+  .result-banner.incorrect{background:var(--incorrect-bg);color:var(--incorrect);}
+
+  .actions{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:10px;}
+  .btn-prev{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;background:var(--card);color:var(--ink-soft);border:1px solid var(--line);padding:11px 18px;border-radius:8px;cursor:pointer;}
+  .btn-prev:hover{border-color:var(--pulse);color:var(--pulse);}
+  .btn-prev:disabled{opacity:.4;cursor:not-allowed;}
+  .btn-next{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;letter-spacing:.03em;background:var(--ink);color:#fff;border:none;padding:11px 20px;border-radius:8px;cursor:pointer;display:none;align-items:center;gap:8px;}
+  .btn-next.show{display:inline-flex;}
+  .btn-next:hover{background:var(--pulse);}
+  .btn-sal-submit{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;background:var(--pulse);color:#fff;border:none;padding:11px 20px;border-radius:8px;cursor:pointer;margin-top:16px;}
+
+  .summary{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:36px 30px;text-align:center;display:none;}
+  .summary.show{display:block;}
+  .summary .big-score{font-family:'Fraunces',serif;font-size:56px;font-weight:600;color:var(--pulse);line-height:1;margin-bottom:6px;}
+  .summary .big-score sub{font-size:22px;font-weight:500;color:var(--muted);}
+  .summary p{color:var(--ink-soft);font-size:14px;margin:6px 0 22px;}
+  .btn-restart{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;background:var(--ink);color:#fff;border:none;padding:12px 22px;border-radius:8px;cursor:pointer;margin:4px;}
+  .btn-restart:hover{background:var(--pulse);}
+  .btn-restart.secondary{background:var(--card);color:var(--ink-soft);border:1px solid var(--line);}
+  .btn-restart.secondary:hover{color:var(--pulse);border-color:var(--pulse);}
+  .btn-restart.print-btn{background:var(--ink-soft);}
+  .btn-restart.print-btn:hover{background:var(--pulse);}
+
+  footer{text-align:center;margin-top:34px;font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;}
+
+
+  /* ---------- Flashcards ---------- */
+  .flash-wrap{max-width:480px;margin:0 auto;text-align:center;}
+  .flash-progress{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:14px;}
+  .flashcard{width:100%;height:260px;perspective:1200px;cursor:pointer;margin-bottom:20px;}
+  .flash-inner{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d;}
+  .flashcard.flipped .flash-inner{transform:rotateY(180deg);}
+  .flash-face{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:16px;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;padding:30px;font-family:'Inter',sans-serif;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.05);}
+  .flash-front{background:var(--card);font-size:18px;font-weight:600;color:var(--ink);}
+  .flash-back{background:var(--pulse-dim);transform:rotateY(180deg);color:var(--ink);font-weight:500;font-size:15px;line-height:1.5;}
+  .flash-tag{position:absolute;top:14px;left:16px;font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--pulse);font-weight:700;}
+  .flash-hint{position:absolute;bottom:12px;right:16px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);}
+  .flash-controls{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
+
+  /* ---------- Printable report (hidden on screen, shown only when printing) ---------- */
+  #printReport{display:none;}
+  @media print{
+    body *{visibility:hidden;}
+    #printReport, #printReport *{visibility:visible;}
+    #printReport{
+      display:block;position:absolute;top:0;left:0;width:100%;
+      padding:0;margin:0;background:#fff;color:#111;font-family:'Inter',sans-serif;
+    }
+    .wrap, .topbar, .view, footer{display:none !important;}
+    #printReport .rpt-header{border-bottom:2px solid #333;padding-bottom:10px;margin-bottom:16px;}
+    #printReport h1{font-family:'Fraunces',serif;font-size:22px;margin:0 0 4px;}
+    #printReport .rpt-meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:#555;}
+    #printReport .rpt-score{font-family:'Fraunces',serif;font-size:26px;font-weight:600;margin:10px 0;}
+    #printReport .rpt-q{page-break-inside:avoid;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid #ddd;}
+    #printReport .rpt-q .rq-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:#6B4FA0;font-weight:700;}
+    #printReport .rpt-q .rq-stem{font-weight:700;font-size:13px;margin:2px 0 6px;}
+    #printReport .rpt-opt{font-size:12px;margin:3px 0;padding-left:14px;}
+    #printReport .rpt-opt.correct{color:#15694A;font-weight:700;}
+    #printReport .rpt-opt.incorrect{color:#96332E;font-weight:700;text-decoration:underline;}
+    #printReport .rpt-explain{font-size:11px;color:#444;margin:1px 0 4px 14px;}
+    #printReport .rpt-banner{font-size:11px;font-weight:700;margin-top:2px;}
+    #printReport .rpt-banner.correct{color:#15694A;}
+    #printReport .rpt-banner.incorrect{color:#96332E;}
+  }
+
+  .case-card{border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin-bottom:22px;background:var(--card);}
+  .case-card h3{font-family:'Fraunces',serif;font-size:19px;margin:0 0 4px;color:var(--ink);}
+  .case-tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--pulse);background:var(--pulse-dim);padding:3px 9px;border-radius:5px;text-transform:uppercase;letter-spacing:.04em;display:inline-block;margin-bottom:12px;}
+  .case-vignette{font-size:14.5px;line-height:1.75;color:var(--ink-soft);margin-bottom:6px;}
+  .case-vignette b{color:var(--ink);}
+  .case-data{border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:var(--paper);font-size:13.5px;color:var(--ink-soft);margin:12px 0;line-height:1.7;}
+  .case-data b{color:var(--ink);}
+  .case-q{margin-top:18px;padding-top:16px;border-top:1px dashed var(--line);}
+  .case-q p.q-text{font-size:14px;color:var(--ink);margin:0 0 10px;font-weight:500;}
+  .reveal-btn{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--pulse);background:var(--pulse-dim);border:none;padding:7px 14px;border-radius:6px;cursor:pointer;letter-spacing:.02em;}
+  .reveal-btn:hover{opacity:.85;}
+  .reveal-answer{display:none;margin-top:12px;padding:12px 16px;background:var(--correct-bg);border-left:3px solid var(--correct);border-radius:0 8px 8px 0;font-size:13.5px;color:var(--ink);line-height:1.7;}
+  .reveal-answer.show{display:block;}
+  .reveal-answer b{color:var(--correct);}
+
+  /* ============ GLASS SURFACE OVERRIDE ============ */
+  .notes-card,.setup-card,.picker,.qcard,.summary,.flash-front,.case-card,
+  .score-pill,.secondary,.exam-banner-inner{
+    background:rgba(255,255,255,.6);
+    -webkit-backdrop-filter:blur(18px) saturate(160%);
+    backdrop-filter:blur(18px) saturate(160%);
+    border-color:rgba(255,255,255,.7);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.7), 0 10px 26px rgba(33,27,54,.06);
+  }
+  .tab-btn:not(.selected),.btn-prev,.mini-btn{
+    background:rgba(255,255,255,.45);
+    -webkit-backdrop-filter:blur(10px);
+    backdrop-filter:blur(10px);
+    border-color:rgba(255,255,255,.65);
+  }
+  .drugclass,.casebox,.case-data,.count-btn,.pick-btn,.opt,.dot.unanswered{
+    background:rgba(255,255,255,.35);
+    -webkit-backdrop-filter:blur(9px);
+    backdrop-filter:blur(9px);
+    border-color:rgba(255,255,255,.6);
+  }
+  .topbar{
+    background:rgba(255,255,255,.4);
+    -webkit-backdrop-filter:blur(14px);
+    backdrop-filter:blur(14px);
+    border:1px solid rgba(255,255,255,.6);
+    border-radius:12px;
+    padding:10px 16px;
+  }
+  @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+    .notes-card,.setup-card,.picker,.qcard,.summary,.flash-front,.case-card,
+    .score-pill,.secondary,.exam-banner-inner,.tab-btn:not(.selected),.btn-prev,
+    .mini-btn,.drugclass,.casebox,.case-data,.count-btn,.pick-btn,.opt,.topbar{
+      background:rgba(255,255,255,.94);
+    }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand" onclick="location.href='index.html'">◆ Nursing NCLEX Review</div>
+    <div class="crumbs" id="crumbs"></div>
+  </div>
+
+  <!-- ============ COURSE NOTES ============ -->
+  <div class="view" id="view-notes">
+    <div class="eyebrow">NCLEX Pharm Essentials</div>
+    <div class="topic-tabs">
+      <button class="tab-btn selected" id="tabNotesA" onclick="showView('notes')">Course Notes</button>
+      <button class="tab-btn" id="tabFlashA" onclick="showView('flashcards')">Flashcards</button>
+      <button class="tab-btn" id="tabSetupA" onclick="showView('setup')">Practice Test</button>
+      <button class="tab-btn" id="tabCasesA" onclick="showView('cases')">Case Studies</button>
+    </div>
+    <h1>Course Notes</h1>
+    <p class="subtitle">Strategy and high-alert medication reference for the NCLEX-RN Pharmacological and Parenteral Therapies section. Use this to study before or during the practice test.</p>
+    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
+
+    <div class="notes-card" id="notesContent"></div>
+
+    <div style="text-align:center;margin-top:20px;">
+      <button class="btn-restart" style="background:var(--pulse);" onclick="showView('setup')">Start practice test →</button>
+    </div>
+  </div>
+
+  <!-- ============ FLASHCARDS ============ -->
+  <div class="view" id="view-flashcards">
+    <div class="eyebrow">NCLEX Pharm Essentials</div>
+    <div class="topic-tabs">
+      <button class="tab-btn" id="tabNotesB" onclick="showView('notes')">Course Notes</button>
+      <button class="tab-btn selected" id="tabFlashB" onclick="showView('flashcards')">Flashcards</button>
+      <button class="tab-btn" id="tabSetupB" onclick="showView('setup')">Practice Test</button>
+      <button class="tab-btn" id="tabCasesB" onclick="showView('cases')">Case Studies</button>
+    </div>
+    <h1>Flashcards</h1>
+    <p class="subtitle">Tap a card to flip it. Use the arrows to move through the deck, or shuffle for random order.</p>
+    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
+
+    <div class="flash-wrap">
+      <div class="flash-progress">Card <span id="flashIndex">1</span> / <span id="flashTotal">1</span></div>
+      <div class="flashcard" id="flashcard" onclick="flipCard()">
+        <div class="flash-inner" id="flashInner">
+          <div class="flash-face flash-front">
+            <span class="flash-tag">Term</span>
+            <span id="flashFront"></span>
+            <span class="flash-hint">Tap to flip</span>
+          </div>
+          <div class="flash-face flash-back">
+            <span class="flash-tag">Answer</span>
+            <span id="flashBack"></span>
+          </div>
+        </div>
+      </div>
+      <div class="flash-controls">
+        <button class="mini-btn" id="flashPrev">← Prev</button>
+        <button class="mini-btn" id="flashShuffle">🔀 Shuffle</button>
+        <button class="mini-btn" id="flashNext">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SETUP ============ -->
+  <div class="view" id="view-setup">
+    <div class="eyebrow">NCLEX Pharm Essentials</div>
+    <div class="topic-tabs">
+      <button class="tab-btn" id="tabNotesC" onclick="showView('notes')">Course Notes</button>
+      <button class="tab-btn" id="tabFlashC" onclick="showView('flashcards')">Flashcards</button>
+      <button class="tab-btn selected" id="tabSetupC" onclick="showView('setup')">Practice Test</button>
+      <button class="tab-btn" id="tabCasesC" onclick="showView('cases')">Case Studies</button>
+    </div>
+    <h1>Practice Test</h1>
+    <p class="subtitle">Choose how many questions you want to take. Questions are randomly selected from a bank of 100 each time, and every option — right or wrong — comes with an explanation. Print or save a PDF of your results after every exam.</p>
+    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
+
+    <div class="setup-card">
+      <p>How many questions would you like to take?</p>
+      <div class="count-grid">
+        <button class="count-btn" onclick="startQuiz(10)"><span class="count-num">10</span><span class="count-label">Quick review</span></button>
+        <button class="count-btn" onclick="startQuiz(30)"><span class="count-num">30</span><span class="count-label">Standard</span></button>
+        <button class="count-btn" onclick="startQuiz(70)"><span class="count-num">70</span><span class="count-label">Extended</span></button>
+        <button class="count-btn" onclick="startQuiz(100)"><span class="count-num">100</span><span class="count-label">Full bank</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ CASE STUDIES ============ -->
+  <div class="view" id="view-cases">
+    <div class="eyebrow">NCLEX Pharm Essentials</div>
+    <div class="topic-tabs">
+      <button class="tab-btn" id="tabNotesD" onclick="showView('notes')">Course Notes</button>
+      <button class="tab-btn" id="tabFlashD" onclick="showView('flashcards')">Flashcards</button>
+      <button class="tab-btn" id="tabSetupD" onclick="showView('setup')">Practice Test</button>
+      <button class="tab-btn selected" id="tabCasesD" onclick="showView('cases')">Case Studies</button>
+    </div>
+    <h1>Case Studies</h1>
+    <p class="subtitle">Apply what you've reviewed to realistic clinical scenarios. Read each vignette, think through the reflection questions, then tap to reveal the rationale.</p>
+    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
+
+    <div class="cases-wrap" id="casesContent"></div>
+  </div>
+
+  <!-- ============ QUIZ ============ -->
+  <div class="view" id="view-quiz">
+    <div class="eyebrow">NCLEX Pharm Essentials</div>
+    <h1 id="quizTitle">Practice Test</h1>
+    <p class="subtitle">Choose an answer to see the correct choice and why every option is right or wrong. Jump to any question using the picker below.</p>
+    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
+
+    <div class="picker">
+      <div class="picker-head">
+        <span class="picker-title">Jump to a question</span>
+        <div class="picker-actions">
+          <button class="mini-btn" id="randomBtn">🎲 Random</button>
+          <button class="mini-btn" id="resultsBtn">View results</button>
+        </div>
+      </div>
+      <div class="picker-grid" id="pickerGrid"></div>
+      <div class="legend">
+        <span><span class="dot unanswered"></span>Unanswered</span>
+        <span><span class="dot correct"></span>Correct</span>
+        <span><span class="dot incorrect"></span>Incorrect</span>
+      </div>
+    </div>
+
+    <div class="statusbar">
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="score-pill">Score <span id="scoreLabel">0 / 0</span></div>
+    </div>
+
+    <div id="quizArea"></div>
+
+    <div class="summary" id="summary">
+      <div class="big-score"><span id="finalScore">0</span><sub id="finalOutOf">/20</sub></div>
+      <p id="finalMsg"></p>
+      <button class="btn-restart print-btn" id="printBtn">🖨️ Print / Save PDF</button>
+      <button class="btn-restart secondary" id="reviewBtn">Back to test</button>
+      <button class="btn-restart secondary" id="setupBtn">Change length</button>
+      <button class="btn-restart" id="restartBtn">New random set</button>
+    </div>
+  </div>
+
+  <footer>NCLEX PHARM ESSENTIALS · PRACTICE SET</footer>
+</div>
+
+<!-- Printable results report — hidden on screen, populated and shown only for printing -->
+<div id="printReport"></div>
+
+<script>
+document.getElementById('casesContent').innerHTML = `
+<div class="case-card">
+    <span class="case-tag">Medical-Surgical Floor</span>
+    <h3>Applying the Safety-First Strategy to a New Order Set</h3>
+    <p class="case-vignette">During morning rounds, a nurse receives four new orders for a client at once: (1) furosemide 40 mg IV push now, (2) regular insulin 6 units subQ per sliding scale, (3) acetaminophen 650 mg PO PRN for pain, and (4) a routine multivitamin. The client is due for a scheduled walk to the bathroom in a few minutes.</p>
+    <div class="case-data"><b>New orders:</b> Furosemide IV push · Regular insulin subQ · Acetaminophen PRN · Multivitamin &nbsp;|&nbsp; <b>Client plan:</b> ambulate to bathroom shortly</div>
+    <div class="case-q">
+      <p class="q-text">Applying the "Safety First" high-alert medication principle, which order requires the nurse's closest attention and independent double-check?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('pe_c1q1', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="pe_c1q1"><b>Answer:</b> The regular insulin (a high-alert medication) requires an independent double-check of the dose against the sliding scale and the client's current glucose before administration — errors with insulin and other high-alert drugs (anticoagulants, opioids, IV potassium, insulin) carry a much higher risk of serious harm than routine medications like a multivitamin.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">Using prioritization principles, in what order should the nurse most reasonably approach these four tasks?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('pe_c1q2', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="pe_c1q2"><b>Answer:</b> Reasonable priority: verify/administer the insulin with a double-check (time- and glucose-sensitive), give the furosemide (also time-sensitive, and voiding needs may follow — plan the bathroom trip after, anticipating increased urination), then the PRN acetaminophen only if pain is present, and the multivitamin last since it is the lowest-risk, least time-sensitive item.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">Why does giving furosemide before helping the client to the bathroom for a scheduled walk require extra planning rather than just holding the order?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('pe_c1q3', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="pe_c1q3"><b>Answer:</b> Furosemide is a loop diuretic that will increase urine output relatively quickly; sequencing the walk-to-bathroom after the diuretic (with close monitoring, since diuretics can also contribute to orthostatic hypotension and fall risk) meets the client's needs safely rather than either skipping the walk or having the client void urgently mid-ambulation.</div>
+    </div>
+  </div>
+<div class="case-card">
+    <span class="case-tag">Nursing Unit</span>
+    <h3>Look-Alike, Sound-Alike Medication Names</h3>
+    <p class="case-vignette">A nurse pulls a unit-dose medication from the automated dispensing cabinet for a client's scheduled dose of hydrOXYzine (an antihistamine/antianxiety agent) but notices the label actually reads hydrALAZINE (an antihypertensive). Both medications were listed close together on the client's electronic MAR.</p>
+    <div class="case-data"><b>Ordered:</b> hydrOXYzine 25 mg PO for anxiety &nbsp;|&nbsp; <b>Pulled from cabinet:</b> hydrALAZINE 25 mg tablet</div>
+    <div class="case-q">
+      <p class="q-text">What nursing safety practice caught this near-miss, and why does it matter?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('pe_c2q1', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="pe_c2q1"><b>Answer:</b> Comparing the physical label against the MAR/order using the "rights" of medication administration (right medication, among others) — this is exactly why look-alike/sound-alike (LASA) drug pairs are flagged with tall-man lettering (hydrOXYzine vs. hydrALAZINE) in electronic systems and packaging, to help the eye catch the difference before it becomes a medication error.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What would likely have happened clinically if hydrALAZINE had been given instead of hydrOXYzine?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('pe_c2q2', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="pe_c2q2"><b>Answer:</b> HydrALAZINE is a direct-acting vasodilator/antihypertensive; giving it to a client who needed an antianxiety agent could cause unintended hypotension, reflex tachycardia, and dizziness — a different and potentially dangerous physiologic effect than what was intended, on top of leaving the anxiety untreated.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What should the nurse do after catching this discrepancy?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('pe_c2q3', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="pe_c2q3"><b>Answer:</b> Do not administer the incorrect medication — return it, retrieve the correct one, verify all five/six rights again, and report the near-miss through the facility's safety event reporting system. Reporting near-misses (even when no harm occurs) helps identify system-level risks like cabinet placement or label similarity.</div>
+    </div>
+  </div>
+<div class="case-card">
+    <span class="case-tag">Medical-Surgical Floor</span>
+    <h3>Recognizing a Narrow Therapeutic Index Medication</h3>
+    <p class="case-vignette">A nurse is reviewing morning labs before administering scheduled medications and notices a client's digoxin level resulted at 2.6 ng/mL (therapeutic range 0.5–2.0 ng/mL). The client's chart shows a scheduled dose of digoxin 0.25 mg due in 30 minutes, and the client reports nausea and says "everything looks yellow-green around the edges."</p>
+    <div class="case-data"><b>Digoxin level:</b> 2.6 ng/mL (elevated) &nbsp;|&nbsp; <b>Reported symptoms:</b> nausea, visual halos/yellow-green vision &nbsp;|&nbsp; <b>Scheduled:</b> Digoxin 0.25 mg due in 30 min</div>
+    <div class="case-q">
+      <p class="q-text">Applying the "Safety First" high-alert medication principle, what should the nurse do with the scheduled dose?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('pe_c3q1', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="pe_c3q1"><b>Answer:</b> Hold the dose and notify the provider immediately. Digoxin is a classic narrow therapeutic index (high-alert) medication — the therapeutic and toxic levels are close together, and this client's elevated level plus classic toxicity symptoms (nausea, visual disturbances/halos) mean giving another dose could worsen dangerous toxicity.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What does "narrow therapeutic index" mean, and why does it change how the nurse approaches this medication compared to a drug like a multivitamin?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('pe_c3q2', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="pe_c3q2"><b>Answer:</b> A narrow therapeutic index means there's only a small margin between a dose that is effective and one that is toxic — small changes in level (from renal function changes, drug interactions, or dosing errors) can quickly cause harm. These medications (digoxin, warfarin, lithium, insulin, heparin) require closer monitoring, level checks, and independent verification than lower-risk medications.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What assessment should the nurse always perform before administering digoxin, regardless of the lab level?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('pe_c3q3', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="pe_c3q3"><b>Answer:</b> Check the apical heart rate for a full 60 seconds before giving digoxin, and hold the dose (per most protocols) if the heart rate is below 60 bpm in an adult, notifying the provider — digoxin slows heart rate and AV conduction, so bradycardia is both an expected effect to monitor and an early sign of possible toxicity.</div>
+    </div>
+  </div>
+<div class="case-card">
+    <span class="case-tag">Medical-Surgical Floor</span>
+    <h3>Applying Pharmacokinetic Principles at the Bedside</h3>
+    <p class="case-vignette">A client asks the nurse why her oral pain medication "takes forever to work" while the IV pain medication she received right after surgery worked almost immediately. She also asks why her liver disease might change how her medications are dosed.</p>
+    <div class="case-data"><b>Client history:</b> Chronic liver disease &nbsp;|&nbsp; <b>Current meds:</b> Oral oxycodone PRN, previously received IV morphine post-op</div>
+    <div class="case-q">
+      <p class="q-text">How should the nurse explain the difference in onset between the IV and oral pain medications?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('pe_c4q1', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="pe_c4q1"><b>Answer:</b> IV medications enter the bloodstream directly (100% bioavailability, no absorption step), producing a faster onset of action than oral medications, which must first be absorbed through the GI tract and undergo first-pass metabolism through the liver before reaching systemic circulation — this absorption and metabolism process is why oral medications generally take longer to take effect.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">Why does this client's chronic liver disease matter for her medication dosing?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('pe_c4q2', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="pe_c4q2"><b>Answer:</b> The liver is the primary site of metabolism for many medications — impaired liver function can slow drug breakdown, causing medications (especially those with high first-pass metabolism, like many oral opioids) to accumulate and increase the risk of toxicity at doses that would be safe in a client with normal liver function. Providers often reduce doses or choose alternative medications/routes for clients with significant hepatic impairment.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What pharmacokinetic phase describes how the liver disease is affecting this client's drug handling?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('pe_c4q3', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="pe_c4q3"><b>Answer:</b> This describes altered <b>metabolism</b> — one of the four pharmacokinetic phases (absorption, distribution, metabolism, excretion). While absorption and distribution can still occur relatively normally, impaired hepatic metabolism means the drug is broken down more slowly, prolonging its effects and increasing accumulation risk with repeated dosing.</div>
+    </div>
+  </div>
+<div class="case-card">
+    <span class="case-tag">Nursing Unit</span>
+    <h3>Recognizing an Adverse Drug Reaction vs. a Side Effect</h3>
+    <p class="case-vignette">A client receiving her first dose of a new antibiotic develops a raised, itchy rash over her trunk about an hour after administration. She has no difficulty breathing and vital signs are stable. She asks the nurse, "Is this just a normal side effect, or something more serious?"</p>
+    <div class="case-data"><b>Assessment:</b> raised, itchy rash on trunk, no respiratory symptoms &nbsp;|&nbsp; <b>VS:</b> stable, within normal limits &nbsp;|&nbsp; <b>Medication:</b> first dose of new antibiotic</div>
+    <div class="case-q">
+      <p class="q-text">How does the nurse differentiate between an expected side effect and a true adverse/allergic drug reaction here?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('pe_c5q1', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="pe_c5q1"><b>Answer:</b> A rash appearing after a new medication, especially one that is itchy/urticarial, is more consistent with a hypersensitivity (allergic) reaction than a routine, predictable side effect — the key distinguishing features are that it's unexpected for that drug and involves an immune-type response (hives, itching), which is different from a known, dose-related side effect like nausea from an antibiotic.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What is the nurse's priority action given this finding, even though vital signs are currently stable?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('pe_c5q2', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="pe_c5q2"><b>Answer:</b> Stop the medication/infusion, notify the provider, and continue close monitoring for progression to a more severe reaction (angioedema, respiratory symptoms, hypotension) — even a stable, mild-appearing reaction can escalate, so it should never be dismissed or "watched" without provider notification, especially on a first dose of a new drug.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">Why is it important to clearly document this as an allergic reaction rather than just a general side effect in the chart?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('pe_c5q3', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="pe_c5q3"><b>Answer:</b> Accurate documentation ensures this specific medication (and potentially related drugs in the same class) is flagged as an allergy in the client's record, preventing future inadvertent re-exposure — mislabeling a true allergic reaction as a minor side effect could put the client at risk for a more severe reaction if the same drug is given again later.</div>
+    </div>
+  </div>
+`;
+
+document.getElementById('notesContent').innerHTML = `
+<div class="stat-strip">
+  <div class="stat-box"><div class="big">13–19%</div><div class="lbl">Of total NCLEX-RN questions</div></div>
+  <div class="stat-box"><div class="big">Generic</div><div class="lbl">Names used exclusively</div></div>
+  <div class="stat-box"><div class="big">5</div><div class="lbl">High-alert drug groups</div></div>
+</div>
+<p><b>Mastering pharmacology requires strategic grouping and critical thinking rather than brute memorization.</b> Pharmacological and Parenteral Therapies make up 13–19% of the NCLEX-RN. This page condenses the roadmap into five study moves.</p>
+
+<h2 class="section-title">1. Shift from Brand to Generic Names</h2>
+<p>The NCLEX standard uses <b>generic names exclusively</b> (e.g., <i>acetaminophen</i> instead of Tylenol, <i>ibuprofen</i> instead of Advil). Update flashcards to test yourself only on generic titles.</p>
+
+<h2 class="section-title">2. Group Medications by Prefix and Suffix</h2>
+<p>Instead of memorizing hundreds of individual drugs, study them by structural drug class. Recognizing a suffix lets you safely deduce a drug's class and general effects.</p>
+<table class="note-table">
+<tr><th>Suffix</th><th>Class</th><th>Example</th><th>Key point</th></tr>
+<tr><td><b>-pril</b></td><td>ACE Inhibitors</td><td>Lisinopril</td><td>Antihypertensive; monitor for dry cough and angioedema</td></tr>
+<tr><td><b>-lol</b></td><td>Beta-Blockers</td><td>Metoprolol</td><td>Antihypertensive; always check heart rate first, hold if &lt;60 bpm</td></tr>
+<tr><td><b>-sartan</b></td><td>ARBs</td><td>Losartan</td><td>Antihypertensive</td></tr>
+<tr><td><b>-prazole</b></td><td>Proton Pump Inhibitors</td><td>Omeprazole</td><td>Anti-ulcer / GERD medication</td></tr>
+<tr><td><b>-statin</b></td><td>HMG-CoA Reductase Inhibitors</td><td>Atorvastatin</td><td>Cholesterol-lowering agent</td></tr>
+</table>
+
+<h2 class="section-title">3. Memorize High-Yield High-Alert Medications</h2>
+<p>The NCLEX heavily emphasizes high-alert medications due to their narrow safety margins and significant risk of patient harm.</p>
+<table class="note-table">
+<tr><th>Drug / Class</th><th>Key NCLEX Concept</th><th>Primary Nursing Intervention</th></tr>
+<tr><td><b>Insulin</b></td><td>Know onset, peak, and duration. <b>Regular insulin is the only type given IV.</b></td><td>Monitor closely for hypoglycemia during peak action times.</td></tr>
+<tr><td><b>Digoxin</b></td><td>Strengthens cardiac contraction while slowing heart rate.</td><td>Check the apical pulse for 1 full minute before administering; hold if &lt;60 bpm.</td></tr>
+<tr><td><b>Furosemide</b></td><td>A potent loop diuretic that causes fluid excretion through the kidneys.</td><td>Monitor for hypokalemia. Push IV slowly to prevent permanent hearing damage (ototoxicity).</td></tr>
+<tr><td><b>Anticoagulants</b></td><td>Heparin and warfarin slow down blood clotting.</td><td>Monitor aPTT for heparin; monitor INR for warfarin. Keep antidotes ready — protamine sulfate for heparin, vitamin K for warfarin.</td></tr>
+<tr><td><b>Opioids</b></td><td>Powerful analgesics used for severe pain management.</td><td>Prioritize monitoring for respiratory depression. Keep naloxone at the bedside.</td></tr>
+</table>
+
+<h2 class="section-title">4. Apply the "Safety First" Test-Taking Strategy</h2>
+<p>You do not always need to know every detail of a drug. Use these safety pillars to deduce the correct answer:</p>
+<div class="drugclass"><h4>Assess before you administer</h4>
+<ul><li>If a choice asks you to check a vital sign or lab value relevant to the drug (like potassium before furosemide), it is often the priority nursing action.</li></ul></div>
+<div class="drugclass"><h4>Identify organ-damaging toxicities</h4>
+<ul><li>Prioritize learning the most severe side effects over mild ones.</li><li>Focus on toxicities affecting the liver (hepatotoxicity), kidneys (nephrotoxicity), or ears (ototoxicity).</li></ul></div>
+<div class="drugclass"><h4>Patient education is paramount</h4>
+<ul><li>The NCLEX loves teaching-based questions.</li><li>Look for critical instructions like taking medications on an empty stomach (e.g., levothyroxine) or avoiding sudden discontinuation of psychotropic drugs.</li></ul></div>
+
+<h2 class="section-title">5. Utilize Active Recall and Question Banks</h2>
+<div class="note-callout"><b>Ditch passive reading:</b> switch to interactive active recall — use flashcards to drill drug suffixes, mechanisms of action, and adverse effects.<br><b>Analyze the rationales:</b> take daily pharmacology practice questions. Don't just check if you got the answer right — read the full rationale to understand exactly why the other options are unsafe or incorrect.</div>
+
+<h2 class="section-title">Tips for Studying</h2>
+<ul style="color:var(--ink-soft);font-size:14.5px;line-height:1.7;">
+<li>Study by classification and subclassification (families) of medications</li>
+<li>Study generic names — identify the common suffix</li>
+<li>Study safety implications — administration, adverse effects, contraindications, nursing considerations</li>
+<li>Be creative: create charts or notecards, use visual images with color, use familiar phrases, use mnemonics and memory aids</li>
+<li>Be engaged, active, and repetitive — "see it to achieve it"</li>
+</ul>
+
+<h2 class="section-title">Study "SAFELY"</h2>
+<div class="casebox">
+<b>Action</b> — How does this affect the body?<br>
+<b>Therapeutic Use</b> — Why are we giving it, and what will be the outcome?<br>
+<b>Adverse Effects</b> — What are the effects that could cause potential harm?<br>
+<b>Nursing Considerations</b> — What do I need to know to administer this medication? Are there contraindications?
+</div>
+`;
+
+const QUESTIONS = [
+{ stem:"On the NCLEX-RN, how are medications referred to in exam questions?",
+  options:[
+    {text:"By generic name exclusively",correct:true,explain:"The NCLEX standard uses generic names exclusively (e.g., acetaminophen instead of Tylenol), so flashcards and study materials should be tested using generic titles only."},
+    {text:"By brand name exclusively",correct:false,explain:"The exam does not use brand names exclusively; it uses generic names exclusively, the opposite of this statement."},
+    {text:"By whichever name is more commonly used in casual conversation",correct:false,explain:"The exam follows a consistent standard of generic names only, not casual or commonly used brand terminology."},
+    {text:"Brand and generic names are used interchangeably with equal frequency",correct:false,explain:"The exam does not mix brand and generic names interchangeably; it standardizes on generic names exclusively."}
+  ]},
+{ stem:"Approximately what percentage of total NCLEX-RN questions falls under Pharmacological and Parenteral Therapies?",
+  options:[
+    {text:"13% to 19%",correct:true,explain:"Pharmacological and Parenteral Therapies account for approximately 13% to 19% of the total NCLEX-RN questions, making it a high-yield content area to prioritize."},
+    {text:"1% to 3%",correct:false,explain:"This range significantly understates the actual proportion, which is 13% to 19%."},
+    {text:"50% to 60%",correct:false,explain:"This range significantly overstates the actual proportion, which is 13% to 19%."},
+    {text:"There is no fixed percentage; it varies randomly with no defined range",correct:false,explain:"There is a defined, consistent range (13% to 19%) for this content area on the NCLEX-RN test plan."}
+  ]},
+{ stem:"A medication ending in the suffix \"-pril\" (e.g., lisinopril) belongs to which drug class?",
+  options:[
+    {text:"ACE inhibitors",correct:true,explain:"The suffix \"-pril\" identifies ACE inhibitors, an antihypertensive class requiring monitoring for dry cough and angioedema."},
+    {text:"Beta-blockers",correct:false,explain:"Beta-blockers are identified by the suffix \"-lol,\" not \"-pril.\""},
+    {text:"Proton pump inhibitors",correct:false,explain:"Proton pump inhibitors are identified by the suffix \"-prazole,\" not \"-pril.\""},
+    {text:"HMG-CoA reductase inhibitors (statins)",correct:false,explain:"Statins are identified by the suffix \"-statin,\" not \"-pril.\""}
+  ]},
+{ stem:"What two adverse effects should the nurse specifically monitor for in a client taking an ACE inhibitor such as lisinopril?",
+  options:[
+    {text:"Dry cough and angioedema",correct:true,explain:"ACE inhibitors, identified by the \"-pril\" suffix, require monitoring for dry cough and angioedema as key adverse effects."},
+    {text:"Hearing loss and tinnitus",correct:false,explain:"Hearing loss and tinnitus (ototoxicity) are associated with furosemide, not ACE inhibitors."},
+    {text:"Respiratory depression and sedation",correct:false,explain:"Respiratory depression and sedation are associated with opioids, not ACE inhibitors."},
+    {text:"Hyperglycemia and weight gain",correct:false,explain:"These are not the key adverse effects highlighted for ACE inhibitors; dry cough and angioedema are the priority concerns."}
+  ]},
+{ stem:"Before administering a medication with the suffix \"-lol\" (a beta-blocker), what is the priority nursing assessment?",
+  options:[
+    {text:"Check the heart rate and hold the medication if it is below 60 bpm",correct:true,explain:"Beta-blockers, identified by the \"-lol\" suffix, require checking heart rate first; the medication should be held if the heart rate is below 60 bpm."},
+    {text:"Check the blood glucose and hold if elevated",correct:false,explain:"Blood glucose is not the priority assessment specific to beta-blocker administration; heart rate is the key parameter to check."},
+    {text:"Check the INR and hold if elevated",correct:false,explain:"INR monitoring is relevant to warfarin, not beta-blockers."},
+    {text:"Check the apical pulse for a full 5 minutes",correct:false,explain:"While heart rate is checked before beta-blocker administration, the specific '1 full minute' apical pulse check described in this content applies to digoxin, not beta-blockers generally."}
+  ]},
+{ stem:"Which suffix identifies Angiotensin II Receptor Blockers (ARBs), such as losartan?",
+  options:[
+    {text:"-sartan",correct:true,explain:"The suffix \"-sartan\" (as in losartan) identifies ARBs, an antihypertensive medication class."},
+    {text:"-pril",correct:false,explain:"\"-pril\" identifies ACE inhibitors, not ARBs."},
+    {text:"-prazole",correct:false,explain:"\"-prazole\" identifies proton pump inhibitors, not ARBs."},
+    {text:"-statin",correct:false,explain:"\"-statin\" identifies HMG-CoA reductase inhibitors (statins), not ARBs."}
+  ]},
+{ stem:"A medication ending in \"-prazole\" (e.g., omeprazole) belongs to which drug class?",
+  options:[
+    {text:"Proton pump inhibitors, used for anti-ulcer/GERD treatment",correct:true,explain:"The suffix \"-prazole\" identifies proton pump inhibitors, used for anti-ulcer and GERD treatment."},
+    {text:"ACE inhibitors, used for hypertension",correct:false,explain:"ACE inhibitors are identified by the suffix \"-pril,\" not \"-prazole.\""},
+    {text:"Beta-blockers, used for hypertension",correct:false,explain:"Beta-blockers are identified by the suffix \"-lol,\" not \"-prazole.\""},
+    {text:"Anticoagulants, used to prevent clotting",correct:false,explain:"Anticoagulants (e.g., heparin, warfarin) do not follow a \"-prazole\" suffix pattern; this suffix identifies proton pump inhibitors."}
+  ]},
+{ stem:"A medication ending in \"-statin\" (e.g., atorvastatin) belongs to which drug class?",
+  options:[
+    {text:"HMG-CoA reductase inhibitors, used to lower cholesterol",correct:true,explain:"The suffix \"-statin\" identifies HMG-CoA reductase inhibitors, a cholesterol-lowering drug class."},
+    {text:"Proton pump inhibitors, used for GERD",correct:false,explain:"Proton pump inhibitors are identified by the suffix \"-prazole,\" not \"-statin.\""},
+    {text:"ARBs, used for hypertension",correct:false,explain:"ARBs are identified by the suffix \"-sartan,\" not \"-statin.\""},
+    {text:"Opioids, used for pain management",correct:false,explain:"Opioids do not follow a \"-statin\" suffix pattern; this suffix identifies cholesterol-lowering agents."}
+  ]},
+{ stem:"Why does grouping medications by prefix and suffix serve as an effective NCLEX study strategy?",
+  options:[
+    {text:"Recognizing a suffix allows the test-taker to safely deduce a drug's class and general effects, rather than memorizing hundreds of individual drug names",correct:true,explain:"Studying medications by structural drug class through suffix recognition allows safe deduction of a drug's class and general effects, which is far more efficient than memorizing every individual drug name."},
+    {text:"Suffixes have no relationship to a drug's class or effects",correct:false,explain:"Suffixes are directly and reliably tied to specific drug classes, which is exactly why this strategy is effective."},
+    {text:"This strategy only works for antihypertensive medications and no other drug classes",correct:false,explain:"This strategy applies broadly across many drug classes (e.g., PPIs with '-prazole,' statins with '-statin'), not just antihypertensives."},
+    {text:"Suffix grouping replaces the need to understand any adverse effects or nursing considerations",correct:false,explain:"Suffix grouping is a tool for classification, but understanding adverse effects and nursing considerations for each class remains essential — it doesn't replace that knowledge."}
+  ]},
+{ stem:"According to high-alert medication concepts, which type of insulin is the only one that can be administered intravenously?",
+  options:[
+    {text:"Regular insulin",correct:true,explain:"Regular insulin is the only type of insulin that can be given intravenously, a key high-yield NCLEX fact."},
+    {text:"NPH insulin",correct:false,explain:"NPH insulin is not given IV; it is an intermediate-acting insulin administered subcutaneously."},
+    {text:"Insulin glargine",correct:false,explain:"Insulin glargine (long-acting) is not given IV and should never be mixed with other insulins."},
+    {text:"Insulin lispro",correct:false,explain:"Insulin lispro (rapid-acting) is administered subcutaneously, not IV, in routine use."}
+  ]},
+{ stem:"What is the priority nursing consideration when a client is receiving insulin, especially around peak action times?",
+  options:[
+    {text:"Monitor closely for hypoglycemia during peak action times",correct:true,explain:"Because insulin's glucose-lowering effect is strongest at its peak action time, monitoring closely for hypoglycemia during this window is the priority nursing consideration."},
+    {text:"Monitor for hyperkalemia only, with no need to assess glucose",correct:false,explain:"The priority insulin-related monitoring concern is hypoglycemia, not hyperkalemia; glucose monitoring is essential."},
+    {text:"Monitor for ototoxicity",correct:false,explain:"Ototoxicity monitoring is associated with furosemide, not insulin."},
+    {text:"Monitor for respiratory depression",correct:false,explain:"Respiratory depression monitoring is associated with opioids, not insulin."}
+  ]},
+{ stem:"What is the priority nursing action before administering digoxin?",
+  options:[
+    {text:"Check the apical pulse for 1 full minute and hold the dose if it is below 60 bpm",correct:true,explain:"Digoxin, which strengthens cardiac contraction while slowing heart rate, requires checking the apical pulse for a full minute before administration, with the dose held if the pulse is below 60 bpm."},
+    {text:"Check the blood glucose and hold if elevated",correct:false,explain:"Blood glucose is not the priority assessment for digoxin; apical pulse assessment is the key safety check."},
+    {text:"Check the INR and hold if elevated",correct:false,explain:"INR monitoring relates to warfarin, not digoxin."},
+    {text:"Check the potassium level only, with no need to assess pulse",correct:false,explain:"While potassium levels are relevant to digoxin toxicity risk, the priority pre-administration action described in this content is the apical pulse check."}
+  ]},
+{ stem:"What is the therapeutic effect of digoxin on the heart?",
+  options:[
+    {text:"It strengthens cardiac contraction while slowing the heart rate",correct:true,explain:"Digoxin strengthens cardiac contraction (positive inotropic effect) while slowing the heart rate (negative chronotropic effect)."},
+    {text:"It weakens cardiac contraction while increasing the heart rate",correct:false,explain:"This is the opposite of digoxin's actual therapeutic effect."},
+    {text:"It has no effect on cardiac contraction or heart rate",correct:false,explain:"Digoxin has a well-defined, significant effect on both cardiac contraction and heart rate."},
+    {text:"It only affects heart rate, with no effect on contraction strength",correct:false,explain:"Digoxin affects both parameters — it strengthens contraction and slows heart rate, not just one or the other."}
+  ]},
+{ stem:"Furosemide, a potent loop diuretic, requires which key nursing consideration regarding electrolyte balance?",
+  options:[
+    {text:"Monitor for hypokalemia",correct:true,explain:"Furosemide causes fluid excretion through the kidneys and carries a risk of hypokalemia, requiring close potassium monitoring."},
+    {text:"Monitor for hyperkalemia",correct:false,explain:"Furosemide is associated with hypokalemia (potassium loss), not hyperkalemia."},
+    {text:"Monitor for hypercalcemia",correct:false,explain:"Hypokalemia, not hypercalcemia, is the key electrolyte concern specifically highlighted for furosemide in this content."},
+    {text:"Monitor for hypernatremia",correct:false,explain:"Hypokalemia is the specific electrolyte concern highlighted for furosemide, not hypernatremia."}
+  ]},
+{ stem:"Why should IV furosemide be administered slowly, according to high-alert medication guidance?",
+  options:[
+    {text:"To prevent permanent hearing damage (ototoxicity)",correct:true,explain:"IV furosemide should be pushed slowly specifically to prevent ototoxicity, a serious and permanent adverse effect associated with rapid administration."},
+    {text:"To prevent hyperglycemia",correct:false,explain:"Preventing hyperglycemia is not the reason for slow IV furosemide administration; preventing ototoxicity is."},
+    {text:"To prevent respiratory depression",correct:false,explain:"Respiratory depression is a concern with opioids, not the reason for slow furosemide administration."},
+    {text:"To prevent angioedema",correct:false,explain:"Angioedema is a concern with ACE inhibitors, not the reason for slow furosemide administration."}
+  ]},
+{ stem:"Which laboratory value is used to monitor heparin therapy, and which is used to monitor warfarin therapy?",
+  options:[
+    {text:"aPTT monitors heparin; INR monitors warfarin",correct:true,explain:"aPTT is the laboratory value used to monitor heparin therapy, while INR is used to monitor warfarin therapy — these are two distinct anticoagulants with two distinct monitoring parameters."},
+    {text:"INR monitors heparin; aPTT monitors warfarin",correct:false,explain:"This reverses the correct pairing — aPTT monitors heparin, and INR monitors warfarin."},
+    {text:"Both heparin and warfarin are monitored using the same single lab value",correct:false,explain:"Heparin and warfarin require two distinct monitoring parameters (aPTT and INR, respectively), not a single shared value."},
+    {text:"Neither heparin nor warfarin requires laboratory monitoring",correct:false,explain:"Both heparin and warfarin require specific laboratory monitoring (aPTT and INR, respectively) due to their narrow safety margins as high-alert medications."}
+  ]},
+{ stem:"What is the antidote for heparin, and what is the antidote for warfarin?",
+  options:[
+    {text:"Protamine sulfate is the antidote for heparin; vitamin K is the antidote for warfarin",correct:true,explain:"Protamine sulfate reverses heparin, while vitamin K reverses warfarin — these antidotes should be kept ready given the high-alert status of anticoagulants."},
+    {text:"Vitamin K is the antidote for heparin; protamine sulfate is the antidote for warfarin",correct:false,explain:"This reverses the correct pairing — protamine sulfate reverses heparin, and vitamin K reverses warfarin."},
+    {text:"Naloxone is the antidote for both heparin and warfarin",correct:false,explain:"Naloxone is the antidote for opioids, not for heparin or warfarin."},
+    {text:"There is no antidote available for either heparin or warfarin",correct:false,explain:"Both heparin and warfarin have specific, well-established antidotes (protamine sulfate and vitamin K, respectively) that should be kept readily available."}
+  ]},
+{ stem:"What is the priority nursing monitoring concern for a client receiving an opioid analgesic for severe pain?",
+  options:[
+    {text:"Respiratory depression",correct:true,explain:"Opioids carry a significant risk of respiratory depression, making this the priority monitoring concern, with naloxone kept at the bedside as the antidote."},
+    {text:"Hyperkalemia",correct:false,explain:"Hyperkalemia is not the priority monitoring concern for opioid administration; respiratory depression is."},
+    {text:"Ototoxicity",correct:false,explain:"Ototoxicity is a concern with furosemide, not opioids."},
+    {text:"Dry cough",correct:false,explain:"Dry cough is a concern with ACE inhibitors, not opioids."}
+  ]},
+{ stem:"What medication should be kept readily available at the bedside for a client receiving opioid analgesics, given the risk of respiratory depression?",
+  options:[
+    {text:"Naloxone",correct:true,explain:"Naloxone is the opioid antidote and should be kept at the bedside to rapidly reverse respiratory depression if it occurs."},
+    {text:"Protamine sulfate",correct:false,explain:"Protamine sulfate is the antidote for heparin, not opioids."},
+    {text:"Vitamin K",correct:false,explain:"Vitamin K is the antidote for warfarin, not opioids."},
+    {text:"Insulin",correct:false,explain:"Insulin is not an antidote for opioids; it is used to manage blood glucose, an unrelated concern."}
+  ]},
+{ stem:"According to the \"Safety First\" test-taking strategy, when a question describes checking a vital sign or lab value relevant to a drug (such as potassium before administering furosemide), what does this often indicate?",
+  options:[
+    {text:"This is often the priority nursing action described in the correct answer choice",correct:true,explain:"The \"assess before you administer\" safety pillar teaches that a choice involving checking a relevant vital sign or lab value (like potassium before furosemide) is often the priority nursing action on the NCLEX."},
+    {text:"This is always an incorrect or distractor answer choice",correct:false,explain:"This is the opposite of the strategy taught — assessment-related choices relevant to the drug are often the priority action, not a distractor."},
+    {text:"This detail is irrelevant to answering the question correctly",correct:false,explain:"This detail is specifically highlighted as a key test-taking strategy pillar, not something irrelevant to the answer."},
+    {text:"This only applies to questions about anticoagulants",correct:false,explain:"This strategy applies broadly across pharmacology questions (the example given specifically involves furosemide, a diuretic), not just anticoagulant questions."}
+  ]},
+{ stem:"Per the \"Safety First\" strategy, which three organs should test-takers prioritize when learning about medication toxicities?",
+  options:[
+    {text:"Liver, kidneys, and ears",correct:true,explain:"The strategy specifically highlights prioritizing toxicities affecting the liver (hepatotoxicity), kidneys (nephrotoxicity), and ears (ototoxicity) over milder side effects."},
+    {text:"Heart, lungs, and skin",correct:false,explain:"While these organs can be affected by various medications, the specific toxicity triad emphasized in this strategy is liver, kidneys, and ears."},
+    {text:"Eyes, stomach, and bones",correct:false,explain:"These are not the three organ systems specifically emphasized in the 'identify organ-damaging toxicities' strategy pillar."},
+    {text:"Brain, pancreas, and spleen",correct:false,explain:"These are not the three organ systems specifically emphasized in this strategy; liver, kidneys, and ears are the priority focus."}
+  ]},
+{ stem:"What is the term for liver toxicity, one of the organ-damaging toxicities the NCLEX strategy recommends prioritizing?",
+  options:[
+    {text:"Hepatotoxicity",correct:true,explain:"Hepatotoxicity refers to liver toxicity, one of the three organ-damaging toxicity categories (along with nephrotoxicity and ototoxicity) recommended for priority study."},
+    {text:"Nephrotoxicity",correct:false,explain:"Nephrotoxicity refers to kidney toxicity, not liver toxicity."},
+    {text:"Ototoxicity",correct:false,explain:"Ototoxicity refers to ear/hearing toxicity, not liver toxicity."},
+    {text:"Cardiotoxicity",correct:false,explain:"Cardiotoxicity refers to heart toxicity and is not one of the three specific toxicities emphasized in this strategy (liver, kidneys, ears)."}
+  ]},
+{ stem:"What is the term for kidney toxicity, one of the organ-damaging toxicities the NCLEX strategy recommends prioritizing?",
+  options:[
+    {text:"Nephrotoxicity",correct:true,explain:"Nephrotoxicity refers to kidney toxicity, one of the three organ-damaging toxicity categories recommended for priority study."},
+    {text:"Hepatotoxicity",correct:false,explain:"Hepatotoxicity refers to liver toxicity, not kidney toxicity."},
+    {text:"Ototoxicity",correct:false,explain:"Ototoxicity refers to ear/hearing toxicity, not kidney toxicity."},
+    {text:"Neurotoxicity",correct:false,explain:"Neurotoxicity is not one of the three specific toxicities emphasized in this strategy (liver, kidneys, ears)."}
+  ]},
+{ stem:"Levothyroxine administration teaching (taking the medication on an empty stomach) is an example of which \"Safety First\" strategy pillar?",
+  options:[
+    {text:"Patient education is paramount",correct:true,explain:"Teaching a client to take levothyroxine on an empty stomach is a classic example of the 'patient education is paramount' strategy pillar, since the NCLEX frequently tests teaching-based questions."},
+    {text:"Assess before you administer",correct:false,explain:"This example is specifically about patient teaching, not a pre-administration assessment like checking a vital sign or lab value."},
+    {text:"Identify organ-damaging toxicities",correct:false,explain:"This example is about administration timing teaching, not about identifying a toxicity affecting a specific organ."},
+    {text:"None of the three safety pillars relate to this example",correct:false,explain:"This example directly relates to the 'patient education is paramount' pillar, one of the three safety pillars described in this strategy."}
+  ]},
+{ stem:"Regarding psychotropic medications, what critical teaching point does the \"patient education is paramount\" safety pillar emphasize?",
+  options:[
+    {text:"Avoid sudden discontinuation of psychotropic drugs",correct:true,explain:"The safety strategy specifically highlights teaching clients to avoid abruptly stopping psychotropic medications, which is an important patient education point the NCLEX frequently tests."},
+    {text:"Psychotropic medications should always be taken on an empty stomach",correct:false,explain:"The empty-stomach teaching point in this content specifically applies to levothyroxine, not psychotropic medications generally."},
+    {text:"Psychotropic medications have no important teaching considerations",correct:false,explain:"Psychotropic medications do have an important, specifically highlighted teaching consideration — avoiding sudden discontinuation."},
+    {text:"Psychotropic medications should be doubled if a dose is missed",correct:false,explain:"Doubling a missed dose is not the teaching point emphasized for psychotropic medications in this content; avoiding abrupt discontinuation is."}
+  ]},
+{ stem:"According to the \"Utilize Active Recall and Question Banks\" strategy, what should a test-taker do after answering a practice question, beyond simply checking if the answer was correct?",
+  options:[
+    {text:"Read the full rationale to understand exactly why the other options are unsafe or incorrect",correct:true,explain:"This strategy specifically emphasizes analyzing rationales — understanding not just whether an answer was right, but exactly why each incorrect option is unsafe or wrong."},
+    {text:"Move on immediately to the next question without further review",correct:false,explain:"This is the opposite of the recommended strategy, which emphasizes analyzing the full rationale rather than moving on without review."},
+    {text:"Only review rationales for questions answered incorrectly, never for correct answers",correct:false,explain:"The strategy recommends analyzing rationales generally to deepen understanding, not limiting review only to missed questions."},
+    {text:"Memorize the exact wording of the question without analyzing the underlying concept",correct:false,explain:"The strategy emphasizes understanding underlying rationale and concepts, not rote memorization of question wording."}
+  ]},
+{ stem:"Which study approach does the guide recommend over passive reading for pharmacology preparation?",
+  options:[
+    {text:"Interactive active recall, such as using flashcards to drill drug suffixes, mechanisms of action, and adverse effects",correct:true,explain:"The guide specifically recommends ditching passive reading in favor of interactive active recall methods like flashcards."},
+    {text:"Reading the textbook chapter once, silently, without any interactive component",correct:false,explain:"This describes passive reading, which the guide specifically recommends moving away from."},
+    {text:"Watching videos exclusively with no other study method",correct:false,explain:"While videos can be a study tool, the guide's specific recommendation centers on active recall methods like flashcards and question banks, not video-only study."},
+    {text:"There is no recommended alternative to passive reading",correct:false,explain:"The guide does provide a specific recommended alternative — interactive active recall via flashcards and daily practice questions."}
+  ]},
+{ stem:"According to the \"Tips for Studying\" section, what is one recommended way to study medication names effectively?",
+  options:[
+    {text:"Study generic names and identify the common suffix",correct:true,explain:"One of the specific tips for studying is to study generic names and identify the common suffix, reinforcing the suffix-based classification strategy."},
+    {text:"Study only brand names, since those are more familiar",correct:false,explain:"The guide recommends studying generic names, not brand names, consistent with the NCLEX's use of generic names exclusively."},
+    {text:"Avoid grouping medications by classification or family",correct:false,explain:"The guide specifically recommends studying by classification and subclassification (families) of medications, not avoiding this approach."},
+    {text:"Study medications in a completely random order with no organizing system",correct:false,explain:"The guide recommends an organized approach — classification, suffix identification, and safety implications — not random, unstructured study."}
+  ]},
+{ stem:"What does the \"SAFELY\" study framework's \"Therapeutic Use\" component ask the learner to consider?",
+  options:[
+    {text:"Why the medication is being given, and what outcome is expected",correct:true,explain:"The \"Therapeutic Use\" component of the SAFELY framework specifically asks why a medication is given and what outcome is expected from it."},
+    {text:"How the medication physically affects the body at a cellular level",correct:false,explain:"This describes the \"Action\" component of the SAFELY framework, not \"Therapeutic Use.\""},
+    {text:"What adverse effects could cause potential harm",correct:false,explain:"This describes the \"Adverse Effects\" component of the SAFELY framework, not \"Therapeutic Use.\""},
+    {text:"What the nurse needs to know to safely administer the medication",correct:false,explain:"This describes the \"Nursing Considerations\" component of the SAFELY framework, not \"Therapeutic Use.\""}
+  ]},
+{ stem:"What does the \"Action\" component of the \"SAFELY\" study framework ask the learner to consider?",
+  options:[
+    {text:"How the medication affects the body",correct:true,explain:"The \"Action\" component of the SAFELY framework specifically asks how the medication affects the body — its mechanism of action."},
+    {text:"Why the medication is being given",correct:false,explain:"This describes the \"Therapeutic Use\" component of the SAFELY framework, not \"Action.\""},
+    {text:"What contraindications exist for the medication",correct:false,explain:"This is part of the \"Nursing Considerations\" component of the SAFELY framework, not \"Action.\""},
+    {text:"What harm the medication could potentially cause",correct:false,explain:"This describes the \"Adverse Effects\" component of the SAFELY framework, not \"Action.\""}
+  ]},
+{ stem:"Which suffix identifies beta-blockers, such as metoprolol and atenolol?",
+  options:[
+    {text:"-olol",correct:true,explain:"The suffix \"-olol\" identifies beta-blockers (e.g., metoprolol, atenolol, propranolol), an antihypertensive class requiring a heart rate check before administration."},
+    {text:"-dipine",correct:false,explain:"The suffix \"-dipine\" identifies dihydropyridine calcium channel blockers, not beta-blockers."},
+    {text:"-sartan",correct:false,explain:"The suffix \"-sartan\" identifies ARBs, not beta-blockers."},
+    {text:"-pril",correct:false,explain:"The suffix \"-pril\" identifies ACE inhibitors, not beta-blockers."}
+  ]},
+{ stem:"Which suffix identifies dihydropyridine calcium channel blockers, such as amlodipine and nifedipine?",
+  options:[
+    {text:"-dipine",correct:true,explain:"The suffix \"-dipine\" identifies dihydropyridine calcium channel blockers (e.g., amlodipine, nifedipine), used primarily for hypertension through vasodilation."},
+    {text:"-olol",correct:false,explain:"The suffix \"-olol\" identifies beta-blockers, not calcium channel blockers."},
+    {text:"-statin",correct:false,explain:"The suffix \"-statin\" identifies HMG-CoA reductase inhibitors (cholesterol-lowering agents), not calcium channel blockers."},
+    {text:"-prazole",correct:false,explain:"The suffix \"-prazole\" identifies proton pump inhibitors, not calcium channel blockers."}
+  ]},
+{ stem:"Which suffix identifies H2 receptor antagonists, such as famotidine and ranitidine?",
+  options:[
+    {text:"-tidine",correct:true,explain:"The suffix \"-tidine\" identifies H2 receptor antagonists (e.g., famotidine, ranitidine), used to reduce stomach acid production for conditions like GERD and peptic ulcer disease."},
+    {text:"-prazole",correct:false,explain:"The suffix \"-prazole\" identifies proton pump inhibitors, a different acid-reducing class, not H2 blockers."},
+    {text:"-olol",correct:false,explain:"The suffix \"-olol\" identifies beta-blockers, not H2 receptor antagonists."},
+    {text:"-sartan",correct:false,explain:"The suffix \"-sartan\" identifies ARBs, not H2 receptor antagonists."}
+  ]},
+{ stem:"Which suffix identifies monoclonal antibodies, such as infliximab and rituximab?",
+  options:[
+    {text:"-mab",correct:true,explain:"The suffix \"-mab\" (monoclonal antibody) identifies monoclonal antibody medications, such as infliximab and rituximab, often used for autoimmune conditions or certain cancers."},
+    {text:"-nib",correct:false,explain:"The suffix \"-nib\" identifies tyrosine kinase inhibitors, not monoclonal antibodies."},
+    {text:"-vir",correct:false,explain:"The suffix \"-vir\" identifies antiviral medications, not monoclonal antibodies."},
+    {text:"-cillin",correct:false,explain:"The suffix \"-cillin\" identifies penicillin antibiotics, not monoclonal antibodies."}
+  ]},
+{ stem:"Which suffix identifies antiviral medications, such as acyclovir and oseltamivir?",
+  options:[
+    {text:"-vir",correct:true,explain:"The suffix \"-vir\" identifies antiviral medications, such as acyclovir and oseltamivir."},
+    {text:"-cillin",correct:false,explain:"The suffix \"-cillin\" identifies penicillin antibiotics, not antivirals."},
+    {text:"-azole",correct:false,explain:"The suffix \"-azole\" identifies antifungal medications, not antivirals, though it's important to distinguish from \"-prazole\" (PPIs)."},
+    {text:"-mycin",correct:false,explain:"The suffix \"-mycin\" identifies certain antibiotics (e.g., aminoglycosides, macrolides), not antivirals."}
+  ]},
+{ stem:"Which suffix identifies alpha-1 adrenergic blockers, such as doxazosin and prazosin, used for hypertension and BPH?",
+  options:[
+    {text:"-zosin",correct:true,explain:"The suffix \"-zosin\" identifies alpha-1 adrenergic blockers (e.g., doxazosin, prazosin), used for hypertension and benign prostatic hyperplasia (BPH)."},
+    {text:"-olol",correct:false,explain:"The suffix \"-olol\" identifies beta-blockers, not alpha-1 blockers."},
+    {text:"-dipine",correct:false,explain:"The suffix \"-dipine\" identifies calcium channel blockers, not alpha-1 blockers."},
+    {text:"-pril",correct:false,explain:"The suffix \"-pril\" identifies ACE inhibitors, not alpha-1 blockers."}
+  ]},
+{ stem:"Which suffix identifies corticosteroids, such as prednisone and methylprednisolone?",
+  options:[
+    {text:"-sone / -lone",correct:true,explain:"The suffixes \"-sone\" and \"-lone\" identify corticosteroids (e.g., prednisone, methylprednisolone), used for their anti-inflammatory and immunosuppressive effects."},
+    {text:"-statin",correct:false,explain:"The suffix \"-statin\" identifies cholesterol-lowering agents, not corticosteroids."},
+    {text:"-olol",correct:false,explain:"The suffix \"-olol\" identifies beta-blockers, not corticosteroids."},
+    {text:"-vir",correct:false,explain:"The suffix \"-vir\" identifies antiviral medications, not corticosteroids."}
+  ]},
+{ stem:"Which suffix identifies benzodiazepines, such as lorazepam and diazepam?",
+  options:[
+    {text:"-pam / -lam",correct:true,explain:"The suffixes \"-pam\" and \"-lam\" identify benzodiazepines (e.g., lorazepam, diazepam, alprazolam), used for anxiety, sedation, and seizure management, with a risk of dependence and CNS depression."},
+    {text:"-triptan",correct:false,explain:"The suffix \"-triptan\" identifies medications for acute migraine treatment, not benzodiazepines."},
+    {text:"-dipine",correct:false,explain:"The suffix \"-dipine\" identifies calcium channel blockers, not benzodiazepines."},
+    {text:"-sone",correct:false,explain:"The suffix \"-sone\" identifies corticosteroids, not benzodiazepines."}
+  ]},
+{ stem:"Which suffix identifies DPP-4 inhibitors used for type 2 diabetes, such as sitagliptin?",
+  options:[
+    {text:"-gliptin",correct:true,explain:"The suffix \"-gliptin\" identifies DPP-4 inhibitors (e.g., sitagliptin), an oral diabetes medication class."},
+    {text:"-gliflozin",correct:false,explain:"The suffix \"-gliflozin\" identifies SGLT2 inhibitors, a different diabetes medication class, not DPP-4 inhibitors."},
+    {text:"-glutide",correct:false,explain:"The suffix \"-glutide\" identifies GLP-1 receptor agonists, a different diabetes medication class, not DPP-4 inhibitors."},
+    {text:"-glitazone",correct:false,explain:"The suffix \"-glitazone\" identifies thiazolidinediones, a different diabetes medication class, not DPP-4 inhibitors."}
+  ]},
+{ stem:"Which suffix identifies SGLT2 inhibitors used for type 2 diabetes, such as canagliflozin?",
+  options:[
+    {text:"-gliflozin",correct:true,explain:"The suffix \"-gliflozin\" identifies SGLT2 inhibitors (e.g., canagliflozin, empagliflozin), which work by blocking renal glucose reabsorption."},
+    {text:"-gliptin",correct:false,explain:"The suffix \"-gliptin\" identifies DPP-4 inhibitors, a different diabetes medication class, not SGLT2 inhibitors."},
+    {text:"-glutide",correct:false,explain:"The suffix \"-glutide\" identifies GLP-1 receptor agonists, a different diabetes medication class, not SGLT2 inhibitors."},
+    {text:"-olol",correct:false,explain:"The suffix \"-olol\" identifies beta-blockers, unrelated to diabetes medications."}
+  ]},
+{ stem:"What are the traditional \"five rights\" of medication administration?",
+  isSAL:true,
+  options:[
+    {text:"Right client",correct:true,explain:"Right client is one of the traditional five rights of medication administration."},
+    {text:"Right medication",correct:true,explain:"Right medication is one of the traditional five rights of medication administration."},
+    {text:"Right dose",correct:true,explain:"Right dose is one of the traditional five rights of medication administration."},
+    {text:"Right insurance coverage",correct:false,explain:"Insurance coverage is not one of the five rights of medication administration, which focus on client, medication, dose, route, and time."}
+  ]},
+{ stem:"In addition to right client, right medication, and right dose, what are the remaining traditional \"five rights\" of medication administration?",
+  isSAL:true,
+  options:[
+    {text:"Right route",correct:true,explain:"Right route is one of the traditional five rights of medication administration."},
+    {text:"Right time",correct:true,explain:"Right time is one of the traditional five rights of medication administration."},
+    {text:"Right documentation (often added as an expanded right)",correct:true,explain:"While the classic list has five rights, right documentation is a commonly added, important expanded right in modern practice."},
+    {text:"Right room number",correct:false,explain:"Room number is not one of the recognized rights of medication administration."}
+  ]},
+{ stem:"What are \"look-alike, sound-alike\" (LASA) medications, and why are they a safety concern?",
+  options:[
+    {text:"Medications with names or packaging that closely resemble each other, increasing the risk of mix-ups and administration errors",correct:true,explain:"LASA medications have names or packaging that closely resemble each other (e.g., hydroxyzine and hydralazine), increasing the risk of mix-ups and potentially serious administration errors if not carefully verified."},
+    {text:"Medications that always have identical therapeutic effects",correct:false,explain:"LASA medications may have very different therapeutic effects despite similar names or appearance, which is exactly why confusing them can be dangerous."},
+    {text:"A term with no real safety implications",correct:false,explain:"LASA medications carry significant, well-recognized safety implications, requiring specific safeguards to prevent errors."},
+    {text:"Medications that are always stored in completely separate locations by law",correct:false,explain:"There is no universal legal requirement for complete separation; rather, various safeguards (tall man lettering, separate storage where feasible, verification protocols) are used to reduce LASA-related errors."}
+  ]},
+{ stem:"What is \"tall man lettering,\" and how does it help prevent medication errors?",
+  options:[
+    {text:"A technique using capital letters to highlight the distinguishing parts of similar drug names (e.g., hydrOXYzine vs. hydrALAZINE), helping prevent LASA mix-ups",correct:true,explain:"Tall man lettering uses capital letters to emphasize the different portions of similar-looking drug names (e.g., hydrOXYzine vs. hydrALAZINE), helping staff visually distinguish between look-alike, sound-alike medications and reducing the risk of mix-up errors."},
+    {text:"A technique used only for pediatric dosing calculations",correct:false,explain:"Tall man lettering is specifically used to help distinguish similar-looking drug names, not for dosing calculations."},
+    {text:"A formatting technique with no proven safety benefit",correct:false,explain:"Tall man lettering is an evidence-based, proven strategy for reducing LASA medication errors, not one without benefit."},
+    {text:"A method used to determine the correct medication dose",correct:false,explain:"Tall man lettering is about distinguishing similar drug names, not calculating or determining appropriate doses."}
+  ]},
+{ stem:"What is the purpose of an independent double-check for high-alert medications, such as insulin or heparin?",
+  options:[
+    {text:"Having a second qualified person independently verify the medication, dose, and calculation before administration, to catch potential errors",correct:true,explain:"An independent double-check involves a second qualified healthcare professional independently verifying the medication, dose, and any calculations before administration of a high-alert medication, providing an additional safety layer to catch potential errors before they reach the client."},
+    {text:"A process used only for oral medications, never for IV medications",correct:false,explain:"Independent double-checks are particularly emphasized for high-alert IV medications (like insulin, heparin, and chemotherapy), not limited to oral medications."},
+    {text:"A process with no evidence of reducing medication errors",correct:false,explain:"Independent double-checks are an evidence-based safety strategy shown to help reduce medication errors, particularly for high-alert medications."},
+    {text:"A process that eliminates the need for the primary nurse to verify the medication at all",correct:false,explain:"The primary nurse still verifies the medication; the independent double-check adds a second, separate verification, rather than replacing the primary nurse's own responsibility."}
+  ]},
+{ stem:"Why are concentrated electrolyte solutions (e.g., concentrated potassium chloride) considered high-alert medications?",
+  options:[
+    {text:"If administered incorrectly (e.g., undiluted or too rapidly), they can cause immediate, severe, potentially fatal harm",correct:true,explain:"Concentrated electrolyte solutions like potassium chloride are considered high-alert because administration errors — such as giving them undiluted or too rapidly — can cause immediate, severe, and potentially fatal harm, such as fatal cardiac arrhythmias."},
+    {text:"They have no significant risk of harm even if administered incorrectly",correct:false,explain:"Concentrated electrolyte solutions carry a significant, well-documented risk of severe harm if administered incorrectly, which is exactly why they are classified as high-alert."},
+    {text:"They are classified as high-alert only because of their high cost",correct:false,explain:"High-alert classification is based on the risk of significant patient harm from errors, not cost."},
+    {text:"Concentrated electrolytes are never used in clinical practice due to their risk",correct:false,explain:"Concentrated electrolytes are used in clinical practice, but with specific safeguards (dilution protocols, independent double-checks, restricted access) given their high-alert status."}
+  ]},
+{ stem:"What is a key nursing safety practice specifically for administering IV potassium chloride?",
+  options:[
+    {text:"Always dilute appropriately and administer via a controlled infusion pump, never as an undiluted IV push",correct:true,explain:"IV potassium chloride must always be appropriately diluted and administered via a controlled infusion pump; it should never be given as an undiluted IV push, given the risk of fatal cardiac arrhythmias with rapid administration."},
+    {text:"IV potassium chloride can be safely given as a rapid IV push in emergencies",correct:false,explain:"IV potassium chloride should never be given as a rapid IV push, even in emergencies, due to the severe risk of fatal cardiac arrhythmias."},
+    {text:"No special precautions are needed for IV potassium administration",correct:false,explain:"IV potassium administration requires specific, significant precautions (dilution, controlled infusion) given its high-alert status."},
+    {text:"IV potassium should always be administered in the same syringe as other medications",correct:false,explain:"IV potassium should not be routinely combined with other medications in the same syringe; it requires careful, controlled, and typically dedicated administration per protocol."}
+  ]},
+{ stem:"Why are neuromuscular blocking agents considered high-alert medications?",
+  options:[
+    {text:"They cause paralysis, including of respiratory muscles, without providing sedation or pain relief, requiring careful monitoring and often concurrent sedation",correct:true,explain:"Neuromuscular blocking agents cause paralysis, including of the muscles needed for breathing, without any inherent sedative or analgesic effect; this makes them high-alert medications requiring careful monitoring, often used with concurrent sedation and analgesia, and mechanical ventilation support."},
+    {text:"They have no significant risk to the client",correct:false,explain:"Neuromuscular blocking agents carry a significant risk, particularly respiratory paralysis without sedation, making them high-alert medications."},
+    {text:"They are used only for minor procedures with low risk",correct:false,explain:"Neuromuscular blocking agents are used in higher-risk situations (e.g., intubation, surgery) precisely because of their significant physiologic effects, not for minor, low-risk procedures."},
+    {text:"They provide full sedation and pain relief in addition to paralysis",correct:false,explain:"Neuromuscular blocking agents do NOT provide sedation or pain relief; this is exactly why their high-alert status requires ensuring adequate concurrent sedation/analgesia, since an awake, paralyzed client would be a dangerous and distressing situation."}
+  ]},
+{ stem:"Why is it important for the nurse to verify a client's identity using at least two identifiers before administering any medication?",
+  options:[
+    {text:"To ensure the medication is given to the correct client and prevent administration errors, since relying on a single identifier increases the risk of mistakes",correct:true,explain:"Using at least two identifiers (e.g., name and date of birth) before medication administration helps ensure the medication is given to the correct client, since relying on a single identifier (such as just a room number) increases the risk of errors, particularly with clients who have similar names or in busy clinical environments."},
+    {text:"This practice is not evidence-based and is unnecessary",correct:false,explain:"This is a well-established, evidence-based patient safety practice, not an unnecessary one."},
+    {text:"A single identifier, such as room number, is always sufficient",correct:false,explain:"A single identifier like room number is not sufficient, since clients can be moved or room assignments can change; at least two identifiers are required."},
+    {text:"This practice is only required for high-alert medications, not routine ones",correct:false,explain:"Verifying client identity with two identifiers is a standard practice for all medication administration, not limited only to high-alert medications."}
+  ]},
+{ stem:"A nurse is administering a medication and the client states, \"That's not the pill I usually take.\" What is the priority nursing action?",
+  options:[
+    {text:"Stop and verify the medication order and the medication itself before proceeding with administration",correct:true,explain:"When a client raises a concern about a medication looking unfamiliar, the nurse should stop and verify the order and the medication itself before proceeding, since client input can be an important safety check that catches potential errors."},
+    {text:"Reassure the client that the medication is correct without further verification",correct:false,explain:"Dismissing the client's concern without verification bypasses an important safety check; the order and medication should be verified first."},
+    {text:"Administer the medication as prepared, since the nurse already checked it once",correct:false,explain:"A client's expressed concern warrants re-verification, even if the nurse believes it was already checked, since this input can catch errors that were otherwise missed."},
+    {text:"Document the client's concern but proceed with administration regardless",correct:false,explain:"The concern should be investigated and resolved before proceeding with administration, not simply documented while continuing as planned."}
+  ]},
+{ stem:"What is the purpose of a medication reconciliation process during care transitions (e.g., admission, transfer, discharge)?",
+  options:[
+    {text:"To compare and verify the client's current medication list across transitions, preventing errors such as omissions, duplications, or dosing discrepancies",correct:true,explain:"Medication reconciliation involves comparing and verifying the client's medication list at each care transition (admission, transfer, discharge) to prevent errors such as omissions, duplications, or dosing discrepancies that can occur when care is transferred between providers or settings."},
+    {text:"To eliminate the need for the client to know their own medication list",correct:false,explain:"Medication reconciliation actually relies on gathering accurate information, sometimes including from the client, and does not eliminate the importance of client knowledge about their medications."},
+    {text:"This process is only relevant at hospital discharge, not admission or transfer",correct:false,explain:"Medication reconciliation is relevant at multiple points of care transition, including admission, transfer, and discharge, not limited to discharge alone."},
+    {text:"Medication reconciliation has no evidence supporting its use in preventing errors",correct:false,explain:"Medication reconciliation is a well-established, evidence-based practice for reducing medication errors during care transitions."}
+  ]},
+{ stem:"Which client teaching point about polypharmacy is most appropriate for an older adult client taking multiple medications from different providers?",
+  options:[
+    {text:"Maintain an updated, complete list of all medications (including OTC and supplements) and share it with every healthcare provider",correct:true,explain:"For an older adult client at risk for polypharmacy-related complications, maintaining an updated, complete medication list (including over-the-counter medications and supplements) and sharing it with every healthcare provider is important teaching to reduce the risk of interactions, duplications, or errors."},
+    {text:"Only the primary care provider needs to know about all medications; specialists do not need this information",correct:false,explain:"All providers involved in a client's care should have access to a complete medication list, not just the primary care provider, to safely coordinate care and avoid interactions."},
+    {text:"Over-the-counter medications and supplements do not need to be included on the medication list",correct:false,explain:"Over-the-counter medications and supplements should be included, since they can also cause interactions or contribute to polypharmacy-related risks."},
+    {text:"Polypharmacy has no relevance to medication safety in older adults",correct:false,explain:"Polypharmacy is a significant and well-recognized medication safety concern in older adults, given increased risk of interactions and adverse effects."}
+  ]},
+{ stem:"Why are older adults at increased risk for adverse drug reactions compared to younger adults?",
+  options:[
+    {text:"Age-related changes in metabolism, renal/hepatic clearance, and body composition can alter how medications are processed, along with a higher likelihood of polypharmacy",correct:true,explain:"Older adults often experience age-related changes in drug metabolism, renal and hepatic clearance, and body composition (such as decreased lean body mass and total body water), which can alter how medications are processed; combined with a higher likelihood of taking multiple medications (polypharmacy), this increases the risk of adverse drug reactions."},
+    {text:"Older adults have no physiologic differences that affect medication processing",correct:false,explain:"Older adults do have significant, well-documented physiologic differences affecting medication processing, which is exactly why they are at increased risk for adverse drug reactions."},
+    {text:"This increased risk applies only to IV medications, not oral medications",correct:false,explain:"This increased risk applies broadly across medication routes, not limited only to IV administration."},
+    {text:"Increased risk in older adults is solely due to non-adherence, with no physiologic component",correct:false,explain:"While adherence can be a factor, there are also significant physiologic changes (in metabolism, clearance, body composition) that meaningfully contribute to increased adverse drug reaction risk in older adults, not adherence alone."}
+  ]},
+{ stem:"A nurse is preparing to administer a medication via a feeding tube. What is an important safety consideration?",
+  options:[
+    {text:"Verify the medication is appropriate for tube administration (e.g., not an extended-release or enteric-coated formulation that shouldn't be crushed) and flush the tube appropriately before and after",correct:true,explain:"Before administering medication via a feeding tube, the nurse should verify the formulation is appropriate for tube administration (avoiding crushing extended-release or enteric-coated medications, which can alter their release properties and safety), and flush the tube appropriately before and after administration to ensure delivery and maintain tube patency."},
+    {text:"Any medication formulation can be safely crushed and given via a feeding tube",correct:false,explain:"Not all formulations are safe to crush; extended-release and enteric-coated medications should generally not be crushed, since this can alter their intended release and absorption, potentially causing toxicity or reduced effectiveness."},
+    {text:"Flushing the tube before and after medication administration is unnecessary",correct:false,explain:"Flushing the tube before and after medication administration is an important practice to ensure proper delivery of the medication and maintain tube patency."},
+    {text:"No special considerations apply to feeding tube medication administration",correct:false,explain:"There are specific, important safety considerations (formulation appropriateness, tube flushing) for feeding tube medication administration."}
+  ]},
+{ stem:"What is the correct route abbreviation for \"by mouth,\" commonly used in medication orders?",
+  options:[
+    {text:"PO",correct:true,explain:"PO (per os) is the standard abbreviation for \"by mouth\" in medication orders."},
+    {text:"IM",correct:false,explain:"IM stands for intramuscular, not by mouth."},
+    {text:"SubQ",correct:false,explain:"SubQ stands for subcutaneous, not by mouth."},
+    {text:"IV",correct:false,explain:"IV stands for intravenous, not by mouth."}
+  ]},
+{ stem:"What does the abbreviation \"PRN\" mean in a medication order?",
+  options:[
+    {text:"As needed",correct:true,explain:"PRN (pro re nata) means \"as needed,\" indicating the medication is given based on a specific condition or symptom rather than a fixed schedule."},
+    {text:"Twice daily",correct:false,explain:"Twice daily is abbreviated \"BID,\" not PRN."},
+    {text:"Before meals",correct:false,explain:"Before meals is abbreviated \"AC,\" not PRN."},
+    {text:"At bedtime",correct:false,explain:"At bedtime is abbreviated \"HS,\" not PRN."}
+  ]},
+{ stem:"Which abbreviation is on The Joint Commission's \"Do Not Use\" list due to risk of misinterpretation, and what is the recommended alternative?",
+  options:[
+    {text:"\"U\" for units should not be used, since it can be mistaken for a zero or the number 4; \"units\" should be written out instead",correct:true,explain:"\"U\" for units is on the Do Not Use list because it can be mistaken for a zero or the number 4, potentially causing a serious tenfold dosing error; \"units\" should be written out in full instead."},
+    {text:"\"mg\" for milligrams should never be used under any circumstances",correct:false,explain:"\"mg\" for milligrams is a standard, accepted abbreviation, not one on the Do Not Use list."},
+    {text:"\"mL\" for milliliters is prohibited in all clinical documentation",correct:false,explain:"\"mL\" for milliliters is a standard, accepted abbreviation, not one on the Do Not Use list."},
+    {text:"There are no prohibited abbreviations in medication orders",correct:false,explain:"There is a specific, recognized \"Do Not Use\" list of abbreviations (including \"U\" for units) due to their risk of misinterpretation and resulting errors."}
+  ]},
+{ stem:"Why is the abbreviation \"QD\" (meaning \"every day\") on the Do Not Use list?",
+  options:[
+    {text:"It can be mistaken for \"QID\" (four times daily) or \"OD\" (right eye), potentially leading to a serious medication error",correct:true,explain:"\"QD\" can be misread as \"QID\" (four times daily), causing a client to receive far more doses than intended, or confused with \"OD\" (oculus dexter, right eye), leading to serious errors; \"daily\" should be written out instead."},
+    {text:"It has no risk of misinterpretation and is simply outdated",correct:false,explain:"\"QD\" is specifically flagged due to a real, documented risk of misinterpretation (confusion with QID or OD), not simply being outdated with no safety rationale."},
+    {text:"It is prohibited only in pediatric settings",correct:false,explain:"\"QD\" is prohibited broadly, not limited only to pediatric settings, given the general risk of misinterpretation in any setting."},
+    {text:"This abbreviation is actually still considered safe to use",correct:false,explain:"\"QD\" is specifically identified as unsafe due to misinterpretation risk and should not be used; \"daily\" should be written out instead."}
+  ]},
+{ stem:"A client is prescribed a medication to be given \"STAT.\" What does this mean for the timing of administration?",
+  options:[
+    {text:"The medication should be given immediately, without delay",correct:true,explain:"\"STAT\" means the medication should be given immediately, without delay, reflecting an urgent clinical need."},
+    {text:"The medication should be given at the next scheduled medication pass",correct:false,explain:"STAT orders require immediate administration, not waiting for the next scheduled medication pass."},
+    {text:"The medication should be given only if the client requests it",correct:false,explain:"STAT does not mean as-needed or client-requested; it specifically means immediate administration is required."},
+    {text:"The medication should be given within the next 24 hours",correct:false,explain:"STAT means immediately, not within a broader 24-hour window; this significantly understates the urgency."}
+  ]},
+{ stem:"What is the purpose of a \"black box warning\" on a medication's labeling?",
+  options:[
+    {text:"To highlight the most serious, potentially life-threatening risks associated with the medication, as required by regulatory agencies",correct:true,explain:"A black box warning is the strongest warning required by regulatory agencies (such as the FDA) on medication labeling, highlighting the most serious, potentially life-threatening risks associated with a medication to ensure prescribers and clients are aware."},
+    {text:"To indicate the medication has no significant risks",correct:false,explain:"A black box warning specifically indicates significant, serious risk, not an absence of risk."},
+    {text:"Black box warnings are used only for over-the-counter medications",correct:false,explain:"Black box warnings are used for prescription medications with significant identified risks, not specifically or exclusively for OTC medications."},
+    {text:"This labeling has no regulatory significance",correct:false,explain:"Black box warnings have significant regulatory significance, representing the highest level of required safety warning on medication labeling."}
+  ]},
+{ stem:"A client is prescribed clozapine, which carries a black box warning for agranulocytosis. What nursing consideration follows from this warning?",
+  options:[
+    {text:"Regular monitoring of white blood cell counts is required throughout therapy, given the serious risk of agranulocytosis",correct:true,explain:"Given the black box warning for agranulocytosis with clozapine, regular monitoring of white blood cell counts (per a required monitoring program) is essential throughout therapy to detect this serious adverse effect early."},
+    {text:"No special monitoring is needed despite the black box warning",correct:false,explain:"A black box warning specifically calls for heightened awareness and, in this case, specific required monitoring (WBC counts), not an absence of monitoring."},
+    {text:"The black box warning means this medication can never be prescribed under any circumstances",correct:false,explain:"A black box warning does not mean a medication can never be prescribed; it means the medication requires careful consideration and specific safety monitoring given its serious risk profile."},
+    {text:"This warning is only relevant to the prescribing physician, not the nurse",correct:false,explain:"Black box warnings are relevant to all members of the healthcare team, including nurses, who play a key role in implementing required monitoring and client education."}
+  ]},
+{ stem:"A client asks the nurse to explain what \"bioavailability\" means regarding their oral medication. What is the nurse's best explanation?",
+  options:[
+    {text:"The proportion of a medication that enters systemic circulation and is available to produce an effect",correct:true,explain:"Bioavailability refers to the proportion of an administered medication that enters systemic circulation and becomes available to produce its intended effect, which can vary based on route of administration and formulation."},
+    {text:"The total number of pills in a prescription bottle",correct:false,explain:"Bioavailability is a pharmacokinetic concept about how much medication reaches systemic circulation, not simply the quantity of pills dispensed."},
+    {text:"The length of time a medication remains in its packaging before expiration",correct:false,explain:"Bioavailability does not refer to shelf life or expiration; it refers to how much of the drug reaches systemic circulation to produce an effect."},
+    {text:"A term with no clinical relevance to medication administration",correct:false,explain:"Bioavailability is a clinically relevant pharmacokinetic concept, particularly important when considering different routes or formulations of a medication."}
+  ]},
+{ stem:"Why does an IV medication generally have 100% bioavailability compared to an oral medication of the same drug?",
+  options:[
+    {text:"IV administration delivers the medication directly into the bloodstream, bypassing absorption barriers like the GI tract and first-pass liver metabolism",correct:true,explain:"IV administration delivers medication directly into the bloodstream, bypassing the absorption barriers of the GI tract and avoiding first-pass hepatic metabolism that oral medications undergo, resulting in essentially 100% bioavailability."},
+    {text:"IV medications and oral medications always have identical bioavailability",correct:false,explain:"IV and oral bioavailability are often quite different, given the different absorption pathways and first-pass metabolism considerations, making this statement inaccurate."},
+    {text:"Route of administration has no effect on bioavailability",correct:false,explain:"Route of administration has a significant, well-documented effect on bioavailability, which is exactly why IV medications differ from oral formulations of the same drug."},
+    {text:"Oral medications always have higher bioavailability than IV medications",correct:false,explain:"This is the opposite of the typical relationship; IV medications generally have higher (often 100%) bioavailability compared to oral formulations of the same drug."}
+  ]},
+{ stem:"What is \"first-pass metabolism,\" and how does it relate to oral medication administration?",
+  options:[
+    {text:"The process by which an orally administered drug is metabolized by the liver before reaching systemic circulation, which can significantly reduce the amount of active drug available",correct:true,explain:"First-pass metabolism refers to the process by which an orally administered medication is absorbed from the GI tract and transported to the liver via the portal circulation, where it can be significantly metabolized before reaching systemic circulation, reducing the amount of active drug ultimately available to produce an effect."},
+    {text:"A process that only affects IV medications",correct:false,explain:"First-pass metabolism specifically affects orally administered medications that pass through the portal circulation to the liver; it does not apply to IV medications, which bypass this process."},
+    {text:"A process with no clinical significance",correct:false,explain:"First-pass metabolism has significant clinical significance, affecting drug dosing and bioavailability for many oral medications."},
+    {text:"A process that increases the amount of active drug reaching systemic circulation",correct:false,explain:"First-pass metabolism generally decreases, not increases, the amount of active drug reaching systemic circulation for many medications."}
+  ]},
+{ stem:"A client asks why their sublingual medication (e.g., nitroglycerin) is placed under the tongue rather than swallowed. What is the nurse's best explanation?",
+  options:[
+    {text:"Sublingual administration allows for rapid absorption directly into the bloodstream through the oral mucosa, bypassing first-pass liver metabolism",correct:true,explain:"Sublingual administration allows the medication to be absorbed rapidly and directly into the bloodstream through the rich blood supply of the oral mucosa, bypassing the GI tract and first-pass liver metabolism, resulting in a faster onset of action than if swallowed."},
+    {text:"Sublingual and oral (swallowed) administration provide identical absorption rates",correct:false,explain:"Sublingual administration provides notably faster absorption than swallowing the same medication, given the different absorption pathway."},
+    {text:"This route is used only for medications with no risk of adverse effects",correct:false,explain:"The sublingual route is chosen based on absorption characteristics (rapid onset, avoiding first-pass metabolism), not based on absence of adverse effect risk."},
+    {text:"Sublingual medications must always be swallowed after a few minutes for effectiveness",correct:false,explain:"Sublingual medications are meant to dissolve and be absorbed under the tongue, not swallowed, since swallowing would subject the medication to first-pass metabolism and reduce its rapid effect."}
+  ]},
+{ stem:"What is the general purpose of therapeutic drug monitoring (e.g., checking a drug level) for certain medications?",
+  options:[
+    {text:"To ensure the medication is within a safe, effective range, particularly important for drugs with a narrow therapeutic index",correct:true,explain:"Therapeutic drug monitoring involves checking blood levels of certain medications to ensure they remain within a safe, effective range, and is particularly important for medications with a narrow therapeutic index, where the difference between an effective and a toxic dose is small."},
+    {text:"This practice is used for all medications equally, regardless of their therapeutic index",correct:false,explain:"Therapeutic drug monitoring is specifically emphasized for medications with a narrow therapeutic index (e.g., digoxin, theophylline, vancomycin, lithium), not applied uniformly to all medications."},
+    {text:"Therapeutic drug monitoring has no clinical value",correct:false,explain:"Therapeutic drug monitoring has significant, well-established clinical value, particularly for narrow therapeutic index medications."},
+    {text:"This practice is used only to assess for medication allergies",correct:false,explain:"Therapeutic drug monitoring assesses drug concentration for dosing safety/efficacy, not specifically to assess for allergies."}
+  ]},
+{ stem:"Which of the following medications is a classic example of a drug with a narrow therapeutic index requiring careful monitoring?",
+  isSAL:true,
+  options:[
+    {text:"Digoxin",correct:true,explain:"Digoxin has a narrow therapeutic index and requires careful monitoring, including of drug levels and apical pulse."},
+    {text:"Lithium",correct:true,explain:"Lithium has a narrow therapeutic index and requires regular monitoring of blood levels to avoid toxicity."},
+    {text:"Warfarin",correct:true,explain:"Warfarin has a narrow therapeutic index and requires regular INR monitoring to ensure safe, effective anticoagulation."},
+    {text:"Acetaminophen at standard OTC doses",correct:false,explain:"Acetaminophen at standard OTC doses does not have the same narrow therapeutic index requiring routine blood level monitoring as digoxin, lithium, or warfarin, though it does carry a risk of hepatotoxicity at excessive/overdose levels."}
+  ]},
+{ stem:"A client taking lithium for bipolar disorder should be taught to maintain consistent sodium and fluid intake. Why is this important?",
+  options:[
+    {text:"Significant changes in sodium or fluid intake can affect lithium levels, increasing the risk of toxicity (with dehydration/low sodium) or reduced effectiveness (with excess sodium)",correct:true,explain:"Lithium is a salt that is handled by the kidneys similarly to sodium; significant decreases in sodium intake or dehydration can increase lithium reabsorption and raise blood levels (toxicity risk), while excess sodium intake can have the opposite effect, so maintaining consistent intake helps keep lithium levels stable and safe."},
+    {text:"Sodium and fluid intake have no relationship to lithium levels",correct:false,explain:"Sodium and fluid intake do have a significant, well-documented relationship to lithium levels, given how the kidneys handle lithium similarly to sodium."},
+    {text:"Clients on lithium should significantly restrict all fluid intake",correct:false,explain:"Significant fluid restriction is not the correct teaching; maintaining consistent (not necessarily restricted) fluid and sodium intake is the key teaching point."},
+    {text:"This teaching point is irrelevant to lithium safety",correct:false,explain:"This teaching point is directly and significantly relevant to lithium safety, given the risk of toxicity with fluid/sodium imbalance."}
+  ]},
+{ stem:"A client taking lithium reports new-onset tremor, confusion, and slurred speech. What should the nurse suspect?",
+  options:[
+    {text:"Lithium toxicity, requiring prompt evaluation of the lithium level and provider notification",correct:true,explain:"Tremor, confusion, and slurred speech are classic signs of lithium toxicity, requiring prompt evaluation of the lithium level and provider notification, given the medication's narrow therapeutic index."},
+    {text:"An expected, harmless finding requiring no further evaluation",correct:false,explain:"These symptoms are not harmless expected findings; they are concerning signs of possible lithium toxicity requiring prompt evaluation."},
+    {text:"Hypoglycemia",correct:false,explain:"While hypoglycemia can cause some overlapping symptoms, this presentation in a client on lithium should specifically raise concern for lithium toxicity, given the medication's known toxicity profile."},
+    {text:"A sign the lithium dose should be increased",correct:false,explain:"These symptoms suggest possible toxicity (excess lithium level), which would call for evaluation and likely dose reduction or holding, not an increase."}
+  ]},
+{ stem:"A client taking warfarin is instructed to maintain consistent vitamin K intake rather than eliminating it entirely. Why is this the recommended approach?",
+  options:[
+    {text:"Consistent vitamin K intake helps maintain a stable INR, since warfarin's effect is balanced against dietary vitamin K; drastic changes (increases or decreases) can destabilize anticoagulation",correct:true,explain:"Since warfarin works by inhibiting vitamin K-dependent clotting factors, maintaining consistent (not eliminated) dietary vitamin K intake helps keep the INR stable; drastic increases or decreases in vitamin K intake can destabilize anticoagulation control in either direction."},
+    {text:"Vitamin K intake has no relationship to warfarin's effectiveness",correct:false,explain:"Vitamin K intake has a direct, significant relationship to warfarin's effectiveness and INR stability, given warfarin's mechanism of action."},
+    {text:"Clients on warfarin should completely eliminate all vitamin K-containing foods",correct:false,explain:"Complete elimination is not the recommended approach; consistent intake (avoiding drastic fluctuations) is the key teaching point for clients on warfarin."},
+    {text:"Increasing vitamin K intake significantly is recommended to enhance warfarin's effect",correct:false,explain:"Increasing vitamin K intake would actually counteract, not enhance, warfarin's anticoagulant effect, since vitamin K is required for the clotting factors warfarin inhibits."}
+  ]},
+{ stem:"A client's INR is 5.8 (significantly elevated above the typical therapeutic range) while on warfarin. What is the priority nursing concern?",
+  options:[
+    {text:"Increased risk of bleeding, requiring prompt provider notification and possible intervention (e.g., holding the dose, vitamin K administration)",correct:true,explain:"An INR of 5.8 is significantly above the typical therapeutic range (commonly 2–3 for many indications), indicating a significantly increased bleeding risk; this requires prompt provider notification and likely intervention, such as holding the warfarin dose and/or administering vitamin K depending on the clinical situation."},
+    {text:"This is a normal, expected INR value requiring no action",correct:false,explain:"An INR of 5.8 is significantly elevated and not a normal, expected value for most warfarin indications; it requires prompt attention given the bleeding risk."},
+    {text:"The warfarin dose should be increased to further anticoagulate the client",correct:false,explain:"Increasing the dose would further elevate the INR and worsen bleeding risk; this is the opposite of the appropriate response to an elevated INR."},
+    {text:"No monitoring or follow-up is needed until the next scheduled INR check",correct:false,explain:"An INR this significantly elevated requires prompt attention and likely intervention, not waiting until the next scheduled check."}
+  ]},
+{ stem:"A client on heparin therapy has a significantly elevated aPTT above the therapeutic range, with signs of bleeding. What is the priority nursing action?",
+  options:[
+    {text:"Stop the heparin infusion, notify the provider, and prepare to administer protamine sulfate as prescribed",correct:true,explain:"With a significantly elevated aPTT and signs of bleeding, the priority actions are to stop the heparin infusion, notify the provider, and prepare to administer protamine sulfate (the heparin antidote) as prescribed to reverse the anticoagulant effect."},
+    {text:"Increase the heparin infusion rate",correct:false,explain:"Increasing the infusion rate would worsen the bleeding risk and is the opposite of the appropriate action in this situation."},
+    {text:"Administer vitamin K as the antidote",correct:false,explain:"Vitamin K is the antidote for warfarin, not heparin; protamine sulfate is the correct antidote for heparin."},
+    {text:"Continue the infusion at the same rate with no changes",correct:false,explain:"Continuing the infusion unchanged is inappropriate given the elevated aPTT and active bleeding; the infusion should be stopped and the antidote prepared."}
+  ]},
+{ stem:"A client is prescribed a direct oral anticoagulant (DOAC), such as apixaban or rivaroxaban, instead of warfarin. What is a notable advantage of DOACs compared to warfarin?",
+  options:[
+    {text:"DOACs generally do not require routine INR monitoring or have the same extensive dietary restrictions as warfarin",correct:true,explain:"A notable advantage of DOACs like apixaban and rivaroxaban is that they generally do not require routine INR monitoring or have the same extensive dietary vitamin K restrictions as warfarin, simplifying management for many clients, though they still carry bleeding risks requiring client education."},
+    {text:"DOACs have no risk of bleeding, unlike warfarin",correct:false,explain:"DOACs still carry a risk of bleeding, similar in concept to warfarin, even though their monitoring and dietary considerations differ."},
+    {text:"DOACs require more frequent laboratory monitoring than warfarin",correct:false,explain:"This is the opposite of the typical advantage; DOACs generally require less routine laboratory monitoring than warfarin, not more."},
+    {text:"There is no meaningful difference between DOACs and warfarin",correct:false,explain:"There are meaningful differences between these anticoagulant classes, particularly regarding monitoring requirements and dietary considerations."}
+  ]},
+{ stem:"A client taking an opioid analgesic for chronic pain management is also prescribed a stool softener/laxative regimen. What is the rationale for this combination?",
+  options:[
+    {text:"Opioids commonly cause constipation, so a proactive bowel regimen is often prescribed to prevent this common adverse effect",correct:true,explain:"Opioids commonly cause constipation by slowing GI motility; a proactive bowel regimen (stool softener/laxative) is often prescribed preventively, rather than waiting for constipation to develop, given how common and predictable this adverse effect is."},
+    {text:"This combination has no clinical rationale",correct:false,explain:"This combination has a clear, well-established clinical rationale — preventing opioid-induced constipation."},
+    {text:"Stool softeners are prescribed to enhance the opioid's pain-relieving effect",correct:false,explain:"Stool softeners do not enhance analgesic effect; they are prescribed specifically to address the common adverse effect of opioid-induced constipation."},
+    {text:"This combination is only used if the client already has severe constipation",correct:false,explain:"A bowel regimen with opioids is often prescribed proactively/preventively, not only after severe constipation has already developed."}
+  ]},
+{ stem:"A client receiving an opioid for pain reports a respiratory rate of 8 breaths/minute and increasing sedation. What is the priority nursing action?",
+  options:[
+    {text:"Stop the opioid, attempt to arouse the client, and prepare to administer naloxone as prescribed while notifying the provider",correct:true,explain:"A respiratory rate of 8/min with increasing sedation indicates opioid-induced respiratory depression, requiring the nurse to stop the opioid, attempt to arouse the client, prepare to administer naloxone (the opioid antagonist) as prescribed, and notify the provider promptly."},
+    {text:"Administer the next scheduled opioid dose as ordered",correct:false,explain:"Administering another opioid dose would worsen the respiratory depression and is dangerous in this situation; the medication should be stopped, not continued as scheduled."},
+    {text:"Reassess in one hour with no immediate action",correct:false,explain:"This presentation requires immediate action, not delayed reassessment in an hour, given the risk of respiratory failure."},
+    {text:"Increase the opioid dose to help the client relax and breathe easier",correct:false,explain:"Increasing the dose would worsen the respiratory depression and is contraindicated in this situation."}
+  ]},
+{ stem:"What is the reversal agent (antidote) for benzodiazepine overdose or toxicity?",
+  options:[
+    {text:"Flumazenil",correct:true,explain:"Flumazenil is the reversal agent used for benzodiazepine overdose or toxicity, competitively antagonizing benzodiazepine receptors."},
+    {text:"Naloxone",correct:false,explain:"Naloxone is the reversal agent for opioids, not benzodiazepines."},
+    {text:"Protamine sulfate",correct:false,explain:"Protamine sulfate is the antidote for heparin, not benzodiazepines."},
+    {text:"Vitamin K",correct:false,explain:"Vitamin K is the antidote for warfarin, not benzodiazepines."}
+  ]},
+{ stem:"A client is prescribed acetaminophen and asks about the maximum safe daily dose to avoid liver toxicity. What is an important general teaching point?",
+  options:[
+    {text:"Clients should be aware of all sources of acetaminophen they may be taking (including combination products) to avoid inadvertently exceeding the maximum recommended daily dose",correct:true,explain:"Since acetaminophen is included in many combination products (e.g., some cold/flu medications, certain opioid combination analgesics), clients should be taught to check all their medications for acetaminophen content to avoid inadvertently exceeding the maximum recommended daily dose, which carries a risk of hepatotoxicity."},
+    {text:"Acetaminophen has no maximum dose limit and cannot cause toxicity",correct:false,explain:"Acetaminophen does have an important maximum daily dose limit, given the risk of hepatotoxicity with excessive intake; this statement is inaccurate."},
+    {text:"Combination products containing acetaminophen do not count toward the daily total",correct:false,explain:"Combination products containing acetaminophen absolutely do count toward the total daily acetaminophen intake and must be considered to avoid exceeding safe limits."},
+    {text:"This teaching point has no clinical relevance",correct:false,explain:"This teaching point has significant clinical relevance, given the risk of unintentional acetaminophen overdose from multiple product sources."}
+  ]},
+{ stem:"What is the antidote for acetaminophen overdose?",
+  options:[
+    {text:"Acetylcysteine",correct:true,explain:"Acetylcysteine (N-acetylcysteine) is the antidote for acetaminophen overdose, helping to protect the liver by replenishing glutathione stores."},
+    {text:"Naloxone",correct:false,explain:"Naloxone is the antidote for opioid overdose, not acetaminophen overdose."},
+    {text:"Flumazenil",correct:false,explain:"Flumazenil is the antidote for benzodiazepine overdose, not acetaminophen overdose."},
+    {text:"Protamine sulfate",correct:false,explain:"Protamine sulfate is the antidote for heparin, not acetaminophen overdose."}
+  ]},
+{ stem:"A client is prescribed a proton pump inhibitor (PPI), such as omeprazole, for long-term GERD management. What potential long-term risk should the nurse discuss with the client?",
+  options:[
+    {text:"Long-term PPI use has been associated with risks such as decreased bone density/fracture risk, hypomagnesemia, and increased risk of certain infections (e.g., C. diff)",correct:true,explain:"Long-term PPI use has been associated with several potential risks, including decreased bone density and increased fracture risk, hypomagnesemia, and an increased risk of certain infections such as C. difficile, given the reduced gastric acid's protective role against some pathogens."},
+    {text:"PPIs have no long-term risks associated with their use",correct:false,explain:"Long-term PPI use does have recognized potential risks, making this statement inaccurate."},
+    {text:"PPIs are only associated with short-term GI upset and no other concerns",correct:false,explain:"While GI upset can occur, there are additional, more significant long-term risks (bone density, magnesium, infection risk) associated with prolonged PPI use."},
+    {text:"This class of medication should never be used for longer than one week under any circumstances",correct:false,explain:"While long-term risks exist and should be discussed, PPIs are used long-term for many clients when clinically appropriate; the key is awareness of risks and using the lowest effective dose for the shortest necessary duration, not an absolute one-week limit in all cases."}
+  ]},
+{ stem:"A client asks whether a PPI (proton pump inhibitor) and an H2 blocker work the same way to reduce stomach acid. What is the nurse's best response?",
+  options:[
+    {text:"\"No, PPIs and H2 blockers reduce stomach acid through different mechanisms; PPIs generally provide more potent, longer-lasting acid suppression.\"",correct:true,explain:"PPIs (e.g., omeprazole) and H2 blockers (e.g., famotidine) reduce stomach acid through different mechanisms — PPIs block the proton pump directly, while H2 blockers block histamine receptors — with PPIs generally providing more potent and longer-lasting acid suppression."},
+    {text:"\"Yes, PPIs and H2 blockers work through the exact same mechanism.\"",correct:false,explain:"This is inaccurate — these two classes work through distinctly different mechanisms, even though both ultimately reduce stomach acid."},
+    {text:"\"Neither medication class actually reduces stomach acid.\"",correct:false,explain:"Both PPIs and H2 blockers do reduce stomach acid, though through different mechanisms; this statement is inaccurate."},
+    {text:"\"H2 blockers are always more potent than PPIs.\"",correct:false,explain:"This is generally the opposite of the typical relationship; PPIs are generally considered more potent acid suppressors than H2 blockers."}
+  ]},
+{ stem:"A client asks the nurse to clarify the difference between a medication's \"generic name\" and its \"trade name.\" What is the nurse's best explanation?",
+  options:[
+    {text:"The generic name is the official, non-proprietary chemical name used universally, while the trade name is the specific brand name given by a manufacturer",correct:true,explain:"The generic name is the official, standardized, non-proprietary name for a medication that is used universally regardless of manufacturer, while the trade name (brand name) is a specific proprietary name given by a particular manufacturer, and a single generic medication may have multiple different trade names from different companies."},
+    {text:"Generic name and trade name refer to completely different medications with different active ingredients",correct:false,explain:"The generic name and trade name refer to the same medication/active ingredient; they are simply different naming conventions (universal chemical name vs. manufacturer brand name), not different medications."},
+    {text:"Trade names are always used exclusively on the NCLEX",correct:false,explain:"This is the opposite of the actual NCLEX standard — the exam uses generic names exclusively, not trade names."},
+    {text:"There is no meaningful difference between these two naming conventions",correct:false,explain:"There is a meaningful, useful distinction between these two naming conventions for understanding medication information and documentation."}
+  ]},
+{ stem:"A client is prescribed a medication and reports a known allergy to a similar-sounding drug. What is the nurse's priority action before administering the new medication?",
+  options:[
+    {text:"Clarify the specific nature of the reported allergy/reaction and cross-check for any potential cross-reactivity before proceeding",correct:true,explain:"The nurse should clarify the specific nature of the client's reported allergy or reaction (e.g., what symptoms occurred) and cross-check for any potential cross-reactivity between the medications before proceeding with administration, ensuring client safety."},
+    {text:"Assume there is no true allergy since the names are only similar, not identical",correct:false,explain:"Assuming no true allergy without further clarification is not appropriate; the specific reaction and any potential cross-reactivity should be investigated first."},
+    {text:"Refuse to administer any medication to this client under any circumstances",correct:false,explain:"This is an overly extreme response; the appropriate approach is clarification and cross-checking, not blanket refusal of all medications."},
+    {text:"Proceed with administration without any further investigation",correct:false,explain:"Proceeding without further investigation bypasses an important safety check when a client reports a potentially relevant allergy history."}
+  ]},
+{ stem:"What is the purpose of the \"teach-back\" method when providing medication education to a client?",
+  options:[
+    {text:"Having the client explain or demonstrate the information in their own words, to confirm understanding rather than assuming comprehension",correct:true,explain:"The teach-back method involves having the client explain or demonstrate the taught information in their own words, allowing the nurse to confirm actual understanding rather than simply assuming comprehension because information was provided."},
+    {text:"Having the nurse repeat the information multiple times without client involvement",correct:false,explain:"Teach-back specifically involves active client participation (having them explain or demonstrate understanding), not simply repeated one-way information delivery by the nurse."},
+    {text:"A method used only for written medication instructions, not verbal teaching",correct:false,explain:"Teach-back can be used to confirm understanding of both verbal and written medication instructions, not limited to one format."},
+    {text:"This method has no evidence supporting improved client understanding",correct:false,explain:"Teach-back is a well-established, evidence-based method shown to improve confirmation of client understanding and identify gaps in comprehension."}
+  ]},
+{ stem:"A client with limited English proficiency is receiving discharge medication teaching. What is the priority nursing consideration?",
+  options:[
+    {text:"Use a qualified medical interpreter (professional interpreter service) rather than relying on family members or informal translation",correct:true,explain:"Using a qualified medical interpreter is the priority consideration for a client with limited English proficiency, since professional interpreters are trained in medical terminology and confidentiality, whereas relying on family members can lead to inaccurate translation, omitted information, or privacy concerns."},
+    {text:"Rely on a family member to translate all medication information",correct:false,explain:"Relying on family members for medical translation is not the preferred practice, given risks of inaccurate translation, omission of information, and privacy concerns; a qualified interpreter should be used instead."},
+    {text:"Provide only written materials in English, since translation is not necessary",correct:false,explain:"Providing only English materials does not address the client's limited English proficiency and language needs; appropriate interpretation and translated materials should be used."},
+    {text:"Skip medication teaching entirely if a language barrier exists",correct:false,explain:"Medication teaching should not be skipped due to a language barrier; appropriate resources (qualified interpreters, translated materials) should be used to ensure the client receives this essential education."}
+  ]},
+{ stem:"A client asks why their medication schedule includes specific times (e.g., 0900, 1300, 1700, 2100) rather than simply \"four times a day.\" What is the nurse's best explanation?",
+  options:[
+    {text:"Specific administration times help maintain consistent blood levels of the medication and reduce the risk of missed or double doses",correct:true,explain:"Specific administration times help maintain more consistent blood levels of the medication throughout the day (particularly important for certain medications) and reduce the risk of missed doses or accidental double-dosing compared to a vaguer \"four times a day\" instruction."},
+    {text:"Specific times have no clinical purpose and are simply institutional preference",correct:false,explain:"Specific administration times do have a meaningful clinical purpose related to maintaining consistent drug levels and medication safety, not simply arbitrary institutional preference."},
+    {text:"This scheduling approach is only used for antibiotics",correct:false,explain:"Specific administration timing is used broadly across many medication types, not limited only to antibiotics."},
+    {text:"The specific times listed have no relationship to maintaining therapeutic drug levels",correct:false,explain:"Specific, evenly spaced administration times do have a direct relationship to maintaining more consistent therapeutic drug levels for many medications."}
+  ]},
+{ stem:"What is the recommended action if a nurse is unsure about a medication order that appears unclear or potentially unsafe?",
+  options:[
+    {text:"Clarify the order with the prescriber before administering the medication",correct:true,explain:"If a medication order is unclear or appears potentially unsafe, the nurse should clarify it with the prescriber before administering, rather than guessing at the intended order or proceeding with uncertainty."},
+    {text:"Administer the medication based on the nurse's best guess of the intended order",correct:false,explain:"Guessing at an unclear order is unsafe; the nurse should clarify with the prescriber rather than proceeding based on assumption."},
+    {text:"Skip that dose entirely without any follow-up",correct:false,explain:"Simply skipping the dose without follow-up does not resolve the underlying concern; the order should be clarified with the prescriber."},
+    {text:"Ask a fellow nurse to interpret the order instead of contacting the prescriber",correct:false,explain:"While consulting a colleague may be a reasonable initial step in some cases, the definitive clarification for an unclear or potentially unsafe order should come from the prescriber, not simply another nurse's interpretation."}
+  ]},
+{ stem:"A nurse receives a verbal medication order from a provider during an emergency. What is an important safety practice regarding this order?",
+  options:[
+    {text:"Read the order back to the provider to confirm accuracy (\"read-back\" verification) before proceeding, and ensure it is documented and co-signed per policy",correct:true,explain:"For verbal orders, reading the order back to the provider to confirm accuracy (read-back verification) is an important safety practice to reduce the risk of miscommunication, along with ensuring the order is properly documented and co-signed per facility policy."},
+    {text:"Verbal orders require no verification and can be immediately implemented as heard",correct:false,explain:"Verbal orders do require verification (read-back) to reduce the risk of miscommunication errors, not implementation without any confirmation."},
+    {text:"Verbal orders should never be accepted under any circumstances",correct:false,explain:"Verbal orders are accepted in certain circumstances (such as emergencies) with appropriate safety practices (read-back verification, documentation), not categorically refused."},
+    {text:"Documentation of verbal orders is optional and can be skipped",correct:false,explain:"Documentation of verbal orders, along with appropriate co-signature per policy, is a required safety practice, not an optional step."}
+  ]},
+{ stem:"What is the purpose of a formulary within a healthcare institution?",
+  options:[
+    {text:"A list of medications approved for use within that institution, often developed to promote safe, effective, and cost-conscious prescribing",correct:true,explain:"A formulary is a list of medications approved for use within a particular healthcare institution or health plan, often developed by a pharmacy and therapeutics committee to promote safe, effective, and cost-conscious medication use."},
+    {text:"A formulary has no practical function in healthcare settings",correct:false,explain:"A formulary has a specific, practical function in guiding appropriate medication use and formulary-based prescribing within an institution."},
+    {text:"A formulary lists only over-the-counter medications",correct:false,explain:"A formulary typically includes both prescription and, in some cases, relevant OTC medications approved for use, not exclusively OTC medications."},
+    {text:"A formulary is the same as a client's personal medication list",correct:false,explain:"A formulary is an institutional list of approved medications, distinct from an individual client's personal medication list."}
+  ]},
+{ stem:"A client is prescribed a medication \"off-label.\" What does this term mean?",
+  options:[
+    {text:"The medication is being used for an indication, dose, or population not specifically approved by the regulatory agency, though this can still be appropriate clinical practice",correct:true,explain:"\"Off-label\" use means the medication is being prescribed for an indication, dose, age group, or route not specifically approved by the regulatory agency (e.g., FDA); this is a legal and sometimes clinically appropriate and evidence-supported practice, though it requires careful clinical judgment."},
+    {text:"The medication is illegal to prescribe under any circumstances",correct:false,explain:"Off-label prescribing is legal and a recognized part of clinical practice; it is not an illegal activity."},
+    {text:"The medication has no proven safety or efficacy data whatsoever",correct:false,explain:"Off-label use often has substantial supporting evidence or clinical rationale, even without formal indication approval for that specific use; it does not mean there is no data at all."},
+    {text:"This term has no meaningful definition in clinical practice",correct:false,explain:"\"Off-label\" has a specific, well-recognized meaning in clinical and regulatory contexts regarding approved vs. unapproved indications/uses."}
+  ]},
+{ stem:"A client asks about the purpose of a medication's \"half-life.\" What is the nurse's best explanation?",
+  options:[
+    {text:"The time it takes for the concentration of a medication in the body to decrease by half, which helps determine dosing frequency",correct:true,explain:"A medication's half-life is the time required for its concentration in the body to decrease by half; this pharmacokinetic property helps determine appropriate dosing frequency to maintain therapeutic levels."},
+    {text:"The total duration a medication remains effective in the body",correct:false,explain:"While related, half-life specifically refers to the time for concentration to decrease by half, not simply the total duration of effectiveness, which can differ from half-life."},
+    {text:"Half-life has no relevance to how often a medication is dosed",correct:false,explain:"Half-life has direct, significant relevance to dosing frequency; medications with shorter half-lives often require more frequent dosing than those with longer half-lives."},
+    {text:"Half-life refers to the expiration date of the medication",correct:false,explain:"Half-life is a pharmacokinetic concept about drug elimination in the body, not related to a medication's shelf-life or expiration date."}
+  ]},
+{ stem:"A medication with a very long half-life is being discontinued. What should the nurse anticipate regarding how long its effects might persist?",
+  options:[
+    {text:"The medication's effects, and any associated adverse effects, may persist for an extended period after discontinuation, given the slow elimination reflected by the long half-life",correct:true,explain:"A medication with a long half-life is eliminated slowly from the body, meaning its effects (therapeutic or adverse) may persist for an extended period even after the medication is discontinued, which is an important consideration when transitioning therapies or monitoring for resolving adverse effects."},
+    {text:"The medication's effects will end immediately upon discontinuation regardless of half-life",correct:false,explain:"This is inaccurate; a long half-life specifically means effects will persist for a longer period after discontinuation, not end immediately."},
+    {text:"Half-life has no bearing on how long a medication's effects last after stopping it",correct:false,explain:"Half-life has direct bearing on this exact question — how long a medication's effects persist after discontinuation — making this statement inaccurate."},
+    {text:"A long half-life means the medication was never effective in the first place",correct:false,explain:"A long half-life relates to elimination time, not effectiveness; a medication with a long half-life can still be highly effective while it remains in the body."}
+  ]},
+{ stem:"A client asks why some medications must be taken with a full glass of water and remaining upright for a period afterward (e.g., bisphosphonates like alendronate). What is the nurse's best explanation?",
+  options:[
+    {text:"This reduces the risk of esophageal irritation or damage from the medication remaining in contact with the esophageal lining",correct:true,explain:"Taking certain medications, such as bisphosphonates, with a full glass of water and remaining upright for a specified period afterward helps ensure the medication passes fully into the stomach, reducing the risk of esophageal irritation or damage from prolonged contact with the esophageal lining."},
+    {text:"This instruction has no specific safety purpose",correct:false,explain:"This instruction has a specific, important safety purpose related to preventing esophageal irritation/damage."},
+    {text:"This instruction is only relevant for pediatric clients",correct:false,explain:"This instruction is relevant for any client taking medications with this specific administration requirement (e.g., bisphosphonates), not limited to pediatric clients."},
+    {text:"Remaining upright has no effect on medication safety or absorption",correct:false,explain:"Remaining upright does have a direct effect on reducing esophageal irritation risk for certain medications, making this statement inaccurate."}
+  ]},
+{ stem:"A client is prescribed an enteric-coated medication. What is the purpose of this coating?",
+  options:[
+    {text:"To protect the medication from being broken down by stomach acid, allowing it to be released in the intestines instead, or to protect the stomach from the medication's irritating effects",correct:true,explain:"An enteric coating protects a medication from being broken down by stomach acid, delaying release until the medication reaches the intestines; this can protect the medication itself from degradation or protect the stomach lining from a medication that could otherwise cause irritation."},
+    {text:"Enteric coatings have no functional purpose and are purely cosmetic",correct:false,explain:"Enteric coatings serve a specific functional purpose (protecting the drug or the stomach), not a purely cosmetic one."},
+    {text:"Enteric-coated medications should always be crushed for easier swallowing",correct:false,explain:"Enteric-coated medications should generally not be crushed, since this would destroy the coating's protective function and could cause the medication to be released prematurely in the stomach."},
+    {text:"This coating has no relationship to where in the GI tract the medication is absorbed",correct:false,explain:"The enteric coating specifically relates to where and when the medication is released and absorbed in the GI tract, delaying release until the intestines."}
+  ]},
+{ stem:"A client asks why their extended-release (ER/XR) tablet cannot be split or crushed like their other medications. What is the nurse's best explanation?",
+  options:[
+    {text:"Splitting or crushing an extended-release formulation can disrupt its designed slow-release mechanism, potentially causing a rapid release of the full dose and increasing toxicity risk",correct:true,explain:"Extended-release formulations are specifically designed to release medication slowly over an extended period; splitting or crushing them can disrupt this mechanism, potentially causing the full dose to be released rapidly, which significantly increases the risk of toxicity."},
+    {text:"Extended-release tablets can be safely split or crushed with no consequence",correct:false,explain:"This is inaccurate and potentially dangerous teaching; extended-release formulations should generally not be split or crushed, given the risk of disrupting their release mechanism."},
+    {text:"This restriction applies only to liquid medications, not tablets",correct:false,explain:"This restriction specifically applies to certain solid oral formulations (extended-release tablets/capsules), not liquid medications, which have different formulation considerations."},
+    {text:"There is no difference between extended-release and immediate-release formulations",correct:false,explain:"There is a significant, clinically important difference between these formulations in terms of how and when the medication is released and absorbed."}
+  ]},
+{ stem:"A client asks about the difference between a medication's \"onset of action\" and its \"peak effect.\" What is the nurse's best explanation?",
+  options:[
+    {text:"Onset of action is when the medication begins to take effect, while peak effect is when the medication's effect is at its strongest",correct:true,explain:"Onset of action refers to the time it takes for a medication to begin having a therapeutic effect, while peak effect refers to the time at which the medication's effect is at its maximum strength — two distinct points in a medication's overall time-action profile."},
+    {text:"Onset of action and peak effect refer to the exact same point in time",correct:false,explain:"These refer to two different points in a medication's time-action profile — onset is when the effect begins, while peak is when the effect is strongest, typically occurring later than onset."},
+    {text:"Peak effect always occurs before onset of action",correct:false,explain:"This reverses the correct sequence; onset of action occurs first (when the effect begins), followed later by the peak effect (when the effect is strongest)."},
+    {text:"These terms have no relevance to safe medication administration",correct:false,explain:"Both terms have significant relevance to safe medication administration and monitoring, particularly for medications like insulin where timing significantly affects nursing care and monitoring."}
+  ]},
+{ stem:"Why is it important for the nurse to know a medication's peak action time, particularly for insulin?",
+  options:[
+    {text:"Peak action time indicates when the client is at greatest risk for the medication's maximum effect (e.g., hypoglycemia risk with insulin), guiding timing of monitoring",correct:true,explain:"Knowing a medication's peak action time — such as with insulin — helps the nurse anticipate when the client is at greatest risk for the medication's maximum effect (for insulin, this means greatest hypoglycemia risk), guiding the timing of appropriate monitoring, such as blood glucose checks."},
+    {text:"Peak action time has no clinical relevance to nursing monitoring",correct:false,explain:"Peak action time has direct, significant relevance to nursing monitoring, particularly for medications with predictable peak-related risks like insulin."},
+    {text:"Peak action time is the same as the medication's total duration of action",correct:false,explain:"Peak action time refers specifically to when the effect is strongest, which is different from the total duration of action (how long the effect lasts overall)."},
+    {text:"This information is only relevant for IV medications, not subcutaneous insulin",correct:false,explain:"Peak action time is relevant across various routes and medications, including subcutaneous insulin, not limited only to IV medications."}
+  ]},
+{ stem:"A client asks the nurse to explain what \"synergistic\" drug interaction means. What is the best response?",
+  options:[
+    {text:"\"A synergistic interaction occurs when two medications combined produce a greater effect than either medication would alone, sometimes intentionally used therapeutically but also a potential safety concern.\"",correct:true,explain:"A synergistic drug interaction occurs when the combined effect of two medications is greater than the sum of their individual effects; this can sometimes be used intentionally for therapeutic benefit but can also represent a safety concern (e.g., additive sedation, additive bleeding risk) requiring careful monitoring."},
+    {text:"\"A synergistic interaction means the two medications completely cancel out each other's effects.\"",correct:false,explain:"This describes an antagonistic interaction, not a synergistic one; synergistic means an enhanced, not canceled, combined effect."},
+    {text:"\"Synergistic interactions are always beneficial and never a safety concern.\"",correct:false,explain:"While synergistic effects can sometimes be used therapeutically, they can also represent a significant safety concern (e.g., additive CNS depression or bleeding risk), not always simply beneficial."},
+    {text:"\"This term has no clinical relevance to medication safety.\"",correct:false,explain:"Synergistic interactions have significant clinical relevance to medication safety, requiring awareness and monitoring when relevant combinations are used."}
+  ]},
+{ stem:"A client taking a benzodiazepine for anxiety is also prescribed an opioid for pain. What is the priority safety concern with this combination?",
+  options:[
+    {text:"Additive CNS and respiratory depression, significantly increasing the risk of oversedation and respiratory failure",correct:true,explain:"Combining a benzodiazepine and an opioid carries a significant risk of additive central nervous system and respiratory depression, substantially increasing the risk of oversedation and potentially fatal respiratory failure, requiring careful monitoring and often carries specific warnings from regulatory agencies."},
+    {text:"This combination has no significant safety concern",correct:false,explain:"This combination carries a well-recognized, significant safety concern (additive CNS/respiratory depression), not an absence of concern."},
+    {text:"This combination increases the risk of hypertension only, with no respiratory concern",correct:false,explain:"The primary, most serious concern with this combination is additive CNS/respiratory depression, not hypertension."},
+    {text:"Benzodiazepines and opioids cannot be prescribed together under any circumstances",correct:false,explain:"While this combination carries significant risk requiring careful monitoring, it is not universally prohibited; it may sometimes be used with appropriate precautions and close monitoring in specific clinical situations."}
+  ]},
+{ stem:"A client asks why grapefruit juice is discouraged with certain medications, such as some statins and calcium channel blockers. What is the nurse's best explanation?",
+  options:[
+    {text:"Grapefruit juice can inhibit an enzyme involved in metabolizing certain medications, leading to higher-than-intended drug levels and increased risk of toxicity",correct:true,explain:"Grapefruit juice can inhibit the CYP3A4 enzyme involved in metabolizing certain medications (including some statins and calcium channel blockers), leading to higher-than-intended blood levels of the medication and an increased risk of toxicity."},
+    {text:"Grapefruit juice has no interaction with any medications",correct:false,explain:"Grapefruit juice has a well-documented interaction with certain medications through its effect on drug-metabolizing enzymes, making this statement inaccurate."},
+    {text:"Grapefruit juice decreases the effectiveness of these medications, requiring a dose increase",correct:false,explain:"The concern with grapefruit juice is typically increased, not decreased, drug levels due to impaired metabolism, raising toxicity risk rather than reducing effectiveness."},
+    {text:"This interaction is a myth with no scientific basis",correct:false,explain:"This is a well-documented, scientifically supported drug-food interaction, not a myth."}
+  ]},
+{ stem:"A client asks why some medications are prescribed as \"as-needed\" (PRN) rather than on a fixed schedule. What is the nurse's best explanation?",
+  options:[
+    {text:"PRN dosing allows the medication to be given based on the client's specific symptoms or needs at a given time, rather than a fixed schedule that may not align with when relief is actually needed",correct:true,explain:"PRN (as-needed) dosing allows medication administration to be tailored to when the client actually needs it based on their symptoms (such as pain or nausea), rather than following a fixed schedule that might result in giving medication when it isn't needed or missing a dose when it is."},
+    {text:"PRN medications are always less effective than scheduled medications",correct:false,explain:"PRN dosing is not inherently less effective; it is simply a different administration approach suited to symptoms that vary or occur intermittently, rather than requiring continuous, scheduled coverage."},
+    {text:"There is no clinical rationale for PRN dosing",correct:false,explain:"There is a clear, practical clinical rationale for PRN dosing — matching medication administration to actual, variable client need."},
+    {text:"PRN dosing means the client can take the medication as frequently as they wish, with no limits",correct:false,explain:"PRN orders still specify parameters (such as maximum frequency and dose) that must be followed, not unlimited, unrestricted use at the client's sole discretion."}
+  ]}
+];
+
+const FLASHCARDS = [
+{front:"Suffix: -pril", back:"ACE inhibitors (e.g., lisinopril). Monitor for dry cough and angioedema."},
+{front:"Suffix: -lol", back:"Beta-blockers (e.g., metoprolol). Check heart rate first; hold if <60 bpm."},
+{front:"Suffix: -sartan", back:"ARBs (e.g., losartan)."},
+{front:"Suffix: -prazole", back:"Proton pump inhibitors (e.g., omeprazole). Anti-ulcer/GERD medication."},
+{front:"Suffix: -statin", back:"HMG-CoA reductase inhibitors (e.g., atorvastatin). Cholesterol-lowering."},
+{front:"Which insulin can be given IV?", back:"Regular insulin — the only type given IV."},
+{front:"Digoxin priority action before administering", back:"Check apical pulse for 1 full minute; hold if <60 bpm."},
+{front:"Why push furosemide IV slowly?", back:"To prevent ototoxicity (permanent hearing damage)."},
+{front:"Heparin antidote", back:"Protamine sulfate."},
+{front:"Warfarin antidote", back:"Vitamin K."},
+{front:"Opioid antidote", back:"Naloxone — keep at bedside; monitor for respiratory depression."},
+{front:"Heparin monitoring lab", back:"aPTT."},
+{front:"Warfarin monitoring lab", back:"INR."},
+{front:"% of NCLEX-RN questions on Pharmacological/Parenteral Therapies", back:"13% to 19%."},
+{front:"NCLEX drug naming standard", back:"Generic names exclusively (e.g., acetaminophen, not Tylenol)."},
+{front:"3 organs to prioritize for toxicity", back:"Liver (hepatotoxicity), kidneys (nephrotoxicity), ears (ototoxicity)."},
+{front:"\"Assess before you administer\" strategy", back:"If a choice involves checking a vital sign/lab relevant to the drug, it's often the priority action."},
+{front:"SAFELY framework", back:"Action, Therapeutic Use, Adverse Effects, Nursing Considerations, Contraindications."}
+];
+
+/* ======================= FLASHCARDS ======================= */
+let flashOrder = FLASHCARDS.map((_,i)=>i);
+let flashIdx = 0;
+
+function renderFlashcard(){
+  if(!FLASHCARDS.length) return;
+  const card = FLASHCARDS[flashOrder[flashIdx]];
+  document.getElementById('flashFront').textContent = card.front;
+  document.getElementById('flashBack').textContent = card.back;
+  document.getElementById('flashcard').classList.remove('flipped');
+  document.getElementById('flashIndex').textContent = flashIdx+1;
+  document.getElementById('flashTotal').textContent = FLASHCARDS.length;
+}
+function flipCard(){ document.getElementById('flashcard').classList.toggle('flipped'); }
+document.getElementById('flashPrev').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  flashIdx = (flashIdx - 1 + FLASHCARDS.length) % FLASHCARDS.length;
+  renderFlashcard();
+});
+document.getElementById('flashNext').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  flashIdx = (flashIdx + 1) % FLASHCARDS.length;
+  renderFlashcard();
+});
+document.getElementById('flashShuffle').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  flashOrder = shuffle(flashOrder.length ? flashOrder : FLASHCARDS.map((_,i)=>i));
+  flashIdx = 0;
+  renderFlashcard();
+});
+
+
+let activeQuestions = [];
+let currentIndex = 0;
+let score = 0;
+let questionState = [];
+let optionOrders = [];
+
+
+function toggleAnswer(id, btn){
+  const el = document.getElementById(id);
+  el.classList.toggle('show');
+  btn.textContent = el.classList.contains('show') ? 'Hide answer ▲' : 'Reveal answer ▼';
+}
+
+function showView(name){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+name).classList.add('active');
+  const crumbs = document.getElementById('crumbs');
+  const homeLink = "<span onclick=\"location.href='index.html'\">Home</span>";
+  if(name==='notes') crumbs.innerHTML = homeLink + " / NCLEX Pharm Essentials / Course Notes";
+  else if(name==='flashcards') crumbs.innerHTML = homeLink + " / NCLEX Pharm Essentials / Flashcards";
+  else if(name==='setup') crumbs.innerHTML = homeLink + " / NCLEX Pharm Essentials / Practice Test";
+  else if(name==='cases') crumbs.innerHTML = homeLink + " / NCLEX Pharm Essentials / Case Studies";
+  else if(name==='quiz') crumbs.innerHTML = homeLink + " / <span onclick=\"showView('setup')\">NCLEX Pharm Essentials</span> / Practice Test";
+  ['tabNotesA','tabFlashA','tabSetupA','tabCasesA','tabNotesB','tabFlashB','tabSetupB','tabCasesB','tabNotesC','tabFlashC','tabSetupC','tabCasesC','tabNotesD','tabFlashD','tabSetupD','tabCasesD'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+    let kind = 'setup';
+    if(id.indexOf('Notes') !== -1) kind = 'notes';
+    else if(id.indexOf('Flash') !== -1) kind = 'flashcards';
+    else if(id.indexOf('Cases') !== -1) kind = 'cases';
+    el.classList.toggle('selected', kind === name || (kind==='setup' && name==='quiz'));
+  });
+
+  if(name === 'flashcards' && typeof renderFlashcard === 'function') renderFlashcard();
+  history.replaceState(null, '', '#'+name);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+(function initialRoute(){
+  const hash = (location.hash || '').replace('#','');
+  const validViews = ['notes','flashcards','setup','cases'];
+  showView(validViews.includes(hash) ? hash : 'setup');
+})();
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function startQuiz(n){
+  const indices = shuffle([...Array(QUESTIONS.length).keys()]).slice(0,n);
+  activeQuestions = indices.map(i=>QUESTIONS[i]);
+  questionState = new Array(activeQuestions.length).fill(null);
+  optionOrders = new Array(activeQuestions.length).fill(null);
+  score = 0;
+  currentIndex = 0;
+  document.getElementById('quizTitle').textContent = 'Practice Test — ' + n + ' Questions';
+  document.getElementById('finalOutOf').textContent = '/' + n;
+  buildPicker();
+  document.getElementById('quizArea').innerHTML='';
+  document.getElementById('summary').classList.remove('show');
+  updateStatus();
+  renderQuestion(0);
+  showView('quiz');
+}
+
+const pickerGrid = document.getElementById('pickerGrid');
+function buildPicker(){
+  pickerGrid.innerHTML = '';
+  activeQuestions.forEach((q,i)=>{
+    const btn = document.createElement('button');
+    btn.className = 'pick-btn';
+    btn.textContent = (i+1);
+    btn.title = 'Question ' + (i+1);
+    btn.addEventListener('click', ()=> goToQuestion(i));
+    pickerGrid.appendChild(btn);
+  });
+  refreshPicker();
+}
+function refreshPicker(){
+  const btns = pickerGrid.querySelectorAll('.pick-btn');
+  btns.forEach((btn,i)=>{
+    btn.classList.remove('current','correct','incorrect');
+    const st = questionState[i];
+    if(st) btn.classList.add(st.correct ? 'correct' : 'incorrect');
+    if(i === currentIndex) btn.classList.add('current');
+  });
+}
+
+function goToQuestion(idx){
+  currentIndex = idx;
+  document.getElementById('quizArea').innerHTML = '';
+  document.getElementById('summary').classList.remove('show');
+  renderQuestion(idx);
+  refreshPicker();
+  document.getElementById('quizArea').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function letter(i){ return String.fromCharCode(65+i); }
+
+function renderQuestion(qIndex){
+  const q = activeQuestions[qIndex];
+  const state = questionState[qIndex];
+  const quizArea = document.getElementById('quizArea');
+  const card = document.createElement('div');
+  card.className = 'qcard';
+
+  const meta = document.createElement('div');
+  meta.className = 'qmeta';
+  meta.innerHTML = `<span class="qnum">Q${qIndex+1} / ${activeQuestions.length}</span><span class="qtag">NCLEX Pharm Essentials</span>` +
+    (q.isSAL ? `<span class="qsal">Select all that apply</span>` : '');
+  card.appendChild(meta);
+
+  const stem = document.createElement('p');
+  stem.className = 'stem';
+  stem.textContent = q.stem;
+  card.appendChild(stem);
+
+  const optsWrap = document.createElement('div');
+  optsWrap.className = 'options';
+  const banner = document.createElement('div');
+  banner.className = 'result-banner';
+
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'btn-next';
+  nextBtn.textContent = (qIndex === activeQuestions.length-1) ? 'See results →' : 'Next question →';
+
+  const prevBtn = document.createElement('button');
+  prevBtn.className = 'btn-prev';
+  prevBtn.textContent = '← Previous';
+  prevBtn.disabled = (qIndex === 0);
+  prevBtn.addEventListener('click', ()=>{ if(qIndex>0) goToQuestion(qIndex-1); });
+
+  if(!optionOrders[qIndex]){
+    optionOrders[qIndex] = shuffle(q.options.map((_,i)=>i));
+  }
+  const order = optionOrders[qIndex];
+
+  if(q.isSAL){
+    let selected = state ? new Set(state.selected) : new Set();
+    order.forEach((origIdx, pos)=>{
+      const opt = q.options[origIdx];
+      const el = document.createElement('div');
+      el.className = 'opt sal';
+      el.dataset.origIdx = origIdx;
+      el.innerHTML = `<span class="opt-letter">${selected.has(origIdx)?'☑':'☐'}</span><div><div class="opt-text">${opt.text}</div><div class="opt-explain" style="display:none"></div></div>`;
+      if(!state){
+        el.addEventListener('click', ()=>{
+          if(el.classList.contains('locked')) return;
+          if(selected.has(origIdx)){ selected.delete(origIdx); el.querySelector('.opt-letter').textContent='☐'; el.style.background='var(--paper)'; el.style.borderColor='var(--line)'; }
+          else { selected.add(origIdx); el.querySelector('.opt-letter').textContent='☑'; el.style.background='#F0E9FA'; el.style.borderColor='var(--pulse)'; }
+        });
+      }
+      optsWrap.appendChild(el);
+    });
+    card.appendChild(optsWrap);
+    if(state){
+      revealSAL(qIndex, state.selected, optsWrap, banner, state.correct);
+      nextBtn.classList.add('show');
+    } else {
+      const submitBtn = document.createElement('button');
+      submitBtn.className = 'btn-sal-submit';
+      submitBtn.textContent = 'Submit answer';
+      submitBtn.addEventListener('click', ()=>{
+        lockSAL(qIndex, selected, optsWrap, banner, nextBtn, submitBtn);
+      });
+      card.appendChild(submitBtn);
+    }
+  } else {
+    order.forEach((origIdx, pos)=>{
+      const opt = q.options[origIdx];
+      const el = document.createElement('div');
+      el.className = 'opt';
+      el.dataset.origIdx = origIdx;
+      el.innerHTML = `<span class="opt-letter">${letter(pos)}</span><div><div class="opt-text">${opt.text}</div><div class="opt-explain" style="display:none"></div></div>`;
+      if(!state){
+        el.addEventListener('click', ()=> lockSingle(qIndex, origIdx, optsWrap, banner, nextBtn));
+      }
+      optsWrap.appendChild(el);
+    });
+    card.appendChild(optsWrap);
+    if(state){
+      revealSingle(qIndex, state.selected, optsWrap, banner, state.correct);
+      nextBtn.classList.add('show');
+    }
+  }
+
+  card.appendChild(banner);
+  const actions = document.createElement('div');
+  actions.className = 'actions';
+  actions.appendChild(prevBtn);
+  actions.appendChild(nextBtn);
+  card.appendChild(actions);
+
+  nextBtn.addEventListener('click', ()=>{
+    if(qIndex+1 < activeQuestions.length){ goToQuestion(qIndex+1); }
+    else { showSummary(); }
+  });
+
+  quizArea.appendChild(card);
+}
+
+function revealSingle(qIndex, chosenIdx, optsWrap, banner, isCorrect){
+  const q = activeQuestions[qIndex];
+  const opts = optsWrap.querySelectorAll('.opt');
+  opts.forEach((el)=>{
+    const i = parseInt(el.dataset.origIdx, 10);
+    el.classList.add('locked');
+    const explainEl = el.querySelector('.opt-explain');
+    explainEl.textContent = q.options[i].explain;
+    explainEl.style.display = 'block';
+    if(q.options[i].correct){ el.classList.add('correct-choice'); }
+    else if(i === chosenIdx){ el.classList.add('incorrect-choice'); }
+    else { el.classList.add('dim'); }
+  });
+  banner.classList.add('show', isCorrect ? 'correct' : 'incorrect');
+  banner.innerHTML = isCorrect ? `<span>✓</span> Correct.` : `<span>✕</span> Not quite — the correct answer is highlighted above.`;
+}
+
+function revealSAL(qIndex, selectedArr, optsWrap, banner, allCorrect){
+  const q = activeQuestions[qIndex];
+  const selected = new Set(selectedArr);
+  const opts = optsWrap.querySelectorAll('.opt');
+  opts.forEach((el)=>{
+    const i = parseInt(el.dataset.origIdx, 10);
+    el.classList.add('locked');
+    const explainEl = el.querySelector('.opt-explain');
+    explainEl.textContent = q.options[i].explain;
+    explainEl.style.display = 'block';
+    const letterEl = el.querySelector('.opt-letter');
+    if(q.options[i].correct){ el.classList.add('correct-choice'); letterEl.textContent='✓'; }
+    else if(selected.has(i)){ el.classList.add('incorrect-choice'); letterEl.textContent='✕'; }
+    else { el.classList.add('dim'); letterEl.textContent='☐'; }
+  });
+  banner.classList.add('show', allCorrect ? 'correct' : 'incorrect');
+  banner.innerHTML = allCorrect ? `<span>✓</span> Correct — all applicable choices selected.` : `<span>✕</span> Not quite — correct choices are highlighted above.`;
+}
+
+function lockSingle(qIndex, chosenIdx, optsWrap, banner, nextBtn){
+  if(questionState[qIndex]) return;
+  const q = activeQuestions[qIndex];
+  const isCorrect = q.options[chosenIdx].correct;
+  questionState[qIndex] = { correct: isCorrect, selected: chosenIdx };
+  if(isCorrect) score++;
+  revealSingle(qIndex, chosenIdx, optsWrap, banner, isCorrect);
+  nextBtn.classList.add('show');
+  refreshPicker();
+  updateStatus();
+}
+
+function lockSAL(qIndex, selected, optsWrap, banner, nextBtn, submitBtn){
+  if(questionState[qIndex]) return;
+  const q = activeQuestions[qIndex];
+  const correctSet = new Set(q.options.map((o,i)=>o.correct?i:null).filter(v=>v!==null));
+  let allCorrect = correctSet.size === selected.size && [...correctSet].every(i=>selected.has(i));
+  questionState[qIndex] = { correct: allCorrect, selected: [...selected] };
+  if(allCorrect) score++;
+  submitBtn.style.display = 'none';
+  revealSAL(qIndex, [...selected], optsWrap, banner, allCorrect);
+  nextBtn.classList.add('show');
+  refreshPicker();
+  updateStatus();
+}
+
+function updateStatus(){
+  const answeredCount = questionState.filter(Boolean).length;
+  const total = activeQuestions.length || 1;
+  document.getElementById('progressFill').style.width = (answeredCount/total*100)+'%';
+  document.getElementById('scoreLabel').innerHTML = `<span>${score}</span> / ${answeredCount}`;
+}
+
+function showSummary(){
+  document.getElementById('quizArea').innerHTML = '';
+  const answeredCount = questionState.filter(Boolean).length;
+  document.getElementById('finalScore').textContent = score;
+  document.getElementById('finalOutOf').textContent = '/' + activeQuestions.length;
+  const pct = answeredCount ? Math.round(score/answeredCount*100) : 0;
+  const msgEl = document.getElementById('finalMsg');
+  if(answeredCount < activeQuestions.length){
+    msgEl.textContent = `You've answered ${answeredCount} of ${activeQuestions.length} questions (${score} correct so far). Use the picker above to finish the rest.`;
+  } else if(pct >= 90) msgEl.textContent = 'Excellent — strong command of pharmacology test-taking strategy.';
+  else if(pct >= 75) msgEl.textContent = 'Solid work. Revisit the missed rationales above before your exam.';
+  else if(pct >= 60) msgEl.textContent = 'Decent start — review the explanations above, especially on the concepts you missed.';
+  else msgEl.textContent = 'Worth another pass — scroll up and read every rationale carefully, then retake.';
+  document.getElementById('summary').classList.add('show');
+  document.getElementById('summary').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+/* ---------- Print / Save PDF ---------- */
+function buildPrintReport(){
+  const answeredCount = questionState.filter(Boolean).length;
+  const pct = answeredCount ? Math.round(score/answeredCount*100) : 0;
+  const now = new Date();
+  const dateStr = now.toLocaleDateString(undefined, { year:'numeric', month:'long', day:'numeric' });
+  const timeStr = now.toLocaleTimeString(undefined, { hour:'2-digit', minute:'2-digit' });
+
+  let html = '';
+  html += '<div class="rpt-header">';
+  html += '<h1>NCLEX Pharm Essentials — Practice Test Results</h1>';
+  html += '<div class="rpt-meta">' + dateStr + ' at ' + timeStr + ' &middot; ' + activeQuestions.length + ' questions</div>';
+  html += '<div class="rpt-score">Score: ' + score + ' / ' + answeredCount + ' answered (' + pct + '%)</div>';
+  html += '</div>';
+
+  activeQuestions.forEach((q, qi) => {
+    const state = questionState[qi];
+    html += '<div class="rpt-q">';
+    html += '<div class="rq-num">Question ' + (qi+1) + (q.isSAL ? ' (Select all that apply)' : '') + '</div>';
+    html += '<div class="rq-stem">' + escapeHtml(q.stem) + '</div>';
+
+    q.options.forEach((opt, oi) => {
+      let cls = '';
+      let marker = '';
+      const chosen = state ? (q.isSAL ? state.selected.includes(oi) : state.selected === oi) : false;
+      if(opt.correct){ cls = 'correct'; marker = '✓ '; }
+      else if(chosen){ cls = 'incorrect'; marker = '✕ '; }
+      html += '<div class="rpt-opt ' + cls + '">' + marker + escapeHtml(opt.text) + '</div>';
+      html += '<div class="rpt-explain">' + escapeHtml(opt.explain) + '</div>';
+    });
+
+    if(state){
+      const isCorrect = state.correct;
+      html += '<div class="rpt-banner ' + (isCorrect ? 'correct' : 'incorrect') + '">' +
+        (isCorrect ? 'Answered correctly' : 'Answered incorrectly') + '</div>';
+    } else {
+      html += '<div class="rpt-banner">Not answered</div>';
+    }
+    html += '</div>';
+  });
+
+  document.getElementById('printReport').innerHTML = html;
+}
+
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+document.getElementById('printBtn').addEventListener('click', ()=>{
+  buildPrintReport();
+  window.print();
+});
+
+document.getElementById('resultsBtn').addEventListener('click', showSummary);
+document.getElementById('randomBtn').addEventListener('click', ()=>{
+  const idx = Math.floor(Math.random()*activeQuestions.length);
+  goToQuestion(idx);
+});
+document.getElementById('reviewBtn').addEventListener('click', ()=>{
+  document.getElementById('summary').classList.remove('show');
+  goToQuestion(currentIndex);
+});
+document.getElementById('setupBtn').addEventListener('click', ()=> showView('setup'));
+document.getElementById('restartBtn').addEventListener('click', ()=> startQuiz(activeQuestions.length));
+</script>
+</body>
+</html>

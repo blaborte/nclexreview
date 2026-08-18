@@ -1,0 +1,1738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nursing NCLEX Review</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  :root{
+    --ink:#0F2438;
+    --ink-soft:#3C5468;
+    --paper:#F5F8FA;
+    --card:#FFFFFF;
+    --line:#DCE4EA;
+    --pulse:#2E7DAF;
+    --pulse-dim:#DCEAF4;
+    --correct:#1B8A5A;
+    --correct-bg:#E7F5EE;
+    --incorrect:#C1443D;
+    --incorrect-bg:#FBEAE8;
+    --muted:#7C8B94;
+    --amber:#B8791A;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(520px circle at 4% -6%, rgba(46,125,175,0.2), transparent 60%),
+      radial-gradient(460px circle at 98% 2%, rgba(184,121,26,0.15), transparent 58%),
+      radial-gradient(480px circle at 6% 70%, rgba(27,138,90,0.12), transparent 58%),
+      linear-gradient(180deg, var(--paper) 0%, #ffffff 50%, var(--paper) 100%);
+    background-attachment:fixed;
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    padding:40px 20px 80px;
+  }
+  .wrap{max-width:860px;margin:0 auto;}
+  .view{display:none;}
+  .view.active{display:block;}
+
+  .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:10px;}
+  .brand{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--pulse);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;gap:8px;}
+  .brand:hover{color:var(--ink);}
+  .crumbs{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);}
+  .crumbs span{cursor:pointer;}
+  .crumbs span:hover{color:var(--pulse);}
+
+  .eyebrow{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--pulse);font-weight:600;margin-bottom:10px;}
+  h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(28px,5vw,40px);line-height:1.08;margin:0 0 6px;letter-spacing:-.01em;}
+  h2.section-title{font-family:'Fraunces',serif;font-weight:600;font-size:22px;margin:34px 0 12px;color:var(--ink);}
+  h2.section-title:first-of-type{margin-top:0;}
+  .subtitle{color:var(--ink-soft);font-size:15px;margin:0 0 26px;max-width:60ch;}
+
+  .ekg{width:100%;height:46px;margin-bottom:24px;overflow:hidden;}
+  .ekg svg{width:100%;height:100%;display:block;}
+  .ekg path{fill:none;stroke:var(--pulse);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  .ekg-trace{stroke-dasharray:1000;stroke-dashoffset:1000;animation:draw 2.6s ease-out forwards;}
+  @keyframes draw{to{stroke-dashoffset:0;}}
+  @media (prefers-reduced-motion:reduce){.ekg-trace{animation:none;stroke-dashoffset:0;}}
+
+  .topic-tabs{display:flex;gap:8px;margin-bottom:26px;flex-wrap:wrap;}
+  .tab-btn{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;padding:11px 18px;border-radius:9px;cursor:pointer;border:1.5px solid var(--line);background:var(--card);color:var(--ink-soft);}
+  .tab-btn:hover{border-color:var(--pulse);color:var(--pulse);}
+  .tab-btn.selected{background:var(--ink);border-color:var(--ink);color:#fff;}
+
+  .notes-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:30px 28px;}
+  .notes-card p{color:var(--ink-soft);font-size:14.5px;line-height:1.6;}
+  .note-table{width:100%;border-collapse:collapse;margin:10px 0 24px;font-size:13.5px;}
+  .note-table th{background:var(--ink);color:#fff;text-align:left;padding:9px 12px;font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.03em;text-transform:uppercase;}
+  .note-table td{padding:9px 12px;border-bottom:1px solid var(--line);color:var(--ink-soft);vertical-align:top;}
+  .note-table tr:nth-child(even) td{background:var(--paper);}
+  .note-table td b{color:var(--ink);}
+  .drugclass{border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:14px;background:var(--paper);}
+  .drugclass h4{margin:0 0 8px;font-family:'Inter',sans-serif;font-size:15px;color:var(--ink);}
+  .drugclass .suffix-tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--pulse);background:var(--pulse-dim);padding:2px 8px;border-radius:5px;margin-left:8px;}
+  .drugclass ul{margin:6px 0 0;padding-left:20px;color:var(--ink-soft);font-size:13.5px;line-height:1.6;}
+  .note-callout{border-left:3px solid var(--pulse);background:var(--pulse-dim);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13.5px;color:var(--ink);margin:14px 0;}
+  .note-callout b{color:var(--pulse);}
+  .casebox{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:14px;font-size:13.5px;color:var(--ink-soft);line-height:1.6;}
+  .casebox b{color:var(--ink);}
+
+  .setup-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:32px 28px;text-align:center;}
+  .setup-card p{color:var(--ink-soft);font-size:14px;margin-bottom:24px;}
+  .count-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+  @media (max-width:560px){.count-grid{grid-template-columns:repeat(2,1fr);}}
+  .count-btn{background:var(--paper);border:1.5px solid var(--line);border-radius:12px;padding:22px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:all .12s ease;}
+  .count-btn:hover{border-color:var(--pulse);background:#EAF3FA;}
+  .count-num{font-family:'Fraunces',serif;font-size:30px;font-weight:600;color:var(--ink);}
+  .count-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+
+  .picker{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px 20px;margin-bottom:22px;}
+  .picker-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:10px;flex-wrap:wrap;}
+  .picker-title{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;}
+  .picker-actions{display:flex;gap:8px;}
+  .mini-btn{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;background:var(--paper);border:1px solid var(--line);color:var(--ink-soft);padding:6px 11px;border-radius:7px;cursor:pointer;}
+  .mini-btn:hover{border-color:var(--pulse);color:var(--pulse);}
+  .picker-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:7px;}
+  @media (max-width:520px){.picker-grid{grid-template-columns:repeat(6,1fr);}}
+  .pick-btn{aspect-ratio:1;border-radius:8px;border:1.5px solid var(--line);background:var(--paper);font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:600;color:var(--ink-soft);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s ease;}
+  .pick-btn:hover{border-color:var(--pulse);color:var(--pulse);}
+  .pick-btn.current{border-color:var(--ink);box-shadow:0 0 0 2px var(--ink) inset;color:var(--ink);}
+  .pick-btn.correct{background:var(--correct-bg);border-color:var(--correct);color:var(--correct);}
+  .pick-btn.incorrect{background:var(--incorrect-bg);border-color:var(--incorrect);color:var(--incorrect);}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);}
+  .legend span{display:inline-flex;align-items:center;gap:5px;}
+  .dot{width:9px;height:9px;border-radius:3px;display:inline-block;}
+  .dot.unanswered{background:var(--paper);border:1.5px solid var(--line);}
+  .dot.correct{background:var(--correct-bg);border:1.5px solid var(--correct);}
+  .dot.incorrect{background:var(--incorrect-bg);border:1.5px solid var(--incorrect);}
+
+  .statusbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;}
+  .progress-track{flex:1;height:6px;background:var(--line);border-radius:4px;overflow:hidden;position:relative;}
+  .progress-fill{height:100%;background:var(--pulse);border-radius:4px;width:0%;transition:width .35s ease;}
+  .score-pill{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--ink);background:var(--card);border:1px solid var(--line);padding:6px 12px;border-radius:20px;white-space:nowrap;}
+  .score-pill span{color:var(--pulse);}
+
+  .qcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:28px 26px 24px;margin-bottom:20px;box-shadow:0 1px 2px rgba(15,36,56,.03);}
+  .qmeta{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
+  .qnum{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--pulse);background:var(--pulse-dim);padding:3px 9px;border-radius:6px;}
+  .qtag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;}
+  .qsal{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--amber);letter-spacing:.03em;border:1px solid #EAD3A3;background:#FBF3E3;padding:2px 8px;border-radius:5px;}
+  .stem{font-size:18px;line-height:1.48;font-weight:600;color:var(--ink);margin:0 0 20px;}
+
+  .options{display:flex;flex-direction:column;gap:10px;}
+  .opt{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;padding:13px 14px;border:1.5px solid var(--line);background:var(--paper);border-radius:10px;cursor:pointer;font-family:'Inter',sans-serif;font-size:15px;color:var(--ink);transition:border-color .15s ease, background .15s ease, transform .1s ease;}
+  .opt:hover:not(.locked){border-color:var(--pulse);background:#EAF3FA;}
+  .opt:active:not(.locked){transform:scale(.997);}
+  .opt:focus-visible{outline:2px solid var(--pulse);outline-offset:2px;}
+  .opt-letter{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:13px;color:var(--ink-soft);background:var(--card);border:1px solid var(--line);min-width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+  .opt-text{flex:1;line-height:1.45;}
+  .opt.correct-choice{border-color:var(--correct);background:var(--correct-bg);}
+  .opt.correct-choice .opt-letter{background:var(--correct);border-color:var(--correct);color:#fff;}
+  .opt.incorrect-choice{border-color:var(--incorrect);background:var(--incorrect-bg);}
+  .opt.incorrect-choice .opt-letter{background:var(--incorrect);border-color:var(--incorrect);color:#fff;}
+  .opt.locked{cursor:default;}
+  .opt.dim{opacity:.55;}
+  .opt-explain{margin-top:6px;font-size:13.5px;line-height:1.5;font-family:'Inter',sans-serif;}
+  .opt.correct-choice .opt-explain{color:#15694A;}
+  .opt.incorrect-choice .opt-explain{color:#96332E;}
+  .opt.dim .opt-explain{color:var(--muted);}
+  .opt.dim.correct-choice .opt-explain{color:var(--correct);}
+  .opt.sal .opt-letter{border-radius:5px;}
+
+  .result-banner{display:none;align-items:center;gap:10px;margin-top:18px;padding:11px 14px;border-radius:9px;font-size:14px;font-weight:600;font-family:'Inter',sans-serif;}
+  .result-banner.show{display:flex;}
+  .result-banner.correct{background:var(--correct-bg);color:var(--correct);}
+  .result-banner.incorrect{background:var(--incorrect-bg);color:var(--incorrect);}
+
+  .actions{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:10px;}
+  .btn-prev{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;background:var(--card);color:var(--ink-soft);border:1px solid var(--line);padding:11px 18px;border-radius:8px;cursor:pointer;}
+  .btn-prev:hover{border-color:var(--pulse);color:var(--pulse);}
+  .btn-prev:disabled{opacity:.4;cursor:not-allowed;}
+  .btn-next{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;letter-spacing:.03em;background:var(--ink);color:#fff;border:none;padding:11px 20px;border-radius:8px;cursor:pointer;display:none;align-items:center;gap:8px;}
+  .btn-next.show{display:inline-flex;}
+  .btn-next:hover{background:var(--pulse);}
+  .btn-sal-submit{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;background:var(--pulse);color:#fff;border:none;padding:11px 20px;border-radius:8px;cursor:pointer;margin-top:16px;}
+
+  .summary{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:36px 30px;text-align:center;display:none;}
+  .summary.show{display:block;}
+  .summary .big-score{font-family:'Fraunces',serif;font-size:56px;font-weight:600;color:var(--pulse);line-height:1;margin-bottom:6px;}
+  .summary .big-score sub{font-size:22px;font-weight:500;color:var(--muted);}
+  .summary p{color:var(--ink-soft);font-size:14px;margin:6px 0 22px;}
+  .btn-restart{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;background:var(--ink);color:#fff;border:none;padding:12px 22px;border-radius:8px;cursor:pointer;margin:4px;}
+  .btn-restart:hover{background:var(--pulse);}
+  .btn-restart.secondary{background:var(--card);color:var(--ink-soft);border:1px solid var(--line);}
+  .btn-restart.secondary:hover{color:var(--pulse);border-color:var(--pulse);}
+
+  .btn-restart.print-btn{background:var(--ink-soft, #555);}
+  .btn-restart.print-btn:hover{background:var(--pulse);}
+
+  footer{text-align:center;margin-top:34px;font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;}
+
+
+  /* ---------- Flashcards ---------- */
+  .flash-wrap{max-width:480px;margin:0 auto;text-align:center;}
+  .flash-progress{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:14px;}
+  .flashcard{width:100%;height:260px;perspective:1200px;cursor:pointer;margin-bottom:20px;}
+  .flash-inner{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d;}
+  .flashcard.flipped .flash-inner{transform:rotateY(180deg);}
+  .flash-face{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:16px;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;padding:30px;font-family:'Inter',sans-serif;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.05);}
+  .flash-front{background:var(--card);font-size:18px;font-weight:600;color:var(--ink);}
+  .flash-back{background:var(--pulse-dim);transform:rotateY(180deg);color:var(--ink);font-weight:500;font-size:15px;line-height:1.5;}
+  .flash-tag{position:absolute;top:14px;left:16px;font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--pulse);font-weight:700;}
+  .flash-hint{position:absolute;bottom:12px;right:16px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);}
+  .flash-controls{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
+
+  /* ---------- Printable report (hidden on screen, shown only when printing) ---------- */
+  #printReport{display:none;}
+  @media print{
+    body *{visibility:hidden;}
+    #printReport, #printReport *{visibility:visible;}
+    #printReport{
+      display:block;position:absolute;top:0;left:0;width:100%;
+      padding:0;margin:0;background:#fff;color:#111;font-family:'Inter',sans-serif;
+    }
+    .wrap, .topbar, .view, footer{display:none !important;}
+    #printReport .rpt-header{border-bottom:2px solid #333;padding-bottom:10px;margin-bottom:16px;}
+    #printReport h1{font-family:'Fraunces',serif;font-size:22px;margin:0 0 4px;}
+    #printReport .rpt-meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:#555;}
+    #printReport .rpt-score{font-family:'Fraunces',serif;font-size:26px;font-weight:600;margin:10px 0;}
+    #printReport .rpt-q{page-break-inside:avoid;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid #ddd;}
+    #printReport .rpt-q .rq-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:#0F8B8D;font-weight:700;}
+    #printReport .rpt-q .rq-stem{font-weight:700;font-size:13px;margin:2px 0 6px;}
+    #printReport .rpt-opt{font-size:12px;margin:3px 0;padding-left:14px;}
+    #printReport .rpt-opt.correct{color:#15694A;font-weight:700;}
+    #printReport .rpt-opt.incorrect{color:#96332E;font-weight:700;text-decoration:underline;}
+    #printReport .rpt-explain{font-size:11px;color:#444;margin:1px 0 4px 14px;}
+    #printReport .rpt-banner{font-size:11px;font-weight:700;margin-top:2px;}
+    #printReport .rpt-banner.correct{color:#15694A;}
+    #printReport .rpt-banner.incorrect{color:#96332E;}
+  }
+
+  .case-card{border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin-bottom:22px;background:var(--card);}
+  .case-card h3{font-family:'Fraunces',serif;font-size:19px;margin:0 0 4px;color:var(--ink);}
+  .case-tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--pulse);background:var(--pulse-dim);padding:3px 9px;border-radius:5px;text-transform:uppercase;letter-spacing:.04em;display:inline-block;margin-bottom:12px;}
+  .case-vignette{font-size:14.5px;line-height:1.75;color:var(--ink-soft);margin-bottom:6px;}
+  .case-vignette b{color:var(--ink);}
+  .case-data{border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:var(--paper);font-size:13.5px;color:var(--ink-soft);margin:12px 0;line-height:1.7;}
+  .case-data b{color:var(--ink);}
+  .case-q{margin-top:18px;padding-top:16px;border-top:1px dashed var(--line);}
+  .case-q p.q-text{font-size:14px;color:var(--ink);margin:0 0 10px;font-weight:500;}
+  .reveal-btn{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--pulse);background:var(--pulse-dim);border:none;padding:7px 14px;border-radius:6px;cursor:pointer;letter-spacing:.02em;}
+  .reveal-btn:hover{opacity:.85;}
+  .reveal-answer{display:none;margin-top:12px;padding:12px 16px;background:var(--correct-bg);border-left:3px solid var(--correct);border-radius:0 8px 8px 0;font-size:13.5px;color:var(--ink);line-height:1.7;}
+  .reveal-answer.show{display:block;}
+  .reveal-answer b{color:var(--correct);}
+
+  /* ============ GLASS SURFACE OVERRIDE ============ */
+  .notes-card,.setup-card,.picker,.qcard,.summary,.flash-front,.case-card,
+  .score-pill,.secondary,.exam-banner-inner{
+    background:rgba(255,255,255,.6);
+    -webkit-backdrop-filter:blur(18px) saturate(160%);
+    backdrop-filter:blur(18px) saturate(160%);
+    border-color:rgba(255,255,255,.7);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.7), 0 10px 26px rgba(33,27,54,.06);
+  }
+  .tab-btn:not(.selected),.btn-prev,.mini-btn{
+    background:rgba(255,255,255,.45);
+    -webkit-backdrop-filter:blur(10px);
+    backdrop-filter:blur(10px);
+    border-color:rgba(255,255,255,.65);
+  }
+  .drugclass,.casebox,.case-data,.count-btn,.pick-btn,.opt,.dot.unanswered{
+    background:rgba(255,255,255,.35);
+    -webkit-backdrop-filter:blur(9px);
+    backdrop-filter:blur(9px);
+    border-color:rgba(255,255,255,.6);
+  }
+  .topbar{
+    background:rgba(255,255,255,.4);
+    -webkit-backdrop-filter:blur(14px);
+    backdrop-filter:blur(14px);
+    border:1px solid rgba(255,255,255,.6);
+    border-radius:12px;
+    padding:10px 16px;
+  }
+  @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+    .notes-card,.setup-card,.picker,.qcard,.summary,.flash-front,.case-card,
+    .score-pill,.secondary,.exam-banner-inner,.tab-btn:not(.selected),.btn-prev,
+    .mini-btn,.drugclass,.casebox,.case-data,.count-btn,.pick-btn,.opt,.topbar{
+      background:rgba(255,255,255,.94);
+    }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand" onclick="location.href='index.html'">◆ Nursing NCLEX Review</div>
+    <div class="crumbs" id="crumbs"></div>
+  </div>
+
+  <!-- ============ COURSE NOTES ============ -->
+  <div class="view" id="view-notes">
+    <div class="eyebrow">Respiratory Medications</div>
+    <div class="topic-tabs">
+      <button class="tab-btn selected" id="tabNotesA" onclick="showView('notes')">Course Notes</button>
+      <button class="tab-btn" id="tabFlashA" onclick="showView('flashcards')">Flashcards</button>
+      <button class="tab-btn" id="tabSetupA" onclick="showView('setup')">Practice Test</button>
+      <button class="tab-btn" id="tabCasesA" onclick="showView('cases')">Case Studies</button>
+    </div>
+    <h1>Course Notes</h1>
+    <p class="subtitle">Reference notes on bronchodilators, corticosteroids, and airway pharmacology. Use this to study before or during the practice test.</p>
+    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 Q40,4 80,23 T160,23 Q200,4 240,23 T320,23 L480,23 Q520,4 560,23 T640,23 Q680,4 720,23 T800,23"/></svg></div>
+
+    <div class="notes-card" id="notesContent"></div>
+
+    <div style="text-align:center;margin-top:20px;">
+      <button class="btn-restart" style="background:var(--pulse);" onclick="showView('setup')">Start practice test →</button>
+    </div>
+  </div>
+
+  <!-- ============ FLASHCARDS ============ -->
+  <div class="view" id="view-flashcards">
+    <div class="eyebrow">Respiratory Medications</div>
+    <div class="topic-tabs">
+      <button class="tab-btn" id="tabNotesB" onclick="showView('notes')">Course Notes</button>
+      <button class="tab-btn selected" id="tabFlashB" onclick="showView('flashcards')">Flashcards</button>
+      <button class="tab-btn" id="tabSetupB" onclick="showView('setup')">Practice Test</button>
+      <button class="tab-btn" id="tabCasesB" onclick="showView('cases')">Case Studies</button>
+    </div>
+    <h1>Flashcards</h1>
+    <p class="subtitle">Tap a card to flip it. Use the arrows to move through the deck, or shuffle for random order.</p>
+    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
+
+    <div class="flash-wrap">
+      <div class="flash-progress">Card <span id="flashIndex">1</span> / <span id="flashTotal">1</span></div>
+      <div class="flashcard" id="flashcard" onclick="flipCard()">
+        <div class="flash-inner" id="flashInner">
+          <div class="flash-face flash-front">
+            <span class="flash-tag">Term</span>
+            <span id="flashFront"></span>
+            <span class="flash-hint">Tap to flip</span>
+          </div>
+          <div class="flash-face flash-back">
+            <span class="flash-tag">Answer</span>
+            <span id="flashBack"></span>
+          </div>
+        </div>
+      </div>
+      <div class="flash-controls">
+        <button class="mini-btn" id="flashPrev">← Prev</button>
+        <button class="mini-btn" id="flashShuffle">🔀 Shuffle</button>
+        <button class="mini-btn" id="flashNext">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SETUP ============ -->
+  <div class="view" id="view-setup">
+    <div class="eyebrow">Respiratory Medications</div>
+    <div class="topic-tabs">
+      <button class="tab-btn" id="tabNotesC" onclick="showView('notes')">Course Notes</button>
+      <button class="tab-btn" id="tabFlashC" onclick="showView('flashcards')">Flashcards</button>
+      <button class="tab-btn selected" id="tabSetupC" onclick="showView('setup')">Practice Test</button>
+      <button class="tab-btn" id="tabCasesC" onclick="showView('cases')">Case Studies</button>
+    </div>
+    <h1>Practice Test</h1>
+    <p class="subtitle">Choose how many questions you want to take. Questions are randomly selected from a bank of 100 each time, and every option — right or wrong — comes with an explanation.</p>
+    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 Q40,4 80,23 T160,23 Q200,4 240,23 T320,23 L480,23 Q520,4 560,23 T640,23 Q680,4 720,23 T800,23"/></svg></div>
+
+    <div class="setup-card">
+      <p>How many questions would you like to take?</p>
+      <div class="count-grid">
+        <button class="count-btn" onclick="startQuiz(20)"><span class="count-num">20</span><span class="count-label">Quick review</span></button>
+        <button class="count-btn" onclick="startQuiz(30)"><span class="count-num">30</span><span class="count-label">Standard</span></button>
+        <button class="count-btn" onclick="startQuiz(40)"><span class="count-num">40</span><span class="count-label">Extended</span></button>
+        <button class="count-btn" onclick="startQuiz(100)"><span class="count-num">100</span><span class="count-label">Full bank</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ CASE STUDIES ============ -->
+  <div class="view" id="view-cases">
+    <div class="eyebrow">Respiratory Medications</div>
+    <div class="topic-tabs">
+      <button class="tab-btn" id="tabNotesD" onclick="showView('notes')">Course Notes</button>
+      <button class="tab-btn" id="tabFlashD" onclick="showView('flashcards')">Flashcards</button>
+      <button class="tab-btn" id="tabSetupD" onclick="showView('setup')">Practice Test</button>
+      <button class="tab-btn selected" id="tabCasesD" onclick="showView('cases')">Case Studies</button>
+    </div>
+    <h1>Case Studies</h1>
+    <p class="subtitle">Apply what you've reviewed to realistic clinical scenarios. Read each vignette, think through the reflection questions, then tap to reveal the rationale.</p>
+    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
+
+    <div class="cases-wrap" id="casesContent"></div>
+  </div>
+
+  <!-- ============ QUIZ ============ -->
+  <div class="view" id="view-quiz">
+    <div class="eyebrow">Respiratory Medications</div>
+    <h1 id="quizTitle">Practice Test</h1>
+    <p class="subtitle">Choose an answer to see the correct choice and why every option is right or wrong. Jump to any question using the picker below.</p>
+    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 Q40,4 80,23 T160,23 Q200,4 240,23 T320,23 L480,23 Q520,4 560,23 T640,23 Q680,4 720,23 T800,23"/></svg></div>
+
+    <div class="picker">
+      <div class="picker-head">
+        <span class="picker-title">Jump to a question</span>
+        <div class="picker-actions">
+          <button class="mini-btn" id="randomBtn">🎲 Random</button>
+          <button class="mini-btn" id="resultsBtn">View results</button>
+        </div>
+      </div>
+      <div class="picker-grid" id="pickerGrid"></div>
+      <div class="legend">
+        <span><span class="dot unanswered"></span>Unanswered</span>
+        <span><span class="dot correct"></span>Correct</span>
+        <span><span class="dot incorrect"></span>Incorrect</span>
+      </div>
+    </div>
+
+    <div class="statusbar">
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="score-pill">Score <span id="scoreLabel">0 / 0</span></div>
+    </div>
+
+    <div id="quizArea"></div>
+
+    <div class="summary" id="summary">
+      <div class="big-score"><span id="finalScore">0</span><sub id="finalOutOf">/20</sub></div>
+      <p id="finalMsg"></p>
+      <button class="btn-restart print-btn" id="printBtn">🖨️ Print / Save PDF</button>
+      <button class="btn-restart secondary" id="reviewBtn">Back to test</button>
+      <button class="btn-restart secondary" id="setupBtn">Change length</button>
+      <button class="btn-restart" id="restartBtn">New random set</button>
+    </div>
+  </div>
+
+  <footer>RESPIRATORY PHARMACOLOGY · PRACTICE SET</footer>
+</div>
+
+<!-- Printable results report — hidden on screen, populated and shown only for printing -->
+<div id="printReport"></div>
+
+<script>
+document.getElementById('casesContent').innerHTML = `
+<div class="case-card">
+    <span class="case-tag">Primary Care Clinic</span>
+    <h3>Overuse of a Rescue Inhaler</h3>
+    <p class="case-vignette">A 27-year-old client with asthma reports using her albuterol (short-acting beta-agonist) rescue inhaler "6 or 7 times a day most days" because she feels short of breath frequently. She has not been using her prescribed inhaled corticosteroid because "the rescue one works faster."</p>
+    <div class="case-data"><b>Reported symptoms:</b> tremor, occasional palpitations after inhaler use &nbsp;|&nbsp; <b>Current regimen:</b> Albuterol PRN (overused) · Fluticasone MDI prescribed but not used &nbsp;|&nbsp; <b>VS:</b> HR 108</div>
+    <div class="case-q">
+      <p class="q-text">Why is using albuterol this frequently a red flag, and what do the tremor and palpitations indicate?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('resp_c1q1', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="resp_c1q1"><b>Answer:</b> Albuterol is a beta-2 agonist, but at higher/frequent doses it also stimulates beta-1 receptors in the heart, causing tachycardia, palpitations, and tremor — this frequency of use (needing rescue relief multiple times daily) signals poorly controlled asthma, not just an inconvenient symptom, and needs prompt reassessment of the whole treatment plan.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What key teaching point explains the difference between her two inhalers?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('resp_c1q2', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="resp_c1q2"><b>Answer:</b> Albuterol is a rescue/reliever medication — fast onset, used PRN for acute symptoms, but it does not treat underlying airway inflammation. Fluticasone (inhaled corticosteroid) is a controller medication — taken daily on a schedule (not PRN) to reduce airway inflammation over time and prevent attacks; skipping it is likely why she needs the rescue inhaler so often.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What administration teaching would most help this client going forward?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('resp_c1q3', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="resp_c1q3"><b>Answer:</b> If prescribed both a bronchodilator and a corticosteroid inhaler, use the bronchodilator (albuterol) first and wait about 5 minutes before the corticosteroid — this opens the airways so the steroid can be deposited more effectively deeper in the lungs. She should also be taught proper MDI/spacer technique and to rinse her mouth after the corticosteroid to prevent thrush.</div>
+    </div>
+  </div>
+<div class="case-card">
+    <span class="case-tag">Pulmonary Clinic</span>
+    <h3>Starting an Inhaled Corticosteroid</h3>
+    <p class="case-vignette">A client newly diagnosed with persistent asthma is prescribed budesonide (inhaled corticosteroid) twice daily via MDI with a spacer, in addition to an as-needed albuterol inhaler. During teaching, the client asks, "Since this is a steroid, will it affect my blood sugar or bones like the steroid pills I took last year for my rash?"</p>
+    <div class="case-data"><b>New Rx:</b> Budesonide MDI + spacer, BID scheduled &nbsp;|&nbsp; <b>PRN:</b> Albuterol MDI &nbsp;|&nbsp; <b>History:</b> Prior short course of oral prednisone for a rash</div>
+    <div class="case-q">
+      <p class="q-text">How should the nurse answer the client's question about systemic effects?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('resp_c2q1', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="resp_c2q1"><b>Answer:</b> Inhaled corticosteroids act mainly locally in the lungs with only minimal systemic absorption at prescribed doses, so they carry a much lower risk of the systemic effects (hyperglycemia, bone density loss, adrenal suppression) associated with oral/systemic steroids like the prednisone she took previously — though very high-dose, long-term ICS use still carries some measurable osteoporosis risk worth monitoring over time.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What local side effect is this client at risk for, and how is it prevented?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('resp_c2q2', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="resp_c2q2"><b>Answer:</b> Oral candidiasis (thrush) and hoarseness are the main local risks with inhaled corticosteroids. Prevention: rinse and spit (don't swallow) with water after every dose, and use a spacer device with the MDI to reduce medication deposition in the mouth/throat and improve delivery to the lungs.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">Why is it important to teach this client to use the albuterol before the budesonide, and why must budesonide be taken on a schedule rather than PRN?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('resp_c2q3', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="resp_c2q3"><b>Answer:</b> Using the bronchodilator first opens the airways so the corticosteroid reaches the lower airways more effectively. Budesonide must be taken consistently on schedule, even when the client feels well, because its anti-inflammatory effect builds over days to weeks — it does not relieve acute symptoms and provides no immediate benefit if used PRN like albuterol.</div>
+    </div>
+  </div>
+<div class="case-card">
+    <span class="case-tag">Pulmonary Clinic</span>
+    <h3>Starting Montelukast for Allergic Asthma</h3>
+    <p class="case-vignette">A 16-year-old client with asthma triggered by seasonal allergies is prescribed montelukast (a leukotriene receptor antagonist) once daily in the evening, in addition to his existing albuterol PRN inhaler. At the follow-up visit a few weeks later, his mother mentions he's seemed "more irritable and withdrawn" since starting the new medication.</p>
+    <div class="case-data"><b>New Rx:</b> Montelukast 10 mg PO nightly &nbsp;|&nbsp; <b>Reported:</b> increased irritability, withdrawal, mother notes "not himself" &nbsp;|&nbsp; <b>Asthma control:</b> improved (fewer daytime symptoms)</div>
+    <div class="case-q">
+      <p class="q-text">What important safety concern should the nurse address regarding this client's new mood changes?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('resp_c3q1', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="resp_c3q1"><b>Answer:</b> Montelukast carries a boxed warning for neuropsychiatric effects, including mood changes, agitation, depression, and in rare cases suicidal thoughts/behavior — these reported changes in irritability and withdrawal should be taken seriously and reported to the provider promptly rather than dismissed as normal teenage mood swings, especially with a temporal link to starting the drug.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">Is montelukast a rescue medication for acute asthma symptoms? What should this client and family understand about its role?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('resp_c3q2', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="resp_c3q2"><b>Answer:</b> No — montelukast is a controller medication taken daily (often in the evening) to reduce airway inflammation from leukotrienes over time; it does not act quickly enough to relieve an acute asthma attack and should never be substituted for the albuterol rescue inhaler during acute symptoms.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">Why might montelukast be a good fit for this particular client's asthma triggers?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('resp_c3q3', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="resp_c3q3"><b>Answer:</b> Leukotriene receptor antagonists are often especially useful for allergy- and exercise-induced asthma, since leukotrienes are heavily involved in the allergic inflammatory response — making montelukast a reasonable add-on for a client whose asthma is clearly triggered by seasonal allergies, alongside continued monitoring for the neuropsychiatric side effects discussed above.</div>
+    </div>
+  </div>
+<div class="case-card">
+    <span class="case-tag">Emergency Department</span>
+    <h3>Theophylline Toxicity</h3>
+    <p class="case-vignette">An older adult client with COPD who takes oral theophylline presents with nausea, vomiting, and a new tremor. Her daughter reports she recently started a new antibiotic (a macrolide) for a sinus infection about four days ago.</p>
+    <div class="case-data"><b>Theophylline level:</b> 24 mcg/mL (therapeutic 10–20) &nbsp;|&nbsp; <b>VS:</b> HR 128, irregular &nbsp;|&nbsp; <b>Reported:</b> nausea, vomiting, tremor, insomnia</div>
+    <div class="case-q">
+      <p class="q-text">What is the likely cause of this client's symptoms, and how does the new antibiotic factor in?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('resp_c4q1', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="resp_c4q1"><b>Answer:</b> This presentation is consistent with theophylline toxicity — a narrow therapeutic index drug. Macrolide antibiotics (like erythromycin, clarithromycin) inhibit the liver enzymes that metabolize theophylline, causing the level to rise even without a change in her theophylline dose, which explains why symptoms appeared after starting the new antibiotic.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What symptoms should the nurse specifically watch for as signs of worsening theophylline toxicity?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('resp_c4q2', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="resp_c4q2"><b>Answer:</b> Cardiac dysrhythmias (already suggested by her irregular, fast heart rate), seizures, and severe GI symptoms are the most concerning signs of significant toxicity — continuous cardiac monitoring and prompt provider notification are warranted given her current symptoms and elevated level.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What broader teaching point does this case illustrate about narrow therapeutic index medications like theophylline?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('resp_c4q3', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="resp_c4q3"><b>Answer:</b> Any new medication — including OTC drugs and medications for unrelated conditions — should be reviewed against a client's existing narrow therapeutic index drugs before starting, since drug interactions can significantly raise or lower levels even without any dosing change to the original medication. Clients on theophylline should be taught to inform every prescriber about this medication.</div>
+    </div>
+  </div>
+<div class="case-card">
+    <span class="case-tag">Pediatric Clinic</span>
+    <h3>Teaching Correct Use of a Peak Flow Meter</h3>
+    <p class="case-vignette">The parent of an 8-year-old with persistent asthma is being taught to use a peak flow meter at home to help monitor the child's asthma control between visits. The parent asks how they'll know if their child needs to use the rescue inhaler based on the readings.</p>
+    <div class="case-data"><b>Child's personal best peak flow:</b> 250 L/min &nbsp;|&nbsp; <b>Today's reading:</b> 150 L/min &nbsp;|&nbsp; <b>Symptoms:</b> mild wheeze, no distress</div>
+    <div class="case-q">
+      <p class="q-text">Using the peak flow zone system, how should the nurse explain today's reading to the parent?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('resp_c5q1', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="resp_c5q1"><b>Answer:</b> Peak flow zones are typically based on percentage of personal best: green zone (80–100%) means good control, yellow zone (50–79%) signals caution and may need rescue medication, and red zone (below 50%) is a medical alert requiring immediate rescue treatment and possibly emergency care. At 150/250 (60%), this reading falls in the <b>yellow zone</b> — indicating the child should use the rescue inhaler and be monitored closely.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">Why is it important that peak flow zones be based on the child's own personal best rather than a general standard number?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('resp_c5q2', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="resp_c5q2"><b>Answer:</b> Peak flow values vary by age, height, and individual lung function, so using a fixed "normal" number wouldn't accurately reflect this specific child's baseline — personal best is established during a period of good asthma control and gives a meaningful, individualized reference point for detecting early changes in this child's airway function.</div>
+    </div>
+    <div class="case-q">
+      <p class="q-text">What teaching point helps this family use the peak flow meter correctly and consistently?</p>
+      <button class="reveal-btn" onclick="toggleAnswer('resp_c5q3', this)">Reveal answer ▼</button>
+      <div class="reveal-answer" id="resp_c5q3"><b>Answer:</b> Measure peak flow at the same times each day (e.g., morning and evening, before rescue medication), take three attempts and record the highest value, stand or sit upright, and take a fast, hard, forceful blow into the device after a deep breath in — establishing a consistent routine improves the reliability of trend data used to catch early asthma flares.</div>
+    </div>
+  </div>
+`;
+
+document.getElementById('notesContent').innerHTML = `
+<div class="note-callout"><b>Source:</b> Respiratory Medications lecture (Gerard Dela Cruz, MA, RN — Aug 4, 2026). Learning objectives: recall the action of prescribed respiratory medications; identify therapeutic and adverse effects; identify nursing considerations including safety and teaching.</div>
+
+<h2 class="section-title">Bronchodilators</h2>
+<p>Indicated for treatment of reversible airway obstruction due to asthma or COPD. Relax airway smooth muscle.</p>
+<table class="note-table">
+<tr><th>Class</th><th>Examples</th></tr>
+<tr><td>Short-acting beta2-agonist (SABA)</td><td>Albuterol, salbutamol, levalbuterol, terbutaline</td></tr>
+<tr><td>Long-acting beta2-agonist (LABA)</td><td>Salmeterol, formoterol, indacaterol</td></tr>
+<tr><td>Anticholinergics</td><td>Ipratropium, aclidinium, tiotropium</td></tr>
+<tr><td>Phosphodiesterase inhibitors</td><td>Aminophylline, theophylline</td></tr>
+</table>
+
+<h2 class="section-title">Inhaled Corticosteroids &amp; Leukotriene Inhibitors</h2>
+<div class="drugclass"><h4>Inhaled Corticosteroids <span class="suffix-tag">Fluticasone · Budesonide · Mometasone · Beclomethasone</span></h4>
+<ul><li>Indicated for maintenance treatment of asthma</li><li>May decrease requirement for or eliminate use of systemic corticosteroids over time</li><li>Potent, locally acting anti-inflammatory and immune modifier</li></ul></div>
+<div class="drugclass"><h4>Leukotriene Inhibitors <span class="suffix-tag">Montelukast · Zileuton · Zafirlukast</span></h4>
+<ul><li>Indicated for prevention and chronic treatment of asthma; exercise-induced bronchoconstriction; seasonal or perennial allergic rhinitis</li><li>Antagonizes the effects of leukotrienes — decreased inflammatory process</li><li>Prevents formation of leukotrienes</li></ul></div>
+
+<h2 class="section-title">Mucoactive Agents &amp; Antitussives</h2>
+<div class="drugclass"><h4>Mucoactive Agents (Mucolytics, Expectorants) <span class="suffix-tag">Acetylcysteine · Carbocysteine · Guaifenesin</span></h4>
+<ul><li>Indicated for management of conditions associated with thick, viscous mucous secretions</li><li>Reduces viscosity of bronchial secretions</li></ul></div>
+<div class="drugclass"><h4>Antitussives <span class="suffix-tag">Benzonatate · Dextromethorphan · Chlorpheniramine</span></h4>
+<ul><li>Indicated for relief of nonproductive cough due to minor throat or bronchial irritation; may be effective for chronic nonproductive cough</li><li>Suppresses the cough reflex by inhibiting the cough center in the medulla</li><li>Anesthetizes cough or stretch receptors in vagal nerve fibers found in the lungs, pleura, and respiratory passages</li></ul></div>
+
+<h2 class="section-title">Therapeutic &amp; Adverse Effects</h2>
+<table class="note-table">
+<tr><th>Drug Class</th><th>Therapeutic Effects</th><th>Adverse Effects</th></tr>
+<tr><td><b>Bronchodilators</b></td><td>Relaxation of airway smooth muscle with bronchodilation</td><td>Tachycardia, palpitations, tremor, anxiety, dry mouth, hyperglycemia, hypokalemia, paradoxical bronchospasm</td></tr>
+<tr><td><b>Inhaled corticosteroids</b></td><td>Decreases frequency/severity of asthma attacks, improves symptoms and airway function</td><td>Headache, cataracts, hoarseness, oral thrush, dysphonia, rhinorrhea, sinusitis, osteoporosis, cough</td></tr>
+<tr><td><b>Leukotriene inhibitors</b></td><td>Decreases frequency/severity of asthma attacks, allergic rhinitis severity, exercise-induced bronchospasm</td><td>Headache, GI upset, anxiety, fatigue, rash, rhinorrhea, increased liver enzymes, suicidal thoughts/behaviors</td></tr>
+<tr><td><b>Mucoactive agents</b></td><td>Lower viscosity of mucus; mobilization and expectoration of mucus</td><td>Rash, nausea, vomiting, diarrhea, bronchospasm, dizziness, headache</td></tr>
+<tr><td><b>Antitussives</b></td><td>Relief of irritating, nonproductive cough</td><td>Pruritus, GI upset, drowsiness, dizziness, headache</td></tr>
+</table>
+
+<h2 class="section-title">Nursing Considerations</h2>
+<div class="note-callout"><b>Bronchodilators:</b> assess lung sounds and vital signs; monitor blood glucose and potassium; teach proper use of inhaler; rinse mouth after use; avoid smoking; check drug interactions.</div>
+<div class="note-callout"><b>Inhaled corticosteroids:</b> assess lung sounds and respiratory function; monitor for fractures and oral thrush; proper MDI usage; do not abruptly stop using; check drug interactions.</div>
+<div class="note-callout"><b>Leukotriene inhibitors:</b> assess lung sounds and respiratory function; assess allergy symptoms; monitor behavior; monitor liver function labs; follow dosage instructions; check drug interactions.</div>
+<div class="note-callout"><b>Mucolytic agents:</b> assess respiratory function and secretions; prepare suction equipment; encourage fluid intake 1500–2000 mL/day; expect unpleasant odor; rinse following treatment; caution with driving.</div>
+<div class="note-callout"><b>Antitussives:</b> assess cough and lung sounds; encourage fluid intake 1500–2000 mL/day; do not chew or crush capsules; caution with driving; check drug interactions.</div>
+
+<h2 class="section-title">Osteoporosis Risk with ICS Use</h2>
+<p>Risk factors that increase the risk of developing osteoporosis in a client on inhaled corticosteroids include: <b>advanced age</b>, <b>sedentary lifestyle</b>, and <b>use of corticosteroids</b>.</p>
+
+<h2 class="section-title">Metered-Dose Inhaler (MDI) Technique — Correct Order</h2>
+<ol style="color:var(--ink-soft);font-size:14.5px;line-height:1.8;">
+<li>Remove cap. Shake inhaler. Prime if needed.</li>
+<li>Sit up straight. Breathe out completely.</li>
+<li>Close lips tightly around mouthpiece.</li>
+<li>Breathe in, press down on inhaler to release 1 puff, breathe in slowly for 3–5 more seconds.</li>
+<li>Hold breath for 10 seconds, then release.</li>
+</ol>
+<div class="note-callout">When using two inhalers of different types, administer the <b>bronchodilator first</b> to open the airway before the corticosteroid.</div>
+
+<h2 class="section-title">Case Study — Emergency Department (Asthma)</h2>
+<div class="casebox">Adolescent client, acute onset cough, chest tightness, and dyspnea during spring soccer practice. No history of asthma. Diaphoretic, pale, anxious. Bilateral expiratory wheezes. VS: HR 113, R 24, BP 158/92, T 98.9°F, SpO₂ 87% on room air. ABGs: pH 7.47, PaCO₂ 31 mmHg, HCO₃ 23 mEq/L, PaO₂ 75 mmHg (consistent with respiratory alkalosis from tachypnea/hyperventilation and hypoxemia).</div>
+
+<h2 class="section-title">Case Study — Hospital Discharge (New Asthma Diagnosis)</h2>
+<div class="casebox">Adolescent newly diagnosed with asthma, prescribed <b>albuterol</b> (SABA, rescue), <b>fluticasone</b> (ICS, maintenance — potent, locally-acting anti-inflammatory), and <b>montelukast</b> (leukotriene inhibitor — antagonizes leukotrienes). Client expresses fear about never playing sports again — discharge teaching should reassure that with adherence to maintenance therapy and pre-exercise SABA use, sports and exercise remain possible.</div>
+
+<h2 class="section-title">Take-Home Case Study — Arthur Pendelton, Age 58</h2>
+<div class="casebox">History: moderate persistent asthma, hypertension. Presents with severe shortness of breath, audible wheezing, accessory muscle use, SpO₂ 88% on room air. VS: HR 124, R 28, BP 142/86, T 98.6°F. Orders: O₂ via nasal cannula to keep SpO₂ ≥92%; albuterol nebulizer stat; ipratropium bromide nebulizer stat; methylprednisolone IV stat.<br><br>
+<b>First action:</b> Apply oxygen via nasal cannula — the client is hypoxic and in acute distress; per the Airway-Breathing-Circulation framework, restoring oxygenation is the immediate priority before medications, labs, or teaching.<br><br>
+<b>Ipratropium's role:</b> Blocks parasympathetic (acetylcholine-mediated) bronchoconstriction; combined with albuterol (a beta-2 agonist) for synergistic bronchodilation.<br><br>
+<b>Expected albuterol side effect:</b> Tachycardia — albuterol cross-stimulates cardiac beta-1 receptors in addition to bronchodilating beta-2 receptors.<br><br>
+<b>Fluticasone discharge teaching:</b> It is a daily controller medication, not a fast-acting rescue drug — albuterol remains the rescue medication for acute tightness.</div>
+
+<h2 class="section-title">In Summary</h2>
+<table class="note-table">
+<tr><th>Medications</th><th>Indications</th><th>Examples</th></tr>
+<tr><td>Inhaled bronchodilators</td><td>Episodic symptoms; relieve bronchospasm, relax smooth muscle tone, reduce airway obstruction, improve exercise tolerance</td><td>SABAs: albuterol, levalbuterol. LABAs (maintenance only, with ICS): salmeterol, formoterol, vilanterol/fluticasone, vilanterol/umeclidinium</td></tr>
+<tr><td>Anticholinergics</td><td>Mainstay of therapy; decrease airway smooth muscle tone and secretions</td><td>Short-acting: ipratropium bromide. Long-acting: tiotropium bromide, aclidinium, umeclidinium</td></tr>
+<tr><td>Corticosteroids</td><td>Used with LABAs; reduces acute and chronic inflammation, reduces exacerbations</td><td>Prednisone, methylprednisolone</td></tr>
+<tr><td>Phosphodiesterase 4 (PDE4) inhibitors</td><td>Used in later stages; reduces neutrophil/eosinophil counts, reduces exacerbations</td><td>Roflumilast</td></tr>
+<tr><td>Antibiotics</td><td>Used to treat/prevent acute exacerbations and acute bronchitis</td><td>Tetracyclines, sulfonamides, cephalosporins, macrolides, fluoroquinolones, penicillins</td></tr>
+</table>
+`;
+
+const QUESTIONS = [
+{ stem:"Which medication class is appropriate for immediate relief of acute bronchospasm?",
+  options:[
+    {text:"Short-acting beta2 agonist (SABA), e.g., albuterol",correct:true,explain:"SABAs like albuterol have a rapid onset of action, making them the appropriate rescue medication for acute bronchospasm."},
+    {text:"Long-acting beta2 agonist (LABA), e.g., salmeterol",correct:false,explain:"LABAs have a slower onset and are intended for maintenance therapy, not acute rescue use."},
+    {text:"Inhaled corticosteroid, e.g., fluticasone",correct:false,explain:"Inhaled corticosteroids reduce airway inflammation over time and have no role in immediate rescue of acute bronchospasm."},
+    {text:"Leukotriene modifier, e.g., montelukast",correct:false,explain:"Leukotriene modifiers are maintenance medications with no rapid bronchodilating effect for acute symptoms."}
+  ]},
+{ stem:"A client is prescribed salmeterol, a long-acting beta2 agonist (LABA), for asthma. What teaching point is essential?",
+  options:[
+    {text:"Salmeterol should never be used alone as monotherapy for asthma and must be paired with an inhaled corticosteroid",correct:true,explain:"LABAs carry a risk when used without an inhaled corticosteroid and are recommended only in combination therapy for asthma."},
+    {text:"Salmeterol should be used as the primary rescue inhaler during an acute attack",correct:false,explain:"LABAs have a delayed onset and are not appropriate for rescue use during an acute attack."},
+    {text:"Salmeterol should be taken only once, at the first sign of any respiratory symptom, and then discontinued",correct:false,explain:"LABAs are scheduled maintenance medications, not one-time-use treatments."},
+    {text:"Salmeterol requires no special teaching beyond standard inhaler technique",correct:false,explain:"The critical teaching point specific to LABAs is that they should not be used as monotherapy in asthma, which goes beyond standard inhaler technique alone."}
+  ]},
+{ stem:"How do anticholinergic bronchodilators such as ipratropium work?",
+  options:[
+    {text:"They block acetylcholine-mediated bronchoconstriction",correct:true,explain:"Anticholinergics like ipratropium block acetylcholine at muscarinic receptors, preventing bronchoconstriction and promoting bronchodilation."},
+    {text:"They stimulate beta2 receptors to relax airway smooth muscle",correct:false,explain:"Stimulating beta2 receptors describes the mechanism of beta agonists, not anticholinergics."},
+    {text:"They reduce inflammation by blocking leukotriene receptors",correct:false,explain:"Blocking leukotriene receptors describes leukotriene modifiers, not anticholinergics."},
+    {text:"They stabilize mast cell membranes to prevent degranulation",correct:false,explain:"Stabilizing mast cell membranes describes cromolyn sodium's mechanism, not anticholinergics."}
+  ]},
+{ stem:"A client taking ipratropium reports dry mouth and blurred vision. How should the nurse interpret these findings?",
+  options:[
+    {text:"These are expected anticholinergic adverse effects of the medication",correct:true,explain:"Dry mouth and blurred vision are recognized anticholinergic adverse effects associated with ipratropium."},
+    {text:"These findings indicate a life-threatening allergic reaction requiring emergency treatment",correct:false,explain:"Dry mouth and blurred vision are known, expected adverse effects of anticholinergic therapy, not signs of anaphylaxis."},
+    {text:"These findings are unrelated to the medication and require no further assessment",correct:false,explain:"These findings are medication-related and should be documented and monitored, not dismissed as unrelated."},
+    {text:"These findings indicate theophylline toxicity",correct:false,explain:"Dry mouth and blurred vision are not signs of theophylline toxicity; theophylline toxicity presents with nausea, tachycardia, and seizures, and this client is not described as taking theophylline."}
+  ]},
+{ stem:"Tiotropium is classified as a long-acting anticholinergic. What is its primary role in respiratory pharmacology?",
+  options:[
+    {text:"First-line maintenance therapy for COPD",correct:true,explain:"Tiotropium is a long-acting anticholinergic used as first-line maintenance therapy in COPD."},
+    {text:"Rescue therapy for acute bronchospasm",correct:false,explain:"As a long-acting agent, tiotropium is not appropriate for rescue use during acute bronchospasm."},
+    {text:"Treatment of oral thrush from inhaled corticosteroid use",correct:false,explain:"Tiotropium has no role in treating oral thrush; that is addressed through proper inhaler hygiene and rinsing the mouth after ICS use."},
+    {text:"Suppression of a productive cough",correct:false,explain:"Cough suppression describes the role of antitussives, not tiotropium."}
+  ]},
+{ stem:"Why does theophylline require close monitoring of serum drug levels?",
+  options:[
+    {text:"It has a narrow therapeutic index, with a therapeutic range of approximately 5–15 mcg/mL",correct:true,explain:"Theophylline has a narrow therapeutic index, meaning the difference between therapeutic and toxic levels is small, requiring close monitoring of serum drug levels."},
+    {text:"It has no risk of toxicity regardless of dose",correct:false,explain:"Theophylline does carry a significant risk of toxicity, which is precisely why monitoring is required."},
+    {text:"It must be monitored using INR",correct:false,explain:"INR is used to monitor warfarin, not theophylline; theophylline is monitored via serum drug level."},
+    {text:"It is only administered topically and requires no systemic monitoring",correct:false,explain:"Theophylline is administered systemically (orally or IV) and requires serum level monitoring due to its narrow therapeutic index."}
+  ]},
+{ stem:"A client taking theophylline reports nausea, vomiting, and a rapid heart rate. What should the nurse suspect?",
+  options:[
+    {text:"Theophylline toxicity",correct:true,explain:"Nausea, vomiting, and tachycardia are early signs of theophylline toxicity, consistent with its narrow therapeutic index."},
+    {text:"An expected, harmless response to therapy requiring no action",correct:false,explain:"These symptoms are signs of toxicity and require prompt nursing assessment and provider notification, not dismissal."},
+    {text:"Oral thrush from inhaled corticosteroid use",correct:false,explain:"Oral thrush presents as white patches in the mouth, not nausea, vomiting, and tachycardia."},
+    {text:"An expected anticholinergic effect",correct:false,explain:"Nausea, vomiting, and tachycardia are not classic anticholinergic effects (which include dry mouth and blurred vision); they are consistent with theophylline toxicity."}
+  ]},
+{ stem:"What dietary or lifestyle factor can increase the risk of theophylline toxicity?",
+  options:[
+    {text:"Caffeine intake, since it has additive stimulant effects with theophylline",correct:true,explain:"Caffeine has additive effects with theophylline (both are methylxanthines), increasing the risk of toxicity and adverse effects such as tachycardia and tremor."},
+    {text:"Increased dietary fiber intake",correct:false,explain:"Dietary fiber is not identified as a factor that increases theophylline toxicity risk."},
+    {text:"Low-sodium diet",correct:false,explain:"A low-sodium diet is not associated with increased theophylline toxicity risk."},
+    {text:"Increased water intake",correct:false,explain:"Increased water intake is not a recognized risk factor for theophylline toxicity."}
+  ]},
+{ stem:"A client is newly prescribed an inhaled corticosteroid for asthma maintenance. What teaching point is essential to prevent a common adverse effect?",
+  options:[
+    {text:"Rinse the mouth and spit after each use to prevent oral thrush",correct:true,explain:"Rinsing the mouth and spitting after inhaled corticosteroid use helps prevent oral thrush (candidiasis), a common local adverse effect."},
+    {text:"Take the medication only during an acute asthma attack",correct:false,explain:"Inhaled corticosteroids are maintenance medications used on a scheduled basis, not only during acute attacks."},
+    {text:"Avoid using a spacer device with this medication",correct:false,explain:"Using a spacer is actually recommended with inhaled corticosteroids to improve drug delivery and reduce oropharyngeal deposition, which helps prevent thrush."},
+    {text:"Discontinue the medication if a headache occurs",correct:false,explain:"A headache is not the specific adverse effect this teaching point addresses, and clients should not independently discontinue a maintenance medication without provider guidance."}
+  ]},
+{ stem:"A client has been taking systemic prednisone for a COPD exacerbation for the past three weeks. What is the priority teaching point regarding discontinuation?",
+  options:[
+    {text:"The medication must be tapered gradually rather than stopped abruptly",correct:true,explain:"After longer courses, systemic corticosteroids like prednisone must be tapered gradually to avoid adrenal insufficiency from abrupt withdrawal, since exogenous steroids suppress the body's own cortisol production."},
+    {text:"The medication can be stopped immediately once symptoms improve",correct:false,explain:"Abruptly stopping systemic corticosteroids after an extended course can cause adrenal insufficiency and is not safe."},
+    {text:"The medication should be doubled if symptoms return",correct:false,explain:"Doubling the dose without provider guidance is not appropriate teaching for corticosteroid management."},
+    {text:"The medication has no effect on the adrenal glands",correct:false,explain:"Systemic corticosteroids do suppress adrenal function with prolonged use, which is exactly why tapering is required."}
+  ]},
+{ stem:"Which adverse effects should the nurse monitor for in a client on long-term systemic corticosteroid therapy?",
+  isSAL:true,
+  options:[
+    {text:"Hyperglycemia",correct:true,explain:"Systemic corticosteroids can cause hyperglycemia and should be monitored, especially in clients with diabetes."},
+    {text:"Osteoporosis",correct:true,explain:"Long-term corticosteroid use increases the risk of osteoporosis due to effects on bone metabolism."},
+    {text:"Increased infection risk",correct:true,explain:"Corticosteroids suppress the immune response, increasing susceptibility to infection."},
+    {text:"Hypoglycemia",correct:false,explain:"Corticosteroids cause hyperglycemia, not hypoglycemia, due to their effect on glucose metabolism."},
+    {text:"Mood changes",correct:true,explain:"Mood changes, including irritability or euphoria, are a recognized adverse effect of systemic corticosteroid therapy."}
+  ]},
+{ stem:"Montelukast is classified as a leukotriene receptor antagonist. When should the nurse instruct the client to take this medication?",
+  options:[
+    {text:"In the evening",correct:true,explain:"Montelukast is typically taken in the evening as part of scheduled maintenance therapy for asthma."},
+    {text:"Only during an acute asthma attack",correct:false,explain:"Montelukast is a maintenance medication with no rapid rescue effect, so it is not used only during an acute attack."},
+    {text:"Immediately before exercise only",correct:false,explain:"While leukotriene modifiers may have a role in exercise-induced bronchospasm prevention, the standard teaching point in this content is evening dosing for maintenance, not exclusively pre-exercise use."},
+    {text:"On an empty stomach in the early morning",correct:false,explain:"Montelukast is not specifically instructed to be taken on an empty stomach in the early morning; evening dosing is the standard teaching point."}
+  ]},
+{ stem:"A client taking montelukast reports new-onset agitation and trouble sleeping. What should the nurse do?",
+  options:[
+    {text:"Recognize these as possible neuropsychiatric adverse effects and report them to the provider",correct:true,explain:"Montelukast carries a risk of neuropsychiatric adverse effects, including agitation and sleep disturbances, which should be reported to the provider."},
+    {text:"Reassure the client that these symptoms are unrelated to the medication",correct:false,explain:"These symptoms are a recognized adverse effect of montelukast and should not be dismissed as unrelated."},
+    {text:"Instruct the client to double the dose to improve mood",correct:false,explain:"Doubling the dose would not address these adverse effects and is not appropriate nursing guidance."},
+    {text:"Instruct the client that this indicates a need to switch to a rescue inhaler",correct:false,explain:"These symptoms indicate a possible adverse drug effect requiring provider notification, not a need for rescue inhaler therapy."}
+  ]},
+{ stem:"Cromolyn sodium is classified as a mast cell stabilizer. What is an important teaching point about its use?",
+  options:[
+    {text:"It is used prophylactically and has no effect on an acute asthma attack already in progress",correct:true,explain:"Cromolyn sodium prevents mast cell degranulation prophylactically but does not reverse bronchospasm once an acute attack has started."},
+    {text:"It should be used as the primary rescue medication during an asthma attack",correct:false,explain:"Cromolyn sodium is not effective for rescue use during an acute attack; it is a prophylactic medication."},
+    {text:"It works by directly relaxing bronchial smooth muscle",correct:false,explain:"Cromolyn sodium works by stabilizing mast cell membranes to prevent mediator release, not by directly relaxing smooth muscle."},
+    {text:"It is the first-line treatment for status asthmaticus",correct:false,explain:"Cromolyn sodium has no role in treating status asthmaticus, an acute, severe exacerbation; it is used prophylactically."}
+  ]},
+{ stem:"Acetylcysteine is classified as a mucolytic. What characteristic odor is associated with this medication that the nurse should prepare the client for?",
+  options:[
+    {text:"A rotten-egg odor",correct:true,explain:"Acetylcysteine has a characteristic rotten-egg (sulfur) odor, which clients should be prepared for to reduce anxiety or reluctance to use the medication."},
+    {text:"A strong citrus scent",correct:false,explain:"Acetylcysteine's characteristic odor is a sulfurous, rotten-egg smell, not citrus."},
+    {text:"No noticeable odor at all",correct:false,explain:"Acetylcysteine does have a distinct, noticeable odor that clients should be prepared for."},
+    {text:"A strong minty scent",correct:false,explain:"Acetylcysteine does not have a minty scent; it has a characteristic rotten-egg odor."}
+  ]},
+{ stem:"How does guaifenesin, an expectorant, help a client with a productive cough?",
+  options:[
+    {text:"It thins respiratory secretions, making the cough more productive and easier to clear",correct:true,explain:"Guaifenesin works as an expectorant by thinning respiratory secretions, which helps make coughing more effective at clearing mucus."},
+    {text:"It suppresses the cough reflex entirely",correct:false,explain:"Suppressing the cough reflex describes antitussives, not expectorants like guaifenesin."},
+    {text:"It reduces airway inflammation directly",correct:false,explain:"Guaifenesin's mechanism is thinning secretions, not directly reducing airway inflammation."},
+    {text:"It stimulates beta2 receptors in the airway",correct:false,explain:"Guaifenesin does not act on beta2 receptors; that mechanism describes bronchodilators."}
+  ]},
+{ stem:"A client with a productive cough due to pneumonia asks about taking an antitussive such as codeine. What should the nurse explain?",
+  options:[
+    {text:"Antitussives should be used cautiously with a productive cough, since suppressing it can lead to secretion retention",correct:true,explain:"Suppressing a productive cough with an antitussive can cause mucus and secretions to be retained in the airway, which is a concern in conditions like pneumonia."},
+    {text:"Antitussives should always be used for any cough regardless of whether it is productive",correct:false,explain:"Antitussives are used cautiously, not automatically, with a productive cough due to the risk of secretion retention."},
+    {text:"Antitussives will thin the secretions to help clear them faster",correct:false,explain:"Antitussives suppress the cough reflex; they do not thin secretions — that is the role of expectorants like guaifenesin."},
+    {text:"Antitussives have no risk or clinical consideration in this situation",correct:false,explain:"There is a clinical consideration in this situation — suppressing a productive cough can lead to secretion retention, which is important client teaching."}
+  ]},
+{ stem:"A combination inhaler containing fluticasone and salmeterol includes medications from which two classes?",
+  options:[
+    {text:"An inhaled corticosteroid and a long-acting beta2 agonist (LABA)",correct:true,explain:"Fluticasone is an inhaled corticosteroid and salmeterol is a LABA; this combination pairs anti-inflammatory and bronchodilating maintenance therapy, which also satisfies the requirement that a LABA not be used as monotherapy."},
+    {text:"A short-acting beta2 agonist and an anticholinergic",correct:false,explain:"This combination does not include a SABA or an anticholinergic; it pairs an inhaled corticosteroid with a LABA."},
+    {text:"A leukotriene modifier and a mucolytic",correct:false,explain:"Fluticasone and salmeterol are not a leukotriene modifier or a mucolytic; they are an ICS and a LABA."},
+    {text:"A methylxanthine and a mast cell stabilizer",correct:false,explain:"This combination does not include theophylline or cromolyn sodium; it is an ICS/LABA combination."}
+  ]},
+{ stem:"When a client is prescribed both a bronchodilator inhaler and a corticosteroid inhaler, in what order should the nurse instruct the client to administer them?",
+  options:[
+    {text:"Administer the bronchodilator first, to open the airway before the corticosteroid",correct:true,explain:"Administering the bronchodilator first opens the airway, which allows the corticosteroid to be delivered more effectively into the lower airways."},
+    {text:"Administer the corticosteroid first, followed by the bronchodilator",correct:false,explain:"This is the reverse of the recommended order; the bronchodilator should be given first to optimize corticosteroid delivery."},
+    {text:"The order does not matter at all",correct:false,explain:"The order does matter for optimizing medication delivery — the bronchodilator should be administered first."},
+    {text:"Both medications should never be used together",correct:false,explain:"Using a bronchodilator and corticosteroid together is common and appropriate in respiratory management; the concern is administration order, not whether they can be combined."}
+  ]},
+{ stem:"What is the purpose of using a spacer device with a metered-dose inhaler (MDI)?",
+  options:[
+    {text:"To improve drug delivery to the lungs and reduce medication deposition in the mouth and throat",correct:true,explain:"A spacer improves the delivery of medication to the lower airways and reduces oropharyngeal deposition, which also helps prevent adverse effects like oral thrush from inhaled corticosteroids."},
+    {text:"To increase the dose of medication delivered with each puff",correct:false,explain:"A spacer does not increase the medication dose; it improves the efficiency of delivery to the lungs rather than the mouth and throat."},
+    {text:"To eliminate the need for proper inhaler technique",correct:false,explain:"A spacer supports, but does not eliminate, the need for proper inhaler technique."},
+    {text:"To convert a short-acting medication into a long-acting one",correct:false,explain:"A spacer does not alter the duration of action of a medication; it is a delivery device."}
+  ]},
+{ stem:"How long should a client wait between puffs of the same inhaled medication, according to standard inhaler technique teaching?",
+  options:[
+    {text:"About 1 minute",correct:true,explain:"Waiting about 1 minute between puffs of the same medication is standard inhaler technique teaching, allowing the airway to respond before the next dose."},
+    {text:"About 30 seconds",correct:false,explain:"The recommended wait time in this content is about 1 minute, not 30 seconds."},
+    {text:"About 10 minutes",correct:false,explain:"Waiting 10 minutes is longer than the standard recommended interval of about 1 minute between puffs."},
+    {text:"There is no need to wait between puffs",correct:false,explain:"Waiting between puffs of the same medication is part of standard inhaler technique teaching, not something to skip."}
+  ]},
+{ stem:"A client's peak flow reading falls in the yellow zone (50–79% of personal best). What does this indicate, and what action should the client take?",
+  options:[
+    {text:"This indicates caution; the client should use rescue medication as directed",correct:true,explain:"The yellow zone (50–79% of personal best) indicates caution and signals the need to use rescue medication as directed by the asthma action plan."},
+    {text:"This indicates good control and requires no action",correct:false,explain:"Good control with no action needed describes the green zone (80–100%), not the yellow zone."},
+    {text:"This indicates a medical emergency requiring immediate emergency care",correct:false,explain:"A medical emergency requiring immediate care describes the red zone (below 50%), not the yellow zone."},
+    {text:"This indicates the peak flow meter is malfunctioning",correct:false,explain:"A yellow-zone reading is a meaningful clinical finding, not an indication of equipment malfunction."}
+  ]},
+{ stem:"A client's peak flow reading falls below 50% of personal best (the red zone). What is the appropriate nursing response?",
+  options:[
+    {text:"Recognize this as a medical alert requiring urgent evaluation or emergency care",correct:true,explain:"A peak flow reading below 50% of personal best (red zone) is a medical alert indicating a significant exacerbation that requires urgent evaluation or emergency care."},
+    {text:"Reassure the client that this is a normal variant requiring no action",correct:false,explain:"A red-zone reading is not normal and requires urgent action, not reassurance."},
+    {text:"Instruct the client to simply repeat the reading tomorrow",correct:false,explain:"Waiting until the next day is not appropriate for a red-zone reading, which requires urgent action."},
+    {text:"Instruct the client to increase fluid intake and wait 24 hours",correct:false,explain:"This response does not address the urgency of a red-zone peak flow reading, which requires prompt medical evaluation."}
+  ]},
+{ stem:"For a client with COPD receiving supplemental oxygen, what target SpO2 range should the nurse generally aim for, and why?",
+  options:[
+    {text:"88–92%, because higher targets risk suppressing the hypoxic drive to breathe and worsening CO2 retention",correct:true,explain:"In COPD, a target SpO2 of 88–92% is generally used because some clients rely on hypoxia (rather than hypercapnia) to drive their respiratory effort, and excessive oxygen can blunt this drive and worsen CO2 retention."},
+    {text:"100%, to ensure maximum oxygenation at all times",correct:false,explain:"Targeting 100% SpO2 in a client with COPD can suppress the hypoxic drive to breathe and worsen CO2 retention; a lower target range is generally used."},
+    {text:"Below 85%, to avoid oxygen toxicity",correct:false,explain:"A target below 85% is too low and would leave the client hypoxic; the appropriate target range in COPD is generally 88–92%."},
+    {text:"There is no target range; oxygen should be titrated to client comfort only",correct:false,explain:"A specific target range (88–92%) is used in COPD management, not comfort alone, due to the risk of suppressing respiratory drive."}
+  ]},
+{ stem:"A client in status asthmaticus who was previously wheezing loudly now has a silent chest on auscultation. How should the nurse interpret this finding?",
+  options:[
+    {text:"This is an ominous sign of minimal air movement and impending respiratory failure",correct:true,explain:"A silent chest in status asthmaticus indicates minimal air movement through severely narrowed airways and is an ominous sign of impending respiratory failure, not improvement."},
+    {text:"This indicates the client's asthma attack has resolved",correct:false,explain:"A silent chest is not a sign of resolution; it reflects such severe airway obstruction that wheezing sounds can no longer be generated, a medical emergency."},
+    {text:"This finding requires no further action since wheezing has stopped",correct:false,explain:"This finding requires immediate emergency action, not reassurance, because it signals impending respiratory failure."},
+    {text:"This indicates the client should be weaned off oxygen immediately",correct:false,explain:"This finding indicates worsening respiratory status requiring urgent intervention, not weaning off oxygen."}
+  ]},
+{ stem:"What distinguishes a \"rescue\" medication from a \"maintenance\" medication in respiratory pharmacology?",
+  options:[
+    {text:"A rescue medication provides rapid relief of acute symptoms, while a maintenance medication is used on a scheduled basis to prevent symptoms",correct:true,explain:"Rescue medications (like SABAs) act quickly to relieve acute bronchospasm, while maintenance medications (like ICS, LABAs, leukotriene modifiers) are used on a regular schedule to prevent symptoms and control underlying inflammation."},
+    {text:"A rescue medication is used every day at scheduled times, while a maintenance medication is used only during an emergency",correct:false,explain:"This describes the roles in reverse — maintenance medications are scheduled, while rescue medications are used during acute symptoms."},
+    {text:"There is no meaningful difference between rescue and maintenance medications",correct:false,explain:"There is a clinically important difference between these two categories in terms of onset of action and intended use."},
+    {text:"A rescue medication is always an inhaled corticosteroid",correct:false,explain:"Inhaled corticosteroids are maintenance medications, not rescue medications; SABAs are the typical rescue medication."}
+  ]},
+{ stem:"A client with asthma asks why they need both a daily inhaled corticosteroid and an as-needed albuterol inhaler. What is the nurse's best explanation?",
+  options:[
+    {text:"The corticosteroid controls underlying airway inflammation over time, while albuterol provides rapid relief of acute symptoms when they occur",correct:true,explain:"These two medications serve different purposes: the inhaled corticosteroid addresses the chronic underlying inflammation of asthma, while albuterol, a SABA, is used as needed for rapid relief of acute bronchospasm."},
+    {text:"Both medications do exactly the same thing, so only one is truly necessary",correct:false,explain:"These medications have distinct roles — one for maintenance/prevention and one for acute rescue — so both serve a purpose in comprehensive asthma management."},
+    {text:"The albuterol should be taken every day on a schedule, replacing the corticosteroid",correct:false,explain:"Albuterol is intended for as-needed rescue use, not scheduled daily maintenance, and does not replace the anti-inflammatory role of the corticosteroid."},
+    {text:"The corticosteroid is for rescue use and albuterol is for maintenance",correct:false,explain:"This reverses the actual roles — the corticosteroid is for maintenance and albuterol is for rescue."}
+  ]},
+{ stem:"Which nursing action is appropriate general care for a client experiencing a respiratory exacerbation?",
+  options:[
+    {text:"Increase fluid intake as appropriate and closely monitor respiratory rate and oxygen saturation",correct:true,explain:"Increasing fluids (as appropriate for the client) helps thin secretions, and closely monitoring respiratory rate and oxygen saturation is essential nursing care during a respiratory exacerbation."},
+    {text:"Restrict all fluid intake to reduce secretions",correct:false,explain:"Restricting fluids is not standard care during a respiratory exacerbation; adequate hydration helps thin secretions rather than fluid restriction."},
+    {text:"Encourage the client to lie flat to conserve energy",correct:false,explain:"Lying flat can worsen dyspnea; clients in respiratory distress are typically positioned upright (high Fowler's) to ease breathing."},
+    {text:"Avoid monitoring oxygen saturation unless the client reports symptoms",correct:false,explain:"Continuous or frequent monitoring of oxygen saturation is important nursing care during a respiratory exacerbation, not something to avoid."}
+  ]},
+{ stem:"Why is smoking cessation counseling an important nursing consideration for clients with COPD or asthma?",
+  options:[
+    {text:"Continued smoking accelerates airway damage and reduces the effectiveness of respiratory medications",correct:true,explain:"Smoking continues to damage the airways and reduces the overall effectiveness of bronchodilator and anti-inflammatory therapy, making cessation counseling an important part of comprehensive respiratory care."},
+    {text:"Smoking has no effect on the progression of COPD or asthma",correct:false,explain:"Smoking significantly worsens the progression of both COPD and asthma, making this statement inaccurate."},
+    {text:"Smoking cessation is only relevant for clients taking theophylline",correct:false,explain:"Smoking cessation is relevant for all clients with COPD or asthma, not exclusively those on theophylline (though smoking can also affect theophylline metabolism specifically)."},
+    {text:"Smoking cessation counseling is not part of the nurse's role",correct:false,explain:"Smoking cessation counseling is an appropriate and important part of nursing care for clients with respiratory disease."}
+  ]},
+{ stem:"A client using both ipratropium and albuterol inhalers asks the nurse to explain the difference between the two. What is the nurse's best response?",
+  options:[
+    {text:"Albuterol is a beta2 agonist that relaxes airway smooth muscle, while ipratropium is an anticholinergic that blocks acetylcholine-mediated bronchoconstriction",correct:true,explain:"These medications work through different mechanisms — albuterol stimulates beta2 receptors, while ipratropium blocks muscarinic (acetylcholine) receptors — which is why they may be used together for a combined bronchodilating effect."},
+    {text:"Both medications work by exactly the same mechanism, so combining them provides no additional benefit",correct:false,explain:"These medications work through different mechanisms, and combining them can provide complementary bronchodilation, contrary to this statement."},
+    {text:"Ipratropium is a rescue medication with a faster onset than albuterol",correct:false,explain:"Albuterol has a faster onset of action than ipratropium and is the more classic rescue medication of the two."},
+    {text:"Albuterol works by reducing airway inflammation, while ipratropium relaxes smooth muscle",correct:false,explain:"This reverses the actual mechanisms — albuterol relaxes smooth muscle via beta2 stimulation, and neither medication's primary role is reducing inflammation (that is the role of corticosteroids)."}
+  ]},
+{ stem:"A client with COPD reports increased sputum production, sputum that has turned green/yellow, and worsening dyspnea. What should the nurse suspect?",
+  options:[
+    {text:"A possible respiratory infection contributing to a COPD exacerbation",correct:true,explain:"A change in sputum color to green/yellow along with increased production and worsening dyspnea suggests a possible respiratory infection, a common trigger for COPD exacerbations."},
+    {text:"An expected daily variation requiring no further assessment",correct:false,explain:"A change in sputum color and increased dyspnea are clinically significant findings that warrant further assessment, not dismissal as normal variation."},
+    {text:"Theophylline toxicity",correct:false,explain:"These findings (sputum color change, increased production, worsening dyspnea) are not consistent with theophylline toxicity, which presents with nausea, tachycardia, and CNS symptoms."},
+    {text:"An adverse effect of montelukast",correct:false,explain:"These findings are not associated with montelukast; they suggest a possible respiratory infection."}
+  ]},
+{ stem:"A client asks whether their inhaled corticosteroid can be used to treat a sudden asthma attack right now. What is the nurse's best response?",
+  options:[
+    {text:"\"No, inhaled corticosteroids are maintenance medications for long-term control and won't relieve symptoms quickly; use your rescue inhaler instead.\"",correct:true,explain:"Inhaled corticosteroids reduce airway inflammation over time and are not fast enough to relieve acute symptoms; a rescue medication like a SABA is needed for immediate relief."},
+    {text:"\"Yes, inhaled corticosteroids work immediately and can replace your rescue inhaler.\"",correct:false,explain:"Inhaled corticosteroids do not have a rapid onset of action and cannot replace a rescue inhaler during an acute attack."},
+    {text:"\"It doesn't matter which inhaler you use during an attack.\"",correct:false,explain:"It does matter — using the wrong medication class during an acute attack can delay appropriate rescue treatment."},
+    {text:"\"You should double your corticosteroid dose during an attack instead of using a rescue inhaler.\"",correct:false,explain:"Doubling the corticosteroid dose is not an appropriate substitute for rescue medication during an acute attack."}
+  ]},
+{ stem:"Which finding would be most concerning in a client with asthma who is using their SABA rescue inhaler more than twice a week for symptom relief?",
+  options:[
+    {text:"This suggests poorly controlled asthma that may require reassessment of the maintenance regimen",correct:true,explain:"Frequent SABA use (more than twice a week) is a recognized indicator of poorly controlled asthma and should prompt reassessment of the client's maintenance therapy."},
+    {text:"This is expected and requires no further evaluation",correct:false,explain:"Frequent rescue inhaler use is a red flag for poor asthma control and does warrant further evaluation, not dismissal."},
+    {text:"This indicates the client should stop using inhaled corticosteroids",correct:false,explain:"Frequent rescue inhaler use suggests a need to reassess and often intensify maintenance therapy, not discontinue the inhaled corticosteroid."},
+    {text:"This indicates the SABA inhaler is no longer effective and should be replaced with an anticholinergic",correct:false,explain:"Frequent use points to a control problem requiring overall regimen reassessment, not simply substituting a different rescue medication."}
+  ]},
+{ stem:"A client asks why their provider prescribed both albuterol (SABA) and tiotropium (long-acting anticholinergic) for COPD. What is the nurse's best explanation?",
+  options:[
+    {text:"Albuterol provides quick relief of acute symptoms, while tiotropium provides long-term maintenance bronchodilation through a different mechanism",correct:true,explain:"These medications serve complementary roles — a SABA for rescue and a long-acting anticholinergic for scheduled maintenance — which is a common combination approach in COPD management."},
+    {text:"These two medications cannot be safely used together",correct:false,explain:"These medications can be used together, as they serve different purposes (rescue vs. maintenance) in COPD management."},
+    {text:"Tiotropium should be used for rescue and albuterol for maintenance",correct:false,explain:"This reverses their actual roles — albuterol is the rescue medication, and tiotropium is the long-acting maintenance medication."},
+    {text:"Only one of these medications is ever necessary, so the other should be discontinued",correct:false,explain:"Both medications provide complementary benefit in COPD management and are not redundant with each other."}
+  ]},
+{ stem:"A client using a combination ICS/LABA inhaler asks whether they still need to keep their separate albuterol (SABA) rescue inhaler on hand. What is the nurse's best response?",
+  options:[
+    {text:"\"Yes, you should continue carrying your SABA rescue inhaler for immediate relief of acute symptoms, since your combination inhaler is for maintenance only.\"",correct:true,explain:"Even with a combination ICS/LABA maintenance inhaler, a separate SABA rescue inhaler is still needed for immediate relief of acute symptoms, since neither component of the combination inhaler is intended for rapid rescue use."},
+    {text:"\"No, the combination inhaler replaces the need for any rescue inhaler.\"",correct:false,explain:"The combination inhaler is for maintenance and does not replace the need for a rapid-acting rescue inhaler for acute symptoms."},
+    {text:"\"The LABA component of your combination inhaler can be used for rescue instead.\"",correct:false,explain:"LABAs, including when part of a combination inhaler, are not appropriate for rescue use due to their delayed onset of action."},
+    {text:"\"You should stop using your combination inhaler and only use the SABA going forward.\"",correct:false,explain:"Both medications serve different, complementary purposes; the combination inhaler should not be discontinued in favor of SABA alone."}
+  ]},
+{ stem:"What is the priority nursing assessment before administering a scheduled dose of theophylline?",
+  options:[
+    {text:"Reviewing the client's most recent serum theophylline level, if available, and assessing for signs of toxicity",correct:true,explain:"Given theophylline's narrow therapeutic index, reviewing the most recent serum level and assessing for early signs of toxicity (nausea, tachycardia) is a priority nursing action before administration."},
+    {text:"Checking the client's peak flow reading only",correct:false,explain:"While peak flow is useful respiratory monitoring generally, it is not the specific priority assessment tied to theophylline's narrow therapeutic index; drug level and toxicity signs are more directly relevant."},
+    {text:"No specific assessment is needed before administering theophylline",correct:false,explain:"Given the narrow therapeutic index of theophylline, specific assessment for toxicity and awareness of drug levels is an important priority before administration."},
+    {text:"Assessing only for oral thrush",correct:false,explain:"Oral thrush is a concern specific to inhaled corticosteroids, not theophylline."}
+  ]},
+{ stem:"A client with asthma who takes montelukast asks if it's safe to take ibuprofen for a headache. What consideration is most relevant here?",
+  options:[
+    {text:"There is no significant interaction between montelukast and ibuprofen described in this content; the more important concern with NSAIDs in asthma is the possibility of NSAID-sensitive asthma in some individuals",correct:true,explain:"While montelukast and ibuprofen don't have a described direct interaction, some individuals with asthma have NSAID-sensitive asthma, so caution and awareness of any personal history of NSAID-related respiratory reactions is relevant."},
+    {text:"Montelukast and ibuprofen have a severe, life-threatening interaction that always occurs",correct:false,explain:"This is an overstatement; no such universal severe interaction is described in this content."},
+    {text:"Ibuprofen will completely eliminate the effectiveness of montelukast",correct:false,explain:"There is no described interaction that completely eliminates montelukast's effectiveness when combined with ibuprofen."},
+    {text:"This combination requires immediate emergency department evaluation",correct:false,explain:"This combination does not require emergency evaluation; general awareness of NSAID sensitivity in some asthma clients is the relevant consideration."}
+  ]},
+{ stem:"Which of the following would be an appropriate use for cromolyn sodium in asthma management?",
+  options:[
+    {text:"Taken prophylactically, on a regular schedule, before anticipated triggers such as exercise",correct:true,explain:"Cromolyn sodium is used prophylactically, often before anticipated triggers, since it prevents mast cell degranulation but does not reverse bronchospasm already in progress."},
+    {text:"Taken only after symptoms have already started, as a rescue treatment",correct:false,explain:"Cromolyn sodium is not effective as a rescue treatment once symptoms have started; it must be used prophylactically."},
+    {text:"Taken as a one-time dose for lifetime prevention",correct:false,explain:"Cromolyn sodium requires ongoing, scheduled use for prophylactic benefit, not a single one-time dose."},
+    {text:"Taken only during status asthmaticus",correct:false,explain:"Cromolyn sodium has no role in treating status asthmaticus, an acute severe exacerbation; it is a prophylactic medication."}
+  ]},
+{ stem:"A client is prescribed guaifenesin with codeine for a cough associated with a upper respiratory infection. What is important for the nurse to consider about this combination?",
+  options:[
+    {text:"This combination pairs an expectorant with a cough suppressant, which requires clinical judgment since thinning secretions while also suppressing the cough reflex can be a conflicting goal in some clinical situations",correct:true,explain:"Guaifenesin thins secretions to make cough more productive, while codeine suppresses the cough reflex; combining an expectorant with an antitussive requires consideration of the client's overall clinical picture, particularly with a productive cough."},
+    {text:"This combination has no clinically relevant considerations",correct:false,explain:"Combining an expectorant with a cough suppressant does carry a clinically relevant consideration regarding secretion management, as described in the correct response."},
+    {text:"Codeine in this combination will have no antitussive effect",correct:false,explain:"Codeine does have an antitussive (cough-suppressant) effect, which is part of why this combination requires clinical consideration when secretions need to be cleared."},
+    {text:"Guaifenesin will completely counteract any effect of the codeine",correct:false,explain:"Guaifenesin does not counteract codeine's antitussive effect; they work through different, independent mechanisms."}
+  ]},
+{ stem:"What should the nurse teach a client about the appropriate use of a rescue inhaler versus scheduling a follow-up with their provider?",
+  options:[
+    {text:"If the rescue inhaler is needed more frequently than usual, or provides less relief than usual, the client should contact their provider, as this may indicate worsening control",correct:true,explain:"An increase in rescue inhaler use, or decreased effectiveness of the usual dose, is an important sign of worsening asthma or COPD control that should prompt the client to contact their provider."},
+    {text:"The client should never contact the provider as long as the rescue inhaler provides any relief at all",correct:false,explain:"Even with some relief, increased frequency of rescue inhaler use is a warning sign that should prompt provider contact, not be ignored."},
+    {text:"The client should stop using the rescue inhaler if it is needed more than once a week",correct:false,explain:"Stopping the rescue inhaler is not the appropriate action; the client should continue using it as needed while alerting the provider to the increased frequency, which may indicate a need to adjust maintenance therapy."},
+    {text:"There is no clinical significance to how often the rescue inhaler is used",correct:false,explain:"The frequency of rescue inhaler use is clinically significant and is a recognized marker of asthma/COPD control."}
+  ]},
+{ stem:"A client with COPD is prescribed roflumilast in addition to their existing bronchodilator regimen. Which general nursing principle applies when a new medication is added to an existing respiratory regimen?",
+  options:[
+    {text:"The nurse should ensure the client understands each medication's specific role (rescue vs. maintenance) to avoid confusion and misuse",correct:true,explain:"Whenever a new respiratory medication is added, ensuring the client clearly understands its specific role — whether it's a rescue or maintenance medication, and how it differs from existing therapies — is an essential nursing principle to prevent confusion and misuse."},
+    {text:"The client should stop all previous respiratory medications once a new one is added",correct:false,explain:"Adding a new medication does not mean previous medications should automatically be stopped; respiratory regimens are often built on complementary combinations."},
+    {text:"No additional teaching is needed since the client is already familiar with inhaler use",correct:false,explain:"Even a client experienced with inhalers needs specific teaching about a new medication's role, since respiratory medications vary significantly in mechanism and appropriate use."},
+    {text:"All respiratory medications are interchangeable and any confusion is not clinically significant",correct:false,explain:"Respiratory medications are not interchangeable, and confusion about their distinct roles (e.g., using a maintenance medication for rescue) can have significant clinical consequences."}
+  ]},
+{ stem:"Which statement by a client newly diagnosed with asthma indicates a need for further teaching about their SABA and ICS medications?",
+  options:[
+    {text:"\"I'll use my corticosteroid inhaler whenever I feel short of breath, and save the albuterol for every day.\"",correct:true,explain:"This statement reverses the correct use of these medications — the corticosteroid is for scheduled daily maintenance, and albuterol (a SABA) is for as-needed relief of acute shortness of breath — indicating a need for further teaching."},
+    {text:"\"I'll use my albuterol inhaler if I suddenly feel short of breath or start wheezing.\"",correct:false,explain:"This statement correctly reflects albuterol's role as a rescue medication for acute symptoms and does not indicate a need for further teaching."},
+    {text:"\"I need to rinse my mouth after using my corticosteroid inhaler.\"",correct:false,explain:"This statement correctly reflects appropriate teaching about preventing oral thrush and does not indicate a need for further teaching."},
+    {text:"\"I should use a spacer with my metered-dose inhaler.\"",correct:false,explain:"This statement correctly reflects appropriate inhaler technique teaching and does not indicate a need for further teaching."}
+  ]},
+{ stem:"A client with exercise-induced bronchospasm (EIB) asks how to prevent symptoms before physical activity. What is the appropriate teaching?",
+  options:[
+    {text:"Use the SABA rescue inhaler approximately 15–30 minutes before exercise",correct:true,explain:"Pre-treating with a SABA about 15–30 minutes before exercise is standard teaching to prevent exercise-induced bronchospasm."},
+    {text:"Use the long-acting anticholinergic immediately before exercise for fast relief",correct:false,explain:"Long-acting anticholinergics have a delayed onset and are not appropriate for pre-exercise rescue-style dosing."},
+    {text:"Use the inhaled corticosteroid immediately before exercise for fast relief",correct:false,explain:"Inhaled corticosteroids do not have a rapid onset of action and would not prevent an acute bronchospastic episode triggered by exercise."},
+    {text:"No pre-treatment is recommended; only treat symptoms after they occur",correct:false,explain:"Pre-treatment before exercise is the recommended approach for preventing exercise-induced bronchospasm, not waiting until symptoms occur."}
+  ]},
+{ stem:"A combination inhaler containing budesonide and formoterol includes medications from which two classes?",
+  options:[
+    {text:"An inhaled corticosteroid and a long-acting beta2 agonist (LABA)",correct:true,explain:"Budesonide is an inhaled corticosteroid and formoterol is a LABA, making this another ICS/LABA combination inhaler, similar in concept to fluticasone/salmeterol."},
+    {text:"A short-acting beta2 agonist and a leukotriene modifier",correct:false,explain:"This combination does not include a SABA or a leukotriene modifier; it pairs an ICS with a LABA."},
+    {text:"An anticholinergic and a mucolytic",correct:false,explain:"Budesonide and formoterol are not an anticholinergic or a mucolytic; they are an ICS and a LABA."},
+    {text:"A methylxanthine and a mast cell stabilizer",correct:false,explain:"This combination does not include theophylline or cromolyn sodium; it is an ICS/LABA combination."}
+  ]},
+{ stem:"Why should the nurse assess lung sounds both before and after administering a bronchodilator?",
+  options:[
+    {text:"To evaluate the client's baseline respiratory status and the medication's effectiveness after administration",correct:true,explain:"Assessing lung sounds before and after bronchodilator administration allows the nurse to establish a baseline and evaluate whether the medication improved air movement and reduced adventitious sounds like wheezing."},
+    {text:"This assessment is not necessary since the medication always works effectively",correct:false,explain:"No medication response can be assumed without assessment; evaluating lung sounds before and after is standard practice to confirm effectiveness."},
+    {text:"To determine if the client needs a corticosteroid instead",correct:false,explain:"This assessment evaluates bronchodilator effectiveness, not specifically whether to switch to a corticosteroid."},
+    {text:"To check for signs of oral thrush",correct:false,explain:"Checking for oral thrush involves visual inspection of the mouth, not auscultating lung sounds."}
+  ]},
+{ stem:"How does codeine, used as an antitussive, differ from dextromethorphan in terms of clinical considerations?",
+  options:[
+    {text:"Codeine is an opioid with risks of sedation and constipation, while dextromethorphan is a non-opioid antitussive without these specific risks",correct:true,explain:"Codeine, as an opioid antitussive, carries risks such as sedation and constipation that are not associated with dextromethorphan, a non-opioid cough suppressant, making this an important distinction for client teaching and monitoring."},
+    {text:"Dextromethorphan is an opioid, while codeine is not",correct:false,explain:"This reverses the actual classification — codeine is the opioid, and dextromethorphan is the non-opioid antitussive."},
+    {text:"Both medications carry identical risk profiles with no clinically meaningful differences",correct:false,explain:"These medications do have clinically meaningful differences, particularly codeine's opioid-related risks of sedation and constipation."},
+    {text:"Codeine has no antitussive properties at all",correct:false,explain:"Codeine does have antitussive (cough-suppressant) properties; that is precisely why it may be prescribed for cough."}
+  ]},
+{ stem:"A client with asthma reports needing to refill their SABA rescue inhaler prescription every 2 weeks over the past two months. What does this suggest to the nurse?",
+  options:[
+    {text:"This frequency of refills suggests poorly controlled asthma requiring follow-up with the provider",correct:true,explain:"Needing frequent SABA refills is a strong indicator of poor asthma control and should prompt provider follow-up to reassess the maintenance regimen, similar to the concern with using a SABA more than twice weekly."},
+    {text:"This is a normal refill pattern requiring no follow-up",correct:false,explain:"This refill frequency is abnormally high and is a warning sign of poor control, not a normal, expected pattern."},
+    {text:"This indicates the client should stop using the SABA altogether",correct:false,explain:"The client should continue using the SABA for symptom relief while the underlying poor control is addressed with the provider — this is not a reason to stop using rescue medication."},
+    {text:"This has no relationship to how well the client's asthma is controlled",correct:false,explain:"Refill frequency of a rescue medication is directly related to and reflective of asthma control."}
+  ]},
+{ stem:"What important teaching point should the nurse provide when a client receives a new metered-dose inhaler (MDI) for the first time?",
+  options:[
+    {text:"The inhaler must be primed with test sprays before the first use, according to the manufacturer's instructions",correct:true,explain:"A new MDI typically requires priming (releasing several test sprays into the air) before first use to ensure the correct dose is delivered with subsequent actuations."},
+    {text:"Priming is unnecessary for any metered-dose inhaler",correct:false,explain:"Priming is a standard requirement for new (or long-unused) metered-dose inhalers to ensure accurate dosing."},
+    {text:"The inhaler should be shaken only after using it, never before",correct:false,explain:"Metered-dose inhalers are typically shaken before use, not only afterward, to ensure the medication is properly mixed."},
+    {text:"The canister should be submerged in water to check how full it is",correct:false,explain:"Submerging a canister in water (the \"float test\") is not a reliable or recommended method for checking inhaler doses remaining; checking the dose counter or tracking doses used is more appropriate."}
+  ]},
+{ stem:"When administering a nebulized bronchodilator treatment, what should the nurse monitor closely during administration?",
+  options:[
+    {text:"Heart rate, given the risk of tachycardia associated with beta agonist bronchodilators",correct:true,explain:"Beta agonist bronchodilators, including when administered via nebulizer, carry a risk of tachycardia, so heart rate should be monitored closely during and after the treatment."},
+    {text:"Blood glucose only, with no need to monitor cardiac status",correct:false,explain:"While beta agonists can have some effect on glucose, the more immediate and important parameter to monitor during nebulized bronchodilator therapy is heart rate, due to tachycardia risk."},
+    {text:"Only the client's temperature",correct:false,explain:"Temperature is not the primary parameter of concern during nebulized bronchodilator administration; heart rate is more directly relevant given the risk of tachycardia."},
+    {text:"No monitoring is required during nebulizer treatments",correct:false,explain:"Monitoring, especially of heart rate, is an important nursing responsibility during nebulized bronchodilator administration."}
+  ]},
+{ stem:"A hypoxic client with COPD is receiving supplemental oxygen. The nurse notes the client has become increasingly drowsy and difficult to arouse. What is the priority nursing action?",
+  options:[
+    {text:"Reassess the client's respiratory status and oxygen flow rate, recognizing this may indicate CO2 retention from excessive oxygen administration",correct:true,explain:"Increasing drowsiness and difficulty arousing in a client with COPD receiving oxygen can indicate CO2 narcosis from excessive oxygen suppressing the hypoxic drive; the nurse should promptly reassess respiratory status and oxygen delivery, and notify the provider."},
+    {text:"Immediately increase the oxygen flow rate further",correct:false,explain:"Increasing oxygen flow further could worsen CO2 retention and is not the appropriate priority action in this situation."},
+    {text:"Assume this is normal fatigue and allow the client to sleep without further assessment",correct:false,explain:"Increasing drowsiness and difficulty arousing in this context is a concerning finding that requires prompt reassessment, not assumption of normal fatigue."},
+    {text:"Discontinue oxygen therapy completely without further assessment",correct:false,explain:"Abruptly discontinuing oxygen without further assessment and provider communication is not the appropriate first action; reassessment and titration guided by clinical findings is needed."}
+  ]},
+{ stem:"Which food should a client receiving antitubercular therapy (isoniazid) avoid?",
+  options:[
+    {text:"Red wine",correct:true,explain:"Red wine and other tyramine-containing foods should be avoided during isoniazid therapy, since isoniazid has MAOI-like effects and combining it with tyramine can trigger a hypertensive reaction."},
+    {text:"Chocolate",correct:false,explain:"Chocolate is not the specific food restriction associated with isoniazid therapy; tyramine-containing foods like red wine are the key concern."},
+    {text:"Coffee",correct:false,explain:"Coffee is not the specific food restriction associated with isoniazid therapy."},
+    {text:"Eggs",correct:false,explain:"Eggs are not the specific food restriction associated with isoniazid therapy."}
+  ]},
+{ stem:"A client with acute asthma has inspiratory and expiratory wheezes and a decreased forced expiratory volume. Which class of medication should be used to treat this immediately?",
+  options:[
+    {text:"Beta-adrenergic blockers",correct:false,explain:"Beta-adrenergic blockers can worsen bronchoconstriction and are contraindicated in asthma; they are not the treatment for this presentation."},
+    {text:"Bronchodilators",correct:true,explain:"Bronchodilators (such as a SABA like albuterol) act immediately to relax airway smooth muscle and relieve acute bronchospasm and wheezing."},
+    {text:"Inhaled steroids",correct:false,explain:"Inhaled steroids are maintenance medications that reduce inflammation over time; they do not act quickly enough for immediate treatment of acute wheezing."},
+    {text:"Oral steroids",correct:false,explain:"Oral steroids also do not have a fast enough onset for immediate relief of acute bronchospasm; a rescue bronchodilator is needed first."}
+  ]},
+{ stem:"A client has been prescribed an inhaled corticosteroid for asthma control. Which patient teaching is most important for this client?",
+  options:[
+    {text:"Use 2 puffs when an attack of wheezing occurs",correct:false,explain:"Inhaled corticosteroids are not rescue medications for an acute wheezing attack; this instruction is incorrect."},
+    {text:"Do not mix this medication with other inhalers",correct:false,explain:"This is not the priority or most important teaching point for inhaled corticosteroids; they can be used alongside other respiratory inhalers as prescribed."},
+    {text:"Rinse mouth and spit immediately after use",correct:true,explain:"Rinsing the mouth and spitting immediately after using an inhaled corticosteroid is the most important teaching point, since it prevents oral thrush (candidiasis), a common local adverse effect."},
+    {text:"Use of this medication should be minimized to prevent side effects",correct:false,explain:"Inhaled corticosteroids should be used consistently as prescribed for maintenance control, not minimized, since consistent use is what prevents asthma attacks."}
+  ]},
+{ stem:"A client is taking isoniazid to treat TB. Which instruction should the nurse give about this drug?",
+  options:[
+    {text:"Drinking alcohol daily can cause drug-induced hepatitis",correct:true,explain:"Isoniazid carries a risk of hepatotoxicity, and daily alcohol use significantly increases this risk, making this an essential safety teaching point."},
+    {text:"Taking isoniazid with aluminum hydroxide minimizes GI upset",correct:false,explain:"Aluminum-containing antacids can actually decrease the absorption of isoniazid and should generally be avoided close to dosing, not used to minimize GI upset."},
+    {text:"Isoniazid is best absorbed when taken with a full meal",correct:false,explain:"Isoniazid is actually best absorbed on an empty stomach, not with a full meal."},
+    {text:"Prolonged use of isoniazid causes dark, concentrated urine",correct:false,explain:"Dark urine associated with isoniazid is a sign of possible hepatotoxicity that should be reported, not an expected, harmless effect of prolonged use to simply anticipate."}
+  ]},
+{ stem:"A client with pneumonia develops dyspnea with a respiratory rate of 32 breaths/minute and difficulty expelling secretions, with bronchial sounds auscultated in the left lower lobe. Which treatment does the client require first?",
+  options:[
+    {text:"Antibiotics",correct:false,explain:"While antibiotics are needed to treat the underlying pneumonia, they are not the first priority when the client is acutely dyspneic; addressing oxygenation comes first."},
+    {text:"Bed rest",correct:false,explain:"Bed rest alone does not address the client's acute respiratory distress and difficulty clearing secretions."},
+    {text:"Oxygen",correct:true,explain:"Following the Airway-Breathing-Circulation priority framework, addressing oxygenation with supplemental oxygen is the first priority for a dyspneic, hypoxic client, before antibiotics or other treatments."},
+    {text:"Nutritional intake",correct:false,explain:"Nutritional intake is not the priority for a client in acute respiratory distress; oxygenation must be addressed first."}
+  ]},
+{ stem:"During discharge teaching about corticosteroids, a client asks what the drugs suppress. Which response by the nurse is most accurate?",
+  options:[
+    {text:"The sympathetic response",correct:false,explain:"Corticosteroids do not primarily suppress the sympathetic nervous system response; their key action is anti-inflammatory and immune-modulating."},
+    {text:"Pain receptors",correct:false,explain:"Corticosteroids do not work by directly suppressing pain receptors; that describes analgesics, not corticosteroids."},
+    {text:"The inflammatory response",correct:true,explain:"Corticosteroids are potent, locally-acting anti-inflammatory and immune modifiers — they suppress the inflammatory response, which is their primary therapeutic mechanism in respiratory conditions."},
+    {text:"Neural transmission",correct:false,explain:"Corticosteroids do not work by suppressing neural transmission; their primary mechanism is anti-inflammatory and immune-modulating."}
+  ]},
+{ stem:"During a follow-up education session, which concerns or side effects of salmeterol (a LABA) should the nurse include in teaching?",
+  isSAL:true,
+  options:[
+    {text:"Headache",correct:true,explain:"Headache is a recognized adverse effect associated with beta2-agonists like salmeterol."},
+    {text:"Tremors",correct:true,explain:"Tremors are a recognized adverse effect associated with beta2-agonists like salmeterol, related to beta-receptor stimulation."},
+    {text:"Bleeding",correct:false,explain:"Bleeding is not a recognized adverse effect of salmeterol; it is not part of the beta2-agonist adverse effect profile."},
+    {text:"Palpitations",correct:true,explain:"Palpitations are a recognized adverse effect of salmeterol, related to cardiac beta-receptor cross-stimulation."}
+  ]},
+{ stem:"Guaifenesin is used for relief of chest congestion by loosening mucus and bronchial secretions. Which nursing considerations are associated with guaifenesin?",
+  isSAL:true,
+  options:[
+    {text:"Increase fluid intake",correct:true,explain:"Increasing fluid intake (1500–2000 mL/day) is a standard nursing consideration for mucoactive agents like guaifenesin, supporting the mobilization of loosened secretions."},
+    {text:"Do not crush pills",correct:true,explain:"Extended-release guaifenesin formulations should not be crushed or chewed, as this can alter the medication's release and absorption."},
+    {text:"Take with a full glass of water",correct:true,explain:"Taking guaifenesin with a full glass of water supports its mucus-thinning action and overall hydration goals."},
+    {text:"None of the above",correct:false,explain:"Several of the listed nursing considerations do apply to guaifenesin, so this option is incorrect."}
+  ]},
+{ stem:"A client with COPD is taking budesonide to prevent bronchospasm. Which of the following is NOT a correct side effect of budesonide?",
+  options:[
+    {text:"Thrush",correct:false,explain:"Thrush (oral candidiasis) IS a recognized adverse effect of inhaled corticosteroids like budesonide, so this is not the answer to identify as incorrect."},
+    {text:"Throat irritation",correct:false,explain:"Throat irritation/hoarseness IS a recognized adverse effect of inhaled corticosteroids like budesonide, so this is not the answer to identify as incorrect."},
+    {text:"Muscle pain",correct:false,explain:"While less classic than thrush or throat irritation, this is not the best answer among the choices for a side effect that is clearly NOT associated with budesonide."},
+    {text:"Increase mucus production",correct:true,explain:"Inhaled corticosteroids reduce airway inflammation and do not increase mucus production — this is the option that is NOT a correct/expected effect of budesonide."}
+  ]},
+{ stem:"A client is prescribed ipratropium bromide. Which of the following are indications for this drug?",
+  isSAL:true,
+  options:[
+    {text:"Chronic bronchitis",correct:true,explain:"Chronic bronchitis, a form of COPD, is an indication for ipratropium bromide, an anticholinergic bronchodilator."},
+    {text:"Emphysema",correct:true,explain:"Emphysema, another form of COPD, is an indication for ipratropium bromide."},
+    {text:"Acute asthma attack",correct:true,explain:"Ipratropium bromide can also be used as an adjunct with a SABA (such as albuterol) during an acute asthma attack for additional bronchodilation."},
+    {text:"COPD",correct:true,explain:"COPD broadly is a primary indication for ipratropium bromide, which is considered a mainstay of COPD therapy."}
+  ]},
+{ stem:"What are considered the most potent and effective anti-inflammatory medications currently available to treat asthma?",
+  options:[
+    {text:"Inhaled corticosteroids",correct:true,explain:"Inhaled corticosteroids are described as the most potent and effective anti-inflammatory medications currently available to treat asthma, acting as potent, locally-acting anti-inflammatory and immune modifiers."},
+    {text:"Leukotriene inhibitors",correct:false,explain:"Leukotriene inhibitors are effective but are not considered the most potent anti-inflammatory option; inhaled corticosteroids hold that distinction."},
+    {text:"Short-acting beta2-agonists",correct:false,explain:"SABAs are bronchodilators for rescue use, not anti-inflammatory agents."},
+    {text:"Antitussives",correct:false,explain:"Antitussives suppress cough; they have no significant anti-inflammatory role in asthma management."}
+  ]},
+{ stem:"A 58-year-old client with moderate persistent asthma and hypertension arrives in acute respiratory distress with SpO2 88% on room air, audible wheezing, and accessory muscle use. Orders include oxygen, albuterol nebulizer, ipratropium bromide nebulizer, and IV methylprednisolone, all stat. Which action should the nurse take first?",
+  options:[
+    {text:"Administer the IV methylprednisolone",correct:false,explain:"While methylprednisolone is an important part of treatment, medications take time to work and are not the first priority when the client is acutely hypoxic."},
+    {text:"Apply oxygen via nasal cannula",correct:true,explain:"The client is hypoxic (SpO2 88%) and in acute respiratory distress. Per the Airway-Breathing-Circulation framework, the immediate priority is restoring adequate oxygenation before administering medications or performing other interventions."},
+    {text:"Teach the client about peak flow meter use",correct:false,explain:"Client education is not the priority during an acute, unstable respiratory crisis; stabilization comes first."},
+    {text:"Draw a basic metabolic panel",correct:false,explain:"Laboratory testing is secondary to immediate stabilization of the client's oxygenation status."}
+  ]},
+{ stem:"For the client above, the nurse administers a combined treatment of albuterol and ipratropium bromide. How does ipratropium help in this acute crisis?",
+  options:[
+    {text:"It suppresses the immune system in the lungs",correct:false,explain:"Ipratropium does not act on the immune system; that describes the mechanism of corticosteroids, not anticholinergic bronchodilators."},
+    {text:"It blocks parasympathetic bronchoconstriction",correct:true,explain:"Ipratropium is an anticholinergic agent that blocks acetylcholine receptors on airway smooth muscle, preventing bronchospasm and reducing secretions; combined with albuterol, it provides synergistic bronchodilation."},
+    {text:"It liquefies thick mucus plugs in the bronchioles",correct:false,explain:"Liquefying mucus describes the action of mucolytics, not ipratropium."},
+    {text:"It stimulates the respiratory center in the brainstem",correct:false,explain:"Ipratropium does not act on the brainstem respiratory center; its action is peripheral, at the airway smooth muscle."}
+  ]},
+{ stem:"Ten minutes after the client above receives the albuterol nebulizer treatment, the nurse assesses him. Which finding is an expected, common side effect of this medication?",
+  options:[
+    {text:"Bradycardia",correct:false,explain:"Albuterol is associated with tachycardia, not bradycardia, due to cross-stimulation of cardiac beta-1 receptors."},
+    {text:"Drowsiness",correct:false,explain:"Drowsiness is not a typical albuterol side effect; albuterol is more associated with stimulant-type effects like anxiety and tremor."},
+    {text:"Tachycardia",correct:true,explain:"Albuterol stimulates beta-2 receptors for bronchodilation but also cross-stimulates beta-1 receptors in the heart, frequently causing tachycardia, tremors, and palpitations."},
+    {text:"Constipation",correct:false,explain:"Constipation is not a recognized albuterol side effect."}
+  ]},
+{ stem:"Before discharge, the nurse teaches the client above about using an inhaled corticosteroid (fluticasone). Which client statement indicates that further teaching is needed?",
+  options:[
+    {text:"\"I will rinse my mouth with water and spit it out after using this inhaler.\"",correct:false,explain:"This statement reflects correct teaching about preventing oral thrush and does not indicate a need for further teaching."},
+    {text:"\"I will use this inhaler every day to prevent asthma attacks.\"",correct:false,explain:"This statement correctly reflects that fluticasone is a daily maintenance/controller medication, and does not indicate a need for further teaching."},
+    {text:"\"I will use this inhaler as my fast-acting rescue medication when I feel tight.\"",correct:true,explain:"Inhaled corticosteroids are daily controller medications, not rescue drugs — this statement is incorrect and indicates a need for further teaching, since albuterol (not fluticasone) is used for acute rescue relief."},
+    {text:"\"It may take a few weeks to feel the full benefit of this medication.\"",correct:false,explain:"This statement correctly reflects that inhaled corticosteroids take time to reach full therapeutic benefit, and does not indicate a need for further teaching."}
+  ]},
+{ stem:"Six hours after an older adult client is admitted for an acute COPD exacerbation, the client reports increasing chest tightness and chills, is oriented to person only, and has rhonchi in the right lower lobe with flushed skin. Vital signs: BP 162/91, HR 102, RR 25, SpO2 86% on 2L O2, temperature 99.9°F. Which action does the nurse take first?",
+  options:[
+    {text:"Place client in high Fowler position",correct:true,explain:"Placing the client in high Fowler position is an independent nursing action that immediately supports oxygenation and does not require a new order, making it the appropriate first action while further findings (suggesting possible new infection) are being addressed."},
+    {text:"Contact the health care provider",correct:false,explain:"While the provider should be notified of these concerning new findings, an immediate independent nursing action to support the client's breathing should occur first."},
+    {text:"Administer doxycycline IV",correct:false,explain:"Antibiotics require a provider order to initiate for new findings and are not the immediate first action a nurse can independently take to support this client."},
+    {text:"Administer acetaminophen 650 mg PO",correct:false,explain:"Addressing a mild temperature elevation is not the priority over supporting oxygenation and positioning in a client with worsening respiratory status."}
+  ]},
+{ stem:"The nurse reviews prescriptions for clients scheduled to receive the pneumococcal vaccine. The nurse should be concerned if which clients are scheduled to receive it?",
+  isSAL:true,
+  options:[
+    {text:"A 21-year-old who has a history of diabetes mellitus",correct:false,explain:"Diabetes mellitus is not a contraindication to the pneumococcal vaccine; clients with diabetes are actually a recommended risk group for this vaccine."},
+    {text:"A 66-year-old runner who has no prior medical history",correct:false,explain:"Adults 65 and older are a recommended group for the pneumococcal vaccine; having no other medical history is not a concern here."},
+    {text:"A 48-year-old who smokes three cigarettes per day",correct:false,explain:"Smokers are actually a recommended risk group for the pneumococcal vaccine due to increased pneumonia risk, not a group of concern for receiving it."},
+    {text:"A 69-year-old who developed angioedema after an influenza vaccine",correct:true,explain:"A history of a significant allergic reaction (angioedema) after a previous vaccine is a valid safety concern that warrants caution and further evaluation before administering another vaccine."},
+    {text:"A 54-year-old admitted for treatment for alcoholism",correct:false,explain:"Clients with alcoholism are actually a recommended risk group for the pneumococcal vaccine due to increased infection risk, not a group of concern for receiving it."},
+    {text:"A 72-year-old who has a temperature of 101°F (38.3°C)",correct:true,explain:"An acute febrile illness is generally a reason to defer vaccination until the client is afebrile, making this a valid concern."}
+  ]},
+{ stem:"A client is prescribed isoniazid for 6 months. Which client statements indicate a correct understanding of the nurse's medication teaching?",
+  isSAL:true,
+  options:[
+    {text:"\"If I have brown urine, I should contact my health care provider.\"",correct:true,explain:"Dark/brown urine can be a sign of hepatotoxicity, a serious adverse effect of isoniazid, and should be reported to the provider."},
+    {text:"\"I will take pyridoxine 10 mg every day, as prescribed.\"",correct:true,explain:"Pyridoxine (vitamin B6) is commonly prescribed alongside isoniazid to help prevent peripheral neuropathy, a known adverse effect."},
+    {text:"\"I will need to have my heart rhythm monitored on a weekly basis.\"",correct:false,explain:"Weekly heart rhythm monitoring is not a standard requirement for isoniazid therapy; this is not part of routine isoniazid monitoring."},
+    {text:"\"I will avoid any alcohol during this treatment regimen.\"",correct:true,explain:"Avoiding alcohol during isoniazid therapy is important teaching, since alcohol increases the risk of hepatotoxicity."},
+    {text:"\"If I have a tingling sensation in my hands, I should contact my health care provider.\"",correct:true,explain:"Tingling or numbness in the hands can be an early sign of peripheral neuropathy, a known isoniazid adverse effect, and should be reported."},
+    {text:"\"I will contact the health care provider if I start bruising easily.\"",correct:false,explain:"Easy bruising is not a classic, specifically taught adverse effect of isoniazid therapy in this content, making this a less directly correct teaching point compared to the others."}
+  ]},
+{ stem:"An adolescent with no prior asthma history arrives in the ED with acute cough, chest tightness, and dyspnea that began during soccer practice, with diaphoresis, bilateral expiratory wheezes, HR 113, SpO2 87%, and ABGs showing pH 7.47, PaCO2 31 mm Hg, HCO3 23 mEq/L, PaO2 75 mm Hg. How should the nurse interpret these ABG findings?",
+  options:[
+    {text:"Respiratory alkalosis (pH high, PaCO2 low, HCO3 normal), consistent with hyperventilation from acute respiratory distress, along with hypoxemia",correct:true,explain:"The pH is elevated (>7.45) and PaCO2 is low (<35), with a normal HCO3 — the classic pattern of respiratory alkalosis, here from tachypnea/hyperventilation triggered by acute bronchospasm and anxiety. The PaO2 of 75 mm Hg is at the low end of normal, reflecting the hypoxemia driving the client's presentation (SpO2 87%)."},
+    {text:"Respiratory acidosis, consistent with hypoventilation",correct:false,explain:"The pH is elevated, not decreased, and the PaCO2 is low, not high — this is the opposite pattern from respiratory acidosis, which would show a low pH and high PaCO2."},
+    {text:"Metabolic acidosis, consistent with lactic acid buildup",correct:false,explain:"The HCO3 is within normal range (22–26 mEq/L), not low, which rules out a metabolic acidosis pattern; the abnormal value driving the pH change here is the PaCO2, pointing to a respiratory cause."},
+    {text:"A completely normal ABG requiring no clinical concern",correct:false,explain:"The pH and PaCO2 are both outside normal range, and the PaO2/SpO2 indicate hypoxemia — this is not a normal ABG and reflects the client's acute respiratory distress."}
+  ]},
+{ stem:"A client newly diagnosed with asthma is prescribed albuterol, fluticasone, and montelukast. Which mechanism of action correctly matches each medication?",
+  options:[
+    {text:"Albuterol stimulates production of cAMP, decreasing intracellular calcium and causing bronchodilation; fluticasone is a potent, locally-acting anti-inflammatory; montelukast antagonizes the effects of leukotrienes",correct:true,explain:"Albuterol (a SABA) stimulates cAMP production, which decreases intracellular calcium and causes bronchodilation; fluticasone (an ICS) is a potent, locally-acting anti-inflammatory and immune modifier; montelukast (a leukotriene inhibitor) antagonizes the effects of leukotrienes, decreasing the inflammatory process."},
+    {text:"Albuterol is a potent anti-inflammatory; fluticasone antagonizes leukotrienes; montelukast stimulates cAMP production",correct:false,explain:"This scrambles the correct pairings — albuterol works through cAMP/bronchodilation, fluticasone is the anti-inflammatory, and montelukast is the leukotriene antagonist, not in this order."},
+    {text:"All three medications work through the identical mechanism of blocking leukotriene receptors",correct:false,explain:"These three medications work through three distinct mechanisms (beta-agonism/cAMP, local anti-inflammatory action, and leukotriene antagonism), not a single identical mechanism."},
+    {text:"Montelukast is a potent, locally-acting anti-inflammatory; fluticasone antagonizes leukotrienes; albuterol has no specific mechanism",correct:false,explain:"This reverses the fluticasone/montelukast mechanisms and incorrectly states albuterol has no specific mechanism, when in fact it works via cAMP-mediated bronchodilation."}
+  ]},
+{ stem:"Which four medications make up the standard \"RIPE\" regimen for active tuberculosis treatment?",
+  options:[
+    {text:"Rifampin, isoniazid, pyrazinamide, ethambutol",correct:true,explain:"The RIPE regimen for active TB consists of rifampin, isoniazid, pyrazinamide, and ethambutol, typically given together for the initial phase of treatment."},
+    {text:"Rifampin, ibuprofen, prednisone, erythromycin",correct:false,explain:"This is not the RIPE regimen; ibuprofen, prednisone, and erythromycin are not part of standard first-line TB therapy."},
+    {text:"Ranitidine, isoniazid, penicillin, epinephrine",correct:false,explain:"This is not the RIPE regimen; ranitidine, penicillin, and epinephrine are not part of standard first-line TB therapy."},
+    {text:"Rifampin, insulin, prednisone, ethambutol",correct:false,explain:"Insulin and prednisone are not part of the RIPE regimen; the correct four drugs are rifampin, isoniazid, pyrazinamide, and ethambutol."}
+  ]},
+{ stem:"A client taking rifampin for TB should be taught to expect which harmless but alarming finding?",
+  options:[
+    {text:"Orange-red discoloration of body fluids (urine, sweat, tears)",correct:true,explain:"Rifampin causes a harmless orange-red discoloration of body fluids, including urine, sweat, and tears, and clients should be reassured this is expected and can also stain soft contact lenses."},
+    {text:"Permanent blue discoloration of the skin",correct:false,explain:"Rifampin does not cause blue skin discoloration; it causes orange-red discoloration of body fluids."},
+    {text:"Green-tinted vision",correct:false,explain:"Green-tinted vision is not associated with rifampin; visual changes (optic neuritis, red-green color discrimination loss) are more specifically associated with ethambutol."},
+    {text:"Yellow discoloration of the sclera only, with no other body fluid changes",correct:false,explain:"While rifampin can affect the liver, its hallmark, expected finding is orange-red discoloration of multiple body fluids, not isolated scleral yellowing."}
+  ]},
+{ stem:"A client taking ethambutol for TB should be monitored for which specific adverse effect?",
+  options:[
+    {text:"Optic neuritis, with changes in visual acuity and red-green color discrimination",correct:true,explain:"Ethambutol carries a risk of optic neuritis, which can cause decreased visual acuity and loss of red-green color discrimination; baseline and periodic vision testing is recommended."},
+    {text:"Orange discoloration of body fluids",correct:false,explain:"Orange-red discoloration of body fluids is associated with rifampin, not ethambutol."},
+    {text:"Peripheral neuropathy prevented by pyridoxine",correct:false,explain:"Peripheral neuropathy prevented by pyridoxine (vitamin B6) is associated with isoniazid, not ethambutol."},
+    {text:"Hyperuricemia and gout-like symptoms",correct:false,explain:"Hyperuricemia is more specifically associated with pyrazinamide, not ethambutol."}
+  ]},
+{ stem:"A client taking pyrazinamide for TB should be monitored for which adverse effect?",
+  options:[
+    {text:"Hyperuricemia, which can precipitate gout-like joint symptoms",correct:true,explain:"Pyrazinamide is associated with hyperuricemia, which can precipitate gout-like joint pain and swelling, requiring monitoring of uric acid levels."},
+    {text:"Orange discoloration of body fluids",correct:false,explain:"Orange-red discoloration of body fluids is associated with rifampin, not pyrazinamide."},
+    {text:"Optic neuritis",correct:false,explain:"Optic neuritis is associated with ethambutol, not pyrazinamide."},
+    {text:"Peripheral neuropathy",correct:false,explain:"Peripheral neuropathy is more specifically associated with isoniazid, not pyrazinamide."}
+  ]},
+{ stem:"Roflumilast, a phosphodiesterase-4 (PDE4) inhibitor, is used in later-stage COPD. What is its mechanism of action?",
+  options:[
+    {text:"Reduces neutrophil and eosinophil counts in the lungs, reducing the number of exacerbations",correct:true,explain:"Roflumilast, a PDE4 inhibitor, reduces neutrophil and eosinophil counts in the lungs, which reduces the frequency of COPD exacerbations; it is used in later-stage disease, not as first-line therapy."},
+    {text:"Directly relaxes airway smooth muscle for immediate bronchodilation",correct:false,explain:"This describes the mechanism of bronchodilators (SABAs, LABAs), not roflumilast, which does not provide rapid bronchodilation."},
+    {text:"Directly kills bacteria colonizing the airway",correct:false,explain:"Roflumilast is not an antibacterial agent; it works by reducing inflammatory cell counts in the lungs."},
+    {text:"Replaces surfactant in the alveoli",correct:false,explain:"Roflumilast does not replace surfactant; that is unrelated to its PDE4 inhibitor mechanism."}
+  ]},
+{ stem:"Which client would be the most appropriate candidate for roflumilast therapy?",
+  options:[
+    {text:"A client with severe, later-stage COPD experiencing frequent exacerbations despite other therapies",correct:true,explain:"Roflumilast is indicated for later-stage COPD, specifically to reduce the frequency of exacerbations in clients with severe disease, not as an early or first-line therapy."},
+    {text:"A client having an acute asthma attack in the emergency department",correct:false,explain:"Roflumilast has no role in acute asthma management; it is not a rescue medication and has a slow onset of action."},
+    {text:"A client with mild, newly diagnosed COPD with no exacerbation history",correct:false,explain:"Roflumilast is reserved for more severe, later-stage COPD with frequent exacerbations, not mild, newly diagnosed disease."},
+    {text:"A client with a simple upper respiratory infection",correct:false,explain:"Roflumilast has no role in treating a simple upper respiratory infection; it is specific to reducing COPD exacerbations."}
+  ]},
+{ stem:"Which medication is a first-line option for smoking cessation that works as a partial nicotinic receptor agonist?",
+  options:[
+    {text:"Varenicline",correct:true,explain:"Varenicline is a partial nicotinic receptor agonist used for smoking cessation; it reduces withdrawal symptoms and cravings while decreasing the rewarding effects of continued smoking."},
+    {text:"Albuterol",correct:false,explain:"Albuterol is a bronchodilator, not a smoking cessation medication."},
+    {text:"Montelukast",correct:false,explain:"Montelukast is a leukotriene inhibitor for asthma, not a smoking cessation medication."},
+    {text:"Guaifenesin",correct:false,explain:"Guaifenesin is an expectorant, not a smoking cessation medication."}
+  ]},
+{ stem:"What is an important safety teaching point for a client starting varenicline for smoking cessation?",
+  options:[
+    {text:"Report any changes in mood, behavior, or new/worsening depression or suicidal thoughts",correct:true,explain:"Varenicline carries a boxed warning regarding neuropsychiatric symptoms, so clients should be taught to report any changes in mood, behavior, or new/worsening depression or suicidal thoughts."},
+    {text:"This medication has no notable adverse effects requiring monitoring",correct:false,explain:"Varenicline does have notable adverse effects requiring monitoring, particularly neuropsychiatric symptoms."},
+    {text:"The client must continue smoking while taking this medication for it to be effective",correct:false,explain:"Varenicline is intended to support smoking cessation; the client sets a quit date and works toward stopping smoking, not continuing it."},
+    {text:"This medication should be taken only once, as a single dose",correct:false,explain:"Varenicline is taken on a scheduled dosing regimen over a set course, not as a single one-time dose."}
+  ]},
+{ stem:"Bupropion, in addition to its use as an antidepressant, is also approved for which other indication relevant to respiratory health?",
+  options:[
+    {text:"Smoking cessation",correct:true,explain:"Bupropion (marketed as Zyban for this indication) is approved for smoking cessation in addition to its use as an antidepressant."},
+    {text:"Acute bronchospasm relief",correct:false,explain:"Bupropion has no role in acute bronchospasm relief; that is the role of SABA bronchodilators."},
+    {text:"Treatment of active tuberculosis",correct:false,explain:"Bupropion has no role in TB treatment; the RIPE regimen is used for that purpose."},
+    {text:"Treatment of pneumonia",correct:false,explain:"Bupropion has no antibacterial or antipneumonia properties; it is not used to treat pneumonia."}
+  ]},
+{ stem:"A client requires a precise, consistent FiO2 for oxygen delivery. Which device provides the most reliable, fixed FiO2?",
+  options:[
+    {text:"Venturi mask",correct:true,explain:"A Venturi mask uses color-coded adaptors to deliver a precise, fixed FiO2, making it the most reliable device for clients who require an exact, consistent oxygen concentration (such as certain COPD clients)."},
+    {text:"Nasal cannula",correct:false,explain:"A nasal cannula delivers a variable FiO2 that changes with the client's breathing pattern, making it less precise than a Venturi mask."},
+    {text:"Simple face mask",correct:false,explain:"A simple face mask delivers a variable FiO2 range, not a fixed, precise concentration like a Venturi mask."},
+    {text:"Non-rebreather mask",correct:false,explain:"A non-rebreather mask delivers a high but still somewhat variable FiO2 depending on fit and flow rate, not the fixed, precise FiO2 of a Venturi mask."}
+  ]},
+{ stem:"Which oxygen delivery device is used to deliver the highest concentration of oxygen without mechanical ventilation, using a reservoir bag and one-way valves?",
+  options:[
+    {text:"Non-rebreather mask",correct:true,explain:"A non-rebreather mask, with its reservoir bag and one-way valves, can deliver the highest oxygen concentration (up to about 90–100%) of the standard non-invasive oxygen delivery devices."},
+    {text:"Nasal cannula",correct:false,explain:"A nasal cannula delivers a much lower maximum FiO2 (roughly up to 44% at 6 L/min) compared to a non-rebreather mask."},
+    {text:"Venturi mask",correct:false,explain:"A Venturi mask delivers a precise but generally lower FiO2 range than a non-rebreather mask, which can approach 90–100%."},
+    {text:"Simple face mask",correct:false,explain:"A simple face mask delivers a moderate FiO2 range, lower than the high concentration achievable with a non-rebreather mask."}
+  ]},
+{ stem:"A client using a peak flow meter records a reading in the green zone (80–100% of personal best). What does this indicate?",
+  options:[
+    {text:"Good asthma control; continue the current management plan",correct:true,explain:"A peak flow reading in the green zone (80–100% of personal best) indicates good asthma control, and the client should continue their current management plan."},
+    {text:"A medical emergency requiring immediate rescue treatment",correct:false,explain:"A medical emergency is indicated by a red-zone reading (below 50%), not a green-zone reading, which reflects good control."},
+    {text:"The client should increase their maintenance medication immediately",correct:false,explain:"A green-zone reading indicates good control and does not require a medication increase; the yellow zone would prompt caution and possible rescue medication use."},
+    {text:"The peak flow meter is malfunctioning and should be replaced",correct:false,explain:"A green-zone reading is a normal, expected finding reflecting good control, not an indication of device malfunction."}
+  ]},
+{ stem:"A client's peak flow reading falls in the yellow zone (50–79% of personal best). What action should the client take?",
+  options:[
+    {text:"Use the prescribed rescue medication and monitor closely, following the asthma action plan",correct:true,explain:"A yellow-zone reading (50–79% of personal best) signals caution; the client should use their prescribed rescue medication and follow their individualized asthma action plan, monitoring closely for further changes."},
+    {text:"No action is needed since this is within the normal range",correct:false,explain:"A yellow-zone reading is not within the normal (green-zone) range and does require action, specifically the use of rescue medication per the action plan."},
+    {text:"Seek emergency care immediately, as this is a red-zone reading",correct:false,explain:"A yellow-zone reading is a caution signal, not the medical alert level of a red-zone reading (below 50%), which would warrant emergency care."},
+    {text:"Discontinue all asthma medications immediately",correct:false,explain:"Discontinuing all medications is not appropriate for a yellow-zone reading; the client should use rescue medication and follow their action plan, not stop all treatment."}
+  ]},
+{ stem:"A client with COPD is prescribed a combination inhaler containing vilanterol and umeclidinium. What two drug classes does this combination represent?",
+  options:[
+    {text:"A LABA (vilanterol) and a long-acting anticholinergic (umeclidinium)",correct:true,explain:"Vilanterol is a long-acting beta2-agonist (LABA) and umeclidinium is a long-acting anticholinergic (LAMA); this combination provides dual bronchodilation through two complementary mechanisms, commonly used in COPD maintenance therapy."},
+    {text:"An inhaled corticosteroid and a leukotriene inhibitor",correct:false,explain:"Neither vilanterol nor umeclidinium is an inhaled corticosteroid or leukotriene inhibitor; they are a LABA and a LAMA, respectively."},
+    {text:"Two short-acting bronchodilators",correct:false,explain:"Both vilanterol and umeclidinium are long-acting, not short-acting, bronchodilators."},
+    {text:"An antibiotic and an antitussive",correct:false,explain:"Neither component of this combination is an antibiotic or antitussive; both are bronchodilators."}
+  ]},
+{ stem:"A client is prescribed a combination inhaler containing vilanterol and fluticasone furoate. What two drug classes does this combination represent?",
+  options:[
+    {text:"A LABA (vilanterol) and an inhaled corticosteroid (fluticasone furoate)",correct:true,explain:"This combination pairs a LABA (vilanterol) with an inhaled corticosteroid (fluticasone furoate), providing both bronchodilation and anti-inflammatory control — importantly, this pairing satisfies the requirement that a LABA not be used as monotherapy."},
+    {text:"Two anticholinergic bronchodilators",correct:false,explain:"Neither vilanterol nor fluticasone furoate is an anticholinergic; vilanterol is a LABA and fluticasone furoate is an inhaled corticosteroid."},
+    {text:"A leukotriene inhibitor and an antitussive",correct:false,explain:"Neither component of this combination is a leukotriene inhibitor or antitussive; it is a LABA/ICS combination."},
+    {text:"An antibiotic and a mucolytic",correct:false,explain:"Neither component is an antibiotic or mucolytic; this is a LABA/ICS combination inhaler."}
+  ]},
+{ stem:"Community-acquired pneumonia (CAP) caused by an atypical organism (e.g., Mycoplasma pneumoniae) is often treated with which class of antibiotic?",
+  options:[
+    {text:"Macrolides or tetracyclines (e.g., azithromycin or doxycycline)",correct:true,explain:"Atypical pneumonia organisms like Mycoplasma pneumoniae are often treated with macrolides (e.g., azithromycin) or tetracyclines (e.g., doxycycline), which are effective against these atypical, cell-wall-deficient organisms."},
+    {text:"Aminoglycosides exclusively",correct:false,explain:"Aminoglycosides are not the first-line choice for atypical pneumonia; macrolides or tetracyclines are more typically used."},
+    {text:"Antifungals exclusively",correct:false,explain:"Atypical pneumonia is caused by bacteria (like Mycoplasma), not fungi, so antifungals are not the appropriate treatment."},
+    {text:"No antibiotic therapy is indicated for atypical pneumonia",correct:false,explain:"Antibiotic therapy (macrolides or tetracyclines) is indicated for atypical bacterial pneumonia; it is not left untreated."}
+  ]},
+{ stem:"Why might doxycycline be a preferred antibiotic choice for a client with community-acquired pneumonia who also has a documented macrolide allergy?",
+  options:[
+    {text:"Doxycycline (a tetracycline) provides similar coverage against atypical organisms through a different mechanism and antibiotic class, avoiding the macrolide allergy",correct:true,explain:"Since doxycycline is a tetracycline rather than a macrolide, it can provide similar atypical organism coverage as an alternative for a client with a macrolide allergy, without cross-reactivity concerns."},
+    {text:"Doxycycline and macrolides are the same drug class, so this would not resolve the allergy concern",correct:false,explain:"Doxycycline (a tetracycline) and macrolides are distinct drug classes without cross-reactivity, which is exactly why doxycycline is a reasonable alternative."},
+    {text:"Doxycycline is only used for viral pneumonia, not bacterial pneumonia",correct:false,explain:"Doxycycline is an antibacterial agent used for bacterial (including atypical) pneumonia, not specifically for viral pneumonia."},
+    {text:"Doxycycline has no activity against atypical respiratory pathogens",correct:false,explain:"Doxycycline does have activity against atypical respiratory pathogens like Mycoplasma, which is why it is a reasonable alternative to macrolides."}
+  ]},
+{ stem:"A client is prescribed theophylline and asks why regular blood tests are needed. What is the nurse's best explanation?",
+  options:[
+    {text:"Theophylline has a narrow therapeutic index, so blood levels must be monitored to avoid toxicity while maintaining effectiveness",correct:true,explain:"Theophylline has a narrow therapeutic range (typically 5–15 mcg/mL), meaning the difference between an effective and a toxic dose is small, requiring regular monitoring of blood levels."},
+    {text:"Blood tests are required only once, at the start of therapy, with no further monitoring needed",correct:false,explain:"Ongoing monitoring is required throughout theophylline therapy, not just a single test at the start, given its narrow therapeutic index."},
+    {text:"Theophylline has a wide margin of safety, so blood tests are just a routine precaution with no real clinical significance",correct:false,explain:"Theophylline has a narrow, not wide, margin of safety, making blood level monitoring clinically significant rather than a routine formality."},
+    {text:"Blood tests for theophylline assess kidney function exclusively, unrelated to the drug level itself",correct:false,explain:"The blood tests specifically measure the theophylline drug level itself, not solely kidney function, given the narrow therapeutic index concern."}
+  ]},
+{ stem:"A client taking theophylline reports new caffeine intake has increased significantly. What should the nurse recognize about this change?",
+  options:[
+    {text:"Caffeine has additive stimulant effects with theophylline, increasing the risk of toxicity symptoms like tachycardia and tremor",correct:true,explain:"Since caffeine and theophylline are both methylxanthines with additive stimulant effects, increased caffeine intake raises the risk of toxicity symptoms such as tachycardia, tremor, and nervousness."},
+    {text:"Caffeine has no interaction with theophylline",correct:false,explain:"Caffeine does interact with theophylline, given their similar methylxanthine class and additive stimulant effects."},
+    {text:"Caffeine will decrease the effectiveness of theophylline",correct:false,explain:"The concern with this combination is additive stimulant/toxicity effects, not decreased theophylline effectiveness."},
+    {text:"Caffeine intake is only a concern if taken at the exact same time as the theophylline dose",correct:false,explain:"This interaction is a general concern related to overall additive stimulant effects, not limited only to simultaneous timing of intake."}
+  ]},
+{ stem:"Which client is the most appropriate candidate to receive the annual influenza vaccine?",
+  options:[
+    {text:"A 45-year-old client with well-controlled asthma and no acute illness",correct:true,explain:"Clients with chronic respiratory conditions like asthma are specifically recommended to receive the annual influenza vaccine, and this client has no acute illness that would warrant deferring vaccination."},
+    {text:"A client currently experiencing a severe febrile illness",correct:false,explain:"Vaccination is generally deferred in the setting of a severe, acute febrile illness until the client recovers."},
+    {text:"A client with a history of a severe, immediate allergic reaction to a previous dose of influenza vaccine",correct:false,explain:"A client with a history of a severe allergic reaction to the influenza vaccine itself requires careful evaluation and caution before receiving another dose, not straightforward re-administration."},
+    {text:"A client who is not eligible due to their chronic respiratory condition",correct:false,explain:"Chronic respiratory conditions like asthma are actually an indication for, not a contraindication to, annual influenza vaccination, since these clients are at higher risk for influenza complications."}
+  ]},
+{ stem:"Why are clients with chronic respiratory conditions such as COPD or asthma specifically encouraged to receive both influenza and pneumococcal vaccination?",
+  options:[
+    {text:"These clients are at increased risk for serious complications from respiratory infections, making preventive vaccination especially important",correct:true,explain:"Clients with chronic respiratory conditions are at increased risk for serious complications from influenza and pneumococcal disease, making preventive vaccination an important part of their overall respiratory care plan."},
+    {text:"Vaccination replaces the need for their regular respiratory medications",correct:false,explain:"Vaccination does not replace ongoing respiratory medication therapy; it is a preventive measure used in addition to, not instead of, prescribed treatment."},
+    {text:"These clients have no increased risk compared to the general population",correct:false,explain:"Clients with chronic respiratory conditions do have an increased risk of complications from respiratory infections, which is precisely why vaccination is emphasized for this population."},
+    {text:"Vaccination is only relevant for clients with COPD, not asthma",correct:false,explain:"Vaccination recommendations for influenza and pneumococcal disease apply to clients with chronic respiratory conditions broadly, including both COPD and asthma, not COPD exclusively."}
+  ]},
+{ stem:"A client with COPD is prescribed both tiotropium (LAMA) and formoterol (LABA) as separate inhalers, in addition to an as-needed albuterol (SABA). What should the nurse teach about how these medications differ in their roles?",
+  options:[
+    {text:"Tiotropium and formoterol are both scheduled maintenance medications working through different mechanisms, while albuterol is used as needed for acute symptom relief",correct:true,explain:"Tiotropium (a LAMA) and formoterol (a LABA) are both long-acting, scheduled maintenance bronchodilators working through different mechanisms (anticholinergic vs. beta-agonist), providing complementary bronchodilation, while albuterol remains the rescue medication for acute symptoms."},
+    {text:"All three medications are interchangeable and can be used for either maintenance or rescue purposes",correct:false,explain:"These medications are not interchangeable — tiotropium and formoterol are long-acting maintenance medications, while albuterol is specifically the short-acting rescue medication."},
+    {text:"Formoterol should be used as the primary rescue medication instead of albuterol",correct:false,explain:"Formoterol is a LABA with a slower onset than albuterol and is not appropriate as a primary rescue medication; albuterol remains the rescue medication of choice."},
+    {text:"Tiotropium provides rescue relief within minutes of administration",correct:false,explain:"Tiotropium is a long-acting medication without a rapid onset appropriate for rescue use; it is a scheduled maintenance medication."}
+  ]},
+{ stem:"A client with a documented penicillin allergy requires antibiotic treatment for a respiratory infection. Which class of antibiotic should the nurse recognize as carrying a risk of cross-reactivity with penicillin?",
+  options:[
+    {text:"Cephalosporins",correct:true,explain:"Cephalosporins carry a risk of cross-reactivity with penicillin due to their shared beta-lactam ring structure, so clients with a penicillin allergy require careful assessment before receiving a cephalosporin."},
+    {text:"Macrolides",correct:false,explain:"Macrolides do not share the beta-lactam structure with penicillin and do not carry this specific cross-reactivity concern."},
+    {text:"Tetracyclines",correct:false,explain:"Tetracyclines do not share the beta-lactam structure with penicillin and do not carry this specific cross-reactivity concern."},
+    {text:"Fluoroquinolones",correct:false,explain:"Fluoroquinolones do not share the beta-lactam structure with penicillin and do not carry this specific cross-reactivity concern."}
+  ]},
+{ stem:"A client on long-term inhaled corticosteroid therapy for asthma asks why periodic bone density screening might be recommended. What is the nurse's best explanation?",
+  options:[
+    {text:"Long-term corticosteroid use, including inhaled forms at higher doses, is associated with an increased risk of osteoporosis",correct:true,explain:"Osteoporosis is a recognized adverse effect associated with corticosteroid use, including long-term inhaled corticosteroid therapy, which is why periodic bone density screening may be recommended, particularly for clients on higher doses or with other risk factors."},
+    {text:"Inhaled corticosteroids have no effect on bone density regardless of dose or duration",correct:false,explain:"Inhaled corticosteroids, especially long-term or higher-dose use, are associated with a risk of decreased bone density, so this statement is inaccurate."},
+    {text:"Bone density screening is unrelated to corticosteroid use and is done for an unrelated reason",correct:false,explain:"Bone density screening in this context is specifically related to the corticosteroid therapy and its association with osteoporosis risk."},
+    {text:"This risk applies only to oral corticosteroids, never to inhaled forms",correct:false,explain:"While the risk is generally greater with oral/systemic corticosteroids, long-term inhaled corticosteroid use, particularly at higher doses, is also associated with some increased osteoporosis risk."}
+  ]},
+{ stem:"A client with COPD asks whether pursed-lip breathing can help with their breathlessness. What should the nurse explain about this non-pharmacologic technique?",
+  options:[
+    {text:"Pursed-lip breathing helps slow the respiratory rate and keeps airways open longer, reducing air trapping and improving gas exchange",correct:true,explain:"Pursed-lip breathing is a non-pharmacologic technique that helps slow the respiratory rate and creates back-pressure that keeps airways open longer during exhalation, reducing air trapping and improving gas exchange in clients with COPD."},
+    {text:"Pursed-lip breathing has no physiologic benefit and is purely a distraction technique",correct:false,explain:"Pursed-lip breathing does have a physiologic benefit — it helps reduce air trapping and improve gas exchange, not merely serve as a distraction."},
+    {text:"Pursed-lip breathing should only be used during an acute asthma attack, not for COPD",correct:false,explain:"Pursed-lip breathing is specifically taught as a helpful technique for COPD-related breathlessness, not limited to acute asthma attacks."},
+    {text:"Pursed-lip breathing works by increasing respiratory rate to compensate for hypoxia",correct:false,explain:"Pursed-lip breathing works by slowing, not increasing, the respiratory rate, while helping keep airways open longer."}
+  ]},
+{ stem:"A client asks about the difference between azithromycin and clarithromycin, both macrolide antibiotics. What is an important prescribing consideration that differs between the two?",
+  options:[
+    {text:"Both carry a risk of QT interval prolongation, but drug interaction profiles and dosing frequency can differ, requiring individualized assessment",correct:true,explain:"While both azithromycin and clarithromycin are macrolides with a shared risk of QT prolongation, their drug interaction profiles (clarithromycin has more significant CYP450 interactions) and dosing schedules differ, requiring individualized assessment for each client."},
+    {text:"Only clarithromycin carries any risk of adverse effects; azithromycin has none",correct:false,explain:"Both medications, as macrolides, share a similar overall adverse effect profile, including QT prolongation risk; azithromycin is not without adverse effect considerations."},
+    {text:"These two medications belong to entirely different antibiotic classes",correct:false,explain:"Both azithromycin and clarithromycin belong to the same antibiotic class — macrolides — not different classes."},
+    {text:"There is no meaningful clinical difference between these two medications in any respect",correct:false,explain:"There are meaningful differences in drug interaction profiles and dosing between these two macrolides, making this statement inaccurate."}
+  ]},
+{ stem:"A client with cystic fibrosis is prescribed dornase alfa via nebulizer. What is the purpose of this medication?",
+  options:[
+    {text:"It breaks down extracellular DNA in thick mucus, reducing viscosity and improving clearance of secretions",correct:true,explain:"Dornase alfa is a mucolytic enzyme that breaks down extracellular DNA (from breakdown of white blood cells) in the thick, purulent mucus characteristic of cystic fibrosis, reducing mucus viscosity and improving secretion clearance."},
+    {text:"It functions as a bronchodilator to relax airway smooth muscle",correct:false,explain:"Dornase alfa is a mucolytic, not a bronchodilator; it does not act on airway smooth muscle."},
+    {text:"It is an antibiotic used to treat respiratory infections in cystic fibrosis",correct:false,explain:"Dornase alfa is a mucolytic enzyme, not an antibiotic; it does not have antibacterial activity."},
+    {text:"It replaces the CFTR protein that is defective in cystic fibrosis",correct:false,explain:"Dornase alfa does not address the underlying CFTR protein defect; that is the target of CFTR modulator therapies, a different medication category."}
+  ]},
+{ stem:"A client asks why their provider prescribed a leukotriene inhibitor (montelukast) in addition to an inhaled corticosteroid for asthma control. What is the nurse's best explanation?",
+  options:[
+    {text:"Both medications reduce airway inflammation through different pathways, and combining them can provide more complete control for some clients",correct:true,explain:"Inhaled corticosteroids and leukotriene inhibitors both reduce airway inflammation but through different mechanisms; combining them can offer more complete symptom control for clients who are not fully controlled on a single agent."},
+    {text:"Montelukast replaces the need for an inhaled corticosteroid entirely",correct:false,explain:"Montelukast does not replace inhaled corticosteroid therapy; it is often used as an add-on for clients needing additional control."},
+    {text:"These two medications cannot be safely combined",correct:false,explain:"These two medications can be safely combined and are commonly used together to enhance asthma control."},
+    {text:"Montelukast is used only for rescue relief during an acute attack",correct:false,explain:"Montelukast is a maintenance medication with no rapid rescue effect; it is not used for acute attack relief."}
+  ]},
+{ stem:"A client using an MDI with a spacer asks why the spacer is recommended. What is the nurse's best explanation?",
+  options:[
+    {text:"A spacer improves medication delivery to the lower airways and reduces medication deposition in the mouth and throat",correct:true,explain:"A spacer device improves the delivery of medication to the lower airways by allowing better coordination between actuation and inhalation, while reducing oropharyngeal deposition, which also helps reduce the risk of oral thrush with inhaled corticosteroids."},
+    {text:"A spacer is only used for children and is not appropriate for adult clients",correct:false,explain:"Spacers are beneficial for clients of all ages, not exclusively children, especially those who have difficulty coordinating inhaler actuation with inhalation."},
+    {text:"A spacer eliminates the need to prime a new inhaler",correct:false,explain:"A spacer does not eliminate the need for priming a new or long-unused inhaler; priming is still required per manufacturer instructions."},
+    {text:"A spacer converts a rescue inhaler into a maintenance inhaler",correct:false,explain:"A spacer does not change the fundamental role of a medication; a rescue inhaler used with a spacer remains a rescue medication."}
+  ]},
+{ stem:"A client with COPD reports worsening dyspnea and increased sputum purulence over the past two days, with no fever. What is the most likely explanation, and what does this typically prompt?",
+  options:[
+    {text:"A COPD exacerbation, which may prompt short-term antibiotic and/or systemic corticosteroid therapy per the provider",correct:true,explain:"Increased dyspnea and sputum purulence are classic signs of a COPD exacerbation; this often prompts consideration of short-term antibiotic therapy (if a bacterial component is suspected) and/or a short course of systemic corticosteroids as prescribed."},
+    {text:"A normal, expected daily variation requiring no further evaluation",correct:false,explain:"Worsening dyspnea with increased sputum purulence represents a clinically significant change warranting evaluation for a COPD exacerbation, not a normal daily variation to disregard."},
+    {text:"An adverse effect of the client's maintenance bronchodilator therapy",correct:false,explain:"These symptoms are not a typical adverse effect of bronchodilator therapy; they are more consistent with a COPD exacerbation, often triggered by infection or environmental factors."},
+    {text:"A sign that the client should immediately discontinue all respiratory medications",correct:false,explain:"Discontinuing all respiratory medications is not the appropriate response to a COPD exacerbation; the client typically needs escalation or adjustment of therapy, not discontinuation."}
+  ]}
+];
+
+const FLASHCARDS = [
+{front:"SABA examples", back:"Albuterol, salbutamol, levalbuterol, terbutaline — rescue bronchodilators."},
+{front:"LABA examples", back:"Salmeterol, formoterol, indacaterol — maintenance only, never for rescue."},
+{front:"Anticholinergic bronchodilator examples", back:"Ipratropium (short-acting), tiotropium, aclidinium (long-acting)."},
+{front:"Phosphodiesterase inhibitor bronchodilators", back:"Aminophylline, theophylline — narrow therapeutic index."},
+{front:"Inhaled corticosteroid examples", back:"Fluticasone, budesonide, mometasone, beclomethasone."},
+{front:"Leukotriene inhibitor examples", back:"Montelukast, zileuton, zafirlukast — prevent/treat asthma, exercise-induced bronchospasm, allergic rhinitis."},
+{front:"Mucoactive agent examples", back:"Acetylcysteine, carbocysteine, guaifenesin — lower mucus viscosity."},
+{front:"Antitussive examples", back:"Benzonatate, dextromethorphan, chlorpheniramine — suppress the cough reflex in the medulla."},
+{front:"Bronchodilator therapeutic effect", back:"Relaxation of airway smooth muscle with bronchodilation."},
+{front:"Albuterol's mechanism", back:"Stimulates production of cAMP, decreasing intracellular calcium, causing bronchodilation."},
+{front:"Ipratropium's mechanism", back:"Blocks parasympathetic (acetylcholine-mediated) bronchoconstriction."},
+{front:"When using a bronchodilator + corticosteroid inhaler together", back:"Give the bronchodilator first to open the airway before the corticosteroid."},
+{front:"Most important ICS teaching point", back:"Rinse mouth and spit immediately after use to prevent oral thrush."},
+{front:"Early sign of aminophylline/theophylline toxicity", back:"Tachycardia."},
+{front:"Isoniazid + alcohol", back:"Daily alcohol use can cause drug-induced hepatitis."},
+{front:"Isoniazid administration", back:"Best absorbed on an empty stomach; take with pyridoxine (B6) to prevent peripheral neuropathy."},
+{front:"Isoniazid + tyramine foods (e.g., red wine)", back:"Avoid — isoniazid's MAOI-like effect can cause a hypertensive reaction."},
+{front:"Most potent anti-inflammatory for asthma", back:"Inhaled corticosteroids (ICS)."},
+{front:"PDE4 inhibitor used in later-stage COPD", back:"Roflumilast — reduces neutrophil/eosinophil counts and exacerbations."},
+{front:"3 risk factors for osteoporosis relevant to ICS use", back:"Advanced age, sedentary lifestyle, and use of corticosteroids."},
+{front:"Acute hypoxia — priority action", back:"Apply oxygen first (Airway–Breathing–Circulation priority) before medications or teaching."},
+{front:"Corticosteroids suppress...", back:"The inflammatory response."}
+];
+
+/* ======================= FLASHCARDS ======================= */
+let flashOrder = FLASHCARDS.map((_,i)=>i);
+let flashIdx = 0;
+
+function renderFlashcard(){
+  if(!FLASHCARDS.length) return;
+  const card = FLASHCARDS[flashOrder[flashIdx]];
+  document.getElementById('flashFront').textContent = card.front;
+  document.getElementById('flashBack').textContent = card.back;
+  document.getElementById('flashcard').classList.remove('flipped');
+  document.getElementById('flashIndex').textContent = flashIdx+1;
+  document.getElementById('flashTotal').textContent = FLASHCARDS.length;
+}
+function flipCard(){ document.getElementById('flashcard').classList.toggle('flipped'); }
+document.getElementById('flashPrev').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  flashIdx = (flashIdx - 1 + FLASHCARDS.length) % FLASHCARDS.length;
+  renderFlashcard();
+});
+document.getElementById('flashNext').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  flashIdx = (flashIdx + 1) % FLASHCARDS.length;
+  renderFlashcard();
+});
+document.getElementById('flashShuffle').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  flashOrder = shuffle(flashOrder.length ? flashOrder : FLASHCARDS.map((_,i)=>i));
+  flashIdx = 0;
+  renderFlashcard();
+});
+
+
+let activeQuestions = [];
+let currentIndex = 0;
+let score = 0;
+let questionState = [];
+let optionOrders = [];
+
+
+function toggleAnswer(id, btn){
+  const el = document.getElementById(id);
+  el.classList.toggle('show');
+  btn.textContent = el.classList.contains('show') ? 'Hide answer ▲' : 'Reveal answer ▼';
+}
+
+function showView(name){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+name).classList.add('active');
+  const crumbs = document.getElementById('crumbs');
+  const homeLink = "<span onclick=\"location.href='index.html'\">Home</span>";
+  if(name==='notes') crumbs.innerHTML = homeLink + " / Respiratory Medications / Course Notes";
+  else if(name==='flashcards') crumbs.innerHTML = homeLink + " / Respiratory Medications / Flashcards";
+  else if(name==='setup') crumbs.innerHTML = homeLink + " / Respiratory Medications / Practice Test";
+  else if(name==='cases') crumbs.innerHTML = homeLink + " / Respiratory Medications / Case Studies";
+  else if(name==='quiz') crumbs.innerHTML = homeLink + " / <span onclick=\"showView('setup')\">Respiratory Medications</span> / Practice Test";
+  ['tabNotesA','tabFlashA','tabSetupA','tabCasesA','tabNotesB','tabFlashB','tabSetupB','tabCasesB','tabNotesC','tabFlashC','tabSetupC','tabCasesC','tabNotesD','tabFlashD','tabSetupD','tabCasesD'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+    let kind = 'setup';
+    if(id.indexOf('Notes') !== -1) kind = 'notes';
+    else if(id.indexOf('Flash') !== -1) kind = 'flashcards';
+    else if(id.indexOf('Cases') !== -1) kind = 'cases';
+    el.classList.toggle('selected', kind === name || (kind==='setup' && name==='quiz'));
+  });
+
+  if(name === 'flashcards' && typeof renderFlashcard === 'function') renderFlashcard();
+  history.replaceState(null, '', '#'+name);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+(function initialRoute(){
+  const hash = (location.hash || '').replace('#','');
+  const validViews = ['notes','flashcards','setup','cases'];
+  showView(validViews.includes(hash) ? hash : 'setup');
+})();
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function startQuiz(n){
+  const indices = shuffle([...Array(QUESTIONS.length).keys()]).slice(0,n);
+  activeQuestions = indices.map(i=>QUESTIONS[i]);
+  questionState = new Array(activeQuestions.length).fill(null);
+  optionOrders = new Array(activeQuestions.length).fill(null);
+  score = 0;
+  currentIndex = 0;
+  document.getElementById('quizTitle').textContent = 'Practice Test — ' + n + ' Questions';
+  document.getElementById('finalOutOf').textContent = '/' + n;
+  buildPicker();
+  document.getElementById('quizArea').innerHTML='';
+  document.getElementById('summary').classList.remove('show');
+  updateStatus();
+  renderQuestion(0);
+  showView('quiz');
+}
+
+const pickerGrid = document.getElementById('pickerGrid');
+function buildPicker(){
+  pickerGrid.innerHTML = '';
+  activeQuestions.forEach((q,i)=>{
+    const btn = document.createElement('button');
+    btn.className = 'pick-btn';
+    btn.textContent = (i+1);
+    btn.title = 'Question ' + (i+1);
+    btn.addEventListener('click', ()=> goToQuestion(i));
+    pickerGrid.appendChild(btn);
+  });
+  refreshPicker();
+}
+function refreshPicker(){
+  const btns = pickerGrid.querySelectorAll('.pick-btn');
+  btns.forEach((btn,i)=>{
+    btn.classList.remove('current','correct','incorrect');
+    const st = questionState[i];
+    if(st) btn.classList.add(st.correct ? 'correct' : 'incorrect');
+    if(i === currentIndex) btn.classList.add('current');
+  });
+}
+
+function goToQuestion(idx){
+  currentIndex = idx;
+  document.getElementById('quizArea').innerHTML = '';
+  document.getElementById('summary').classList.remove('show');
+  renderQuestion(idx);
+  refreshPicker();
+  document.getElementById('quizArea').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function letter(i){ return String.fromCharCode(65+i); }
+
+function renderQuestion(qIndex){
+  const q = activeQuestions[qIndex];
+  const state = questionState[qIndex];
+  const quizArea = document.getElementById('quizArea');
+  const card = document.createElement('div');
+  card.className = 'qcard';
+
+  const meta = document.createElement('div');
+  meta.className = 'qmeta';
+  meta.innerHTML = `<span class="qnum">Q${qIndex+1} / ${activeQuestions.length}</span><span class="qtag">Respiratory Pharm</span>` +
+    (q.isSAL ? `<span class="qsal">Select all that apply</span>` : '');
+  card.appendChild(meta);
+
+  const stem = document.createElement('p');
+  stem.className = 'stem';
+  stem.textContent = q.stem;
+  card.appendChild(stem);
+
+  const optsWrap = document.createElement('div');
+  optsWrap.className = 'options';
+  const banner = document.createElement('div');
+  banner.className = 'result-banner';
+
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'btn-next';
+  nextBtn.textContent = (qIndex === activeQuestions.length-1) ? 'See results →' : 'Next question →';
+
+  const prevBtn = document.createElement('button');
+  prevBtn.className = 'btn-prev';
+  prevBtn.textContent = '← Previous';
+  prevBtn.disabled = (qIndex === 0);
+  prevBtn.addEventListener('click', ()=>{ if(qIndex>0) goToQuestion(qIndex-1); });
+
+  if(!optionOrders[qIndex]){
+    optionOrders[qIndex] = shuffle(q.options.map((_,i)=>i));
+  }
+  const order = optionOrders[qIndex];
+
+  if(q.isSAL){
+    let selected = state ? new Set(state.selected) : new Set();
+    order.forEach((origIdx, pos)=>{
+      const opt = q.options[origIdx];
+      const el = document.createElement('div');
+      el.className = 'opt sal';
+      el.dataset.origIdx = origIdx;
+      el.innerHTML = `<span class="opt-letter">${selected.has(origIdx)?'☑':'☐'}</span><div><div class="opt-text">${opt.text}</div><div class="opt-explain" style="display:none"></div></div>`;
+      if(!state){
+        el.addEventListener('click', ()=>{
+          if(el.classList.contains('locked')) return;
+          if(selected.has(origIdx)){ selected.delete(origIdx); el.querySelector('.opt-letter').textContent='☐'; el.style.background='var(--paper)'; el.style.borderColor='var(--line)'; }
+          else { selected.add(origIdx); el.querySelector('.opt-letter').textContent='☑'; el.style.background='#EAF3FA'; el.style.borderColor='var(--pulse)'; }
+        });
+      }
+      optsWrap.appendChild(el);
+    });
+    card.appendChild(optsWrap);
+    if(state){
+      revealSAL(qIndex, state.selected, optsWrap, banner, state.correct);
+      nextBtn.classList.add('show');
+    } else {
+      const submitBtn = document.createElement('button');
+      submitBtn.className = 'btn-sal-submit';
+      submitBtn.textContent = 'Submit answer';
+      submitBtn.addEventListener('click', ()=>{
+        lockSAL(qIndex, selected, optsWrap, banner, nextBtn, submitBtn);
+      });
+      card.appendChild(submitBtn);
+    }
+  } else {
+    order.forEach((origIdx, pos)=>{
+      const opt = q.options[origIdx];
+      const el = document.createElement('div');
+      el.className = 'opt';
+      el.dataset.origIdx = origIdx;
+      el.innerHTML = `<span class="opt-letter">${letter(pos)}</span><div><div class="opt-text">${opt.text}</div><div class="opt-explain" style="display:none"></div></div>`;
+      if(!state){
+        el.addEventListener('click', ()=> lockSingle(qIndex, origIdx, optsWrap, banner, nextBtn));
+      }
+      optsWrap.appendChild(el);
+    });
+    card.appendChild(optsWrap);
+    if(state){
+      revealSingle(qIndex, state.selected, optsWrap, banner, state.correct);
+      nextBtn.classList.add('show');
+    }
+  }
+
+  card.appendChild(banner);
+  const actions = document.createElement('div');
+  actions.className = 'actions';
+  actions.appendChild(prevBtn);
+  actions.appendChild(nextBtn);
+  card.appendChild(actions);
+
+  nextBtn.addEventListener('click', ()=>{
+    if(qIndex+1 < activeQuestions.length){ goToQuestion(qIndex+1); }
+    else { showSummary(); }
+  });
+
+  quizArea.appendChild(card);
+}
+
+function revealSingle(qIndex, chosenIdx, optsWrap, banner, isCorrect){
+  const q = activeQuestions[qIndex];
+  const opts = optsWrap.querySelectorAll('.opt');
+  opts.forEach((el)=>{
+    const i = parseInt(el.dataset.origIdx, 10);
+    el.classList.add('locked');
+    const explainEl = el.querySelector('.opt-explain');
+    explainEl.textContent = q.options[i].explain;
+    explainEl.style.display = 'block';
+    if(q.options[i].correct){ el.classList.add('correct-choice'); }
+    else if(i === chosenIdx){ el.classList.add('incorrect-choice'); }
+    else { el.classList.add('dim'); }
+  });
+  banner.classList.add('show', isCorrect ? 'correct' : 'incorrect');
+  banner.innerHTML = isCorrect ? `<span>✓</span> Correct.` : `<span>✕</span> Not quite — the correct answer is highlighted above.`;
+}
+
+function revealSAL(qIndex, selectedArr, optsWrap, banner, allCorrect){
+  const q = activeQuestions[qIndex];
+  const selected = new Set(selectedArr);
+  const opts = optsWrap.querySelectorAll('.opt');
+  opts.forEach((el)=>{
+    const i = parseInt(el.dataset.origIdx, 10);
+    el.classList.add('locked');
+    const explainEl = el.querySelector('.opt-explain');
+    explainEl.textContent = q.options[i].explain;
+    explainEl.style.display = 'block';
+    const letterEl = el.querySelector('.opt-letter');
+    if(q.options[i].correct){ el.classList.add('correct-choice'); letterEl.textContent='✓'; }
+    else if(selected.has(i)){ el.classList.add('incorrect-choice'); letterEl.textContent='✕'; }
+    else { el.classList.add('dim'); letterEl.textContent='☐'; }
+  });
+  banner.classList.add('show', allCorrect ? 'correct' : 'incorrect');
+  banner.innerHTML = allCorrect ? `<span>✓</span> Correct — all applicable choices selected.` : `<span>✕</span> Not quite — correct choices are highlighted above.`;
+}
+
+function lockSingle(qIndex, chosenIdx, optsWrap, banner, nextBtn){
+  if(questionState[qIndex]) return;
+  const q = activeQuestions[qIndex];
+  const isCorrect = q.options[chosenIdx].correct;
+  questionState[qIndex] = { correct: isCorrect, selected: chosenIdx };
+  if(isCorrect) score++;
+  revealSingle(qIndex, chosenIdx, optsWrap, banner, isCorrect);
+  nextBtn.classList.add('show');
+  refreshPicker();
+  updateStatus();
+}
+
+function lockSAL(qIndex, selected, optsWrap, banner, nextBtn, submitBtn){
+  if(questionState[qIndex]) return;
+  const q = activeQuestions[qIndex];
+  const correctSet = new Set(q.options.map((o,i)=>o.correct?i:null).filter(v=>v!==null));
+  let allCorrect = correctSet.size === selected.size && [...correctSet].every(i=>selected.has(i));
+  questionState[qIndex] = { correct: allCorrect, selected: [...selected] };
+  if(allCorrect) score++;
+  submitBtn.style.display = 'none';
+  revealSAL(qIndex, [...selected], optsWrap, banner, allCorrect);
+  nextBtn.classList.add('show');
+  refreshPicker();
+  updateStatus();
+}
+
+function updateStatus(){
+  const answeredCount = questionState.filter(Boolean).length;
+  const total = activeQuestions.length || 1;
+  document.getElementById('progressFill').style.width = (answeredCount/total*100)+'%';
+  document.getElementById('scoreLabel').innerHTML = `<span>${score}</span> / ${answeredCount}`;
+}
+
+function showSummary(){
+  document.getElementById('quizArea').innerHTML = '';
+  const answeredCount = questionState.filter(Boolean).length;
+  document.getElementById('finalScore').textContent = score;
+  document.getElementById('finalOutOf').textContent = '/' + activeQuestions.length;
+  const pct = answeredCount ? Math.round(score/answeredCount*100) : 0;
+  const msgEl = document.getElementById('finalMsg');
+  if(answeredCount < activeQuestions.length){
+    msgEl.textContent = `You've answered ${answeredCount} of ${activeQuestions.length} questions (${score} correct so far). Use the picker above to finish the rest.`;
+  } else if(pct >= 90) msgEl.textContent = 'Excellent — strong command of respiratory pharmacology.';
+  else if(pct >= 75) msgEl.textContent = 'Solid work. Revisit the missed rationales above before your exam.';
+  else if(pct >= 60) msgEl.textContent = 'Decent start — review the explanations above, especially on the classes you missed.';
+  else msgEl.textContent = 'Worth another pass — scroll up and read every rationale carefully, then retake.';
+  document.getElementById('summary').classList.add('show');
+  document.getElementById('summary').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+/* ---------- Print / Save PDF ---------- */
+function buildPrintReport(){
+  const answeredCount = questionState.filter(Boolean).length;
+  const pct = answeredCount ? Math.round(score/answeredCount*100) : 0;
+  const now = new Date();
+  const dateStr = now.toLocaleDateString(undefined, { year:'numeric', month:'long', day:'numeric' });
+  const timeStr = now.toLocaleTimeString(undefined, { hour:'2-digit', minute:'2-digit' });
+
+  let html = '';
+  html += '<div class="rpt-header">';
+  html += '<h1>Respiratory Medications — Practice Test Results</h1>';
+  html += '<div class="rpt-meta">' + dateStr + ' at ' + timeStr + ' &middot; ' + activeQuestions.length + ' questions</div>';
+  html += '<div class="rpt-score">Score: ' + score + ' / ' + answeredCount + ' answered (' + pct + '%)</div>';
+  html += '</div>';
+
+  activeQuestions.forEach((q, qi) => {
+    const state = questionState[qi];
+    html += '<div class="rpt-q">';
+    html += '<div class="rq-num">Question ' + (qi+1) + (q.isSAL ? ' (Select all that apply)' : '') + '</div>';
+    html += '<div class="rq-stem">' + escapeHtml(q.stem) + '</div>';
+
+    q.options.forEach((opt, oi) => {
+      let cls = '';
+      let marker = '';
+      const chosen = state ? (q.isSAL ? state.selected.includes(oi) : state.selected === oi) : false;
+      if(opt.correct){ cls = 'correct'; marker = '✓ '; }
+      else if(chosen){ cls = 'incorrect'; marker = '✕ '; }
+      html += '<div class="rpt-opt ' + cls + '">' + marker + escapeHtml(opt.text) + '</div>';
+      html += '<div class="rpt-explain">' + escapeHtml(opt.explain) + '</div>';
+    });
+
+    if(state){
+      const isCorrect = state.correct;
+      html += '<div class="rpt-banner ' + (isCorrect ? 'correct' : 'incorrect') + '">' +
+        (isCorrect ? 'Answered correctly' : 'Answered incorrectly') + '</div>';
+    } else {
+      html += '<div class="rpt-banner">Not answered</div>';
+    }
+    html += '</div>';
+  });
+
+  document.getElementById('printReport').innerHTML = html;
+}
+
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+document.getElementById('printBtn').addEventListener('click', ()=>{
+  buildPrintReport();
+  window.print();
+});
+
+document.getElementById('resultsBtn').addEventListener('click', showSummary);
+document.getElementById('randomBtn').addEventListener('click', ()=>{
+  const idx = Math.floor(Math.random()*activeQuestions.length);
+  goToQuestion(idx);
+});
+document.getElementById('reviewBtn').addEventListener('click', ()=>{
+  document.getElementById('summary').classList.remove('show');
+  goToQuestion(currentIndex);
+});
+document.getElementById('setupBtn').addEventListener('click', ()=> showView('setup'));
+document.getElementById('restartBtn').addEventListener('click', ()=> startQuiz(activeQuestions.length));
+</script>
+</body>
+</html>
