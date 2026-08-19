@@ -102,29 +102,69 @@
     opacity:0;animation:fadeUp .6s ease-out .2s forwards;
   }
 
-  /* ---------- Monitor strip (signature element) ---------- */
+  /* ---------- Medical icon strip (signature element) ---------- */
   .monitor{
-    max-width:480px;margin:0 auto 50px;background:var(--ink);border-radius:14px;
-    padding:18px 22px 14px;box-shadow:0 10px 30px rgba(18,40,61,.18);
+    max-width:420px;margin:0 auto 50px;
+    background:rgba(255,255,255,.14);
+    border:1px solid rgba(255,255,255,.28);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    border-radius:16px;
+    padding:26px 22px 22px;
+    box-shadow:0 10px 30px rgba(15,40,30,.16);
     opacity:0;animation:fadeUp .6s ease-out .28s forwards;
+    text-align:center;
+    position:relative;
   }
-  .monitor-readouts{display:flex;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:10px;}
-  .readout{font-family:'JetBrains Mono',monospace;}
-  .readout .label{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#8FB4B0;display:block;margin-bottom:2px;}
-  .readout .value{font-size:17px;font-weight:600;color:#EAF6F5;}
-  .readout.hr .value{color:#5FE0B8;animation:heartTick 1.05s ease-in-out .8s infinite;}
-  .readout.bp .value{color:#7FD1FF;}
-  .readout.spo2 .value{color:#FFD98A;}
-  .monitor-wave{width:100%;height:38px;overflow:hidden;}
-  .monitor-wave svg{width:100%;height:100%;display:block;}
-  .monitor-wave path{fill:none;stroke:#5FE0B8;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
-  .wave-trace{stroke-dasharray:1000;stroke-dashoffset:1000;animation:draw 2.6s linear .3s infinite;}
-  @keyframes draw{
-    0%{stroke-dashoffset:1000;}
-    55%{stroke-dashoffset:0;}
-    100%{stroke-dashoffset:-1000;}
+  .monitor-icons{position:relative;height:104px;}
+  .icon-cycle-item{
+    position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+    opacity:0;animation:iconCycle 16s ease-in-out infinite;
   }
-  @media (prefers-reduced-motion:reduce){.wave-trace{animation:none;stroke-dashoffset:0;}}
+  .icon-cycle-item:nth-child(1){animation-delay:0s;}
+  .icon-cycle-item:nth-child(2){animation-delay:4s;}
+  .icon-cycle-item:nth-child(3){animation-delay:8s;}
+  .icon-cycle-item:nth-child(4){animation-delay:12s;}
+  .icon-cycle-item svg{width:40px;height:40px;stroke:#fff;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
+  .icon-label{font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.85);}
+  @keyframes iconCycle{
+    0%{opacity:0;}
+    3%{opacity:1;}
+    22%{opacity:1;}
+    26%{opacity:0;}
+    100%{opacity:0;}
+  }
+  /* per-icon micro-animations */
+  .icon-heart{animation:heartPulse 1.15s ease-in-out infinite;transform-origin:center;}
+  @keyframes heartPulse{
+    0%,100%{transform:scale(1);}
+    18%{transform:scale(1.14);}
+    32%{transform:scale(1);}
+  }
+  .icon-capsule{animation:capsuleSpin 5s linear infinite;transform-origin:center;}
+  @keyframes capsuleSpin{
+    0%{transform:rotate(0deg);}
+    100%{transform:rotate(360deg);}
+  }
+  .icon-stethoscope{animation:stethSwing 2.4s ease-in-out infinite;transform-origin:70% 20%;}
+  @keyframes stethSwing{
+    0%,100%{transform:rotate(-4deg);}
+    50%{transform:rotate(4deg);}
+  }
+  .icon-check{stroke-dasharray:24;stroke-dashoffset:24;animation:checkDraw 2.6s ease-in-out infinite;}
+  @keyframes checkDraw{
+    0%{stroke-dashoffset:24;}
+    35%{stroke-dashoffset:0;}
+    75%{stroke-dashoffset:0;}
+    95%{stroke-dashoffset:24;}
+    100%{stroke-dashoffset:24;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .icon-cycle-item{animation:none;position:static;}
+    .icon-cycle-item:not(:first-child){display:none;}
+    .monitor-icons{height:auto;}
+    .icon-heart,.icon-capsule,.icon-stethoscope,.icon-check{animation:none;stroke-dashoffset:0;}
+  }
 
   /* ---------- Comprehensive exam banner ---------- */
   .exam-banner{
@@ -277,7 +317,6 @@
   .eyebrow{color:#FFF6D0;}
   h1{color:#FFFFFF;text-shadow:0 1px 4px rgba(0,0,0,.18);}
   .subtitle{color:rgba(255,255,255,.9);}
-  .monitor{background:#12362E;}
   footer{color:rgba(255,255,255,.62);}
 </style>
 </head>
@@ -289,15 +328,23 @@
   <p class="subtitle">Pick a topic chart below. Each one includes course notes pulled straight from lecture material, plus an interactive practice test you can size to your study session.</p>
 
   <div class="monitor">
-    <div class="monitor-readouts">
-      <div class="readout hr"><span class="label">HR</span><span class="value">72 bpm</span></div>
-      <div class="readout bp"><span class="label">BP</span><span class="value">118/76</span></div>
-      <div class="readout spo2"><span class="label">SpO₂</span><span class="value">98%</span></div>
-    </div>
-    <div class="monitor-wave">
-      <svg viewBox="0 0 480 38" preserveAspectRatio="none">
-        <path class="wave-trace" d="M0,19 L70,19 L82,19 L90,4 L98,34 L106,10 L114,19 L140,19 L340,19 L352,19 L360,4 L368,34 L376,10 L384,19 L480,19"/>
-      </svg>
+    <div class="monitor-icons">
+      <div class="icon-cycle-item">
+        <svg class="icon-heart" viewBox="0 0 24 24"><path d="M12 20.5s-7.5-4.6-9.8-9.3C.6 7.6 2.5 4 6.1 4c2 0 3.4 1 4.9 2.8C12.5 5 13.9 4 15.9 4c3.6 0 5.5 3.6 3.9 7.2C17.5 15.9 12 20.5 12 20.5z"/></svg>
+        <span class="icon-label">Every Topic Covered</span>
+      </div>
+      <div class="icon-cycle-item">
+        <svg class="icon-capsule" viewBox="0 0 24 24"><rect x="2.5" y="9" width="19" height="6" rx="3" transform="rotate(-45 12 12)"/><path d="M8.5 8.5l7 7"/></svg>
+        <span class="icon-label">Pharmacology to Practice</span>
+      </div>
+      <div class="icon-cycle-item">
+        <svg class="icon-stethoscope" viewBox="0 0 24 24"><path d="M5 3v6a4 4 0 0 0 8 0V3"/><path d="M9 13v2a5 5 0 0 0 10 0v-1.5"/><circle cx="19" cy="11.5" r="1.6"/><circle cx="5" cy="3" r="1.1"/><circle cx="9" cy="3" r="1.1"/></svg>
+        <span class="icon-label">Nurse-Written Rationale</span>
+      </div>
+      <div class="icon-cycle-item">
+        <svg viewBox="0 0 24 24"><rect x="4.5" y="3.5" width="15" height="18" rx="2"/><rect x="9" y="2" width="6" height="3.5" rx="1"/><path class="icon-check" d="M8 13l2.6 2.6L16.5 10"/></svg>
+        <span class="icon-label">Track Every Answer</span>
+      </div>
     </div>
   </div>
 
