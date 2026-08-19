@@ -25,13 +25,7 @@
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
-    background:
-      radial-gradient(560px circle at 4% -8%, rgba(242,169,165,.34), transparent 60%),
-      radial-gradient(500px circle at 98% 0%, rgba(243,217,138,.32), transparent 58%),
-      radial-gradient(520px circle at 6% 68%, rgba(183,206,155,.32), transparent 60%),
-      radial-gradient(540px circle at 100% 78%, rgba(243,217,138,.24), transparent 58%),
-      linear-gradient(180deg, var(--paper) 0%, #FDF5EC 50%, var(--paper) 100%);
-    background-attachment:fixed;
+    background:var(--paper);
     color:var(--ink);
     font-family:'Inter',sans-serif;
     -webkit-font-smoothing:antialiased;
@@ -217,57 +211,22 @@
     #printReport .rpt-banner.incorrect{color:#96332E;}
   }
 
-  .case-card{border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin-bottom:22px;background:var(--card);}
-  .case-card h3{font-family:'Fraunces',serif;font-size:19px;margin:0 0 4px;color:var(--ink);}
-  .case-tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--pulse);background:var(--pulse-dim);padding:3px 9px;border-radius:5px;text-transform:uppercase;letter-spacing:.04em;display:inline-block;margin-bottom:12px;}
-  .case-vignette{font-size:14.5px;line-height:1.75;color:var(--ink-soft);margin-bottom:6px;}
-  .case-vignette b{color:var(--ink);}
-  .case-data{border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:var(--paper);font-size:13.5px;color:var(--ink-soft);margin:12px 0;line-height:1.7;}
-  .case-data b{color:var(--ink);}
-  .case-q{margin-top:18px;padding-top:16px;border-top:1px dashed var(--line);}
-  .case-q p.q-text{font-size:14px;color:var(--ink);margin:0 0 10px;font-weight:500;}
-  .reveal-btn{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--pulse);background:var(--pulse-dim);border:none;padding:7px 14px;border-radius:6px;cursor:pointer;letter-spacing:.02em;}
-  .reveal-btn:hover{opacity:.85;}
-  .reveal-answer{display:none;margin-top:12px;padding:12px 16px;background:var(--correct-bg);border-left:3px solid var(--correct);border-radius:0 8px 8px 0;font-size:13.5px;color:var(--ink);line-height:1.7;}
-  .reveal-answer.show{display:block;}
-  .reveal-answer b{color:var(--correct);}
-
-  /* ============ GLASS SURFACE OVERRIDE ============ */
-  .notes-card,.setup-card,.picker,.qcard,.summary,.flash-front,.case-card,
-  .score-pill,.secondary,.exam-banner-inner{
-    background:rgba(255,251,244,.6);
-    -webkit-backdrop-filter:blur(18px) saturate(160%);
-    backdrop-filter:blur(18px) saturate(160%);
-    border-color:rgba(255,251,244,.7);
-    box-shadow:inset 0 1px 0 rgba(255,251,244,.7), 0 10px 26px rgba(33,27,54,.06);
+  /* ==== Unified gradient palette override ==== */
+  :root{--pulse:#1E6E60;--pulse-dim:#DCEEE6;}
+  body{
+    background: linear-gradient(125deg, #ECE6A6 0%, #C7DE9C 20%, #8FC79E 42%, #56A98D 64%, #2F8A78 84%, #1E6E60 100%);
+    background-attachment: fixed;
   }
-  .tab-btn:not(.selected),.btn-prev,.mini-btn{
-    background:rgba(255,251,244,.45);
-    -webkit-backdrop-filter:blur(10px);
-    backdrop-filter:blur(10px);
-    border-color:rgba(255,251,244,.65);
-  }
-  .drugclass,.casebox,.case-data,.count-btn,.pick-btn,.opt,.dot.unanswered{
-    background:rgba(255,251,244,.35);
-    -webkit-backdrop-filter:blur(9px);
-    backdrop-filter:blur(9px);
-    border-color:rgba(255,251,244,.6);
-  }
-  .topbar{
-    background:rgba(255,251,244,.4);
-    -webkit-backdrop-filter:blur(14px);
-    backdrop-filter:blur(14px);
-    border:1px solid rgba(255,251,244,.6);
-    border-radius:12px;
-    padding:10px 16px;
-  }
-  @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
-    .notes-card,.setup-card,.picker,.qcard,.summary,.flash-front,.case-card,
-    .score-pill,.secondary,.exam-banner-inner,.tab-btn:not(.selected),.btn-prev,
-    .mini-btn,.drugclass,.casebox,.case-data,.count-btn,.pick-btn,.opt,.topbar{
-      background:rgba(255,251,244,.94);
-    }
-  }
+  .brand{color:#FFFFFF;}
+  .brand:hover{color:#FFF6D0;}
+  .crumbs{color:rgba(255,255,255,.72);}
+  .crumbs span:hover{color:#FFF6D0;}
+  .eyebrow{color:#FFF6D0;}
+  h1{color:#FFFFFF;text-shadow:0 1px 4px rgba(0,0,0,.18);}
+  .subtitle{color:rgba(255,255,255,.88);}
+  footer{color:rgba(255,255,255,.62);}
+  .flash-progress{color:rgba(255,255,255,.85);}
+  .progress-track{background:rgba(255,255,255,.28);}
 </style>
 </head>
 <body>
@@ -285,7 +244,6 @@
       <button class="tab-btn selected" id="tabNotesA" onclick="showView('notes')">Course Notes</button>
       <button class="tab-btn" id="tabFlashA" onclick="showView('flashcards')">Flashcards</button>
       <button class="tab-btn" id="tabSetupA" onclick="showView('setup')">Practice Test</button>
-      <button class="tab-btn" id="tabCasesA" onclick="showView('cases')">Case Studies</button>
     </div>
     <h1>Course Notes</h1>
     <p class="subtitle">Strategy and high-alert medication reference for the NCLEX-RN Pharmacological and Parenteral Therapies section. Use this to study before or during the practice test.</p>
@@ -305,7 +263,6 @@
       <button class="tab-btn" id="tabNotesB" onclick="showView('notes')">Course Notes</button>
       <button class="tab-btn selected" id="tabFlashB" onclick="showView('flashcards')">Flashcards</button>
       <button class="tab-btn" id="tabSetupB" onclick="showView('setup')">Practice Test</button>
-      <button class="tab-btn" id="tabCasesB" onclick="showView('cases')">Case Studies</button>
     </div>
     <h1>Flashcards</h1>
     <p class="subtitle">Tap a card to flip it. Use the arrows to move through the deck, or shuffle for random order.</p>
@@ -341,7 +298,6 @@
       <button class="tab-btn" id="tabNotesC" onclick="showView('notes')">Course Notes</button>
       <button class="tab-btn" id="tabFlashC" onclick="showView('flashcards')">Flashcards</button>
       <button class="tab-btn selected" id="tabSetupC" onclick="showView('setup')">Practice Test</button>
-      <button class="tab-btn" id="tabCasesC" onclick="showView('cases')">Case Studies</button>
     </div>
     <h1>Practice Test</h1>
     <p class="subtitle">Choose how many questions you want to take. Questions are randomly selected from a bank of 81 each time, and every option — right or wrong — comes with an explanation. Print or save a PDF of your results after every exam.</p>
@@ -356,22 +312,6 @@
         <button class="count-btn" onclick="startQuiz(81)"><span class="count-num">81</span><span class="count-label">Full bank</span></button>
       </div>
     </div>
-  </div>
-
-  <!-- ============ CASE STUDIES ============ -->
-  <div class="view" id="view-cases">
-    <div class="eyebrow">Immunological &amp; Anti-Infective Medications</div>
-    <div class="topic-tabs">
-      <button class="tab-btn" id="tabNotesD" onclick="showView('notes')">Course Notes</button>
-      <button class="tab-btn" id="tabFlashD" onclick="showView('flashcards')">Flashcards</button>
-      <button class="tab-btn" id="tabSetupD" onclick="showView('setup')">Practice Test</button>
-      <button class="tab-btn selected" id="tabCasesD" onclick="showView('cases')">Case Studies</button>
-    </div>
-    <h1>Case Studies</h1>
-    <p class="subtitle">Apply what you've reviewed to realistic clinical scenarios. Read each vignette, think through the reflection questions, then tap to reveal the rationale.</p>
-    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
-
-    <div class="cases-wrap" id="casesContent"></div>
   </div>
 
   <!-- ============ QUIZ ============ -->
@@ -421,114 +361,6 @@
 <div id="printReport"></div>
 
 <script>
-document.getElementById('casesContent').innerHTML = `
-<div class="case-card">
-    <span class="case-tag">Medical-Surgical Floor</span>
-    <h3>Penicillin Allergy and Cross-Reactivity</h3>
-    <p class="case-vignette">A client is admitted with a suspected pneumonia and the provider orders IV cefazolin (a cephalosporin). While completing admission medication reconciliation, the nurse notes the client's chart lists a documented penicillin allergy with a reaction of hives and facial swelling.</p>
-    <div class="case-data"><b>Allergy noted:</b> Penicillin — hives, facial swelling &nbsp;|&nbsp; <b>New order:</b> Cefazolin 1 g IV q8h</div>
-    <div class="case-q">
-      <p class="q-text">What is the nurse's priority action before administering the cefazolin?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('ia_c1q1', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="ia_c1q1"><b>Answer:</b> Clarify the allergy history and notify the provider before giving the dose. Cephalosporins share a similar beta-lactam ring structure to penicillins, and cross-reactivity is possible — particularly with a history of a severe reaction (hives, angioedema). The nurse should not assume it's safe just because the drug class is technically different.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">The client reports the penicillin reaction happened as a child and was "just a little rash." Does this change the nursing approach?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('ia_c1q2', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="ia_c1q2"><b>Answer:</b> It affects risk stratification but doesn't eliminate the need for caution — mild, remote reactions carry lower cross-reactivity risk than reactions involving anaphylaxis or angioedema, but the nurse should still document the details, ensure the order is provider-verified, and have emergency equipment/epinephrine accessible for the first dose, especially if a cephalosporin is ultimately given.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">What signs during the first dose would require the nurse to stop the infusion immediately?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('ia_c1q3', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="ia_c1q3"><b>Answer:</b> Signs of an acute hypersensitivity reaction: hives/urticaria, facial or airway swelling, wheezing or stridor, hypotension, or a sudden drop in oxygen saturation. The infusion should be stopped immediately, the IV line kept open with saline, the provider notified, and emergency response initiated per facility protocol.</div>
-    </div>
-  </div>
-<div class="case-card">
-    <span class="case-tag">Outpatient Infusion Center</span>
-    <h3>Immunosuppressant Therapy After Organ Transplant</h3>
-    <p class="case-vignette">A 45-year-old client six months post kidney transplant takes tacrolimus daily to prevent organ rejection. She calls the clinic reporting three days of low-grade fever, fatigue, and a sore throat, and asks whether she should just "wait it out" like she used to before her transplant.</p>
-    <div class="case-data"><b>Current meds:</b> Tacrolimus, mycophenolate mofetil, low-dose prednisone &nbsp;|&nbsp; <b>Temp reported:</b> 100.6°F &nbsp;|&nbsp; <b>Time post-transplant:</b> 6 months</div>
-    <div class="case-q">
-      <p class="q-text">Should this client be told to "wait it out" at home?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('ia_c2q1', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="ia_c2q1"><b>Answer:</b> No — clients on chronic immunosuppressant therapy are at significantly increased infection risk and may not mount a typical robust immune response, so even a "mild" fever can signal a more serious underlying infection. She should be evaluated promptly rather than waiting, since infections can progress quickly when the immune system is suppressed.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">What key teaching point applies to any client on long-term immunosuppressant therapy?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('ia_c2q2', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="ia_c2q2"><b>Answer:</b> Report fever, chills, or any new signs of infection immediately rather than waiting — avoid crowds and people who are sick, practice good hand hygiene, stay up to date on non-live vaccines (live vaccines are typically avoided while immunosuppressed), and never stop the immunosuppressant abruptly, since doing so risks organ rejection.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">What is the nurse's responsibility regarding this client's tacrolimus dosing while she is being worked up for infection?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('ia_c2q3', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="ia_c2q3"><b>Answer:</b> Do not adjust or hold the antirejection medication without provider direction, even though infection is a concern — abruptly stopping tacrolimus risks acute transplant rejection. Any changes must be balanced carefully by the transplant team weighing infection risk against rejection risk, often guided by tacrolimus trough levels.</div>
-    </div>
-  </div>
-<div class="case-card">
-    <span class="case-tag">Primary Care Clinic</span>
-    <h3>Early Discontinuation of an Antibiotic Course</h3>
-    <p class="case-vignette">A client was prescribed a 10-day course of amoxicillin for a bacterial sinus infection. She calls the clinic on day 5 to say she's feeling completely better and asks if she can just stop taking the rest of the pills to "save them for next time."</p>
-    <div class="case-data"><b>Rx:</b> Amoxicillin 500 mg PO TID × 10 days &nbsp;|&nbsp; <b>Day of therapy:</b> 5 of 10 &nbsp;|&nbsp; <b>Symptoms:</b> resolved</div>
-    <div class="case-q">
-      <p class="q-text">How should the nurse respond to this client's request to stop early?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('ia_c3q1', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="ia_c3q1"><b>Answer:</b> Advise her to complete the full prescribed course even though she feels better — symptoms often resolve before the infection is fully eradicated, and stopping early can allow surviving, less-susceptible bacteria to regrow and contributes to antibiotic resistance, potentially making future infections harder to treat.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">Why is it unsafe for the client to save the remaining pills "for next time"?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('ia_c3q2', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="ia_c3q2"><b>Answer:</b> Self-treating a future illness with leftover antibiotics risks using the wrong drug for the wrong organism, taking an incomplete/subtherapeutic course again, delaying appropriate evaluation and treatment, and further promotes antibiotic resistance — antibiotics should only be used for the specific infection and duration they were prescribed for.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">What broader public health concept does this scenario illustrate, and why does it matter beyond this one client?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('ia_c3q3', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="ia_c3q3"><b>Answer:</b> Antibiotic stewardship — using antibiotics only when needed and exactly as prescribed to slow the development of antibiotic-resistant organisms. Resistant bacteria can spread within families and communities, and reducing unnecessary or incomplete antibiotic use helps preserve these medications' effectiveness for everyone, not just the individual client.</div>
-    </div>
-  </div>
-<div class="case-card">
-    <span class="case-tag">Outpatient Infusion Center</span>
-    <h3>Anaphylaxis During IV Antibiotic Infusion</h3>
-    <p class="case-vignette">A client begins her first dose of IV piperacillin-tazobactam for a complicated infection. Within 10 minutes, she develops sudden facial flushing, audible wheezing, and reports her throat "feels tight." Her blood pressure drops rapidly on recheck.</p>
-    <div class="case-data"><b>VS before:</b> BP 122/76, HR 82 → <b>VS now:</b> BP 84/50, HR 128 &nbsp;|&nbsp; <b>Assessment:</b> facial flushing, audible wheeze, throat tightness</div>
-    <div class="case-q">
-      <p class="q-text">What is the priority nursing action right now?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('ia_c4q1', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="ia_c4q1"><b>Answer:</b> Stop the infusion immediately, keep the IV line open with 0.9% normal saline, call for help/activate the rapid response or emergency system, and prepare to administer epinephrine per protocol — this presentation (rapid onset hypotension, wheezing, throat tightness, flushing) is anaphylaxis, a life-threatening emergency requiring immediate action, not just slowing the infusion.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">Why is epinephrine the first-line treatment for anaphylaxis rather than an antihistamine?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('ia_c4q2', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="ia_c4q2"><b>Answer:</b> Epinephrine reverses the life-threatening effects of anaphylaxis quickly — it causes vasoconstriction (raising BP), bronchodilation (relieving wheeze/airway constriction), and reduces further mediator release. Antihistamines and corticosteroids may be given as adjunct therapy but act too slowly to be first-line for the acute cardiovascular and respiratory compromise of anaphylaxis.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">What should be documented and communicated clearly going forward for this client?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('ia_c4q3', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="ia_c4q3"><b>Answer:</b> Document the reaction in detail (drug, dose, time of onset, symptoms, treatment given and response) and ensure the antibiotic allergy is prominently flagged in the medical record and communicated to the entire care team — this drug (and often related beta-lactams) should not be re-administered, and the client should be educated to inform all future providers of this severe allergy.</div>
-    </div>
-  </div>
-<div class="case-card">
-    <span class="case-tag">Medical-Surgical Floor</span>
-    <h3>Monitoring Nephrotoxicity with Vancomycin</h3>
-    <p class="case-vignette">A client receiving IV vancomycin for a resistant infection has labs drawn per protocol. The nurse reviews the results before the next scheduled dose and notes a significant rise in creatinine along with a trough level above the target range.</p>
-    <div class="case-data"><b>Vancomycin trough:</b> 24 mcg/mL (target 15–20) &nbsp;|&nbsp; <b>Creatinine:</b> 1.8 mg/dL, up from baseline 0.9 &nbsp;|&nbsp; <b>Urine output:</b> decreasing over 24 hr</div>
-    <div class="case-q">
-      <p class="q-text">What do these findings suggest, and what should the nurse do before giving the next scheduled dose?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('ia_c5q1', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="ia_c5q1"><b>Answer:</b> These findings suggest vancomycin-induced nephrotoxicity — the elevated trough and rising creatinine with falling urine output indicate the kidneys are being affected and the drug may be accumulating to unsafe levels. The nurse should hold the next dose and notify the provider rather than administering it as scheduled, since giving more vancomycin could worsen kidney injury.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">Why are trough levels drawn specifically right before the next dose rather than at a random time?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('ia_c5q2', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="ia_c5q2"><b>Answer:</b> Trough levels reflect the lowest drug concentration in the blood, drawn immediately before the next dose is due — this timing gives the most accurate picture of whether the drug is clearing appropriately between doses and helps guide safe dose/interval adjustments, especially for a nephrotoxic, narrow-therapeutic-range drug like vancomycin.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">What other nursing assessments are important to monitor throughout vancomycin therapy?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('ia_c5q3', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="ia_c5q3"><b>Answer:</b> Monitor renal function trends (BUN/creatinine, urine output) throughout therapy, watch for ototoxicity (hearing changes, tinnitus) with prolonged or high-dose use, and observe the infusion site and rate closely — infusing too quickly can cause "vancomycin flushing syndrome" (facial/upper body flushing and hypotension), which is managed by slowing the infusion rate rather than stopping therapy altogether.</div>
-    </div>
-  </div>
-`;
-
 document.getElementById('notesContent').innerHTML = `
 <div class="stat-strip">
   <div class="stat-box"><div class="big">10</div><div class="lbl">Antibiotic classes</div></div>
@@ -645,13 +477,6 @@ let score = 0;
 let questionState = [];
 let optionOrders = [];
 
-
-function toggleAnswer(id, btn){
-  const el = document.getElementById(id);
-  el.classList.toggle('show');
-  btn.textContent = el.classList.contains('show') ? 'Hide answer ▲' : 'Reveal answer ▼';
-}
-
 function showView(name){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.getElementById('view-'+name).classList.add('active');
@@ -660,15 +485,13 @@ function showView(name){
   if(name==='notes') crumbs.innerHTML = homeLink + " / Immunological &amp; Anti-Infective Medications / Course Notes";
   else if(name==='flashcards') crumbs.innerHTML = homeLink + " / Immunological &amp; Anti-Infective Medications / Flashcards";
   else if(name==='setup') crumbs.innerHTML = homeLink + " / Immunological &amp; Anti-Infective Medications / Practice Test";
-  else if(name==='cases') crumbs.innerHTML = homeLink + " / Immunological &amp; Anti-Infective Medications / Case Studies";
   else if(name==='quiz') crumbs.innerHTML = homeLink + " / <span onclick=\"showView('setup')\">Immunological &amp; Anti-Infective Medications</span> / Practice Test";
-  ['tabNotesA','tabFlashA','tabSetupA','tabCasesA','tabNotesB','tabFlashB','tabSetupB','tabCasesB','tabNotesC','tabFlashC','tabSetupC','tabCasesC','tabNotesD','tabFlashD','tabSetupD','tabCasesD'].forEach(id=>{
+  ['tabNotesA','tabFlashA','tabSetupA','tabNotesB','tabFlashB','tabSetupB','tabNotesC','tabFlashC','tabSetupC'].forEach(id=>{
     const el = document.getElementById(id);
     if(!el) return;
     let kind = 'setup';
     if(id.indexOf('Notes') !== -1) kind = 'notes';
     else if(id.indexOf('Flash') !== -1) kind = 'flashcards';
-    else if(id.indexOf('Cases') !== -1) kind = 'cases';
     el.classList.toggle('selected', kind === name || (kind==='setup' && name==='quiz'));
   });
 
@@ -679,7 +502,7 @@ function showView(name){
 
 (function initialRoute(){
   const hash = (location.hash || '').replace('#','');
-  const validViews = ['notes','flashcards','setup','cases'];
+  const validViews = ['notes','flashcards','setup'];
   showView(validViews.includes(hash) ? hash : 'setup');
 })();
 

@@ -25,13 +25,7 @@
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
-    background:
-      radial-gradient(560px circle at 4% -8%, rgba(242,169,165,.34), transparent 60%),
-      radial-gradient(500px circle at 98% 0%, rgba(243,217,138,.32), transparent 58%),
-      radial-gradient(520px circle at 6% 68%, rgba(183,206,155,.32), transparent 60%),
-      radial-gradient(540px circle at 100% 78%, rgba(243,217,138,.24), transparent 58%),
-      linear-gradient(180deg, var(--paper) 0%, #FDF5EC 50%, var(--paper) 100%);
-    background-attachment:fixed;
+    background:var(--paper);
     color:var(--ink);
     font-family:'Inter',sans-serif;
     -webkit-font-smoothing:antialiased;
@@ -217,57 +211,22 @@
     #printReport .rpt-banner.incorrect{color:#96332E;}
   }
 
-  .case-card{border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin-bottom:22px;background:var(--card);}
-  .case-card h3{font-family:'Fraunces',serif;font-size:19px;margin:0 0 4px;color:var(--ink);}
-  .case-tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--pulse);background:var(--pulse-dim);padding:3px 9px;border-radius:5px;text-transform:uppercase;letter-spacing:.04em;display:inline-block;margin-bottom:12px;}
-  .case-vignette{font-size:14.5px;line-height:1.75;color:var(--ink-soft);margin-bottom:6px;}
-  .case-vignette b{color:var(--ink);}
-  .case-data{border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:var(--paper);font-size:13.5px;color:var(--ink-soft);margin:12px 0;line-height:1.7;}
-  .case-data b{color:var(--ink);}
-  .case-q{margin-top:18px;padding-top:16px;border-top:1px dashed var(--line);}
-  .case-q p.q-text{font-size:14px;color:var(--ink);margin:0 0 10px;font-weight:500;}
-  .reveal-btn{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--pulse);background:var(--pulse-dim);border:none;padding:7px 14px;border-radius:6px;cursor:pointer;letter-spacing:.02em;}
-  .reveal-btn:hover{opacity:.85;}
-  .reveal-answer{display:none;margin-top:12px;padding:12px 16px;background:var(--correct-bg);border-left:3px solid var(--correct);border-radius:0 8px 8px 0;font-size:13.5px;color:var(--ink);line-height:1.7;}
-  .reveal-answer.show{display:block;}
-  .reveal-answer b{color:var(--correct);}
-
-  /* ============ GLASS SURFACE OVERRIDE ============ */
-  .notes-card,.setup-card,.picker,.qcard,.summary,.flash-front,.case-card,
-  .score-pill,.secondary,.exam-banner-inner{
-    background:rgba(255,251,244,.6);
-    -webkit-backdrop-filter:blur(18px) saturate(160%);
-    backdrop-filter:blur(18px) saturate(160%);
-    border-color:rgba(255,251,244,.7);
-    box-shadow:inset 0 1px 0 rgba(255,251,244,.7), 0 10px 26px rgba(33,27,54,.06);
+  /* ==== Unified gradient palette override ==== */
+  :root{--pulse:#1E6E60;--pulse-dim:#DCEEE6;}
+  body{
+    background: linear-gradient(125deg, #ECE6A6 0%, #C7DE9C 20%, #8FC79E 42%, #56A98D 64%, #2F8A78 84%, #1E6E60 100%);
+    background-attachment: fixed;
   }
-  .tab-btn:not(.selected),.btn-prev,.mini-btn{
-    background:rgba(255,251,244,.45);
-    -webkit-backdrop-filter:blur(10px);
-    backdrop-filter:blur(10px);
-    border-color:rgba(255,251,244,.65);
-  }
-  .drugclass,.casebox,.case-data,.count-btn,.pick-btn,.opt,.dot.unanswered{
-    background:rgba(255,251,244,.35);
-    -webkit-backdrop-filter:blur(9px);
-    backdrop-filter:blur(9px);
-    border-color:rgba(255,251,244,.6);
-  }
-  .topbar{
-    background:rgba(255,251,244,.4);
-    -webkit-backdrop-filter:blur(14px);
-    backdrop-filter:blur(14px);
-    border:1px solid rgba(255,251,244,.6);
-    border-radius:12px;
-    padding:10px 16px;
-  }
-  @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
-    .notes-card,.setup-card,.picker,.qcard,.summary,.flash-front,.case-card,
-    .score-pill,.secondary,.exam-banner-inner,.tab-btn:not(.selected),.btn-prev,
-    .mini-btn,.drugclass,.casebox,.case-data,.count-btn,.pick-btn,.opt,.topbar{
-      background:rgba(255,251,244,.94);
-    }
-  }
+  .brand{color:#FFFFFF;}
+  .brand:hover{color:#FFF6D0;}
+  .crumbs{color:rgba(255,255,255,.72);}
+  .crumbs span:hover{color:#FFF6D0;}
+  .eyebrow{color:#FFF6D0;}
+  h1{color:#FFFFFF;text-shadow:0 1px 4px rgba(0,0,0,.18);}
+  .subtitle{color:rgba(255,255,255,.88);}
+  footer{color:rgba(255,255,255,.62);}
+  .flash-progress{color:rgba(255,255,255,.85);}
+  .progress-track{background:rgba(255,255,255,.28);}
 </style>
 </head>
 <body>
@@ -285,7 +244,6 @@
       <button class="tab-btn selected" id="tabNotesA" onclick="showView('notes')">Course Notes</button>
       <button class="tab-btn" id="tabFlashA" onclick="showView('flashcards')">Flashcards</button>
       <button class="tab-btn" id="tabSetupA" onclick="showView('setup')">Practice Test</button>
-      <button class="tab-btn" id="tabCasesA" onclick="showView('cases')">Case Studies</button>
     </div>
     <h1>Course Notes</h1>
     <p class="subtitle">Strategy and high-alert medication reference for the NCLEX-RN Pharmacological and Parenteral Therapies section. Use this to study before or during the practice test.</p>
@@ -305,7 +263,6 @@
       <button class="tab-btn" id="tabNotesB" onclick="showView('notes')">Course Notes</button>
       <button class="tab-btn selected" id="tabFlashB" onclick="showView('flashcards')">Flashcards</button>
       <button class="tab-btn" id="tabSetupB" onclick="showView('setup')">Practice Test</button>
-      <button class="tab-btn" id="tabCasesB" onclick="showView('cases')">Case Studies</button>
     </div>
     <h1>Flashcards</h1>
     <p class="subtitle">Tap a card to flip it. Use the arrows to move through the deck, or shuffle for random order.</p>
@@ -341,7 +298,6 @@
       <button class="tab-btn" id="tabNotesC" onclick="showView('notes')">Course Notes</button>
       <button class="tab-btn" id="tabFlashC" onclick="showView('flashcards')">Flashcards</button>
       <button class="tab-btn selected" id="tabSetupC" onclick="showView('setup')">Practice Test</button>
-      <button class="tab-btn" id="tabCasesC" onclick="showView('cases')">Case Studies</button>
     </div>
     <h1>Practice Test</h1>
     <p class="subtitle">Choose how many questions you want to take. Questions are randomly selected from a bank of 100 each time, and every option — right or wrong — comes with an explanation. Print or save a PDF of your results after every exam.</p>
@@ -356,22 +312,6 @@
         <button class="count-btn" onclick="startQuiz(100)"><span class="count-num">100</span><span class="count-label">Full bank</span></button>
       </div>
     </div>
-  </div>
-
-  <!-- ============ CASE STUDIES ============ -->
-  <div class="view" id="view-cases">
-    <div class="eyebrow">NCLEX Pharm Essentials</div>
-    <div class="topic-tabs">
-      <button class="tab-btn" id="tabNotesD" onclick="showView('notes')">Course Notes</button>
-      <button class="tab-btn" id="tabFlashD" onclick="showView('flashcards')">Flashcards</button>
-      <button class="tab-btn" id="tabSetupD" onclick="showView('setup')">Practice Test</button>
-      <button class="tab-btn selected" id="tabCasesD" onclick="showView('cases')">Case Studies</button>
-    </div>
-    <h1>Case Studies</h1>
-    <p class="subtitle">Apply what you've reviewed to realistic clinical scenarios. Read each vignette, think through the reflection questions, then tap to reveal the rationale.</p>
-    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
-
-    <div class="cases-wrap" id="casesContent"></div>
   </div>
 
   <!-- ============ QUIZ ============ -->
@@ -421,114 +361,6 @@
 <div id="printReport"></div>
 
 <script>
-document.getElementById('casesContent').innerHTML = `
-<div class="case-card">
-    <span class="case-tag">Medical-Surgical Floor</span>
-    <h3>Applying the Safety-First Strategy to a New Order Set</h3>
-    <p class="case-vignette">During morning rounds, a nurse receives four new orders for a client at once: (1) furosemide 40 mg IV push now, (2) regular insulin 6 units subQ per sliding scale, (3) acetaminophen 650 mg PO PRN for pain, and (4) a routine multivitamin. The client is due for a scheduled walk to the bathroom in a few minutes.</p>
-    <div class="case-data"><b>New orders:</b> Furosemide IV push · Regular insulin subQ · Acetaminophen PRN · Multivitamin &nbsp;|&nbsp; <b>Client plan:</b> ambulate to bathroom shortly</div>
-    <div class="case-q">
-      <p class="q-text">Applying the "Safety First" high-alert medication principle, which order requires the nurse's closest attention and independent double-check?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('pe_c1q1', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="pe_c1q1"><b>Answer:</b> The regular insulin (a high-alert medication) requires an independent double-check of the dose against the sliding scale and the client's current glucose before administration — errors with insulin and other high-alert drugs (anticoagulants, opioids, IV potassium, insulin) carry a much higher risk of serious harm than routine medications like a multivitamin.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">Using prioritization principles, in what order should the nurse most reasonably approach these four tasks?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('pe_c1q2', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="pe_c1q2"><b>Answer:</b> Reasonable priority: verify/administer the insulin with a double-check (time- and glucose-sensitive), give the furosemide (also time-sensitive, and voiding needs may follow — plan the bathroom trip after, anticipating increased urination), then the PRN acetaminophen only if pain is present, and the multivitamin last since it is the lowest-risk, least time-sensitive item.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">Why does giving furosemide before helping the client to the bathroom for a scheduled walk require extra planning rather than just holding the order?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('pe_c1q3', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="pe_c1q3"><b>Answer:</b> Furosemide is a loop diuretic that will increase urine output relatively quickly; sequencing the walk-to-bathroom after the diuretic (with close monitoring, since diuretics can also contribute to orthostatic hypotension and fall risk) meets the client's needs safely rather than either skipping the walk or having the client void urgently mid-ambulation.</div>
-    </div>
-  </div>
-<div class="case-card">
-    <span class="case-tag">Nursing Unit</span>
-    <h3>Look-Alike, Sound-Alike Medication Names</h3>
-    <p class="case-vignette">A nurse pulls a unit-dose medication from the automated dispensing cabinet for a client's scheduled dose of hydrOXYzine (an antihistamine/antianxiety agent) but notices the label actually reads hydrALAZINE (an antihypertensive). Both medications were listed close together on the client's electronic MAR.</p>
-    <div class="case-data"><b>Ordered:</b> hydrOXYzine 25 mg PO for anxiety &nbsp;|&nbsp; <b>Pulled from cabinet:</b> hydrALAZINE 25 mg tablet</div>
-    <div class="case-q">
-      <p class="q-text">What nursing safety practice caught this near-miss, and why does it matter?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('pe_c2q1', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="pe_c2q1"><b>Answer:</b> Comparing the physical label against the MAR/order using the "rights" of medication administration (right medication, among others) — this is exactly why look-alike/sound-alike (LASA) drug pairs are flagged with tall-man lettering (hydrOXYzine vs. hydrALAZINE) in electronic systems and packaging, to help the eye catch the difference before it becomes a medication error.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">What would likely have happened clinically if hydrALAZINE had been given instead of hydrOXYzine?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('pe_c2q2', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="pe_c2q2"><b>Answer:</b> HydrALAZINE is a direct-acting vasodilator/antihypertensive; giving it to a client who needed an antianxiety agent could cause unintended hypotension, reflex tachycardia, and dizziness — a different and potentially dangerous physiologic effect than what was intended, on top of leaving the anxiety untreated.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">What should the nurse do after catching this discrepancy?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('pe_c2q3', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="pe_c2q3"><b>Answer:</b> Do not administer the incorrect medication — return it, retrieve the correct one, verify all five/six rights again, and report the near-miss through the facility's safety event reporting system. Reporting near-misses (even when no harm occurs) helps identify system-level risks like cabinet placement or label similarity.</div>
-    </div>
-  </div>
-<div class="case-card">
-    <span class="case-tag">Medical-Surgical Floor</span>
-    <h3>Recognizing a Narrow Therapeutic Index Medication</h3>
-    <p class="case-vignette">A nurse is reviewing morning labs before administering scheduled medications and notices a client's digoxin level resulted at 2.6 ng/mL (therapeutic range 0.5–2.0 ng/mL). The client's chart shows a scheduled dose of digoxin 0.25 mg due in 30 minutes, and the client reports nausea and says "everything looks yellow-green around the edges."</p>
-    <div class="case-data"><b>Digoxin level:</b> 2.6 ng/mL (elevated) &nbsp;|&nbsp; <b>Reported symptoms:</b> nausea, visual halos/yellow-green vision &nbsp;|&nbsp; <b>Scheduled:</b> Digoxin 0.25 mg due in 30 min</div>
-    <div class="case-q">
-      <p class="q-text">Applying the "Safety First" high-alert medication principle, what should the nurse do with the scheduled dose?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('pe_c3q1', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="pe_c3q1"><b>Answer:</b> Hold the dose and notify the provider immediately. Digoxin is a classic narrow therapeutic index (high-alert) medication — the therapeutic and toxic levels are close together, and this client's elevated level plus classic toxicity symptoms (nausea, visual disturbances/halos) mean giving another dose could worsen dangerous toxicity.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">What does "narrow therapeutic index" mean, and why does it change how the nurse approaches this medication compared to a drug like a multivitamin?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('pe_c3q2', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="pe_c3q2"><b>Answer:</b> A narrow therapeutic index means there's only a small margin between a dose that is effective and one that is toxic — small changes in level (from renal function changes, drug interactions, or dosing errors) can quickly cause harm. These medications (digoxin, warfarin, lithium, insulin, heparin) require closer monitoring, level checks, and independent verification than lower-risk medications.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">What assessment should the nurse always perform before administering digoxin, regardless of the lab level?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('pe_c3q3', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="pe_c3q3"><b>Answer:</b> Check the apical heart rate for a full 60 seconds before giving digoxin, and hold the dose (per most protocols) if the heart rate is below 60 bpm in an adult, notifying the provider — digoxin slows heart rate and AV conduction, so bradycardia is both an expected effect to monitor and an early sign of possible toxicity.</div>
-    </div>
-  </div>
-<div class="case-card">
-    <span class="case-tag">Medical-Surgical Floor</span>
-    <h3>Applying Pharmacokinetic Principles at the Bedside</h3>
-    <p class="case-vignette">A client asks the nurse why her oral pain medication "takes forever to work" while the IV pain medication she received right after surgery worked almost immediately. She also asks why her liver disease might change how her medications are dosed.</p>
-    <div class="case-data"><b>Client history:</b> Chronic liver disease &nbsp;|&nbsp; <b>Current meds:</b> Oral oxycodone PRN, previously received IV morphine post-op</div>
-    <div class="case-q">
-      <p class="q-text">How should the nurse explain the difference in onset between the IV and oral pain medications?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('pe_c4q1', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="pe_c4q1"><b>Answer:</b> IV medications enter the bloodstream directly (100% bioavailability, no absorption step), producing a faster onset of action than oral medications, which must first be absorbed through the GI tract and undergo first-pass metabolism through the liver before reaching systemic circulation — this absorption and metabolism process is why oral medications generally take longer to take effect.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">Why does this client's chronic liver disease matter for her medication dosing?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('pe_c4q2', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="pe_c4q2"><b>Answer:</b> The liver is the primary site of metabolism for many medications — impaired liver function can slow drug breakdown, causing medications (especially those with high first-pass metabolism, like many oral opioids) to accumulate and increase the risk of toxicity at doses that would be safe in a client with normal liver function. Providers often reduce doses or choose alternative medications/routes for clients with significant hepatic impairment.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">What pharmacokinetic phase describes how the liver disease is affecting this client's drug handling?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('pe_c4q3', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="pe_c4q3"><b>Answer:</b> This describes altered <b>metabolism</b> — one of the four pharmacokinetic phases (absorption, distribution, metabolism, excretion). While absorption and distribution can still occur relatively normally, impaired hepatic metabolism means the drug is broken down more slowly, prolonging its effects and increasing accumulation risk with repeated dosing.</div>
-    </div>
-  </div>
-<div class="case-card">
-    <span class="case-tag">Nursing Unit</span>
-    <h3>Recognizing an Adverse Drug Reaction vs. a Side Effect</h3>
-    <p class="case-vignette">A client receiving her first dose of a new antibiotic develops a raised, itchy rash over her trunk about an hour after administration. She has no difficulty breathing and vital signs are stable. She asks the nurse, "Is this just a normal side effect, or something more serious?"</p>
-    <div class="case-data"><b>Assessment:</b> raised, itchy rash on trunk, no respiratory symptoms &nbsp;|&nbsp; <b>VS:</b> stable, within normal limits &nbsp;|&nbsp; <b>Medication:</b> first dose of new antibiotic</div>
-    <div class="case-q">
-      <p class="q-text">How does the nurse differentiate between an expected side effect and a true adverse/allergic drug reaction here?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('pe_c5q1', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="pe_c5q1"><b>Answer:</b> A rash appearing after a new medication, especially one that is itchy/urticarial, is more consistent with a hypersensitivity (allergic) reaction than a routine, predictable side effect — the key distinguishing features are that it's unexpected for that drug and involves an immune-type response (hives, itching), which is different from a known, dose-related side effect like nausea from an antibiotic.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">What is the nurse's priority action given this finding, even though vital signs are currently stable?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('pe_c5q2', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="pe_c5q2"><b>Answer:</b> Stop the medication/infusion, notify the provider, and continue close monitoring for progression to a more severe reaction (angioedema, respiratory symptoms, hypotension) — even a stable, mild-appearing reaction can escalate, so it should never be dismissed or "watched" without provider notification, especially on a first dose of a new drug.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">Why is it important to clearly document this as an allergic reaction rather than just a general side effect in the chart?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('pe_c5q3', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="pe_c5q3"><b>Answer:</b> Accurate documentation ensures this specific medication (and potentially related drugs in the same class) is flagged as an allergy in the client's record, preventing future inadvertent re-exposure — mislabeling a true allergic reaction as a minor side effect could put the client at risk for a more severe reaction if the same drug is given again later.</div>
-    </div>
-  </div>
-`;
-
 document.getElementById('notesContent').innerHTML = `
 <div class="stat-strip">
   <div class="stat-box"><div class="big">13–19%</div><div class="lbl">Of total NCLEX-RN questions</div></div>
@@ -1357,13 +1189,6 @@ let score = 0;
 let questionState = [];
 let optionOrders = [];
 
-
-function toggleAnswer(id, btn){
-  const el = document.getElementById(id);
-  el.classList.toggle('show');
-  btn.textContent = el.classList.contains('show') ? 'Hide answer ▲' : 'Reveal answer ▼';
-}
-
 function showView(name){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.getElementById('view-'+name).classList.add('active');
@@ -1372,15 +1197,13 @@ function showView(name){
   if(name==='notes') crumbs.innerHTML = homeLink + " / NCLEX Pharm Essentials / Course Notes";
   else if(name==='flashcards') crumbs.innerHTML = homeLink + " / NCLEX Pharm Essentials / Flashcards";
   else if(name==='setup') crumbs.innerHTML = homeLink + " / NCLEX Pharm Essentials / Practice Test";
-  else if(name==='cases') crumbs.innerHTML = homeLink + " / NCLEX Pharm Essentials / Case Studies";
   else if(name==='quiz') crumbs.innerHTML = homeLink + " / <span onclick=\"showView('setup')\">NCLEX Pharm Essentials</span> / Practice Test";
-  ['tabNotesA','tabFlashA','tabSetupA','tabCasesA','tabNotesB','tabFlashB','tabSetupB','tabCasesB','tabNotesC','tabFlashC','tabSetupC','tabCasesC','tabNotesD','tabFlashD','tabSetupD','tabCasesD'].forEach(id=>{
+  ['tabNotesA','tabFlashA','tabSetupA','tabNotesB','tabFlashB','tabSetupB','tabNotesC','tabFlashC','tabSetupC'].forEach(id=>{
     const el = document.getElementById(id);
     if(!el) return;
     let kind = 'setup';
     if(id.indexOf('Notes') !== -1) kind = 'notes';
     else if(id.indexOf('Flash') !== -1) kind = 'flashcards';
-    else if(id.indexOf('Cases') !== -1) kind = 'cases';
     el.classList.toggle('selected', kind === name || (kind==='setup' && name==='quiz'));
   });
 
@@ -1391,7 +1214,7 @@ function showView(name){
 
 (function initialRoute(){
   const hash = (location.hash || '').replace('#','');
-  const validViews = ['notes','flashcards','setup','cases'];
+  const validViews = ['notes','flashcards','setup'];
   showView(validViews.includes(hash) ? hash : 'setup');
 })();
 

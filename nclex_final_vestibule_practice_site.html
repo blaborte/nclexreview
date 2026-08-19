@@ -210,6 +210,23 @@
     #printReport .rpt-banner.correct{color:#15694A;}
     #printReport .rpt-banner.incorrect{color:#96332E;}
   }
+
+  /* ==== Unified gradient palette override ==== */
+  :root{--pulse:#1E6E60;--pulse-dim:#DCEEE6;}
+  body{
+    background: linear-gradient(125deg, #ECE6A6 0%, #C7DE9C 20%, #8FC79E 42%, #56A98D 64%, #2F8A78 84%, #1E6E60 100%);
+    background-attachment: fixed;
+  }
+  .brand{color:#FFFFFF;}
+  .brand:hover{color:#FFF6D0;}
+  .crumbs{color:rgba(255,255,255,.72);}
+  .crumbs span:hover{color:#FFF6D0;}
+  .eyebrow{color:#FFF6D0;}
+  h1{color:#FFFFFF;text-shadow:0 1px 4px rgba(0,0,0,.18);}
+  .subtitle{color:rgba(255,255,255,.88);}
+  footer{color:rgba(255,255,255,.62);}
+  .flash-progress{color:rgba(255,255,255,.85);}
+  .progress-track{background:rgba(255,255,255,.28);}
 </style>
 </head>
 <body>
@@ -283,16 +300,16 @@
       <button class="tab-btn selected" id="tabSetupC" onclick="showView('setup')">Practice Test</button>
     </div>
     <h1>Practice Test</h1>
-    <p class="subtitle">Choose how many questions you want to take. Questions are randomly selected from a bank of 105 each time, and every option — right or wrong — comes with an explanation. Print or save a PDF of your results after every exam.</p>
+    <p class="subtitle">Choose how many questions you want to take. Questions are randomly selected from a bank of 44 each time, and every option — right or wrong — comes with an explanation. Print or save a PDF of your results after every exam.</p>
     <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
 
     <div class="setup-card">
       <p>How many questions would you like to take?</p>
       <div class="count-grid">
-        <button class="count-btn" onclick="startQuiz(20)"><span class="count-num">20</span><span class="count-label">Quick review</span></button>
-        <button class="count-btn" onclick="startQuiz(44)"><span class="count-num">44</span><span class="count-label">Standard</span></button>
-        <button class="count-btn" onclick="startQuiz(75)"><span class="count-num">75</span><span class="count-label">Extended</span></button>
-        <button class="count-btn" onclick="startQuiz(105)"><span class="count-num">105</span><span class="count-label">Full bank</span></button>
+        <button class="count-btn" onclick="startQuiz(10)"><span class="count-num">10</span><span class="count-label">Quick review</span></button>
+        <button class="count-btn" onclick="startQuiz(20)"><span class="count-num">20</span><span class="count-label">Standard</span></button>
+        <button class="count-btn" onclick="startQuiz(30)"><span class="count-num">30</span><span class="count-label">Extended</span></button>
+        <button class="count-btn" onclick="startQuiz(44)"><span class="count-num">44</span><span class="count-label">Full bank</span></button>
       </div>
     </div>
   </div>
@@ -346,7 +363,7 @@
 <script>
 document.getElementById('notesContent').innerHTML = `
 <div class="stat-strip">
-  <div class="stat-box"><div class="big">105</div><div class="lbl">Mixed NCLEX-style questions</div></div>
+  <div class="stat-box"><div class="big">44</div><div class="lbl">Mixed NCLEX-style questions</div></div>
   <div class="stat-box"><div class="big">10+</div><div class="lbl">Content areas blended</div></div>
   <div class="stat-box"><div class="big">Mixed</div><div class="lbl">Priority, SATA, and matrix formats</div></div>
 </div>
@@ -686,356 +703,6 @@ const QUESTIONS = [
     {text:"Wear a surgical mask and face shield",correct:false,explain:"C. diff requires contact precautions (gown and gloves), not droplet/mask precautions, since it is transmitted via contact, not respiratory droplets."},
     {text:"Remove personal protective equipment (PPE) outside the client's room",correct:false,explain:"PPE should be removed inside the room (before exiting) per standard doffing protocol, not outside the room, to avoid contaminating the outer environment."}
   ]},
-{ stem:"A charge nurse has one RN and one LPN available to cover a busy shift, along with a UAP. Which client assignment is most appropriate for the UAP?",
-  options:[
-    {text:"A stable client requiring routine vital signs and assistance with ambulation",correct:true,explain:"Routine vital signs and ambulation assistance for a stable client are appropriate, non-judgment-based tasks within the UAP scope of practice."},
-    {text:"A client requiring wound assessment and dressing change teaching",correct:false,explain:"Assessment and client teaching require the clinical judgment of a licensed nurse, not a UAP."},
-    {text:"A client scheduled for discharge teaching after a new insulin diagnosis",correct:false,explain:"Discharge teaching requires licensed nurse judgment and is not appropriate to delegate to a UAP."},
-    {text:"A client with a new central line requiring dressing care",correct:false,explain:"Central line dressing care requires sterile technique and clinical judgment beyond the UAP scope of practice."}
-  ]},
-{ stem:"A nurse delegates ambulation of a stable postoperative client to a UAP. The UAP reports the client became dizzy and sat down in a chair. What is the nurse's priority action?",
-  options:[
-    {text:"Assess the client directly to determine the cause of the dizziness before further action",correct:true,explain:"Delegation does not remove the RN's accountability for outcomes; the nurse must personally assess the client to determine the cause of the dizziness and next steps."},
-    {text:"Instruct the UAP to continue the ambulation as originally planned",correct:false,explain:"Continuing ambulation without first assessing the cause of dizziness could put the client at further risk."},
-    {text:"Document the UAP's report without further assessment",correct:false,explain:"The RN retains accountability and must personally assess the client, not simply document a secondhand report."},
-    {text:"Reassign the client to a different UAP",correct:false,explain:"Reassigning to another UAP does not address the priority need for RN assessment of the new symptom."}
-  ]},
-{ stem:"A client recently diagnosed with a terminal illness says to the nurse, \"I don't understand why this is happening to me. I've always tried to live a good life.\" What is the nurse's best therapeutic response?",
-  options:[
-    {text:"\"This must be very difficult. Tell me more about what you're feeling.\"",correct:true,explain:"This response uses reflection and an open invitation to explore feelings, which is therapeutic and client-centered."},
-    {text:"\"Everything happens for a reason; try to stay positive.\"",correct:false,explain:"This offers a cliché and false reassurance rather than validating and exploring the client's feelings."},
-    {text:"\"You shouldn't dwell on why this happened.\"",correct:false,explain:"This dismisses the client's need to process their emotional response and shuts down communication."},
-    {text:"\"Many people feel this way; it's a normal part of the process.\"",correct:false,explain:"While well-intentioned, this generalizes and minimizes the client's individual experience rather than inviting them to share."}
-  ]},
-{ stem:"A client with generalized anxiety disorder is prescribed buspirone. What important teaching point should the nurse include?",
-  options:[
-    {text:"The full therapeutic effect may take 2–4 weeks to develop, unlike benzodiazepines which act quickly",correct:true,explain:"Unlike benzodiazepines, buspirone does not provide immediate relief; clients should be taught the full anxiolytic effect may take 2–4 weeks, and it is not effective for acute anxiety episodes."},
-    {text:"This medication provides immediate relief within minutes of taking it",correct:false,explain:"Buspirone does not provide immediate relief; this is a key distinction from benzodiazepines that clients should understand."},
-    {text:"This medication carries a high risk of physical dependence, similar to benzodiazepines",correct:false,explain:"Buspirone has a notably lower dependence potential compared to benzodiazepines, which is one of its advantages."},
-    {text:"This medication should be taken only as needed for acute anxiety symptoms",correct:false,explain:"Buspirone is a scheduled, ongoing maintenance medication, not an as-needed medication for acute anxiety."}
-  ]},
-{ stem:"A client is admitted to the psychiatric unit voluntarily and later requests to leave against medical advice. What is the nurse's priority action?",
-  options:[
-    {text:"Assess the client's current risk to self or others before determining next steps",correct:true,explain:"For a voluntarily admitted client requesting discharge, the priority is assessing current risk to self or others, since this determines whether the client can be released or whether further legal action (such as an involuntary hold) is needed."},
-    {text:"Immediately allow the client to leave without further assessment",correct:false,explain:"Immediate discharge without assessment could be unsafe if the client poses a risk to self or others."},
-    {text:"Call security to physically prevent the client from leaving",correct:false,explain:"Physical restraint without first assessing risk and following appropriate legal process is not the priority action and may not be appropriate."},
-    {text:"Tell the client they legally cannot leave under any circumstances",correct:false,explain:"A voluntarily admitted client generally has the right to request discharge; risk assessment determines what happens next, not a blanket refusal."}
-  ]},
-{ stem:"A client taking lithium for bipolar disorder is admitted with vomiting, diarrhea, and poor oral intake for two days. What is the nurse's priority concern?",
-  options:[
-    {text:"Risk of lithium toxicity from dehydration and altered renal clearance",correct:true,explain:"Dehydration from vomiting and diarrhea can significantly increase serum lithium concentration by reducing renal clearance, raising the risk of toxicity, making this the priority concern requiring prompt evaluation."},
-    {text:"Risk of hypoglycemia unrelated to the lithium therapy",correct:false,explain:"This scenario's priority concern is specifically related to the lithium therapy and dehydration, not primarily hypoglycemia."},
-    {text:"No specific concern beyond routine monitoring",correct:false,explain:"This presentation represents a significant, specific risk (lithium toxicity) requiring prompt evaluation, not routine monitoring alone."},
-    {text:"Risk of serotonin syndrome",correct:false,explain:"This presentation is not characteristic of serotonin syndrome; the priority concern relates to lithium toxicity risk from dehydration."}
-  ]},
-{ stem:"A client is prescribed clonidine for hypertension. What is essential teaching regarding discontinuation of this medication?",
-  options:[
-    {text:"Clonidine must be tapered gradually, not stopped abruptly, due to the risk of rebound hypertension",correct:true,explain:"Abrupt discontinuation of clonidine can cause severe rebound hypertension; the medication must be tapered gradually under provider guidance."},
-    {text:"Clonidine can be stopped at any time with no consequence",correct:false,explain:"Abrupt discontinuation carries a significant risk of rebound hypertension, making this statement inaccurate."},
-    {text:"Clonidine should be increased, not decreased, when discontinuing",correct:false,explain:"The medication should be gradually decreased (tapered), not increased, when working toward discontinuation."},
-    {text:"This medication has no withdrawal-related concerns",correct:false,explain:"Clonidine does have a well-recognized withdrawal concern (rebound hypertension), making this statement inaccurate."}
-  ]},
-{ stem:"A client receiving IV amiodarone for a cardiac arrhythmia requires which priority nursing assessment?",
-  options:[
-    {text:"Continuous cardiac monitoring and blood pressure assessment",correct:true,explain:"Amiodarone can cause hypotension and additional arrhythmias, making continuous cardiac monitoring and blood pressure assessment priority nursing actions during IV administration."},
-    {text:"Hourly blood glucose checks",correct:false,explain:"Blood glucose is not the priority monitoring parameter specifically associated with IV amiodarone administration."},
-    {text:"Daily weight measurement only",correct:false,explain:"While weight can be part of overall assessment, it is not the priority parameter during acute IV amiodarone administration; cardiac monitoring is."},
-    {text:"No specific monitoring is required during IV administration",correct:false,explain:"IV amiodarone requires significant specific monitoring given its risk of hypotension and arrhythmia, not an absence of monitoring."}
-  ]},
-{ stem:"A client with atrial fibrillation is started on dabigatran. What teaching point is important regarding this medication compared to warfarin?",
-  options:[
-    {text:"Dabigatran does not require routine INR monitoring, unlike warfarin",correct:true,explain:"Dabigatran, a direct thrombin inhibitor, does not require the routine INR monitoring that warfarin does, which is an important distinction for client teaching."},
-    {text:"Dabigatran requires more frequent monitoring than warfarin",correct:false,explain:"This is the opposite of the typical teaching point; dabigatran generally requires less routine monitoring than warfarin."},
-    {text:"Dabigatran and warfarin have identical monitoring requirements",correct:false,explain:"These two medications have different monitoring requirements, making this statement inaccurate."},
-    {text:"Dabigatran requires the same dietary vitamin K restrictions as warfarin",correct:false,explain:"Dabigatran does not have the same dietary vitamin K interaction as warfarin, since it works through a different mechanism."}
-  ]},
-{ stem:"A client with a permanent pacemaker asks the nurse about activity restrictions. What is the most appropriate teaching point?",
-  options:[
-    {text:"Avoid placing cell phones or other electronic devices directly over the pacemaker site for prolonged periods",correct:true,explain:"Clients with pacemakers are taught to avoid placing certain electronic devices directly over the pacemaker for prolonged periods, given potential electromagnetic interference concerns, though most modern devices have limited real-world risk."},
-    {text:"All physical activity must be avoided permanently",correct:false,explain:"Most clients with pacemakers can resume normal activity; permanent avoidance of all physical activity is not standard teaching."},
-    {text:"MRI scans are always completely safe regardless of pacemaker type",correct:false,explain:"MRI safety depends on whether the specific pacemaker is MRI-conditional; this should always be verified, not assumed safe."},
-    {text:"No activity teaching is needed for a client with a pacemaker",correct:false,explain:"There are specific, relevant activity teaching points for clients with pacemakers, not an absence of guidance needed."}
-  ]},
-{ stem:"A client is receiving a blood transfusion and develops chills, back pain, and hematuria 15 minutes after the infusion starts. What is the nurse's priority action?",
-  options:[
-    {text:"Stop the transfusion immediately and keep the IV line open with normal saline",correct:true,explain:"These findings suggest a possible acute hemolytic transfusion reaction; the transfusion must be stopped immediately while keeping the IV line open with normal saline, and the provider notified promptly."},
-    {text:"Slow the transfusion rate and continue monitoring",correct:false,explain:"Slowing, rather than stopping, the transfusion is not sufficient for a suspected hemolytic reaction; it must be stopped immediately."},
-    {text:"Administer an antihistamine and continue the transfusion",correct:false,explain:"Continuing the transfusion despite these serious signs is unsafe; the transfusion must be stopped."},
-    {text:"Document the findings and reassess in 30 minutes",correct:false,explain:"Waiting 30 minutes to reassess is inappropriate given the severity and urgency of a possible hemolytic transfusion reaction."}
-  ]},
-{ stem:"A nurse is teaching a client about proper metered-dose inhaler (MDI) technique. Which statement indicates a need for further teaching?",
-  options:[
-    {text:"\"I should take a quick, sharp breath in right after pressing down on the inhaler.\"",correct:true,explain:"This statement indicates a need for further teaching — clients should take a slow, deep breath while actuating the inhaler, not a quick, sharp breath, to optimize medication delivery to the lower airways."},
-    {text:"\"I should hold my breath for about 10 seconds after inhaling.\"",correct:false,explain:"This statement reflects correct MDI technique and does not indicate a need for further teaching."},
-    {text:"\"I should wait about a minute between puffs if I need more than one.\"",correct:false,explain:"This statement reflects correct MDI technique and does not indicate a need for further teaching."},
-    {text:"\"I should rinse my mouth after using my inhaled corticosteroid.\"",correct:false,explain:"This statement reflects correct teaching to prevent oral thrush with inhaled corticosteroids and does not indicate a need for further teaching."}
-  ]},
-{ stem:"A client with severe asthma exacerbation has a respiratory rate of 8 breaths/minute and diminishing wheeze on auscultation. How should the nurse interpret this finding?",
-  options:[
-    {text:"This represents a worsening, ominous sign of impending respiratory failure, not improvement",correct:true,explain:"A diminishing wheeze combined with a falling respiratory rate in severe asthma can indicate the client is moving too little air to generate a wheeze — an ominous sign of impending respiratory failure, not clinical improvement."},
-    {text:"This is a reassuring sign that the exacerbation is resolving",correct:false,explain:"This is a dangerous misinterpretation; diminishing wheeze with worsening respiratory rate in severe asthma is an ominous sign, not a reassuring one."},
-    {text:"This finding has no clinical significance",correct:false,explain:"This finding is highly clinically significant and requires immediate intervention, not dismissal."},
-    {text:"This finding indicates the client no longer needs bronchodilator therapy",correct:false,explain:"This is the opposite of appropriate interpretation; the client requires urgent escalation of care, not discontinuation of bronchodilator therapy."}
-  ]},
-{ stem:"A client with a chest tube connected to a water-seal drainage system shows continuous bubbling in the water-seal chamber. What should the nurse suspect?",
-  options:[
-    {text:"An air leak in the chest tube system",correct:true,explain:"Continuous bubbling in the water-seal chamber (rather than intermittent bubbling with respiration) suggests an air leak somewhere in the chest tube system, requiring assessment of all connections."},
-    {text:"Normal, expected chest tube function",correct:false,explain:"Continuous bubbling is not the expected normal finding; intermittent bubbling with respiration is more typical, and continuous bubbling suggests an air leak."},
-    {text:"The chest tube should be immediately clamped",correct:false,explain:"Chest tubes are generally not clamped without specific provider order, since clamping can cause a tension pneumothorax if an air leak is present."},
-    {text:"The client requires immediate chest tube removal",correct:false,explain:"Immediate removal is not the appropriate response; the system should be assessed for the source of the leak first, per protocol and provider guidance."}
-  ]},
-{ stem:"A client with a chest tube is being transported to radiology. What is the priority safety consideration during transport?",
-  options:[
-    {text:"Keep the drainage system below the level of the client's chest at all times",correct:true,explain:"Keeping the drainage system below chest level prevents backflow of fluid or air into the pleural space during transport."},
-    {text:"Clamp the chest tube during the entire transport",correct:false,explain:"Chest tubes should generally not be clamped during transport, since this can cause a tension pneumothorax if an air leak is present."},
-    {text:"Disconnect the drainage system before transport for convenience",correct:false,explain:"Disconnecting the drainage system is not appropriate and creates a significant safety risk; the system should remain connected and properly positioned."},
-    {text:"No special precautions are needed during transport",correct:false,explain:"Specific precautions (keeping the system below chest level, avoiding clamping) are essential during transport of a client with a chest tube."}
-  ]},
-{ stem:"A client's ABG reveals pH 7.47, PaCO2 30 mm Hg, HCO3 22 mEq/L. What is the correct interpretation?",
-  options:[
-    {text:"Uncompensated respiratory alkalosis",correct:true,explain:"The pH is elevated (alkalosis) with a low PaCO2 (respiratory pattern), and HCO3 is within normal range, indicating no metabolic compensation has yet occurred."},
-    {text:"Uncompensated metabolic alkalosis",correct:false,explain:"HCO3 is within normal range, ruling out a primary metabolic alkalosis; the abnormal PaCO2 points to a respiratory cause."},
-    {text:"Fully compensated respiratory alkalosis",correct:false,explain:"Full compensation requires the pH to be within normal range; here the pH remains elevated, indicating this is uncompensated."},
-    {text:"Respiratory acidosis",correct:false,explain:"The pH is elevated, indicating alkalosis, not acidosis."}
-  ]},
-{ stem:"A client with severe hyperkalemia (potassium 6.9 mEq/L) has new, wide QRS complexes on the cardiac monitor. What is the priority nursing action?",
-  options:[
-    {text:"Notify the provider immediately and prepare for emergency treatment, including calcium gluconate",correct:true,explain:"Wide QRS complexes with severe hyperkalemia indicate significant cardiac conduction disturbance and risk of fatal arrhythmia, requiring immediate provider notification and emergency treatment such as calcium gluconate for cardiac membrane stabilization."},
-    {text:"Continue routine monitoring with no change in the plan of care",correct:false,explain:"This ECG change with severe hyperkalemia represents a medical emergency requiring immediate action."},
-    {text:"Administer a potassium supplement",correct:false,explain:"Administering potassium would be dangerous and is the opposite of what is needed in this situation."},
-    {text:"Wait for a repeat potassium level before taking any action",correct:false,explain:"Waiting for repeat labs is not appropriate given this life-threatening ECG presentation; immediate action is required."}
-  ]},
-{ stem:"A client receiving IV insulin for DKA has a blood glucose that has dropped from 560 mg/dL to 280 mg/dL. What change in IV fluids does the nurse anticipate as glucose approaches normal range?",
-  options:[
-    {text:"Addition of dextrose to the IV fluids to prevent hypoglycemia while insulin therapy continues",correct:true,explain:"As blood glucose approaches a target range (often around 200–250 mg/dL) during DKA treatment, dextrose is typically added to the IV fluids to prevent hypoglycemia while insulin therapy continues to resolve the underlying ketoacidosis."},
-    {text:"Complete discontinuation of all IV fluids",correct:false,explain:"IV fluids are not discontinued at this point; dextrose is added to allow continued insulin therapy while preventing hypoglycemia."},
-    {text:"Discontinuation of the insulin infusion",correct:false,explain:"Insulin therapy typically continues until the ketoacidosis has resolved, not just because glucose has improved; dextrose is added to allow this continuation safely."},
-    {text:"No change in the IV fluid regimen is needed",correct:false,explain:"A change (addition of dextrose) is a well-recognized, standard part of DKA management as glucose approaches target range."}
-  ]},
-{ stem:"A client in DKA has been receiving IV fluids and insulin for several hours. The nurse notes the client's mental status has improved and ketones are decreasing, but the anion gap remains elevated. What should the nurse understand about this finding?",
-  options:[
-    {text:"The anion gap typically normalizes more slowly than clinical symptoms and glucose, so continued treatment and monitoring is needed even as the client improves clinically",correct:true,explain:"The anion gap can take longer to normalize than blood glucose or clinical symptoms in DKA treatment, so continued insulin therapy and monitoring are needed until the anion gap and overall acid-base status normalize, not just until the client feels better."},
-    {text:"This finding indicates treatment has failed and should be immediately escalated to a completely different regimen",correct:false,explain:"A persistently elevated anion gap during ongoing improvement is an expected part of the DKA resolution process, not necessarily treatment failure requiring an entirely different regimen."},
-    {text:"The insulin infusion should be discontinued now that the client feels better",correct:false,explain:"Insulin therapy should continue until the anion gap and ketosis have resolved, not simply because the client's mental status has improved."},
-    {text:"This finding has no clinical significance",correct:false,explain:"This finding is clinically significant, guiding the ongoing duration of insulin therapy and monitoring, not something to disregard."}
-  ]},
-{ stem:"A nurse is caring for a client with suspected sepsis. Which finding is most concerning and requires immediate intervention?",
-  options:[
-    {text:"Mean arterial pressure of 58 mm Hg with altered mental status",correct:true,explain:"A MAP below 65 mm Hg with altered mental status suggests inadequate organ perfusion and possible septic shock, requiring immediate intervention such as fluid resuscitation and vasopressor support."},
-    {text:"Temperature of 100.8°F with the client alert and oriented",correct:false,explain:"A mild fever with the client alert and oriented is a less urgent finding compared to hypotension with altered mental status."},
-    {text:"Heart rate of 96 beats/minute with warm, dry skin",correct:false,explain:"This is a relatively reassuring finding compared to hypotension with altered mental status."},
-    {text:"Respiratory rate of 20 breaths/minute with SpO2 96%",correct:false,explain:"This is a normal, reassuring finding compared to hypotension with altered mental status."}
-  ]},
-{ stem:"A client receiving norepinephrine for septic shock through a peripheral IV develops blanching and coolness at the site. What is the priority nursing action?",
-  options:[
-    {text:"Stop the infusion, notify the provider, and prepare to administer phentolamine as an antidote if ordered",correct:true,explain:"Norepinephrine extravasation causes local vasoconstriction that can lead to tissue necrosis; the infusion should be stopped, the provider notified, and phentolamine (the antidote) prepared per protocol/order."},
-    {text:"Increase the infusion rate to compensate",correct:false,explain:"Increasing the rate would worsen local tissue damage from the extravasating vasopressor."},
-    {text:"Apply a warm compress and continue the infusion",correct:false,explain:"Continuing the infusion through an extravasating site would worsen tissue injury; the infusion should be stopped."},
-    {text:"No action is needed since this is an expected finding",correct:false,explain:"This is not an expected, benign finding; it indicates extravasation requiring prompt action to prevent tissue necrosis."}
-  ]},
-{ stem:"A nurse is caring for a client immediately after a first-time seizure. What is the priority nursing action once the seizure has ended?",
-  options:[
-    {text:"Position the client on their side and assess airway, breathing, and level of consciousness",correct:true,explain:"After a seizure ends, positioning the client on their side helps protect the airway from aspiration, and assessing airway, breathing, and level of consciousness (postictal state) is the priority action."},
-    {text:"Immediately ambulate the client to assess neurologic function",correct:false,explain:"Immediate ambulation is not appropriate immediately postictal, when the client is often confused and at risk for falls."},
-    {text:"Restrain the client's limbs to prevent further movement",correct:false,explain:"Restraint is not appropriate once the seizure has ended; the priority is airway and safety assessment, not restraint."},
-    {text:"Offer the client food and water immediately",correct:false,explain:"Offering food or water immediately postictal is not appropriate until the client's level of consciousness and swallowing ability are confirmed safe, given aspiration risk."}
-  ]},
-{ stem:"A client is prescribed phenytoin for seizure management. What teaching point is essential regarding oral hygiene?",
-  options:[
-    {text:"Maintain good oral hygiene and see the dentist regularly, since phenytoin can cause gingival hyperplasia",correct:true,explain:"Phenytoin is associated with gingival hyperplasia (gum overgrowth), so good oral hygiene and regular dental visits are important teaching points to help manage this adverse effect."},
-    {text:"Oral hygiene has no relationship to phenytoin therapy",correct:false,explain:"Oral hygiene has a direct, specific relationship to phenytoin therapy given the risk of gingival hyperplasia."},
-    {text:"Phenytoin has no known adverse effects on dental or gum health",correct:false,explain:"Phenytoin has a well-recognized adverse effect on gum health (gingival hyperplasia), making this statement inaccurate."},
-    {text:"Dental visits should be avoided while taking phenytoin",correct:false,explain:"Regular dental visits are recommended, not avoided, for a client taking phenytoin, to help manage gingival hyperplasia."}
-  ]},
-{ stem:"A client taking phenytoin has a serum level of 28 mcg/mL (therapeutic range 10–20 mcg/mL). Which finding would the nurse expect to see with this elevated level?",
-  options:[
-    {text:"Nystagmus, ataxia, and slurred speech",correct:true,explain:"Nystagmus, ataxia, and slurred speech are classic signs of phenytoin toxicity, consistent with a level significantly above the therapeutic range."},
-    {text:"Improved seizure control with no adverse effects",correct:false,explain:"A level this far above therapeutic range would be expected to cause toxicity symptoms, not simply improved control without adverse effects."},
-    {text:"Hypoglycemia",correct:false,explain:"Hypoglycemia is not a classic sign of phenytoin toxicity; nystagmus, ataxia, and slurred speech are the hallmark findings."},
-    {text:"No expected clinical findings at this level",correct:false,explain:"A level this far above therapeutic range would be expected to produce clear toxicity symptoms, not an absence of findings."}
-  ]},
-{ stem:"A nurse is caring for a client with a suspected stroke. Using the FAST assessment, which finding would prompt immediate activation of the stroke protocol?",
-  options:[
-    {text:"Facial drooping, arm weakness, and slurred speech with sudden onset",correct:true,explain:"FAST (Face drooping, Arm weakness, Speech difficulty, Time to call for help) with sudden onset is the classic assessment prompting immediate stroke protocol activation, since rapid treatment is time-sensitive."},
-    {text:"Gradual onset of mild fatigue over several days",correct:false,explain:"A gradual onset over days is not consistent with the sudden-onset pattern that prompts stroke protocol activation."},
-    {text:"Chronic, stable hand tremor",correct:false,explain:"A chronic, stable finding is not consistent with the sudden-onset pattern of an acute stroke."},
-    {text:"Mild, intermittent headache with no other symptoms",correct:false,explain:"An isolated mild headache without other FAST findings is not the classic presentation prompting immediate stroke protocol activation."}
-  ]},
-{ stem:"A client receiving tissue plasminogen activator (tPA) for acute ischemic stroke requires close monitoring for which priority complication?",
-  options:[
-    {text:"Intracranial hemorrhage",correct:true,explain:"tPA carries a significant risk of intracranial hemorrhage, making neurologic assessment and monitoring for signs of bleeding a priority during and after administration."},
-    {text:"Hyperglycemia",correct:false,explain:"Hyperglycemia is not the priority complication specifically associated with tPA administration; intracranial hemorrhage is the key concern."},
-    {text:"Hypothyroidism",correct:false,explain:"Hypothyroidism is not associated with tPA administration."},
-    {text:"Urinary retention",correct:false,explain:"Urinary retention is not the priority complication associated with tPA; intracranial hemorrhage is the key concern requiring close monitoring."}
-  ]},
-{ stem:"A client with increased intracranial pressure (ICP) is being cared for in the ICU. Which nursing action is appropriate to help minimize further increases in ICP?",
-  options:[
-    {text:"Keep the head of the bed elevated to 30 degrees and maintain the head in a neutral, midline position",correct:true,explain:"Elevating the head of the bed to about 30 degrees and maintaining neutral head/neck alignment promotes venous drainage from the brain, helping minimize further increases in ICP."},
-    {text:"Keep the client's head turned sharply to one side",correct:false,explain:"A sharply turned head position can impede venous drainage and worsen ICP, so neutral positioning is preferred."},
-    {text:"Encourage vigorous coughing and straining",correct:false,explain:"Vigorous coughing and straining (Valsalva maneuver) can increase ICP and should be minimized, not encouraged."},
-    {text:"Keep the head of the bed completely flat",correct:false,explain:"A completely flat position does not optimize venous drainage; a moderate elevation (around 30 degrees) is generally preferred."}
-  ]},
-{ stem:"A client with a traumatic brain injury develops Cushing's triad: bradycardia, irregular respirations, and widened pulse pressure. What does this finding indicate?",
-  options:[
-    {text:"A late, ominous sign of significantly increased intracranial pressure requiring immediate intervention",correct:true,explain:"Cushing's triad is a late, ominous sign of significantly increased intracranial pressure and impending brain herniation, requiring immediate provider notification and intervention."},
-    {text:"A normal, expected finding requiring no action",correct:false,explain:"Cushing's triad is a serious, late warning sign, not a normal or reassuring finding, and requires immediate action."},
-    {text:"A sign of improving neurologic status",correct:false,explain:"This is the opposite of the correct interpretation; Cushing's triad indicates worsening, not improving, neurologic status."},
-    {text:"An expected side effect of pain medication",correct:false,explain:"This finding is specifically related to increased intracranial pressure, not an expected medication side effect."}
-  ]},
-{ stem:"A client with a new below-knee amputation reports phantom limb pain. What is the nurse's best initial response?",
-  options:[
-    {text:"Acknowledge that phantom limb pain is a real, common physiologic phenomenon and assess the pain further",correct:true,explain:"Phantom limb pain is a real, well-documented physiologic phenomenon; acknowledging this and further assessing the pain (location, quality, severity) supports appropriate management rather than dismissing the client's experience."},
-    {text:"Tell the client the pain is not real since the limb is no longer present",correct:false,explain:"Phantom limb pain is a real, physiologically-based phenomenon, and dismissing it as \"not real\" is inaccurate and invalidating."},
-    {text:"Explain that phantom limb pain is purely psychological and does not require any treatment",correct:false,explain:"Phantom limb pain has a physiologic basis and is a legitimate condition that can benefit from various treatment approaches, not something to dismiss as purely psychological requiring no treatment."},
-    {text:"Immediately administer the maximum prescribed opioid dose without further assessment",correct:false,explain:"Further assessment should precede medication administration to appropriately guide the treatment approach, not jump to the maximum dose without assessment."}
-  ]},
-{ stem:"A client is prescribed gabapentin for neuropathic pain. What is an important nursing consideration regarding this medication?",
-  options:[
-    {text:"It should be tapered gradually when discontinuing, not stopped abruptly, given the risk of withdrawal symptoms including seizures",correct:true,explain:"Gabapentin should be tapered gradually when discontinuing, since abrupt discontinuation carries a risk of withdrawal symptoms, including an increased risk of seizures."},
-    {text:"It can be stopped abruptly at any time with no consequence",correct:false,explain:"Abrupt discontinuation carries a withdrawal risk, including seizures, making gradual tapering important."},
-    {text:"This medication has no notable adverse effects requiring monitoring",correct:false,explain:"Gabapentin does have notable adverse effects (sedation, dizziness) requiring monitoring, and a withdrawal risk requiring careful discontinuation."},
-    {text:"This medication is used only for acute pain, not chronic neuropathic pain",correct:false,explain:"Gabapentin is specifically used for chronic neuropathic pain conditions, not primarily for acute pain."}
-  ]},
-{ stem:"A client with chronic kidney disease is prescribed epoetin alfa. What is the purpose of this medication?",
-  options:[
-    {text:"To stimulate red blood cell production, addressing anemia related to decreased erythropoietin production by the kidneys",correct:true,explain:"Epoetin alfa is a synthetic erythropoietin used to stimulate red blood cell production in clients with chronic kidney disease, who often have anemia due to decreased natural erythropoietin production by the diseased kidneys."},
-    {text:"To directly lower blood pressure",correct:false,explain:"Epoetin alfa's primary purpose is stimulating red blood cell production, not directly lowering blood pressure."},
-    {text:"To treat active infection",correct:false,explain:"Epoetin alfa is not an antimicrobial agent; it addresses anemia related to erythropoietin deficiency."},
-    {text:"To remove excess potassium from the body",correct:false,explain:"Epoetin alfa does not address potassium removal; its role is stimulating red blood cell production."}
-  ]},
-{ stem:"A client receiving epoetin alfa for CKD-related anemia should be monitored for which potential adverse effect?",
-  options:[
-    {text:"Hypertension and increased thromboembolic risk",correct:true,explain:"Epoetin alfa carries a risk of hypertension and increased thromboembolic events, particularly if the hemoglobin rises too quickly or too high, requiring close monitoring."},
-    {text:"Hypoglycemia",correct:false,explain:"Hypoglycemia is not the classic adverse effect associated with epoetin alfa; hypertension and thromboembolic risk are the key concerns."},
-    {text:"Hearing loss",correct:false,explain:"Hearing loss is not associated with epoetin alfa therapy."},
-    {text:"No adverse effects are associated with this medication",correct:false,explain:"Epoetin alfa does have recognized adverse effects (hypertension, thromboembolic risk) requiring monitoring."}
-  ]},
-{ stem:"A client with end-stage renal disease is receiving hemodialysis. Which finding, if noted by the nurse before a dialysis session, requires immediate provider notification?",
-  options:[
-    {text:"A serum potassium level of 7.1 mEq/L",correct:true,explain:"A significantly elevated potassium level (7.1 mEq/L) poses a risk of life-threatening cardiac arrhythmia and requires immediate provider notification, even though dialysis will help correct it."},
-    {text:"A pre-dialysis weight gain of 1.5 kg since the last session",correct:false,explain:"A modest interdialytic weight gain is an expected finding between sessions and not itself an urgent, reportable finding."},
-    {text:"Mild pruritus",correct:false,explain:"Mild pruritus is a common finding in CKD/ESRD and not the priority urgent concern compared to severe hyperkalemia."},
-    {text:"A blood pressure of 148/88 mm Hg",correct:false,explain:"This blood pressure, while elevated, is not as urgently life-threatening as severe hyperkalemia."}
-  ]},
-{ stem:"A client is receiving peritoneal dialysis and the nurse notes cloudy, opaque dialysate outflow. What should the nurse suspect?",
-  options:[
-    {text:"Peritonitis, requiring prompt provider notification and likely a dialysate sample for culture",correct:true,explain:"Cloudy, opaque peritoneal dialysate outflow is a classic sign of peritonitis, a serious complication of peritoneal dialysis requiring prompt provider notification and a fluid sample sent for culture."},
-    {text:"A normal, expected finding requiring no action",correct:false,explain:"Cloudy dialysate is not a normal, expected finding; it suggests peritonitis and requires prompt action."},
-    {text:"Hypoglycemia",correct:false,explain:"This finding is not related to hypoglycemia; it is a classic sign of peritonitis."},
-    {text:"A sign that the dialysis catheter needs to be immediately removed with no further workup",correct:false,explain:"While catheter issues may ultimately be addressed if peritonitis is confirmed and severe, the priority immediate action is provider notification and culture, not automatic catheter removal without further workup."}
-  ]},
-{ stem:"A client with cirrhosis and hepatic encephalopathy is prescribed lactulose. What is the mechanism by which this medication helps improve mental status?",
-  options:[
-    {text:"It traps ammonia in the colon and promotes its excretion in the stool, lowering serum ammonia levels",correct:true,explain:"Lactulose works by trapping ammonia in the colon (through an acidifying effect that converts ammonia to the less-absorbable ammonium) and promoting its excretion in the stool, which helps lower serum ammonia levels responsible for hepatic encephalopathy."},
-    {text:"It directly sedates the client to mask confusion",correct:false,explain:"Lactulose does not work through sedation; it works by reducing serum ammonia levels through GI trapping and excretion."},
-    {text:"It has no relationship to ammonia levels",correct:false,explain:"Lactulose's mechanism is directly related to lowering serum ammonia, which is central to its therapeutic effect in hepatic encephalopathy."},
-    {text:"It works by increasing protein absorption",correct:false,explain:"Lactulose does not increase protein absorption; its mechanism involves trapping and excreting ammonia in the colon."}
-  ]},
-{ stem:"A nurse is evaluating the effectiveness of lactulose therapy for a client with hepatic encephalopathy. Which finding indicates the medication is working as intended?",
-  options:[
-    {text:"The client has 2–3 soft stools per day and improving mental status",correct:true,explain:"The therapeutic goal of lactulose is typically 2–3 soft stools per day, along with improving mental status as serum ammonia decreases, indicating effective therapy."},
-    {text:"The client has no bowel movements at all",correct:false,explain:"No bowel movements would indicate the medication is not achieving its intended laxative/ammonia-trapping effect."},
-    {text:"The client develops severe, uncontrolled diarrhea with worsening confusion",correct:false,explain:"Severe, uncontrolled diarrhea with worsening confusion suggests overdose or an unrelated problem, not the intended therapeutic effect, and requires reassessment."},
-    {text:"Mental status has no relationship to lactulose effectiveness",correct:false,explain:"Mental status improvement is a key indicator of lactulose effectiveness, since the medication targets the ammonia responsible for hepatic encephalopathy."}
-  ]},
-{ stem:"A client with esophageal varices from portal hypertension is prescribed a nonselective beta blocker (e.g., propranolol). What is the rationale for this therapy?",
-  options:[
-    {text:"It reduces portal venous pressure, decreasing the risk of variceal bleeding",correct:true,explain:"Nonselective beta blockers reduce portal venous pressure by decreasing cardiac output and splanchnic blood flow, which helps decrease the risk of variceal bleeding in clients with portal hypertension."},
-    {text:"It directly treats the underlying liver disease",correct:false,explain:"Beta blockers do not directly treat the underlying liver disease; their role here is specifically reducing portal pressure to prevent variceal bleeding."},
-    {text:"It has no relationship to bleeding risk",correct:false,explain:"This therapy has a direct, well-established relationship to reducing variceal bleeding risk through portal pressure reduction."},
-    {text:"It is used to treat hepatic encephalopathy",correct:false,explain:"Beta blockers are used here for portal hypertension/variceal bleeding risk reduction, not specifically to treat hepatic encephalopathy."}
-  ]},
-{ stem:"A client with active upper GI bleeding from esophageal varices requires urgent intervention. Which medication might be administered to help control the bleeding through vasoconstriction of splanchnic vessels?",
-  options:[
-    {text:"Octreotide",correct:true,explain:"Octreotide is used in acute variceal bleeding to induce splanchnic vasoconstriction, reducing portal blood flow and helping control the bleeding."},
-    {text:"Furosemide",correct:false,explain:"Furosemide is a diuretic and does not address active variceal bleeding through vasoconstriction."},
-    {text:"Metformin",correct:false,explain:"Metformin is a diabetes medication and has no role in managing active variceal bleeding."},
-    {text:"Levothyroxine",correct:false,explain:"Levothyroxine is a thyroid hormone replacement and has no role in managing active variceal bleeding."}
-  ]},
-{ stem:"A client is admitted with acute pancreatitis. Which laboratory finding is most specific for confirming this diagnosis?",
-  options:[
-    {text:"Elevated serum lipase",correct:true,explain:"Serum lipase is more specific to the pancreas than amylase and is a key laboratory finding used to confirm a diagnosis of acute pancreatitis."},
-    {text:"Elevated serum sodium",correct:false,explain:"Serum sodium is not the specific diagnostic marker for pancreatitis; lipase is the more specific and classic finding."},
-    {text:"Decreased white blood cell count",correct:false,explain:"WBC count is typically elevated (not decreased) in acute pancreatitis due to inflammation, but it is not the specific diagnostic marker; lipase is."},
-    {text:"Decreased serum creatinine",correct:false,explain:"Serum creatinine is not the specific diagnostic marker for pancreatitis."}
-  ]},
-{ stem:"A client with acute pancreatitis is kept NPO. What is the rationale for this intervention?",
-  options:[
-    {text:"To rest the pancreas by minimizing stimulation of pancreatic enzyme secretion",correct:true,explain:"Keeping the client NPO helps rest the pancreas by minimizing stimulation of pancreatic enzyme secretion, which would otherwise worsen the inflammatory process and pain."},
-    {text:"NPO status has no relationship to pancreatic rest",correct:false,explain:"NPO status has a direct, well-established relationship to reducing pancreatic stimulation and supporting pancreatic rest during acute pancreatitis."},
-    {text:"To prevent hyperglycemia",correct:false,explain:"While glucose can be affected in pancreatitis, the primary rationale for NPO status is resting the pancreas, not preventing hyperglycemia specifically."},
-    {text:"To prepare the client for immediate surgery in all cases",correct:false,explain:"NPO status in acute pancreatitis is primarily about resting the pancreas, not because surgery is required in all cases; many clients are managed medically."}
-  ]},
-{ stem:"A nurse is caring for a client with a suspected pulmonary embolism. Which finding is most consistent with this diagnosis?",
-  options:[
-    {text:"Sudden onset of dyspnea, pleuritic chest pain, and tachycardia",correct:true,explain:"Sudden dyspnea, pleuritic chest pain, and tachycardia are classic findings of pulmonary embolism, reflecting acute obstruction of pulmonary blood flow."},
-    {text:"Gradual onset of mild fatigue over several weeks",correct:false,explain:"A gradual onset over weeks is not consistent with the typically sudden onset of pulmonary embolism."},
-    {text:"Chronic, stable exertional dyspnea unchanged for months",correct:false,explain:"A chronic, stable pattern is not consistent with the acute, sudden presentation of pulmonary embolism."},
-    {text:"Isolated mild ankle swelling with no other symptoms",correct:false,explain:"While DVT (a risk factor for PE) can cause leg swelling, isolated mild ankle swelling without other symptoms is not itself the classic PE presentation."}
-  ]},
-{ stem:"A client with a confirmed pulmonary embolism is started on a heparin infusion. What is the priority nursing action regarding pain management, given the client's anticoagulation status?",
-  options:[
-    {text:"Avoid intramuscular injections and use caution with any invasive procedures given increased bleeding risk",correct:true,explain:"Clients on anticoagulant therapy like heparin are at increased bleeding risk, so IM injections and unnecessary invasive procedures should be avoided, using oral or IV routes for medications when possible."},
-    {text:"IM injections are preferred for this client to ensure rapid pain relief",correct:false,explain:"IM injections should be avoided, not preferred, in an anticoagulated client, given the increased bleeding risk at the injection site."},
-    {text:"No special precautions are needed regarding medication administration route",correct:false,explain:"Specific precautions (avoiding IM injections) are needed given the client's increased bleeding risk on anticoagulant therapy."},
-    {text:"Subcutaneous injections carry the same risk as IM injections and should also be avoided",correct:false,explain:"While some caution applies broadly, IM injections carry a notably higher bleeding risk than subcutaneous injections due to deeper muscle tissue and larger vessels, making IM avoidance the more specific priority."}
-  ]},
-{ stem:"A client is diagnosed with a deep vein thrombosis (DVT) in the left calf. Which nursing action is contraindicated?",
-  options:[
-    {text:"Massaging the affected calf",correct:true,explain:"Massaging the affected calf is contraindicated in a client with DVT, since this could dislodge the clot and cause a pulmonary embolism."},
-    {text:"Elevating the affected leg as prescribed",correct:false,explain:"Leg elevation is generally an appropriate, recommended intervention for DVT management, not contraindicated."},
-    {text:"Applying prescribed compression stockings",correct:false,explain:"Compression stockings, when prescribed, are an appropriate intervention for DVT management."},
-    {text:"Administering prescribed anticoagulant therapy",correct:false,explain:"Anticoagulant therapy is the standard, appropriate treatment for DVT, not contraindicated."}
-  ]},
-{ stem:"A nurse is caring for a client immediately after a liver biopsy. What is the priority nursing action?",
-  options:[
-    {text:"Position the client on the right side and monitor closely for signs of bleeding",correct:true,explain:"After a liver biopsy, the client is typically positioned on the right side to apply pressure to the biopsy site and reduce bleeding risk, with close monitoring for signs of hemorrhage."},
-    {text:"Encourage immediate ambulation",correct:false,explain:"Immediate ambulation is not appropriate immediately after a liver biopsy; the client typically requires a period of bed rest and close monitoring."},
-    {text:"Position the client on the left side",correct:false,explain:"The right side, not the left, is the standard positioning after liver biopsy to help apply pressure to the biopsy site."},
-    {text:"No special monitoring is needed after this procedure",correct:false,explain:"Close monitoring for bleeding is an essential priority after a liver biopsy, given the vascular nature of the liver."}
-  ]},
-{ stem:"A client is scheduled for a paracentesis to relieve ascites-related discomfort. What is a priority nursing action immediately before the procedure?",
-  options:[
-    {text:"Have the client void to empty the bladder",correct:true,explain:"Having the client void before a paracentesis reduces the risk of accidental bladder puncture during the procedure."},
-    {text:"Encourage the client to drink a large volume of fluid",correct:false,explain:"Encouraging large fluid intake is not the priority action before paracentesis; having the client void to empty the bladder is the priority safety step."},
-    {text:"Place the client in a supine, flat position for the entire procedure",correct:false,explain:"Clients are typically positioned upright or semi-Fowler's for paracentesis to allow fluid to pool in the lower abdomen, not flat."},
-    {text:"No specific preparation is needed before this procedure",correct:false,explain:"There is a specific, important preparation step (voiding to empty the bladder) before paracentesis."}
-  ]},
-{ stem:"A client returns from a paracentesis where 4 liters of ascitic fluid were removed. What is the priority nursing assessment following this large-volume removal?",
-  options:[
-    {text:"Monitor for signs of hypotension and hemodynamic instability from fluid shifts",correct:true,explain:"Large-volume paracentesis can cause significant fluid shifts and hypotension, so monitoring for hemodynamic instability is a priority assessment after the procedure."},
-    {text:"Encourage immediate strenuous activity",correct:false,explain:"Strenuous activity is not appropriate immediately after a large-volume paracentesis; the client should be monitored closely for hemodynamic changes."},
-    {text:"No specific monitoring is needed after large-volume fluid removal",correct:false,explain:"Specific hemodynamic monitoring is essential after large-volume paracentesis given the risk of fluid shifts and hypotension."},
-    {text:"Restrict all oral fluid intake indefinitely",correct:false,explain:"Indefinite fluid restriction is not the standard, specific priority action; hemodynamic monitoring is the priority, with fluid management guided by the client's overall clinical picture."}
-  ]},
-{ stem:"A nurse is caring for a client with suspected anaphylaxis after an IV medication administration. What is the priority nursing action?",
-  options:[
-    {text:"Stop the medication infusion immediately and prepare to administer epinephrine",correct:true,explain:"For suspected anaphylaxis, the priority actions are to stop the offending medication immediately and prepare to administer epinephrine, the first-line treatment for this life-threatening reaction."},
-    {text:"Slow the infusion rate and monitor",correct:false,explain:"Slowing, rather than stopping, the infusion is not sufficient for suspected anaphylaxis; the medication must be stopped immediately."},
-    {text:"Administer an oral antihistamine only",correct:false,explain:"An oral antihistamine alone is not sufficient for anaphylaxis; epinephrine is the first-line, priority treatment."},
-    {text:"Continue the infusion while preparing other medications",correct:false,explain:"The infusion must be stopped immediately, not continued, when anaphylaxis is suspected."}
-  ]},
-{ stem:"A client is diagnosed with acute compartment syndrome after a tibial fracture. What is the priority nursing action?",
-  options:[
-    {text:"Notify the provider immediately, since this is a surgical emergency requiring prompt fasciotomy",correct:true,explain:"Compartment syndrome is a surgical emergency; the provider must be notified immediately since prompt fasciotomy is often needed to prevent permanent tissue and nerve damage."},
-    {text:"Elevate the extremity significantly above heart level and apply ice",correct:false,explain:"Significant elevation above heart level can further reduce arterial perfusion pressure and worsen compartment syndrome; the extremity should be kept at heart level, and this alone does not address the emergency."},
-    {text:"Apply a tighter bandage to reduce swelling",correct:false,explain:"A tighter bandage would worsen compartment pressure and is contraindicated."},
-    {text:"Wait and reassess in several hours before taking any action",correct:false,explain:"Compartment syndrome requires immediate action given the risk of irreversible tissue damage; waiting several hours is inappropriate."}
-  ]},
-{ stem:"A client with a cast reports the classic \"6 P's\" of compartment syndrome: pain, pallor, pulselessness, paresthesia, poikilothermia, and paralysis. Which finding is typically the earliest and most reliable indicator?",
-  options:[
-    {text:"Pain out of proportion to the injury, unrelieved by analgesics",correct:true,explain:"Pain out of proportion to the injury, especially pain unrelieved by usual analgesics, is typically the earliest and most reliable indicator of developing compartment syndrome; the other \"P's\" tend to be later, more ominous signs."},
-    {text:"Pulselessness",correct:false,explain:"Pulselessness is typically a later, more ominous sign, not the earliest indicator; by the time pulses are lost, significant damage may have already occurred."},
-    {text:"Paralysis",correct:false,explain:"Paralysis is typically a very late sign of compartment syndrome, not the earliest indicator."},
-    {text:"Poikilothermia (temperature change)",correct:false,explain:"Poikilothermia is typically a later sign, not the earliest and most reliable indicator; pain out of proportion is the earliest classic finding."}
-  ]},
-{ stem:"A client with a suspected fat embolism after a long bone fracture develops petechiae on the chest and neck, along with confusion and dyspnea. What is the nurse's priority action?",
-  options:[
-    {text:"Notify the provider immediately and prepare to administer supplemental oxygen",correct:true,explain:"Petechiae, confusion, and dyspnea after a long bone fracture are classic signs of fat embolism syndrome, a serious complication requiring immediate provider notification and supportive care, including supplemental oxygen."},
-    {text:"Reassure the client this is an expected, harmless finding",correct:false,explain:"This presentation reflects a serious, potentially life-threatening complication requiring immediate action, not reassurance and dismissal."},
-    {text:"Encourage the client to ambulate immediately",correct:false,explain:"Ambulation is not appropriate given this acute, potentially unstable presentation requiring immediate provider notification and supportive care."},
-    {text:"Apply a warm compress to the petechial areas",correct:false,explain:"A warm compress does not address the underlying, serious concern of fat embolism syndrome; provider notification and supportive care are the priority."}
-  ]},
 { stem:"A client presents with the following labs: blood glucose 560 mg/dL, arterial pH 7.15, serum potassium 5.8 mEq/L. Which nursing interventions are indicated for this client at this time? (Select all that apply.)",
   isSAL:true,
   options:[
@@ -1043,83 +710,6 @@ const QUESTIONS = [
     {text:"Begin continuous IV regular insulin infusion",correct:true,explain:"Continuous IV regular insulin is indicated to reduce blood glucose and halt ketone production in DKA."},
     {text:"Monitor serum potassium frequently",correct:true,explain:"Frequent potassium monitoring is indicated, since insulin and fluid therapy will drive potassium into cells, risking a rapid, dangerous drop from this client's current level."},
     {text:"Administer oral glucose tablets",correct:false,explain:"Oral glucose tablets are contraindicated, since the client is already severely hyperglycemic; this would worsen the hyperglycemia."}
-  ]},
-{ stem:"A nurse is caring for a client on mechanical ventilation who suddenly develops high-pressure ventilator alarms, absent breath sounds on one side, and tracheal deviation. What should the nurse suspect?",
-  options:[
-    {text:"Tension pneumothorax, a life-threatening emergency requiring immediate intervention",correct:true,explain:"Sudden high-pressure alarms, absent unilateral breath sounds, and tracheal deviation are classic signs of tension pneumothorax, a life-threatening emergency requiring immediate needle decompression or chest tube placement."},
-    {text:"An expected, harmless ventilator malfunction",correct:false,explain:"This presentation reflects a life-threatening emergency, not a harmless malfunction, and requires immediate intervention."},
-    {text:"Normal variation in breath sounds",correct:false,explain:"Absent breath sounds with tracheal deviation is not a normal variation; it is a critical finding requiring immediate action."},
-    {text:"Hypoglycemia",correct:false,explain:"This presentation is not characteristic of hypoglycemia; it reflects a life-threatening respiratory/thoracic emergency."}
-  ]},
-{ stem:"A client is receiving mechanical ventilation and the low-pressure alarm sounds continuously. What should the nurse assess first?",
-  options:[
-    {text:"Check for a disconnection or leak in the ventilator circuit",correct:true,explain:"A continuous low-pressure alarm often indicates a disconnection or leak in the ventilator circuit, which should be assessed first to restore adequate ventilation."},
-    {text:"Immediately sedate the client further",correct:false,explain:"Sedation does not address the underlying mechanical issue causing the low-pressure alarm and is not the priority first action."},
-    {text:"Silence the alarm and continue with other tasks",correct:false,explain:"Silencing the alarm without investigating the cause is unsafe, given the potential for inadequate ventilation."},
-    {text:"Increase the ventilator's tidal volume setting",correct:false,explain:"Adjusting ventilator settings without first identifying the cause of the alarm (such as a disconnection) is not the appropriate first action."}
-  ]},
-{ stem:"A client with a new tracheostomy has an obstructed tube and cannot be suctioned or ventilated. What is the nurse's priority action?",
-  options:[
-    {text:"Remove the inner cannula, since it can often be quickly removed and cleaned or replaced to relieve obstruction",correct:true,explain:"For a tracheostomy that appears obstructed, removing the inner cannula (if present) is a quick first step, since this often relieves the obstruction and can be done rapidly, before other more invasive emergency measures."},
-    {text:"Wait for the respiratory therapist to arrive before taking any action",correct:false,explain:"This is an emergency situation requiring immediate nursing action, not waiting for another team member to arrive."},
-    {text:"Remove the entire tracheostomy tube without any further assessment",correct:false,explain:"Complete tube removal is a more drastic step generally reserved for when simpler measures like inner cannula removal do not resolve the obstruction."},
-    {text:"Administer a bronchodilator via nebulizer through the obstructed tube",correct:false,explain:"A bronchodilator will not resolve a mechanically obstructed tube; addressing the physical obstruction, such as by removing the inner cannula, is the priority."}
-  ]},
-{ stem:"A client with myasthenia gravis reports increasing muscle weakness that worsens throughout the day. What is the underlying pathophysiology of this condition?",
-  options:[
-    {text:"Autoimmune destruction of acetylcholine receptors at the neuromuscular junction",correct:true,explain:"Myasthenia gravis is an autoimmune condition in which antibodies attack and destroy acetylcholine receptors at the neuromuscular junction, impairing nerve-to-muscle signal transmission and causing progressive weakness with activity."},
-    {text:"Demyelination of central nervous system neurons",correct:false,explain:"This describes multiple sclerosis, not myasthenia gravis, which specifically involves the neuromuscular junction, not central demyelination."},
-    {text:"Degeneration of dopamine-producing neurons",correct:false,explain:"This describes Parkinson's disease, not myasthenia gravis."},
-    {text:"Autoimmune destruction of pancreatic beta cells",correct:false,explain:"This describes type 1 diabetes, not myasthenia gravis."}
-  ]},
-{ stem:"A client with myasthenia gravis is in myasthenic crisis with worsening respiratory muscle weakness. What is the priority nursing assessment?",
-  options:[
-    {text:"Respiratory rate, depth, and vital capacity, given the risk of respiratory failure",correct:true,explain:"Myasthenic crisis carries a significant risk of respiratory failure from respiratory muscle weakness, making respiratory assessment (rate, depth, vital capacity) the priority."},
-    {text:"Blood glucose level",correct:false,explain:"Blood glucose is not the priority assessment for myasthenic crisis; respiratory status is the priority given the risk of respiratory failure."},
-    {text:"Skin turgor",correct:false,explain:"Skin turgor is not the priority assessment for myasthenic crisis; respiratory status is the priority."},
-    {text:"Bowel sounds",correct:false,explain:"Bowel sounds are not the priority assessment for myasthenic crisis; respiratory status is the priority given the life-threatening risk of respiratory failure."}
-  ]},
-{ stem:"A client with Guillain-Barré syndrome is admitted with ascending muscle weakness. What is the priority nursing concern as the disease progresses?",
-  options:[
-    {text:"Progressive ascending paralysis potentially affecting the respiratory muscles, requiring close respiratory monitoring",correct:true,explain:"Guillain-Barré syndrome classically causes ascending paralysis, which can progress to affect the respiratory muscles and require mechanical ventilation, making close respiratory monitoring a priority concern."},
-    {text:"Hyperglycemia",correct:false,explain:"Hyperglycemia is not the priority concern in Guillain-Barré syndrome; the ascending paralysis and respiratory risk are the priority."},
-    {text:"Skin rash",correct:false,explain:"Skin rash is not a priority concern in Guillain-Barré syndrome; respiratory compromise from ascending paralysis is the priority."},
-    {text:"Urinary frequency",correct:false,explain:"Urinary frequency is not the priority concern; the risk of ascending paralysis affecting respiratory muscles is the priority."}
-  ]},
-{ stem:"A client is diagnosed with syndrome of inappropriate antidiuretic hormone (SIADH) secretion after a head injury. What laboratory finding would the nurse expect?",
-  options:[
-    {text:"Dilutional hyponatremia with concentrated urine",correct:true,explain:"SIADH causes excessive water reabsorption, leading to dilutional hyponatremia along with concentrated urine (high urine osmolality) despite low serum sodium."},
-    {text:"Hypernatremia with dilute urine",correct:false,explain:"This is the opposite pattern; SIADH causes hyponatremia with concentrated urine, not hypernatremia with dilute urine."},
-    {text:"Normal sodium levels with no urine changes",correct:false,explain:"SIADH is specifically characterized by abnormal sodium levels (hyponatremia) and urine concentration changes, not a normal, unchanged picture."},
-    {text:"Hyperglycemia as the primary finding",correct:false,explain:"Hyperglycemia is not the primary or characteristic laboratory finding in SIADH; hyponatremia is the hallmark finding."}
-  ]},
-{ stem:"A nurse is caring for a client with a new colostomy. Which finding would require immediate provider notification?",
-  options:[
-    {text:"A stoma that appears dusky or purple/blue in color",correct:true,explain:"A dusky, purple, or blue stoma color suggests inadequate blood supply (ischemia) to the stoma, a serious complication requiring immediate provider notification."},
-    {text:"A stoma that is pink/red and moist",correct:false,explain:"A pink/red, moist stoma is the normal, healthy expected appearance and does not require urgent notification."},
-    {text:"Mild swelling of the stoma in the first few days postoperatively",correct:false,explain:"Mild stomal swelling in the immediate postoperative period is a common, expected finding, not an urgent concern."},
-    {text:"Liquid stool output from an ascending colostomy",correct:false,explain:"Liquid to semi-liquid stool output is expected from an ascending colostomy, given its location early in the colon, and is not an urgent concern."}
-  ]},
-{ stem:"A client with a new ileostomy is being taught about output expectations. What is important teaching regarding fluid and electrolyte balance?",
-  options:[
-    {text:"Ileostomy output tends to be higher in fluid volume and can increase the risk of dehydration and electrolyte imbalance, requiring attention to adequate fluid intake",correct:true,explain:"Because the ileostomy bypasses the colon (where significant water and electrolyte reabsorption normally occurs), output tends to be more liquid and higher in volume, increasing the risk of dehydration and electrolyte imbalance, making adequate fluid intake especially important."},
-    {text:"Ileostomy output has no relationship to fluid or electrolyte balance",correct:false,explain:"Ileostomy output has a direct, significant relationship to fluid and electrolyte balance, given the bypass of colonic reabsorption."},
-    {text:"Ileostomy clients should restrict fluid intake significantly",correct:false,explain:"Fluid intake should generally be encouraged, not restricted, for ileostomy clients given their increased risk of dehydration."},
-    {text:"Ileostomy output is expected to be solid and formed, similar to a descending colostomy",correct:false,explain:"Ileostomy output is typically more liquid, not solid and formed, since it bypasses the colon where stool is normally concentrated."}
-  ]},
-{ stem:"A nurse is assessing a client for early signs of dehydration in an older adult. Which finding is a more reliable indicator in this population compared to skin turgor?",
-  options:[
-    {text:"Dry mucous membranes and reports of increased thirst",correct:true,explain:"Skin turgor can be an unreliable indicator of dehydration in older adults due to normal age-related loss of skin elasticity; dry mucous membranes and other findings like reported thirst tend to be more reliable indicators in this population."},
-    {text:"Skin turgor is the most reliable indicator in all age groups equally",correct:false,explain:"Skin turgor is specifically less reliable in older adults due to normal aging changes in skin elasticity, making other assessments more useful in this population."},
-    {text:"There are no reliable indicators of dehydration in older adults",correct:false,explain:"There are reliable indicators of dehydration in older adults (such as mucous membrane assessment); it is not that no reliable indicators exist."},
-    {text:"Hair texture is the most reliable indicator of dehydration",correct:false,explain:"Hair texture is not a recognized reliable indicator of dehydration in any population."}
-  ]},
-{ stem:"A client is prescribed prednisone for a chronic inflammatory condition and asks why the medication should be taken in the morning rather than at bedtime. What is the nurse's best explanation?",
-  options:[
-    {text:"Morning dosing mimics the body's natural cortisol release pattern and helps minimize disruption of the sleep-wake cycle",correct:true,explain:"Taking corticosteroids like prednisone in the morning mimics the body's natural diurnal cortisol release pattern (which peaks in the morning) and helps minimize potential sleep disturbances that can occur with evening dosing."},
-    {text:"Timing has no effect on the medication's action or adverse effects",correct:false,explain:"Timing does have a meaningful effect, particularly regarding mimicking natural cortisol patterns and minimizing sleep disruption."},
-    {text:"Evening dosing is always preferred for corticosteroids",correct:false,explain:"Morning, not evening, dosing is generally preferred for corticosteroids to align with natural cortisol rhythm and reduce insomnia risk."},
-    {text:"This timing consideration applies only to inhaled corticosteroids, not oral formulations",correct:false,explain:"This timing consideration is specifically relevant to systemic (oral) corticosteroid dosing, given the goal of mimicking natural diurnal cortisol patterns."}
   ]}
 ];
 

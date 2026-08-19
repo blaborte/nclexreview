@@ -25,13 +25,7 @@
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
-    background:
-      radial-gradient(560px circle at 4% -8%, rgba(242,169,165,.34), transparent 60%),
-      radial-gradient(500px circle at 98% 0%, rgba(243,217,138,.32), transparent 58%),
-      radial-gradient(520px circle at 6% 68%, rgba(183,206,155,.32), transparent 60%),
-      radial-gradient(540px circle at 100% 78%, rgba(243,217,138,.24), transparent 58%),
-      linear-gradient(180deg, var(--paper) 0%, #FDF5EC 50%, var(--paper) 100%);
-    background-attachment:fixed;
+    background:var(--paper);
     color:var(--ink);
     font-family:'Inter',sans-serif;
     -webkit-font-smoothing:antialiased;
@@ -326,57 +320,22 @@
     #printReport .rpt-banner.incorrect{color:#96332E;}
   }
 
-  .case-card{border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin-bottom:22px;background:var(--card);}
-  .case-card h3{font-family:'Fraunces',serif;font-size:19px;margin:0 0 4px;color:var(--ink);}
-  .case-tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--pulse);background:var(--pulse-dim);padding:3px 9px;border-radius:5px;text-transform:uppercase;letter-spacing:.04em;display:inline-block;margin-bottom:12px;}
-  .case-vignette{font-size:14.5px;line-height:1.75;color:var(--ink-soft);margin-bottom:6px;}
-  .case-vignette b{color:var(--ink);}
-  .case-data{border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:var(--paper);font-size:13.5px;color:var(--ink-soft);margin:12px 0;line-height:1.7;}
-  .case-data b{color:var(--ink);}
-  .case-q{margin-top:18px;padding-top:16px;border-top:1px dashed var(--line);}
-  .case-q p.q-text{font-size:14px;color:var(--ink);margin:0 0 10px;font-weight:500;}
-  .reveal-btn{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--pulse);background:var(--pulse-dim);border:none;padding:7px 14px;border-radius:6px;cursor:pointer;letter-spacing:.02em;}
-  .reveal-btn:hover{opacity:.85;}
-  .reveal-answer{display:none;margin-top:12px;padding:12px 16px;background:var(--correct-bg);border-left:3px solid var(--correct);border-radius:0 8px 8px 0;font-size:13.5px;color:var(--ink);line-height:1.7;}
-  .reveal-answer.show{display:block;}
-  .reveal-answer b{color:var(--correct);}
-
-  /* ============ GLASS SURFACE OVERRIDE ============ */
-  .notes-card,.setup-card,.picker,.qcard,.summary,.flash-front,.case-card,
-  .score-pill,.secondary,.exam-banner-inner{
-    background:rgba(255,251,244,.6);
-    -webkit-backdrop-filter:blur(18px) saturate(160%);
-    backdrop-filter:blur(18px) saturate(160%);
-    border-color:rgba(255,251,244,.7);
-    box-shadow:inset 0 1px 0 rgba(255,251,244,.7), 0 10px 26px rgba(33,27,54,.06);
+  /* ==== Unified gradient palette override ==== */
+  :root{--pulse:#1E6E60;--pulse-dim:#DCEEE6;}
+  body{
+    background: linear-gradient(125deg, #ECE6A6 0%, #C7DE9C 20%, #8FC79E 42%, #56A98D 64%, #2F8A78 84%, #1E6E60 100%);
+    background-attachment: fixed;
   }
-  .tab-btn:not(.selected),.btn-prev,.mini-btn{
-    background:rgba(255,251,244,.45);
-    -webkit-backdrop-filter:blur(10px);
-    backdrop-filter:blur(10px);
-    border-color:rgba(255,251,244,.65);
-  }
-  .drugclass,.casebox,.case-data,.count-btn,.pick-btn,.opt,.dot.unanswered{
-    background:rgba(255,251,244,.35);
-    -webkit-backdrop-filter:blur(9px);
-    backdrop-filter:blur(9px);
-    border-color:rgba(255,251,244,.6);
-  }
-  .topbar{
-    background:rgba(255,251,244,.4);
-    -webkit-backdrop-filter:blur(14px);
-    backdrop-filter:blur(14px);
-    border:1px solid rgba(255,251,244,.6);
-    border-radius:12px;
-    padding:10px 16px;
-  }
-  @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
-    .notes-card,.setup-card,.picker,.qcard,.summary,.flash-front,.case-card,
-    .score-pill,.secondary,.exam-banner-inner,.tab-btn:not(.selected),.btn-prev,
-    .mini-btn,.drugclass,.casebox,.case-data,.count-btn,.pick-btn,.opt,.topbar{
-      background:rgba(255,251,244,.94);
-    }
-  }
+  .brand{color:#FFFFFF;}
+  .brand:hover{color:#FFF6D0;}
+  .crumbs{color:rgba(255,255,255,.72);}
+  .crumbs span:hover{color:#FFF6D0;}
+  .eyebrow{color:#FFF6D0;}
+  h1{color:#FFFFFF;text-shadow:0 1px 4px rgba(0,0,0,.18);}
+  .subtitle{color:rgba(255,255,255,.88);}
+  footer{color:rgba(255,255,255,.62);}
+  .flash-progress{color:rgba(255,255,255,.85);}
+  .progress-track{background:rgba(255,255,255,.28);}
 </style>
 </head>
 <body>
@@ -394,7 +353,6 @@
       <button class="tab-btn selected" id="tabNotesA" onclick="showView('notes')">Course Notes</button>
       <button class="tab-btn" id="tabFlashA" onclick="showView('flashcards')">Flashcards</button>
       <button class="tab-btn" id="tabSetupA" onclick="showView('setup')">Practice Test</button>
-      <button class="tab-btn" id="tabCasesA" onclick="showView('cases')">Case Studies</button>
     </div>
     <h1>Course Notes</h1>
     <p class="subtitle">Reference notes drawn from the Cardio-Vascular Medication Review lecture. Use this to study before or during the practice test.</p>
@@ -414,7 +372,6 @@
       <button class="tab-btn" id="tabNotesB" onclick="showView('notes')">Course Notes</button>
       <button class="tab-btn selected" id="tabFlashB" onclick="showView('flashcards')">Flashcards</button>
       <button class="tab-btn" id="tabSetupB" onclick="showView('setup')">Practice Test</button>
-      <button class="tab-btn" id="tabCasesB" onclick="showView('cases')">Case Studies</button>
     </div>
     <h1>Flashcards</h1>
     <p class="subtitle">Tap a card to flip it. Use the arrows to move through the deck, or shuffle for random order.</p>
@@ -450,7 +407,6 @@
       <button class="tab-btn" id="tabNotesC" onclick="showView('notes')">Course Notes</button>
       <button class="tab-btn" id="tabFlashC" onclick="showView('flashcards')">Flashcards</button>
       <button class="tab-btn selected" id="tabSetupC" onclick="showView('setup')">Practice Test</button>
-      <button class="tab-btn" id="tabCasesC" onclick="showView('cases')">Case Studies</button>
     </div>
     <h1>Practice Test</h1>
     <p class="subtitle">Choose how many questions you want to take. Questions are randomly selected from a bank of 104 each time, and every option — right or wrong — comes with an explanation.</p>
@@ -465,22 +421,6 @@
         <button class="count-btn" onclick="startQuiz(100)"><span class="count-num">100</span><span class="count-label">Full bank</span></button>
       </div>
     </div>
-  </div>
-
-  <!-- ============ CASE STUDIES ============ -->
-  <div class="view" id="view-cases">
-    <div class="eyebrow">Cardiovascular Medications</div>
-    <div class="topic-tabs">
-      <button class="tab-btn" id="tabNotesD" onclick="showView('notes')">Course Notes</button>
-      <button class="tab-btn" id="tabFlashD" onclick="showView('flashcards')">Flashcards</button>
-      <button class="tab-btn" id="tabSetupD" onclick="showView('setup')">Practice Test</button>
-      <button class="tab-btn selected" id="tabCasesD" onclick="showView('cases')">Case Studies</button>
-    </div>
-    <h1>Case Studies</h1>
-    <p class="subtitle">Apply what you've reviewed to realistic clinical scenarios. Read each vignette, think through the reflection questions, then tap to reveal the rationale.</p>
-    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
-
-    <div class="cases-wrap" id="casesContent"></div>
   </div>
 
   <!-- ============ QUIZ ============ -->
@@ -531,114 +471,6 @@
 
 <script>
 /* ======================= COURSE NOTES ======================= */
-document.getElementById('casesContent').innerHTML = `
-<div class="case-card">
-    <span class="case-tag">Primary Care Clinic</span>
-    <h3>New Diagnosis of Hypertension</h3>
-    <p class="case-vignette">A 54-year-old client with newly diagnosed hypertension is started on lisinopril 10 mg daily. Two weeks later he calls the clinic reporting a persistent dry, hacking cough that started about a week after beginning the medication. He is otherwise feeling well and denies chest pain or shortness of breath.</p>
-    <div class="case-data"><b>Current meds:</b> Lisinopril 10 mg PO daily &nbsp;|&nbsp; <b>BP trend:</b> 148/92 → 132/84 &nbsp;|&nbsp; <b>K+:</b> 4.6 mEq/L</div>
-    <div class="case-q">
-      <p class="q-text">What is the most likely cause of the cough, and is this an emergency?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('cv_c1q1', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="cv_c1q1"><b>Answer:</b> ACE inhibitors block breakdown of bradykinin in the lungs, and the resulting bradykinin buildup commonly causes a dry, non-productive cough — this is a well-known, non-emergency class effect (not an allergic reaction). It's bothersome but not dangerous by itself, though it's a common reason clients stop the drug without telling their provider.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">What assessment finding related to this drug class WOULD require urgent evaluation?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('cv_c1q2', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="cv_c1q2"><b>Answer:</b> Facial, lip, or tongue swelling (angioedema) or difficulty breathing/swallowing. This is a rare but serious ACE inhibitor reaction that requires stopping the drug immediately and emergency evaluation — very different from the benign cough.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">What lab value should the nurse continue to monitor on this medication, and why?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('cv_c1q3', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="cv_c1q3"><b>Answer:</b> Serum potassium. ACE inhibitors reduce aldosterone release, which decreases potassium excretion, increasing hyperkalemia risk — especially if the client also takes potassium supplements, potassium-sparing diuretics, or NSAIDs. Also periodically monitor renal function (BUN/creatinine).</div>
-    </div>
-  </div>
-<div class="case-card">
-    <span class="case-tag">Cardiac Step-Down Unit</span>
-    <h3>Beta Blocker After Myocardial Infarction</h3>
-    <p class="case-vignette">A 61-year-old client recovering from a myocardial infarction is started on metoprolol 25 mg PO twice daily prior to discharge. On morning rounds, the nurse notes a heart rate of 52 bpm and BP of 96/58; the client feels "a little tired" but has no dizziness or chest pain.</p>
-    <div class="case-data"><b>VS:</b> HR 52, BP 96/58, RR 16 &nbsp;|&nbsp; <b>Med due:</b> Metoprolol 25 mg PO now</div>
-    <div class="case-q">
-      <p class="q-text">Should the nurse administer the scheduled dose of metoprolol?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('cv_c2q1', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="cv_c2q1"><b>Answer:</b> Hold the dose and notify the provider. Beta blockers slow heart rate and lower BP by blocking sympathetic (beta-1) stimulation of the heart; a heart rate below the parameter typically held for (often <50–60 bpm, per facility policy/order) with symptomatic or borderline BP warrants holding the dose rather than giving it and risking further bradycardia or hypotension.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">The client says, "I feel better — can I just stop taking this once I go home?" How should the nurse respond?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('cv_c2q2', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="cv_c2q2"><b>Answer:</b> No — beta blockers must never be stopped abruptly. Abrupt discontinuation can cause rebound tachycardia, hypertension, and precipitate angina or another MI due to upregulated beta-receptor sensitivity after prolonged blockade. If discontinued, the dose must be tapered gradually under provider supervision.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">What teaching point is essential for a client with diabetes who is starting a beta blocker?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('cv_c2q3', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="cv_c2q3"><b>Answer:</b> Beta blockers can mask the typical adrenergic signs of hypoglycemia — tachycardia and tremor — because those responses are blunted. Clients with diabetes should be taught to monitor blood glucose closely and watch for other cues (diaphoresis, confusion) since hunger and sweating may be the only early warning signs left.</div>
-    </div>
-  </div>
-<div class="case-card">
-    <span class="case-tag">Anticoagulation Clinic</span>
-    <h3>A Client Newly Started on Warfarin</h3>
-    <p class="case-vignette">A 70-year-old client with atrial fibrillation is started on warfarin for stroke prevention. At a follow-up visit two weeks later, she mentions she's been eating large amounts of spinach and kale salads because she "heard greens are healthy," and she also started taking an OTC ibuprofen for knee pain.</p>
-    <div class="case-data"><b>INR today:</b> 1.4 (goal 2.0–3.0) &nbsp;|&nbsp; <b>Current meds:</b> Warfarin 5 mg PO daily, ibuprofen PRN &nbsp;|&nbsp; <b>Diet change:</b> increased leafy greens</div>
-    <div class="case-q">
-      <p class="q-text">Why is this client's INR below the therapeutic range, and what dietary teaching is needed?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('cv_c3q1', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="cv_c3q1"><b>Answer:</b> Leafy green vegetables (spinach, kale) are high in vitamin K, which promotes clotting factor synthesis and directly counteracts warfarin's anticoagulant effect — a sudden increase in intake can lower the INR out of therapeutic range. She doesn't need to avoid vitamin K entirely, but should keep her intake consistent week to week rather than making large, sudden changes.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">What is the concern with the client taking ibuprofen alongside warfarin?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('cv_c3q2', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="cv_c3q2"><b>Answer:</b> NSAIDs like ibuprofen increase bleeding risk when combined with warfarin — through both an additive anticoagulant-type effect on platelets and GI mucosal irritation that raises the risk of GI bleeding. She should be taught to use acetaminophen for pain instead and to check with the provider or pharmacist before starting any new OTC medication.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">What signs and symptoms should this client be taught to report immediately while on warfarin?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('cv_c3q3', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="cv_c3q3"><b>Answer:</b> Unusual bruising, bleeding gums, blood in urine or stool (or black, tarry stools), prolonged bleeding from cuts, severe headache, or any signs of a fall or head injury — these could indicate excessive anticoagulation and need prompt evaluation, including an INR check.</div>
-    </div>
-  </div>
-<div class="case-card">
-    <span class="case-tag">Cardiac Clinic</span>
-    <h3>Digoxin Therapy for Heart Failure</h3>
-    <p class="case-vignette">A client with heart failure and atrial fibrillation is maintained on digoxin 0.125 mg daily. At a routine visit, she reports nausea, poor appetite, and says colors "look strange, kind of yellow-green." She mentions she started taking a new OTC diuretic-type herbal tea for bloating last week.</p>
-    <div class="case-data"><b>Digoxin level:</b> 2.4 ng/mL (therapeutic 0.5–2.0) &nbsp;|&nbsp; <b>K+:</b> 3.2 mEq/L &nbsp;|&nbsp; <b>VS:</b> HR 52, irregular</div>
-    <div class="case-q">
-      <p class="q-text">What is the likely cause of this client's symptoms, and what role did the herbal tea play?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('cv_c4q1', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="cv_c4q1"><b>Answer:</b> This presentation (nausea, anorexia, yellow-green visual halos, bradycardia) is classic digoxin toxicity. Many diuretic-type herbal teas cause potassium loss, and hypokalemia increases the heart's sensitivity to digoxin, effectively potentiating its toxic effects even without a change in the digoxin dose itself.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">What is the nurse's priority action?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('cv_c4q2', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="cv_c4q2"><b>Answer:</b> Hold the digoxin dose, notify the provider, and report the digoxin level, potassium level, and heart rate — this client needs prompt evaluation, likely including correction of the hypokalemia and possible digoxin immune Fab (antidote) if toxicity is severe or symptomatic dysrhythmias develop.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">What teaching should this client receive about combining supplements or herbal products with her cardiac medications?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('cv_c4q3', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="cv_c4q3"><b>Answer:</b> Always check with the provider or pharmacist before starting any new OTC or herbal product, since many (diuretic teas, licorice root, St. John's wort, and others) can interact significantly with cardiac medications like digoxin, diuretics, or warfarin — "natural" does not mean risk-free when combined with prescription drugs.</div>
-    </div>
-  </div>
-<div class="case-card">
-    <span class="case-tag">Post-Anesthesia Care Unit</span>
-    <h3>Nitroglycerin for Acute Angina</h3>
-    <p class="case-vignette">A client reports sudden chest pain (7/10, pressure-like) two hours after cardiac catheterization. The nurse administers sublingual nitroglycerin per protocol. Five minutes later, the client reports feeling dizzy and the nurse notes a significant BP drop.</p>
-    <div class="case-data"><b>BP before:</b> 128/78 → <b>BP after NTG:</b> 88/54 &nbsp;|&nbsp; <b>HR:</b> 104 &nbsp;|&nbsp; <b>Pain:</b> improved to 3/10</div>
-    <div class="case-q">
-      <p class="q-text">What is the priority nursing action given this BP drop?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('cv_c5q1', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="cv_c5q1"><b>Answer:</b> Keep the client supine (flat or with legs slightly elevated, per protocol) to promote venous return, continue frequent BP monitoring, and hold further nitroglycerin doses until BP recovers — nitroglycerin causes venous and arterial vasodilation, and hypotension is an expected but potentially dangerous side effect, especially with repeat dosing.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">What administration teaching applies to sublingual nitroglycerin that this scenario highlights?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('cv_c5q2', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="cv_c5q2"><b>Answer:</b> The client should remain seated or lying down when taking sublingual nitroglycerin (never standing) because of the hypotension risk, and should be taught to rise slowly afterward. Up to 3 doses may be given 5 minutes apart per protocol for ongoing chest pain, but if pain is unrelieved after the first dose, emergency services should be contacted rather than waiting through all three.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">What medication history question is critical to ask before administering nitroglycerin to any client?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('cv_c5q3', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="cv_c5q3"><b>Answer:</b> Ask about recent use of phosphodiesterase-5 inhibitors (e.g., sildenafil, tadalafil) — combining these with nitrates can cause severe, life-threatening hypotension. This history should be confirmed before nitroglycerin is given whenever possible.</div>
-    </div>
-  </div>
-`;
-
 document.getElementById('notesContent').innerHTML = `
 <h2 class="section-title">Antihypertensive Overview</h2>
 <table class="note-table">
@@ -1528,13 +1360,6 @@ let score = 0;
 let questionState = [];
 let optionOrders = [];
 
-
-function toggleAnswer(id, btn){
-  const el = document.getElementById(id);
-  el.classList.toggle('show');
-  btn.textContent = el.classList.contains('show') ? 'Hide answer ▲' : 'Reveal answer ▼';
-}
-
 function showView(name){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.getElementById('view-'+name).classList.add('active');
@@ -1543,16 +1368,14 @@ function showView(name){
   if(name==='notes') crumbs.innerHTML = homeLink + " / Cardiovascular Medications / Course Notes";
   else if(name==='flashcards') crumbs.innerHTML = homeLink + " / Cardiovascular Medications / Flashcards";
   else if(name==='setup') crumbs.innerHTML = homeLink + " / Cardiovascular Medications / Practice Test";
-  else if(name==='cases') crumbs.innerHTML = homeLink + " / Cardiovascular Medications / Case Studies";
   else if(name==='quiz') crumbs.innerHTML = homeLink + " / <span onclick=\"showView('setup')\">Cardiovascular Medications</span> / Practice Test";
 
-  ['tabNotesA','tabFlashA','tabSetupA','tabCasesA','tabNotesB','tabFlashB','tabSetupB','tabCasesB','tabNotesC','tabFlashC','tabSetupC','tabCasesC','tabNotesD','tabFlashD','tabSetupD','tabCasesD'].forEach(id=>{
+  ['tabNotesA','tabFlashA','tabSetupA','tabNotesB','tabFlashB','tabSetupB','tabNotesC','tabFlashC','tabSetupC'].forEach(id=>{
     const el = document.getElementById(id);
     if(!el) return;
     let kind = 'setup';
     if(id.indexOf('Notes') !== -1) kind = 'notes';
     else if(id.indexOf('Flash') !== -1) kind = 'flashcards';
-    else if(id.indexOf('Cases') !== -1) kind = 'cases';
     el.classList.toggle('selected', kind === name || (kind==='setup' && name==='quiz'));
   });
 
@@ -1565,7 +1388,7 @@ function showView(name){
 /* Entry routing: open directly to the requested view via URL hash (e.g. index.html links here with #notes or #setup) */
 (function initialRoute(){
   const hash = (location.hash || '').replace('#','');
-  const validViews = ['notes','flashcards','setup','cases'];
+  const validViews = ['notes','flashcards','setup'];
   showView(validViews.includes(hash) ? hash : 'setup');
 })();
 

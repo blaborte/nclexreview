@@ -25,13 +25,7 @@
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
-    background:
-      radial-gradient(560px circle at 4% -8%, rgba(242,169,165,.34), transparent 60%),
-      radial-gradient(500px circle at 98% 0%, rgba(243,217,138,.32), transparent 58%),
-      radial-gradient(520px circle at 6% 68%, rgba(183,206,155,.32), transparent 60%),
-      radial-gradient(540px circle at 100% 78%, rgba(243,217,138,.24), transparent 58%),
-      linear-gradient(180deg, var(--paper) 0%, #FDF5EC 50%, var(--paper) 100%);
-    background-attachment:fixed;
+    background:var(--paper);
     color:var(--ink);
     font-family:'Inter',sans-serif;
     -webkit-font-smoothing:antialiased;
@@ -217,42 +211,22 @@
     #printReport .rpt-banner.incorrect{color:#96332E;}
   }
 
-  /* ============ GLASS SURFACE OVERRIDE ============ */
-  .notes-card,.setup-card,.picker,.qcard,.summary,.flash-front,.case-card,
-  .score-pill,.secondary,.exam-banner-inner{
-    background:rgba(255,251,244,.6);
-    -webkit-backdrop-filter:blur(18px) saturate(160%);
-    backdrop-filter:blur(18px) saturate(160%);
-    border-color:rgba(255,251,244,.7);
-    box-shadow:inset 0 1px 0 rgba(255,251,244,.7), 0 10px 26px rgba(33,27,54,.06);
+  /* ==== Unified gradient palette override ==== */
+  :root{--pulse:#1E6E60;--pulse-dim:#DCEEE6;}
+  body{
+    background: linear-gradient(125deg, #ECE6A6 0%, #C7DE9C 20%, #8FC79E 42%, #56A98D 64%, #2F8A78 84%, #1E6E60 100%);
+    background-attachment: fixed;
   }
-  .tab-btn:not(.selected),.btn-prev,.mini-btn{
-    background:rgba(255,251,244,.45);
-    -webkit-backdrop-filter:blur(10px);
-    backdrop-filter:blur(10px);
-    border-color:rgba(255,251,244,.65);
-  }
-  .drugclass,.casebox,.case-data,.count-btn,.pick-btn,.opt,.dot.unanswered{
-    background:rgba(255,251,244,.35);
-    -webkit-backdrop-filter:blur(9px);
-    backdrop-filter:blur(9px);
-    border-color:rgba(255,251,244,.6);
-  }
-  .topbar{
-    background:rgba(255,251,244,.4);
-    -webkit-backdrop-filter:blur(14px);
-    backdrop-filter:blur(14px);
-    border:1px solid rgba(255,251,244,.6);
-    border-radius:12px;
-    padding:10px 16px;
-  }
-  @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
-    .notes-card,.setup-card,.picker,.qcard,.summary,.flash-front,.case-card,
-    .score-pill,.secondary,.exam-banner-inner,.tab-btn:not(.selected),.btn-prev,
-    .mini-btn,.drugclass,.casebox,.case-data,.count-btn,.pick-btn,.opt,.topbar{
-      background:rgba(255,251,244,.94);
-    }
-  }
+  .brand{color:#FFFFFF;}
+  .brand:hover{color:#FFF6D0;}
+  .crumbs{color:rgba(255,255,255,.72);}
+  .crumbs span:hover{color:#FFF6D0;}
+  .eyebrow{color:#FFF6D0;}
+  h1{color:#FFFFFF;text-shadow:0 1px 4px rgba(0,0,0,.18);}
+  .subtitle{color:rgba(255,255,255,.88);}
+  footer{color:rgba(255,255,255,.62);}
+  .flash-progress{color:rgba(255,255,255,.85);}
+  .progress-track{background:rgba(255,255,255,.28);}
 </style>
 </head>
 <body>

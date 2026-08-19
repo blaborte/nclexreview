@@ -25,13 +25,7 @@
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
-    background:
-      radial-gradient(560px circle at 4% -8%, rgba(242,169,165,.34), transparent 60%),
-      radial-gradient(500px circle at 98% 0%, rgba(243,217,138,.32), transparent 58%),
-      radial-gradient(520px circle at 6% 68%, rgba(183,206,155,.32), transparent 60%),
-      radial-gradient(540px circle at 100% 78%, rgba(243,217,138,.24), transparent 58%),
-      linear-gradient(180deg, var(--paper) 0%, #FDF5EC 50%, var(--paper) 100%);
-    background-attachment:fixed;
+    background:var(--paper);
     color:var(--ink);
     font-family:'Inter',sans-serif;
     -webkit-font-smoothing:antialiased;
@@ -217,57 +211,22 @@
     #printReport .rpt-banner.incorrect{color:#96332E;}
   }
 
-  .case-card{border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin-bottom:22px;background:var(--card);}
-  .case-card h3{font-family:'Fraunces',serif;font-size:19px;margin:0 0 4px;color:var(--ink);}
-  .case-tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--pulse);background:var(--pulse-dim);padding:3px 9px;border-radius:5px;text-transform:uppercase;letter-spacing:.04em;display:inline-block;margin-bottom:12px;}
-  .case-vignette{font-size:14.5px;line-height:1.75;color:var(--ink-soft);margin-bottom:6px;}
-  .case-vignette b{color:var(--ink);}
-  .case-data{border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:var(--paper);font-size:13.5px;color:var(--ink-soft);margin:12px 0;line-height:1.7;}
-  .case-data b{color:var(--ink);}
-  .case-q{margin-top:18px;padding-top:16px;border-top:1px dashed var(--line);}
-  .case-q p.q-text{font-size:14px;color:var(--ink);margin:0 0 10px;font-weight:500;}
-  .reveal-btn{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--pulse);background:var(--pulse-dim);border:none;padding:7px 14px;border-radius:6px;cursor:pointer;letter-spacing:.02em;}
-  .reveal-btn:hover{opacity:.85;}
-  .reveal-answer{display:none;margin-top:12px;padding:12px 16px;background:var(--correct-bg);border-left:3px solid var(--correct);border-radius:0 8px 8px 0;font-size:13.5px;color:var(--ink);line-height:1.7;}
-  .reveal-answer.show{display:block;}
-  .reveal-answer b{color:var(--correct);}
-
-  /* ============ GLASS SURFACE OVERRIDE ============ */
-  .notes-card,.setup-card,.picker,.qcard,.summary,.flash-front,.case-card,
-  .score-pill,.secondary,.exam-banner-inner{
-    background:rgba(255,251,244,.6);
-    -webkit-backdrop-filter:blur(18px) saturate(160%);
-    backdrop-filter:blur(18px) saturate(160%);
-    border-color:rgba(255,251,244,.7);
-    box-shadow:inset 0 1px 0 rgba(255,251,244,.7), 0 10px 26px rgba(33,27,54,.06);
+  /* ==== Unified gradient palette override ==== */
+  :root{--pulse:#1E6E60;--pulse-dim:#DCEEE6;}
+  body{
+    background: linear-gradient(125deg, #ECE6A6 0%, #C7DE9C 20%, #8FC79E 42%, #56A98D 64%, #2F8A78 84%, #1E6E60 100%);
+    background-attachment: fixed;
   }
-  .tab-btn:not(.selected),.btn-prev,.mini-btn{
-    background:rgba(255,251,244,.45);
-    -webkit-backdrop-filter:blur(10px);
-    backdrop-filter:blur(10px);
-    border-color:rgba(255,251,244,.65);
-  }
-  .drugclass,.casebox,.case-data,.count-btn,.pick-btn,.opt,.dot.unanswered{
-    background:rgba(255,251,244,.35);
-    -webkit-backdrop-filter:blur(9px);
-    backdrop-filter:blur(9px);
-    border-color:rgba(255,251,244,.6);
-  }
-  .topbar{
-    background:rgba(255,251,244,.4);
-    -webkit-backdrop-filter:blur(14px);
-    backdrop-filter:blur(14px);
-    border:1px solid rgba(255,251,244,.6);
-    border-radius:12px;
-    padding:10px 16px;
-  }
-  @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
-    .notes-card,.setup-card,.picker,.qcard,.summary,.flash-front,.case-card,
-    .score-pill,.secondary,.exam-banner-inner,.tab-btn:not(.selected),.btn-prev,
-    .mini-btn,.drugclass,.casebox,.case-data,.count-btn,.pick-btn,.opt,.topbar{
-      background:rgba(255,251,244,.94);
-    }
-  }
+  .brand{color:#FFFFFF;}
+  .brand:hover{color:#FFF6D0;}
+  .crumbs{color:rgba(255,255,255,.72);}
+  .crumbs span:hover{color:#FFF6D0;}
+  .eyebrow{color:#FFF6D0;}
+  h1{color:#FFFFFF;text-shadow:0 1px 4px rgba(0,0,0,.18);}
+  .subtitle{color:rgba(255,255,255,.88);}
+  footer{color:rgba(255,255,255,.62);}
+  .flash-progress{color:rgba(255,255,255,.85);}
+  .progress-track{background:rgba(255,255,255,.28);}
 </style>
 </head>
 <body>
@@ -285,7 +244,6 @@
       <button class="tab-btn selected" id="tabNotesA" onclick="showView('notes')">Course Notes</button>
       <button class="tab-btn" id="tabFlashA" onclick="showView('flashcards')">Flashcards</button>
       <button class="tab-btn" id="tabSetupA" onclick="showView('setup')">Practice Test</button>
-      <button class="tab-btn" id="tabCasesA" onclick="showView('cases')">Case Studies</button>
     </div>
     <h1>Course Notes</h1>
     <p class="subtitle">Strategy and high-alert medication reference for the NCLEX-RN Pharmacological and Parenteral Therapies section. Use this to study before or during the practice test.</p>
@@ -305,7 +263,6 @@
       <button class="tab-btn" id="tabNotesB" onclick="showView('notes')">Course Notes</button>
       <button class="tab-btn selected" id="tabFlashB" onclick="showView('flashcards')">Flashcards</button>
       <button class="tab-btn" id="tabSetupB" onclick="showView('setup')">Practice Test</button>
-      <button class="tab-btn" id="tabCasesB" onclick="showView('cases')">Case Studies</button>
     </div>
     <h1>Flashcards</h1>
     <p class="subtitle">Tap a card to flip it. Use the arrows to move through the deck, or shuffle for random order.</p>
@@ -341,7 +298,6 @@
       <button class="tab-btn" id="tabNotesC" onclick="showView('notes')">Course Notes</button>
       <button class="tab-btn" id="tabFlashC" onclick="showView('flashcards')">Flashcards</button>
       <button class="tab-btn selected" id="tabSetupC" onclick="showView('setup')">Practice Test</button>
-      <button class="tab-btn" id="tabCasesC" onclick="showView('cases')">Case Studies</button>
     </div>
     <h1>Practice Test</h1>
     <p class="subtitle">Choose how many questions you want to take. Questions are randomly selected from a bank of 100 each time, and every option — right or wrong — comes with an explanation. Print or save a PDF of your results after every exam.</p>
@@ -356,22 +312,6 @@
         <button class="count-btn" onclick="startQuiz(100)"><span class="count-num">100</span><span class="count-label">Full bank</span></button>
       </div>
     </div>
-  </div>
-
-  <!-- ============ CASE STUDIES ============ -->
-  <div class="view" id="view-cases">
-    <div class="eyebrow">Acid-Base Balance</div>
-    <div class="topic-tabs">
-      <button class="tab-btn" id="tabNotesD" onclick="showView('notes')">Course Notes</button>
-      <button class="tab-btn" id="tabFlashD" onclick="showView('flashcards')">Flashcards</button>
-      <button class="tab-btn" id="tabSetupD" onclick="showView('setup')">Practice Test</button>
-      <button class="tab-btn selected" id="tabCasesD" onclick="showView('cases')">Case Studies</button>
-    </div>
-    <h1>Case Studies</h1>
-    <p class="subtitle">Apply what you've reviewed to realistic clinical scenarios. Read each vignette, think through the reflection questions, then tap to reveal the rationale.</p>
-    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
-
-    <div class="cases-wrap" id="casesContent"></div>
   </div>
 
   <!-- ============ QUIZ ============ -->
@@ -421,114 +361,6 @@
 <div id="printReport"></div>
 
 <script>
-document.getElementById('casesContent').innerHTML = `
-<div class="case-card">
-    <span class="case-tag">Medical-Surgical Floor</span>
-    <h3>A Client with COPD and Worsening Confusion</h3>
-    <p class="case-vignette">A 68-year-old client with a long history of COPD is admitted for increasing shortness of breath and lethargy over the past two days. The nurse finds the client difficult to arouse, with slow, shallow respirations of 10/min and dusky nail beds. Family reports the client has been "sleeping all the time."</p>
-    <div class="case-data"><b>ABG:</b> pH 7.30 · PaCO2 58 mm Hg · HCO3 27 mEq/L · PaO2 58 mm Hg &nbsp;|&nbsp; <b>VS:</b> RR 10, HR 96, SpO2 86% on room air</div>
-    <div class="case-q">
-      <p class="q-text">Using the ROME method, how does the nurse interpret this ABG?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('ab_c1q1', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="ab_c1q1"><b>Answer:</b> pH is low (acidosis) and PaCO2 is high — both moving in <b>opposite</b> directions confirms a <b>respiratory</b> problem: respiratory acidosis. The HCO3 is elevated above normal (27), showing the kidneys have begun retaining bicarbonate to buffer the acidosis — this is a <b>partially compensated respiratory acidosis</b> because the pH has not yet returned to normal range.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">What is the priority nursing action, and why?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('ab_c1q2', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="ab_c1q2"><b>Answer:</b> Priority is airway and oxygenation: position the client upright (high-Fowler's), apply low-flow supplemental oxygen as prescribed, and prepare for possible non-invasive ventilation. In chronic CO2 retainers, oxygen is titrated carefully (typically to keep SpO2 ~88–92%) because the hypoxic drive — not CO2 — is the client's primary respiratory stimulus; over-oxygenating can further blunt the drive to breathe and worsen hypercapnia.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">The client's family asks why he is so drowsy. What is the nurse's best explanation?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('ab_c1q3', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="ab_c1q3"><b>Answer:</b> Rising CO2 (hypercapnia) is a CNS depressant — it causes lethargy, confusion, and can progress to unresponsiveness if untreated. The drowsiness reflects worsening respiratory failure, not simple tiredness, and needs prompt intervention rather than letting the client "sleep it off."</div>
-    </div>
-  </div>
-<div class="case-card">
-    <span class="case-tag">Emergency Department</span>
-    <h3>A Young Adult with Panic Symptoms</h3>
-    <p class="case-vignette">A 22-year-old college student presents to the ED reporting she "can't catch her breath" during a stressful final exam period. She is breathing rapidly at 32/min, reports tingling around her mouth and in her fingertips, and appears anxious and tearful.</p>
-    <div class="case-data"><b>ABG:</b> pH 7.49 · PaCO2 29 mm Hg · HCO3 24 mEq/L · PaO2 98 mm Hg &nbsp;|&nbsp; <b>VS:</b> RR 32, HR 110, BP 138/86</div>
-    <div class="case-q">
-      <p class="q-text">Interpret this ABG using ROME.</p>
-      <button class="reveal-btn" onclick="toggleAnswer('ab_c2q1', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="ab_c2q1"><b>Answer:</b> pH is high (alkalosis) and PaCO2 is low — opposite directions again point to a <b>respiratory</b> disorder: respiratory alkalosis, caused by hyperventilation "blowing off" CO2. HCO3 is still normal, so this is an <b>uncompensated (acute) respiratory alkalosis</b> — the kidneys haven't had time to respond yet.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">Why is the client experiencing perioral and finger tingling?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('ab_c2q2', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="ab_c2q2"><b>Answer:</b> Respiratory alkalosis lowers ionized calcium available to nerve and muscle tissue, producing paresthesia (tingling of the fingers, toes, and around the mouth) and can progress to carpopedal spasm or tetany if uncorrected — hypocalcemia-like symptoms even though total serum calcium is unchanged.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">What non-pharmacologic intervention helps most, and why?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('ab_c2q3', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="ab_c2q3"><b>Answer:</b> Coach the client to slow her breathing rate — cupping hands around the mouth and nose (or using a rebreathing mask, never a plain paper bag sealed tightly) lets her rebreathe some exhaled CO2, raising PaCO2 back toward normal. Calm, reassuring coaching to slow the respiratory rate directly treats the cause, unlike oxygen, which isn't the underlying problem here.</div>
-    </div>
-  </div>
-<div class="case-card">
-    <span class="case-tag">Medical-Surgical Floor</span>
-    <h3>Prolonged Vomiting and Muscle Cramping</h3>
-    <p class="case-vignette">A 45-year-old client has had persistent vomiting for three days from a suspected bowel obstruction and has an NG tube on continuous low suction. The nurse notes new muscle cramping in the client's hands and generalized weakness during morning assessment.</p>
-    <div class="case-data"><b>ABG:</b> pH 7.49 · PaCO2 47 mm Hg · HCO3 32 mEq/L · PaO2 92 mm Hg &nbsp;|&nbsp; <b>K+:</b> 3.1 mEq/L &nbsp;|&nbsp; <b>VS:</b> RR 12, HR 88</div>
-    <div class="case-q">
-      <p class="q-text">Using ROME, interpret this ABG.</p>
-      <button class="reveal-btn" onclick="toggleAnswer('ab_c3q1', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="ab_c3q1"><b>Answer:</b> pH is high (alkalosis) and HCO3 is high — pH and HCO3 moving in the <b>same</b> direction points to a <b>metabolic</b> disorder: metabolic alkalosis, caused by loss of hydrochloric acid through vomiting/NG suctioning. PaCO2 is mildly elevated above normal as the lungs slow breathing to retain CO2 and compensate — a <b>partially compensated metabolic alkalosis</b>.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">What is the connection between this client's low potassium and the vomiting/NG suctioning?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('ab_c3q2', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="ab_c3q2"><b>Answer:</b> Vomiting and gastric suctioning cause loss of hydrogen and chloride ions, and the kidneys respond to the alkalosis by excreting potassium in exchange for retaining hydrogen ions — this renal compensation, combined with direct GI potassium loss, produces hypokalemia, which explains the muscle cramping and weakness.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">What interventions does the nurse anticipate to correct this imbalance?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('ab_c3q3', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="ab_c3q3"><b>Answer:</b> Replace fluid, chloride, and potassium losses — typically IV normal saline (0.9% NaCl) with potassium chloride added as prescribed, since chloride replacement allows the kidneys to excrete bicarbonate instead of hydrogen ions, correcting the alkalosis. The nurse should also monitor for cardiac dysrhythmias related to hypokalemia and reassess electrolytes after replacement.</div>
-    </div>
-  </div>
-<div class="case-card">
-    <span class="case-tag">Emergency Department</span>
-    <h3>Aspirin Overdose</h3>
-    <p class="case-vignette">A 24-year-old is brought to the ED after intentionally taking a large amount of aspirin approximately 3 hours ago. She reports tinnitus (ringing in her ears) and nausea. The nurse notes she is breathing rapidly and deeply.</p>
-    <div class="case-data"><b>ABG:</b> pH 7.47 · PaCO2 26 mm Hg · HCO3 19 mEq/L · PaO2 96 mm Hg &nbsp;|&nbsp; <b>VS:</b> RR 34, HR 118 &nbsp;|&nbsp; <b>Salicylate level:</b> elevated</div>
-    <div class="case-q">
-      <p class="q-text">This ABG shows a high pH with both a low PaCO2 and a low HCO3 — how does the nurse make sense of this mixed picture?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('ab_c4q1', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="ab_c4q1"><b>Answer:</b> Early salicylate toxicity classically produces a <b>mixed</b> acid-base disorder: salicylates directly stimulate the medulla, causing hyperventilation and a primary respiratory alkalosis (low PaCO2, high pH), while simultaneously salicylic acid itself and disrupted cellular metabolism produce a primary metabolic acidosis (low HCO3). Early on, the respiratory alkalosis often dominates the pH, as seen here.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">Why is tinnitus an important assessment finding in this scenario?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('ab_c4q2', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="ab_c4q2"><b>Answer:</b> Tinnitus (and sometimes hearing loss) is a classic early sign of salicylate toxicity and can help confirm the diagnosis and estimate severity — it often appears before more dangerous findings and should prompt the nurse to anticipate salicylate level testing and toxicology involvement.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">What is a priority nursing intervention anticipated for this client?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('ab_c4q3', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="ab_c4q3"><b>Answer:</b> Anticipate activated charcoal if within the appropriate time window, IV fluids, and alkalinization of the urine with sodium bicarbonate (which enhances salicylate excretion by the kidneys) as ordered. Continuous cardiac and neurologic monitoring is essential, since salicylate toxicity can progress to a dangerous, harder-to-treat metabolic acidosis as respiratory compensation fails over time.</div>
-    </div>
-  </div>
-<div class="case-card">
-    <span class="case-tag">Intensive Care Unit</span>
-    <h3>Prolonged Diarrhea and Metabolic Acidosis</h3>
-    <p class="case-vignette">A client recovering from a GI illness has had large-volume watery diarrhea for four days. The nurse notes the client is fatigued, breathing faster and deeper than usual, and reports abdominal cramping.</p>
-    <div class="case-data"><b>ABG:</b> pH 7.29 · PaCO2 30 mm Hg · HCO3 15 mEq/L · PaO2 95 mm Hg &nbsp;|&nbsp; <b>VS:</b> RR 26, HR 108</div>
-    <div class="case-q">
-      <p class="q-text">Using ROME, interpret this ABG.</p>
-      <button class="reveal-btn" onclick="toggleAnswer('ab_c5q1', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="ab_c5q1"><b>Answer:</b> pH is low (acidosis) and HCO3 is low — pH and HCO3 moving in the <b>same</b> direction points to a <b>metabolic</b> disorder: metabolic acidosis, from bicarbonate lost in large-volume diarrhea. PaCO2 is also below normal as the lungs increase rate/depth to blow off CO2 and raise pH — a <b>partially compensated metabolic acidosis</b>.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">What is the connection between diarrhea and bicarbonate loss?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('ab_c5q2', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="ab_c5q2"><b>Answer:</b> Intestinal secretions, especially from the lower GI tract, are rich in bicarbonate; large-volume or prolonged diarrhea causes significant bicarbonate loss in the stool, directly lowering the body's buffering capacity and producing a normal-anion-gap metabolic acidosis.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">What other electrolyte imbalance commonly accompanies this presentation, and why does it matter for nursing care?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('ab_c5q3', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="ab_c5q3"><b>Answer:</b> Hypokalemia commonly accompanies GI losses like diarrhea, since potassium is also lost in intestinal fluid. The nurse should anticipate cardiac monitoring and potassium replacement alongside fluid and bicarbonate correction, watching for muscle weakness and dysrhythmias associated with low potassium.</div>
-    </div>
-  </div>
-`;
-
 document.getElementById('notesContent').innerHTML = `
 <div class="stat-strip">
   <div class="stat-box"><div class="big">7.35–7.45</div><div class="lbl">Normal arterial pH</div></div>
@@ -1387,13 +1219,6 @@ let score = 0;
 let questionState = [];
 let optionOrders = [];
 
-
-function toggleAnswer(id, btn){
-  const el = document.getElementById(id);
-  el.classList.toggle('show');
-  btn.textContent = el.classList.contains('show') ? 'Hide answer ▲' : 'Reveal answer ▼';
-}
-
 function showView(name){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.getElementById('view-'+name).classList.add('active');
@@ -1402,15 +1227,13 @@ function showView(name){
   if(name==='notes') crumbs.innerHTML = homeLink + " / Acid-Base Balance / Course Notes";
   else if(name==='flashcards') crumbs.innerHTML = homeLink + " / Acid-Base Balance / Flashcards";
   else if(name==='setup') crumbs.innerHTML = homeLink + " / Acid-Base Balance / Practice Test";
-  else if(name==='cases') crumbs.innerHTML = homeLink + " / Acid-Base Balance / Case Studies";
   else if(name==='quiz') crumbs.innerHTML = homeLink + " / <span onclick=\"showView('setup')\">Acid-Base Balance</span> / Practice Test";
-  ['tabNotesA','tabFlashA','tabSetupA','tabCasesA','tabNotesB','tabFlashB','tabSetupB','tabCasesB','tabNotesC','tabFlashC','tabSetupC','tabCasesC','tabNotesD','tabFlashD','tabSetupD','tabCasesD'].forEach(id=>{
+  ['tabNotesA','tabFlashA','tabSetupA','tabNotesB','tabFlashB','tabSetupB','tabNotesC','tabFlashC','tabSetupC'].forEach(id=>{
     const el = document.getElementById(id);
     if(!el) return;
     let kind = 'setup';
     if(id.indexOf('Notes') !== -1) kind = 'notes';
     else if(id.indexOf('Flash') !== -1) kind = 'flashcards';
-    else if(id.indexOf('Cases') !== -1) kind = 'cases';
     el.classList.toggle('selected', kind === name || (kind==='setup' && name==='quiz'));
   });
 
@@ -1421,7 +1244,7 @@ function showView(name){
 
 (function initialRoute(){
   const hash = (location.hash || '').replace('#','');
-  const validViews = ['notes','flashcards','setup','cases'];
+  const validViews = ['notes','flashcards','setup'];
   showView(validViews.includes(hash) ? hash : 'setup');
 })();
 

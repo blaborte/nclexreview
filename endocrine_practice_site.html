@@ -25,13 +25,7 @@
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
-    background:
-      radial-gradient(560px circle at 4% -8%, rgba(242,169,165,.34), transparent 60%),
-      radial-gradient(500px circle at 98% 0%, rgba(243,217,138,.32), transparent 58%),
-      radial-gradient(520px circle at 6% 68%, rgba(183,206,155,.32), transparent 60%),
-      radial-gradient(540px circle at 100% 78%, rgba(243,217,138,.24), transparent 58%),
-      linear-gradient(180deg, var(--paper) 0%, #FDF5EC 50%, var(--paper) 100%);
-    background-attachment:fixed;
+    background:var(--paper);
     color:var(--ink);
     font-family:'Inter',sans-serif;
     -webkit-font-smoothing:antialiased;
@@ -214,57 +208,22 @@
     #printReport .rpt-banner.incorrect{color:#96332E;}
   }
 
-  .case-card{border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin-bottom:22px;background:var(--card);}
-  .case-card h3{font-family:'Fraunces',serif;font-size:19px;margin:0 0 4px;color:var(--ink);}
-  .case-tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--pulse);background:var(--pulse-dim);padding:3px 9px;border-radius:5px;text-transform:uppercase;letter-spacing:.04em;display:inline-block;margin-bottom:12px;}
-  .case-vignette{font-size:14.5px;line-height:1.75;color:var(--ink-soft);margin-bottom:6px;}
-  .case-vignette b{color:var(--ink);}
-  .case-data{border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:var(--paper);font-size:13.5px;color:var(--ink-soft);margin:12px 0;line-height:1.7;}
-  .case-data b{color:var(--ink);}
-  .case-q{margin-top:18px;padding-top:16px;border-top:1px dashed var(--line);}
-  .case-q p.q-text{font-size:14px;color:var(--ink);margin:0 0 10px;font-weight:500;}
-  .reveal-btn{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--pulse);background:var(--pulse-dim);border:none;padding:7px 14px;border-radius:6px;cursor:pointer;letter-spacing:.02em;}
-  .reveal-btn:hover{opacity:.85;}
-  .reveal-answer{display:none;margin-top:12px;padding:12px 16px;background:var(--correct-bg);border-left:3px solid var(--correct);border-radius:0 8px 8px 0;font-size:13.5px;color:var(--ink);line-height:1.7;}
-  .reveal-answer.show{display:block;}
-  .reveal-answer b{color:var(--correct);}
-
-  /* ============ GLASS SURFACE OVERRIDE ============ */
-  .notes-card,.setup-card,.picker,.qcard,.summary,.flash-front,.case-card,
-  .score-pill,.secondary,.exam-banner-inner{
-    background:rgba(255,251,244,.6);
-    -webkit-backdrop-filter:blur(18px) saturate(160%);
-    backdrop-filter:blur(18px) saturate(160%);
-    border-color:rgba(255,251,244,.7);
-    box-shadow:inset 0 1px 0 rgba(255,251,244,.7), 0 10px 26px rgba(33,27,54,.06);
+  /* ==== Unified gradient palette override ==== */
+  :root{--pulse:#1E6E60;--pulse-dim:#DCEEE6;}
+  body{
+    background: linear-gradient(125deg, #ECE6A6 0%, #C7DE9C 20%, #8FC79E 42%, #56A98D 64%, #2F8A78 84%, #1E6E60 100%);
+    background-attachment: fixed;
   }
-  .tab-btn:not(.selected),.btn-prev,.mini-btn{
-    background:rgba(255,251,244,.45);
-    -webkit-backdrop-filter:blur(10px);
-    backdrop-filter:blur(10px);
-    border-color:rgba(255,251,244,.65);
-  }
-  .drugclass,.casebox,.case-data,.count-btn,.pick-btn,.opt,.dot.unanswered{
-    background:rgba(255,251,244,.35);
-    -webkit-backdrop-filter:blur(9px);
-    backdrop-filter:blur(9px);
-    border-color:rgba(255,251,244,.6);
-  }
-  .topbar{
-    background:rgba(255,251,244,.4);
-    -webkit-backdrop-filter:blur(14px);
-    backdrop-filter:blur(14px);
-    border:1px solid rgba(255,251,244,.6);
-    border-radius:12px;
-    padding:10px 16px;
-  }
-  @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
-    .notes-card,.setup-card,.picker,.qcard,.summary,.flash-front,.case-card,
-    .score-pill,.secondary,.exam-banner-inner,.tab-btn:not(.selected),.btn-prev,
-    .mini-btn,.drugclass,.casebox,.case-data,.count-btn,.pick-btn,.opt,.topbar{
-      background:rgba(255,251,244,.94);
-    }
-  }
+  .brand{color:#FFFFFF;}
+  .brand:hover{color:#FFF6D0;}
+  .crumbs{color:rgba(255,255,255,.72);}
+  .crumbs span:hover{color:#FFF6D0;}
+  .eyebrow{color:#FFF6D0;}
+  h1{color:#FFFFFF;text-shadow:0 1px 4px rgba(0,0,0,.18);}
+  .subtitle{color:rgba(255,255,255,.88);}
+  footer{color:rgba(255,255,255,.62);}
+  .flash-progress{color:rgba(255,255,255,.85);}
+  .progress-track{background:rgba(255,255,255,.28);}
 </style>
 </head>
 <body>
@@ -282,7 +241,6 @@
       <button class="tab-btn selected" id="tabNotesA" onclick="showView('notes')">Course Notes</button>
       <button class="tab-btn" id="tabFlashA" onclick="showView('flashcards')">Flashcards</button>
       <button class="tab-btn" id="tabSetupA" onclick="showView('setup')">Practice Test</button>
-      <button class="tab-btn" id="tabCasesA" onclick="showView('cases')">Case Studies</button>
     </div>
     <h1>Course Notes</h1>
     <p class="subtitle">Reference notes on insulin, oral hypoglycemics, and thyroid pharmacology. Use this to study before or during the practice test.</p>
@@ -302,7 +260,6 @@
       <button class="tab-btn" id="tabNotesB" onclick="showView('notes')">Course Notes</button>
       <button class="tab-btn selected" id="tabFlashB" onclick="showView('flashcards')">Flashcards</button>
       <button class="tab-btn" id="tabSetupB" onclick="showView('setup')">Practice Test</button>
-      <button class="tab-btn" id="tabCasesB" onclick="showView('cases')">Case Studies</button>
     </div>
     <h1>Flashcards</h1>
     <p class="subtitle">Tap a card to flip it. Use the arrows to move through the deck, or shuffle for random order.</p>
@@ -338,7 +295,6 @@
       <button class="tab-btn" id="tabNotesC" onclick="showView('notes')">Course Notes</button>
       <button class="tab-btn" id="tabFlashC" onclick="showView('flashcards')">Flashcards</button>
       <button class="tab-btn selected" id="tabSetupC" onclick="showView('setup')">Practice Test</button>
-      <button class="tab-btn" id="tabCasesC" onclick="showView('cases')">Case Studies</button>
     </div>
     <h1>Practice Test</h1>
     <p class="subtitle">Choose how many questions you want to take. Questions are randomly selected from a bank of 100 each time, and every option — right or wrong — comes with an explanation.</p>
@@ -353,22 +309,6 @@
         <button class="count-btn" onclick="startQuiz(100)"><span class="count-num">100</span><span class="count-label">Full bank</span></button>
       </div>
     </div>
-  </div>
-
-  <!-- ============ CASE STUDIES ============ -->
-  <div class="view" id="view-cases">
-    <div class="eyebrow">Endocrine Medications</div>
-    <div class="topic-tabs">
-      <button class="tab-btn" id="tabNotesD" onclick="showView('notes')">Course Notes</button>
-      <button class="tab-btn" id="tabFlashD" onclick="showView('flashcards')">Flashcards</button>
-      <button class="tab-btn" id="tabSetupD" onclick="showView('setup')">Practice Test</button>
-      <button class="tab-btn selected" id="tabCasesD" onclick="showView('cases')">Case Studies</button>
-    </div>
-    <h1>Case Studies</h1>
-    <p class="subtitle">Apply what you've reviewed to realistic clinical scenarios. Read each vignette, think through the reflection questions, then tap to reveal the rationale.</p>
-    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
-
-    <div class="cases-wrap" id="casesContent"></div>
   </div>
 
   <!-- ============ QUIZ ============ -->
@@ -418,114 +358,6 @@
 <div id="printReport"></div>
 
 <script>
-document.getElementById('casesContent').innerHTML = `
-<div class="case-card">
-    <span class="case-tag">Medical-Surgical Floor</span>
-    <h3>Hypoglycemia in a Client with Type 1 Diabetes</h3>
-    <p class="case-vignette">A 34-year-old client with type 1 diabetes received regular insulin with breakfast but only ate half the meal before being taken to radiology for a procedure. On return to the unit two hours later, the client is diaphoretic, shaky, and tells the nurse, "I feel really off."</p>
-    <div class="case-data"><b>Fingerstick glucose:</b> 58 mg/dL &nbsp;|&nbsp; <b>Client:</b> alert, oriented, able to swallow &nbsp;|&nbsp; <b>VS:</b> HR 104, RR 18</div>
-    <div class="case-q">
-      <p class="q-text">What is the nurse's priority action right now?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('endo_c1q1', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="endo_c1q1"><b>Answer:</b> Treat the hypoglycemia immediately using the "rule of 15": give 15–20 g of a fast-acting carbohydrate (e.g., 4 oz juice or glucose tabs) since the client is alert and able to swallow safely. Recheck blood glucose in 15 minutes and repeat treatment if still below target before giving any longer-acting food or insulin.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">What clinical signs correctly identified this as hypoglycemia rather than hyperglycemia?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('endo_c1q2', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="endo_c1q2"><b>Answer:</b> Diaphoresis, shakiness/tremor, and tachycardia are classic adrenergic (sympathetic) responses to low blood glucose, appearing rapidly. Hyperglycemia instead tends to present more gradually with polyuria, polydipsia, and Kussmaul respirations/fruity breath in DKA — very different from this acute presentation.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">If the client had been unconscious, how would management change?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('endo_c1q3', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="endo_c1q3"><b>Answer:</b> The nurse would not give anything by mouth (aspiration risk). Instead, IV dextrose (e.g., D50) would be administered per protocol/order, or IM/subcutaneous glucagon if no IV access is available — glucagon stimulates the liver to release stored glucose (glycogenolysis).</div>
-    </div>
-  </div>
-<div class="case-card">
-    <span class="case-tag">Intensive Care Unit</span>
-    <h3>Diabetic Ketoacidosis (DKA) Management</h3>
-    <p class="case-vignette">A 19-year-old client with type 1 diabetes is admitted with nausea, vomiting, and abdominal pain after running out of insulin for two days. On assessment, the nurse notes deep, rapid respirations and a fruity breath odor.</p>
-    <div class="case-data"><b>Glucose:</b> 468 mg/dL &nbsp;|&nbsp; <b>ABG:</b> pH 7.22, HCO3 14 mEq/L &nbsp;|&nbsp; <b>K+:</b> 5.2 mEq/L &nbsp;|&nbsp; <b>VS:</b> RR 30 (deep), HR 118, BP 96/60</div>
-    <div class="case-q">
-      <p class="q-text">What causes the deep, rapid respirations (Kussmaul respirations) seen in DKA?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('endo_c2q1', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="endo_c2q1"><b>Answer:</b> In DKA, fat breakdown produces ketoacids, driving a metabolic acidosis (low pH, low HCO3). The lungs compensate by increasing rate and depth of breathing to "blow off" CO2 and raise pH — this compensatory hyperventilation is Kussmaul respirations, and the fruity breath comes from exhaled acetone.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">What is the first-line treatment priority in DKA, and what must the nurse monitor closely once insulin therapy begins?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('endo_c2q2', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="endo_c2q2"><b>Answer:</b> Priority is IV fluid resuscitation first (to correct dehydration and dilute glucose), followed by an IV regular insulin infusion to halt ketone production and lower glucose gradually. Once insulin starts, potassium must be monitored closely: insulin drives potassium into cells, and a client who starts with a normal or elevated potassium (as here) can develop dangerous hypokalemia within hours if it isn't replaced.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">Why is it important not to lower the blood glucose too quickly?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('endo_c2q3', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="endo_c2q3"><b>Answer:</b> Rapid glucose correction can cause a dangerous osmotic shift of fluid into brain cells, risking cerebral edema — this is why glucose is typically brought down gradually (about 50–75 mg/dL/hr) with dextrose added to IV fluids once glucose approaches a target range, allowing insulin to continue clearing ketones without over-correcting glucose.</div>
-    </div>
-  </div>
-<div class="case-card">
-    <span class="case-tag">Primary Care Clinic</span>
-    <h3>Starting Levothyroxine for Hypothyroidism</h3>
-    <p class="case-vignette">A 39-year-old client newly diagnosed with hypothyroidism is prescribed levothyroxine 75 mcg once daily. During teaching, she says, "I usually take all my pills together with breakfast and coffee since it's easier to remember."</p>
-    <div class="case-data"><b>New Rx:</b> Levothyroxine 75 mcg PO daily &nbsp;|&nbsp; <b>TSH:</b> 12.4 mIU/L (elevated) &nbsp;|&nbsp; <b>Other meds:</b> Calcium supplement, multivitamin</div>
-    <div class="case-q">
-      <p class="q-text">What teaching correction does this client need about how she plans to take her levothyroxine?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('endo_c3q1', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="endo_c3q1"><b>Answer:</b> Levothyroxine should be taken on an empty stomach, 30–60 minutes before breakfast (or other food/medications) and at least 4 hours apart from calcium or iron supplements, with a full glass of water — food, coffee, calcium, and iron can all significantly reduce its absorption, making the dose less effective even though she's taking it consistently.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">The client asks how she'll know the medication is working. What should the nurse explain about monitoring?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('endo_c3q2', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="endo_c3q2"><b>Answer:</b> Response is monitored primarily through periodic TSH lab levels (often rechecked about 6–8 weeks after starting or adjusting the dose) rather than by how she feels day to day, since symptom improvement can lag behind hormone normalization. Report symptoms of both continued hypothyroidism (fatigue, cold intolerance, weight gain) and overtreatment/hyperthyroidism (palpitations, tremor, insomnia, weight loss) at follow-up.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">Why is it important that this client take levothyroxine at approximately the same time every day, and never double up if she misses a dose?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('endo_c3q3', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="endo_c3q3"><b>Answer:</b> Consistent timing helps maintain steady hormone levels, since levothyroxine has a long half-life and dosing is fine-tuned to the individual. If a dose is missed, she should take it as soon as remembered that same day, but should not double up the next day — doing so can push her toward hyperthyroid symptoms like tachycardia and anxiety.</div>
-    </div>
-  </div>
-<div class="case-card">
-    <span class="case-tag">Medical-Surgical Floor</span>
-    <h3>Hyperglycemic Hyperosmolar State (HHS) in an Older Adult</h3>
-    <p class="case-vignette">An 82-year-old client with type 2 diabetes and a recent UTI is brought in by family for increasing confusion over two days. She has not been eating or drinking well. There is no history of vomiting or abdominal pain, and her breath does not smell fruity.</p>
-    <div class="case-data"><b>Glucose:</b> 780 mg/dL &nbsp;|&nbsp; <b>ABG:</b> pH 7.36 (near normal) &nbsp;|&nbsp; <b>Serum osmolality:</b> markedly elevated &nbsp;|&nbsp; <b>VS:</b> HR 118, BP 92/58, dry mucous membranes</div>
-    <div class="case-q">
-      <p class="q-text">How does this presentation differ from DKA, even though both involve very high glucose?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('endo_c4q1', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="endo_c4q1"><b>Answer:</b> This client has type 2 diabetes (some residual insulin production, enough to prevent significant ketone formation), a near-normal pH, and extreme hyperglycemia with severe dehydration and altered mental status — this is Hyperglycemic Hyperosmolar State (HHS), not DKA. HHS typically lacks the Kussmaul respirations, fruity breath, and significant acidosis seen in DKA, and tends to occur in older adults with type 2 diabetes, often triggered by illness or infection.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">What is the priority treatment focus in HHS, and why is fluid replacement especially emphasized?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('endo_c4q2', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="endo_c4q2"><b>Answer:</b> Aggressive IV fluid replacement is the priority — clients with HHS are often severely dehydrated due to prolonged osmotic diuresis from extremely high glucose, and correcting the fluid deficit itself begins lowering glucose even before significant insulin is given. Insulin therapy follows, similar to DKA, but fluid resuscitation is emphasized even more given the severity of dehydration typical in HHS.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">Why is this client's confusion an important assessment finding tied to her lab values?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('endo_c4q3', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="endo_c4q3"><b>Answer:</b> Extremely elevated serum osmolality from severe hyperglycemia draws fluid out of brain cells, causing altered mental status ranging from confusion to coma — the degree of neurologic impairment often correlates with how high the osmolality has risen, making mental status a key indicator to track as treatment progresses.</div>
-    </div>
-  </div>
-<div class="case-card">
-    <span class="case-tag">Endocrinology Clinic</span>
-    <h3>Cushing Syndrome from Long-Term Corticosteroid Use</h3>
-    <p class="case-vignette">A client on long-term oral prednisone for a chronic autoimmune condition returns for follow-up. The nurse notes new central weight gain with a rounded face, thin extremities, easy bruising, and the client reports feeling more anxious and having trouble sleeping.</p>
-    <div class="case-data"><b>Current meds:</b> Prednisone 15 mg PO daily (ongoing 8 months) &nbsp;|&nbsp; <b>BP:</b> 152/94 &nbsp;|&nbsp; <b>Glucose (fasting):</b> 142 mg/dL</div>
-    <div class="case-q">
-      <p class="q-text">What is causing this client's physical changes, and what is this presentation called?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('endo_c5q1', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="endo_c5q1"><b>Answer:</b> Long-term systemic corticosteroid use is causing iatrogenic Cushing syndrome — the classic "moon face," central/truncal weight gain with thin extremities, easy bruising (from skin thinning), hypertension, and hyperglycemia are all expected effects of excess glucocorticoid exposure over time.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">Should this client be told to stop the prednisone abruptly given these side effects?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('endo_c5q2', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="endo_c5q2"><b>Answer:</b> No — long-term corticosteroids must be tapered gradually under provider supervision, never stopped abruptly. Prolonged use suppresses the body's own adrenal cortisol production (HPA axis suppression), and sudden discontinuation can precipitate a life-threatening adrenal crisis.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">What ongoing monitoring is important for this client while she remains on corticosteroid therapy?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('endo_c5q3', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="endo_c5q3"><b>Answer:</b> Regular monitoring of blood glucose (steroids raise glucose and can unmask or worsen diabetes), blood pressure, bone density (long-term steroid use increases osteoporosis risk), and signs of infection — corticosteroids suppress the immune response and can mask typical signs of infection like fever, so subtle changes need prompt attention.</div>
-    </div>
-  </div>
-`;
-
 document.getElementById('notesContent').innerHTML = `
 <h2 class="section-title">Insulin</h2>
 <table class="note-table">
@@ -1335,13 +1167,6 @@ let score = 0;
 let questionState = [];
 let optionOrders = [];
 
-
-function toggleAnswer(id, btn){
-  const el = document.getElementById(id);
-  el.classList.toggle('show');
-  btn.textContent = el.classList.contains('show') ? 'Hide answer ▲' : 'Reveal answer ▼';
-}
-
 function showView(name){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.getElementById('view-'+name).classList.add('active');
@@ -1350,15 +1175,13 @@ function showView(name){
   if(name==='notes') crumbs.innerHTML = homeLink + " / Endocrine Medications / Course Notes";
   else if(name==='flashcards') crumbs.innerHTML = homeLink + " / Endocrine Medications / Flashcards";
   else if(name==='setup') crumbs.innerHTML = homeLink + " / Endocrine Medications / Practice Test";
-  else if(name==='cases') crumbs.innerHTML = homeLink + " / Endocrine Medications / Case Studies";
   else if(name==='quiz') crumbs.innerHTML = homeLink + " / <span onclick=\"showView('setup')\">Endocrine Medications</span> / Practice Test";
-  ['tabNotesA','tabFlashA','tabSetupA','tabCasesA','tabNotesB','tabFlashB','tabSetupB','tabCasesB','tabNotesC','tabFlashC','tabSetupC','tabCasesC','tabNotesD','tabFlashD','tabSetupD','tabCasesD'].forEach(id=>{
+  ['tabNotesA','tabFlashA','tabSetupA','tabNotesB','tabFlashB','tabSetupB','tabNotesC','tabFlashC','tabSetupC'].forEach(id=>{
     const el = document.getElementById(id);
     if(!el) return;
     let kind = 'setup';
     if(id.indexOf('Notes') !== -1) kind = 'notes';
     else if(id.indexOf('Flash') !== -1) kind = 'flashcards';
-    else if(id.indexOf('Cases') !== -1) kind = 'cases';
     el.classList.toggle('selected', kind === name || (kind==='setup' && name==='quiz'));
   });
 
@@ -1369,7 +1192,7 @@ function showView(name){
 
 (function initialRoute(){
   const hash = (location.hash || '').replace('#','');
-  const validViews = ['notes','flashcards','setup','cases'];
+  const validViews = ['notes','flashcards','setup'];
   showView(validViews.includes(hash) ? hash : 'setup');
 })();
 

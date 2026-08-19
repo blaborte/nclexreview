@@ -25,13 +25,7 @@
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
-    background:
-      radial-gradient(560px circle at 4% -8%, rgba(242,169,165,.34), transparent 60%),
-      radial-gradient(500px circle at 98% 0%, rgba(243,217,138,.32), transparent 58%),
-      radial-gradient(520px circle at 6% 68%, rgba(183,206,155,.32), transparent 60%),
-      radial-gradient(540px circle at 100% 78%, rgba(243,217,138,.24), transparent 58%),
-      linear-gradient(180deg, var(--paper) 0%, #FDF5EC 50%, var(--paper) 100%);
-    background-attachment:fixed;
+    background:var(--paper);
     color:var(--ink);
     font-family:'Inter',sans-serif;
     -webkit-font-smoothing:antialiased;
@@ -214,57 +208,22 @@
     #printReport .rpt-banner.incorrect{color:#96332E;}
   }
 
-  .case-card{border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin-bottom:22px;background:var(--card);}
-  .case-card h3{font-family:'Fraunces',serif;font-size:19px;margin:0 0 4px;color:var(--ink);}
-  .case-tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--pulse);background:var(--pulse-dim);padding:3px 9px;border-radius:5px;text-transform:uppercase;letter-spacing:.04em;display:inline-block;margin-bottom:12px;}
-  .case-vignette{font-size:14.5px;line-height:1.75;color:var(--ink-soft);margin-bottom:6px;}
-  .case-vignette b{color:var(--ink);}
-  .case-data{border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:var(--paper);font-size:13.5px;color:var(--ink-soft);margin:12px 0;line-height:1.7;}
-  .case-data b{color:var(--ink);}
-  .case-q{margin-top:18px;padding-top:16px;border-top:1px dashed var(--line);}
-  .case-q p.q-text{font-size:14px;color:var(--ink);margin:0 0 10px;font-weight:500;}
-  .reveal-btn{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--pulse);background:var(--pulse-dim);border:none;padding:7px 14px;border-radius:6px;cursor:pointer;letter-spacing:.02em;}
-  .reveal-btn:hover{opacity:.85;}
-  .reveal-answer{display:none;margin-top:12px;padding:12px 16px;background:var(--correct-bg);border-left:3px solid var(--correct);border-radius:0 8px 8px 0;font-size:13.5px;color:var(--ink);line-height:1.7;}
-  .reveal-answer.show{display:block;}
-  .reveal-answer b{color:var(--correct);}
-
-  /* ============ GLASS SURFACE OVERRIDE ============ */
-  .notes-card,.setup-card,.picker,.qcard,.summary,.flash-front,.case-card,
-  .score-pill,.secondary,.exam-banner-inner{
-    background:rgba(255,251,244,.6);
-    -webkit-backdrop-filter:blur(18px) saturate(160%);
-    backdrop-filter:blur(18px) saturate(160%);
-    border-color:rgba(255,251,244,.7);
-    box-shadow:inset 0 1px 0 rgba(255,251,244,.7), 0 10px 26px rgba(33,27,54,.06);
+  /* ==== Unified gradient palette override ==== */
+  :root{--pulse:#1E6E60;--pulse-dim:#DCEEE6;}
+  body{
+    background: linear-gradient(125deg, #ECE6A6 0%, #C7DE9C 20%, #8FC79E 42%, #56A98D 64%, #2F8A78 84%, #1E6E60 100%);
+    background-attachment: fixed;
   }
-  .tab-btn:not(.selected),.btn-prev,.mini-btn{
-    background:rgba(255,251,244,.45);
-    -webkit-backdrop-filter:blur(10px);
-    backdrop-filter:blur(10px);
-    border-color:rgba(255,251,244,.65);
-  }
-  .drugclass,.casebox,.case-data,.count-btn,.pick-btn,.opt,.dot.unanswered{
-    background:rgba(255,251,244,.35);
-    -webkit-backdrop-filter:blur(9px);
-    backdrop-filter:blur(9px);
-    border-color:rgba(255,251,244,.6);
-  }
-  .topbar{
-    background:rgba(255,251,244,.4);
-    -webkit-backdrop-filter:blur(14px);
-    backdrop-filter:blur(14px);
-    border:1px solid rgba(255,251,244,.6);
-    border-radius:12px;
-    padding:10px 16px;
-  }
-  @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
-    .notes-card,.setup-card,.picker,.qcard,.summary,.flash-front,.case-card,
-    .score-pill,.secondary,.exam-banner-inner,.tab-btn:not(.selected),.btn-prev,
-    .mini-btn,.drugclass,.casebox,.case-data,.count-btn,.pick-btn,.opt,.topbar{
-      background:rgba(255,251,244,.94);
-    }
-  }
+  .brand{color:#FFFFFF;}
+  .brand:hover{color:#FFF6D0;}
+  .crumbs{color:rgba(255,255,255,.72);}
+  .crumbs span:hover{color:#FFF6D0;}
+  .eyebrow{color:#FFF6D0;}
+  h1{color:#FFFFFF;text-shadow:0 1px 4px rgba(0,0,0,.18);}
+  .subtitle{color:rgba(255,255,255,.88);}
+  footer{color:rgba(255,255,255,.62);}
+  .flash-progress{color:rgba(255,255,255,.85);}
+  .progress-track{background:rgba(255,255,255,.28);}
 </style>
 </head>
 <body>
@@ -282,7 +241,6 @@
       <button class="tab-btn selected" id="tabNotesA" onclick="showView('notes')">Course Notes</button>
       <button class="tab-btn" id="tabFlashA" onclick="showView('flashcards')">Flashcards</button>
       <button class="tab-btn" id="tabSetupA" onclick="showView('setup')">Practice Test</button>
-      <button class="tab-btn" id="tabCasesA" onclick="showView('cases')">Case Studies</button>
     </div>
     <h1>Course Notes</h1>
     <p class="subtitle">Reference notes on bronchodilators, corticosteroids, and airway pharmacology. Use this to study before or during the practice test.</p>
@@ -302,7 +260,6 @@
       <button class="tab-btn" id="tabNotesB" onclick="showView('notes')">Course Notes</button>
       <button class="tab-btn selected" id="tabFlashB" onclick="showView('flashcards')">Flashcards</button>
       <button class="tab-btn" id="tabSetupB" onclick="showView('setup')">Practice Test</button>
-      <button class="tab-btn" id="tabCasesB" onclick="showView('cases')">Case Studies</button>
     </div>
     <h1>Flashcards</h1>
     <p class="subtitle">Tap a card to flip it. Use the arrows to move through the deck, or shuffle for random order.</p>
@@ -338,7 +295,6 @@
       <button class="tab-btn" id="tabNotesC" onclick="showView('notes')">Course Notes</button>
       <button class="tab-btn" id="tabFlashC" onclick="showView('flashcards')">Flashcards</button>
       <button class="tab-btn selected" id="tabSetupC" onclick="showView('setup')">Practice Test</button>
-      <button class="tab-btn" id="tabCasesC" onclick="showView('cases')">Case Studies</button>
     </div>
     <h1>Practice Test</h1>
     <p class="subtitle">Choose how many questions you want to take. Questions are randomly selected from a bank of 100 each time, and every option — right or wrong — comes with an explanation.</p>
@@ -353,22 +309,6 @@
         <button class="count-btn" onclick="startQuiz(100)"><span class="count-num">100</span><span class="count-label">Full bank</span></button>
       </div>
     </div>
-  </div>
-
-  <!-- ============ CASE STUDIES ============ -->
-  <div class="view" id="view-cases">
-    <div class="eyebrow">Respiratory Medications</div>
-    <div class="topic-tabs">
-      <button class="tab-btn" id="tabNotesD" onclick="showView('notes')">Course Notes</button>
-      <button class="tab-btn" id="tabFlashD" onclick="showView('flashcards')">Flashcards</button>
-      <button class="tab-btn" id="tabSetupD" onclick="showView('setup')">Practice Test</button>
-      <button class="tab-btn selected" id="tabCasesD" onclick="showView('cases')">Case Studies</button>
-    </div>
-    <h1>Case Studies</h1>
-    <p class="subtitle">Apply what you've reviewed to realistic clinical scenarios. Read each vignette, think through the reflection questions, then tap to reveal the rationale.</p>
-    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
-
-    <div class="cases-wrap" id="casesContent"></div>
   </div>
 
   <!-- ============ QUIZ ============ -->
@@ -418,114 +358,6 @@
 <div id="printReport"></div>
 
 <script>
-document.getElementById('casesContent').innerHTML = `
-<div class="case-card">
-    <span class="case-tag">Primary Care Clinic</span>
-    <h3>Overuse of a Rescue Inhaler</h3>
-    <p class="case-vignette">A 27-year-old client with asthma reports using her albuterol (short-acting beta-agonist) rescue inhaler "6 or 7 times a day most days" because she feels short of breath frequently. She has not been using her prescribed inhaled corticosteroid because "the rescue one works faster."</p>
-    <div class="case-data"><b>Reported symptoms:</b> tremor, occasional palpitations after inhaler use &nbsp;|&nbsp; <b>Current regimen:</b> Albuterol PRN (overused) · Fluticasone MDI prescribed but not used &nbsp;|&nbsp; <b>VS:</b> HR 108</div>
-    <div class="case-q">
-      <p class="q-text">Why is using albuterol this frequently a red flag, and what do the tremor and palpitations indicate?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('resp_c1q1', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="resp_c1q1"><b>Answer:</b> Albuterol is a beta-2 agonist, but at higher/frequent doses it also stimulates beta-1 receptors in the heart, causing tachycardia, palpitations, and tremor — this frequency of use (needing rescue relief multiple times daily) signals poorly controlled asthma, not just an inconvenient symptom, and needs prompt reassessment of the whole treatment plan.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">What key teaching point explains the difference between her two inhalers?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('resp_c1q2', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="resp_c1q2"><b>Answer:</b> Albuterol is a rescue/reliever medication — fast onset, used PRN for acute symptoms, but it does not treat underlying airway inflammation. Fluticasone (inhaled corticosteroid) is a controller medication — taken daily on a schedule (not PRN) to reduce airway inflammation over time and prevent attacks; skipping it is likely why she needs the rescue inhaler so often.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">What administration teaching would most help this client going forward?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('resp_c1q3', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="resp_c1q3"><b>Answer:</b> If prescribed both a bronchodilator and a corticosteroid inhaler, use the bronchodilator (albuterol) first and wait about 5 minutes before the corticosteroid — this opens the airways so the steroid can be deposited more effectively deeper in the lungs. She should also be taught proper MDI/spacer technique and to rinse her mouth after the corticosteroid to prevent thrush.</div>
-    </div>
-  </div>
-<div class="case-card">
-    <span class="case-tag">Pulmonary Clinic</span>
-    <h3>Starting an Inhaled Corticosteroid</h3>
-    <p class="case-vignette">A client newly diagnosed with persistent asthma is prescribed budesonide (inhaled corticosteroid) twice daily via MDI with a spacer, in addition to an as-needed albuterol inhaler. During teaching, the client asks, "Since this is a steroid, will it affect my blood sugar or bones like the steroid pills I took last year for my rash?"</p>
-    <div class="case-data"><b>New Rx:</b> Budesonide MDI + spacer, BID scheduled &nbsp;|&nbsp; <b>PRN:</b> Albuterol MDI &nbsp;|&nbsp; <b>History:</b> Prior short course of oral prednisone for a rash</div>
-    <div class="case-q">
-      <p class="q-text">How should the nurse answer the client's question about systemic effects?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('resp_c2q1', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="resp_c2q1"><b>Answer:</b> Inhaled corticosteroids act mainly locally in the lungs with only minimal systemic absorption at prescribed doses, so they carry a much lower risk of the systemic effects (hyperglycemia, bone density loss, adrenal suppression) associated with oral/systemic steroids like the prednisone she took previously — though very high-dose, long-term ICS use still carries some measurable osteoporosis risk worth monitoring over time.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">What local side effect is this client at risk for, and how is it prevented?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('resp_c2q2', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="resp_c2q2"><b>Answer:</b> Oral candidiasis (thrush) and hoarseness are the main local risks with inhaled corticosteroids. Prevention: rinse and spit (don't swallow) with water after every dose, and use a spacer device with the MDI to reduce medication deposition in the mouth/throat and improve delivery to the lungs.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">Why is it important to teach this client to use the albuterol before the budesonide, and why must budesonide be taken on a schedule rather than PRN?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('resp_c2q3', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="resp_c2q3"><b>Answer:</b> Using the bronchodilator first opens the airways so the corticosteroid reaches the lower airways more effectively. Budesonide must be taken consistently on schedule, even when the client feels well, because its anti-inflammatory effect builds over days to weeks — it does not relieve acute symptoms and provides no immediate benefit if used PRN like albuterol.</div>
-    </div>
-  </div>
-<div class="case-card">
-    <span class="case-tag">Pulmonary Clinic</span>
-    <h3>Starting Montelukast for Allergic Asthma</h3>
-    <p class="case-vignette">A 16-year-old client with asthma triggered by seasonal allergies is prescribed montelukast (a leukotriene receptor antagonist) once daily in the evening, in addition to his existing albuterol PRN inhaler. At the follow-up visit a few weeks later, his mother mentions he's seemed "more irritable and withdrawn" since starting the new medication.</p>
-    <div class="case-data"><b>New Rx:</b> Montelukast 10 mg PO nightly &nbsp;|&nbsp; <b>Reported:</b> increased irritability, withdrawal, mother notes "not himself" &nbsp;|&nbsp; <b>Asthma control:</b> improved (fewer daytime symptoms)</div>
-    <div class="case-q">
-      <p class="q-text">What important safety concern should the nurse address regarding this client's new mood changes?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('resp_c3q1', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="resp_c3q1"><b>Answer:</b> Montelukast carries a boxed warning for neuropsychiatric effects, including mood changes, agitation, depression, and in rare cases suicidal thoughts/behavior — these reported changes in irritability and withdrawal should be taken seriously and reported to the provider promptly rather than dismissed as normal teenage mood swings, especially with a temporal link to starting the drug.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">Is montelukast a rescue medication for acute asthma symptoms? What should this client and family understand about its role?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('resp_c3q2', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="resp_c3q2"><b>Answer:</b> No — montelukast is a controller medication taken daily (often in the evening) to reduce airway inflammation from leukotrienes over time; it does not act quickly enough to relieve an acute asthma attack and should never be substituted for the albuterol rescue inhaler during acute symptoms.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">Why might montelukast be a good fit for this particular client's asthma triggers?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('resp_c3q3', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="resp_c3q3"><b>Answer:</b> Leukotriene receptor antagonists are often especially useful for allergy- and exercise-induced asthma, since leukotrienes are heavily involved in the allergic inflammatory response — making montelukast a reasonable add-on for a client whose asthma is clearly triggered by seasonal allergies, alongside continued monitoring for the neuropsychiatric side effects discussed above.</div>
-    </div>
-  </div>
-<div class="case-card">
-    <span class="case-tag">Emergency Department</span>
-    <h3>Theophylline Toxicity</h3>
-    <p class="case-vignette">An older adult client with COPD who takes oral theophylline presents with nausea, vomiting, and a new tremor. Her daughter reports she recently started a new antibiotic (a macrolide) for a sinus infection about four days ago.</p>
-    <div class="case-data"><b>Theophylline level:</b> 24 mcg/mL (therapeutic 10–20) &nbsp;|&nbsp; <b>VS:</b> HR 128, irregular &nbsp;|&nbsp; <b>Reported:</b> nausea, vomiting, tremor, insomnia</div>
-    <div class="case-q">
-      <p class="q-text">What is the likely cause of this client's symptoms, and how does the new antibiotic factor in?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('resp_c4q1', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="resp_c4q1"><b>Answer:</b> This presentation is consistent with theophylline toxicity — a narrow therapeutic index drug. Macrolide antibiotics (like erythromycin, clarithromycin) inhibit the liver enzymes that metabolize theophylline, causing the level to rise even without a change in her theophylline dose, which explains why symptoms appeared after starting the new antibiotic.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">What symptoms should the nurse specifically watch for as signs of worsening theophylline toxicity?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('resp_c4q2', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="resp_c4q2"><b>Answer:</b> Cardiac dysrhythmias (already suggested by her irregular, fast heart rate), seizures, and severe GI symptoms are the most concerning signs of significant toxicity — continuous cardiac monitoring and prompt provider notification are warranted given her current symptoms and elevated level.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">What broader teaching point does this case illustrate about narrow therapeutic index medications like theophylline?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('resp_c4q3', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="resp_c4q3"><b>Answer:</b> Any new medication — including OTC drugs and medications for unrelated conditions — should be reviewed against a client's existing narrow therapeutic index drugs before starting, since drug interactions can significantly raise or lower levels even without any dosing change to the original medication. Clients on theophylline should be taught to inform every prescriber about this medication.</div>
-    </div>
-  </div>
-<div class="case-card">
-    <span class="case-tag">Pediatric Clinic</span>
-    <h3>Teaching Correct Use of a Peak Flow Meter</h3>
-    <p class="case-vignette">The parent of an 8-year-old with persistent asthma is being taught to use a peak flow meter at home to help monitor the child's asthma control between visits. The parent asks how they'll know if their child needs to use the rescue inhaler based on the readings.</p>
-    <div class="case-data"><b>Child's personal best peak flow:</b> 250 L/min &nbsp;|&nbsp; <b>Today's reading:</b> 150 L/min &nbsp;|&nbsp; <b>Symptoms:</b> mild wheeze, no distress</div>
-    <div class="case-q">
-      <p class="q-text">Using the peak flow zone system, how should the nurse explain today's reading to the parent?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('resp_c5q1', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="resp_c5q1"><b>Answer:</b> Peak flow zones are typically based on percentage of personal best: green zone (80–100%) means good control, yellow zone (50–79%) signals caution and may need rescue medication, and red zone (below 50%) is a medical alert requiring immediate rescue treatment and possibly emergency care. At 150/250 (60%), this reading falls in the <b>yellow zone</b> — indicating the child should use the rescue inhaler and be monitored closely.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">Why is it important that peak flow zones be based on the child's own personal best rather than a general standard number?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('resp_c5q2', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="resp_c5q2"><b>Answer:</b> Peak flow values vary by age, height, and individual lung function, so using a fixed "normal" number wouldn't accurately reflect this specific child's baseline — personal best is established during a period of good asthma control and gives a meaningful, individualized reference point for detecting early changes in this child's airway function.</div>
-    </div>
-    <div class="case-q">
-      <p class="q-text">What teaching point helps this family use the peak flow meter correctly and consistently?</p>
-      <button class="reveal-btn" onclick="toggleAnswer('resp_c5q3', this)">Reveal answer ▼</button>
-      <div class="reveal-answer" id="resp_c5q3"><b>Answer:</b> Measure peak flow at the same times each day (e.g., morning and evening, before rescue medication), take three attempts and record the highest value, stand or sit upright, and take a fast, hard, forceful blow into the device after a deep breath in — establishing a consistent routine improves the reliability of trend data used to catch early asthma flares.</div>
-    </div>
-  </div>
-`;
-
 document.getElementById('notesContent').innerHTML = `
 <div class="note-callout"><b>Source:</b> Respiratory Medications lecture (Gerard Dela Cruz, MA, RN — Aug 4, 2026). Learning objectives: recall the action of prescribed respiratory medications; identify therapeutic and adverse effects; identify nursing considerations including safety and teaching.</div>
 
@@ -1382,13 +1214,6 @@ let score = 0;
 let questionState = [];
 let optionOrders = [];
 
-
-function toggleAnswer(id, btn){
-  const el = document.getElementById(id);
-  el.classList.toggle('show');
-  btn.textContent = el.classList.contains('show') ? 'Hide answer ▲' : 'Reveal answer ▼';
-}
-
 function showView(name){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.getElementById('view-'+name).classList.add('active');
@@ -1397,15 +1222,13 @@ function showView(name){
   if(name==='notes') crumbs.innerHTML = homeLink + " / Respiratory Medications / Course Notes";
   else if(name==='flashcards') crumbs.innerHTML = homeLink + " / Respiratory Medications / Flashcards";
   else if(name==='setup') crumbs.innerHTML = homeLink + " / Respiratory Medications / Practice Test";
-  else if(name==='cases') crumbs.innerHTML = homeLink + " / Respiratory Medications / Case Studies";
   else if(name==='quiz') crumbs.innerHTML = homeLink + " / <span onclick=\"showView('setup')\">Respiratory Medications</span> / Practice Test";
-  ['tabNotesA','tabFlashA','tabSetupA','tabCasesA','tabNotesB','tabFlashB','tabSetupB','tabCasesB','tabNotesC','tabFlashC','tabSetupC','tabCasesC','tabNotesD','tabFlashD','tabSetupD','tabCasesD'].forEach(id=>{
+  ['tabNotesA','tabFlashA','tabSetupA','tabNotesB','tabFlashB','tabSetupB','tabNotesC','tabFlashC','tabSetupC'].forEach(id=>{
     const el = document.getElementById(id);
     if(!el) return;
     let kind = 'setup';
     if(id.indexOf('Notes') !== -1) kind = 'notes';
     else if(id.indexOf('Flash') !== -1) kind = 'flashcards';
-    else if(id.indexOf('Cases') !== -1) kind = 'cases';
     el.classList.toggle('selected', kind === name || (kind==='setup' && name==='quiz'));
   });
 
@@ -1416,7 +1239,7 @@ function showView(name){
 
 (function initialRoute(){
   const hash = (location.hash || '').replace('#','');
-  const validViews = ['notes','flashcards','setup','cases'];
+  const validViews = ['notes','flashcards','setup'];
   showView(validViews.includes(hash) ? hash : 'setup');
 })();
 

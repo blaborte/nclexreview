@@ -40,6 +40,9 @@
     --vestibule:#7C2D12;
     --vestibule-dim:#FEE2E2;
 
+    --neuro:#4C1D95;
+    --neuro-dim:#EDE9FE;
+
     --comprehensive:#0F2438;
     --comprehensive-dim:#E7EBEF;
     --comprehensive-gold:#F59E0B;
@@ -252,6 +255,30 @@
     font-family:'JetBrains Mono',monospace;letter-spacing:.04em;
     opacity:0;animation:fadeUp .6s ease-out .9s forwards;
   }
+
+  /* ==== Unified gradient palette override ==== */
+  :root{
+    --cardio:#0F766E; --cardio-dim:#D8ECE9;
+    --resp:#15803D; --resp-dim:#DCF0DF;
+    --endo:#A16207; --endo-dim:#F2E6C9;
+    --strategy:#4D7C0F; --strategy-dim:#E5F0D2;
+    --fluid:#0E7490; --fluid-dim:#D8EEF2;
+    --acidbase:#B45309; --acidbase-dim:#F6E4CC;
+    --safety:#166534; --safety-dim:#DBEFDF;
+    --immuno:#115E59; --immuno-dim:#D6EAE7;
+    --neuro:#3F6212; --neuro-dim:#E3EDD0;
+    --comprehensive:#1E6E60; --comprehensive-dim:#DCEEE6; --comprehensive-gold:#E3B341;
+    --vestibule:#92400E; --vestibule-dim:#F3E1CC;
+  }
+  body{
+    background: linear-gradient(125deg, #ECE6A6 0%, #C7DE9C 20%, #8FC79E 42%, #56A98D 64%, #2F8A78 84%, #1E6E60 100%);
+    background-attachment: fixed;
+  }
+  .eyebrow{color:#FFF6D0;}
+  h1{color:#FFFFFF;text-shadow:0 1px 4px rgba(0,0,0,.18);}
+  .subtitle{color:rgba(255,255,255,.9);}
+  .monitor{background:#12362E;}
+  footer{color:rgba(255,255,255,.62);}
 </style>
 </head>
 <body>
@@ -278,11 +305,23 @@
   <div class="exam-banner">
     <div class="exam-banner-inner">
       <div class="exam-banner-text">
-        <span class="exam-banner-chip">All 8 topics · 433 questions</span>
+        <span class="exam-banner-chip">7 topics · 785 questions</span>
         <h2>Comprehensive NCLEX Exam</h2>
-        <p>A single, cumulative exam that draws randomly across every topic on the site — the closer-to-real-thing mixed experience. Run up to 200 questions at a time.</p>
+        <p>A single, cumulative exam that draws randomly across every active topic on the site — the closer-to-real-thing mixed experience. Run up to 200 questions at a time.</p>
       </div>
       <a class="exam-banner-btn" href="comprehensive_exam_site.html#setup">Start comprehensive exam →</a>
+    </div>
+  </div>
+
+  <!-- NCLEX Final Vestibule Questions banner -->
+  <div class="exam-banner" style="background-image:linear-gradient(135deg, #F87171, var(--vestibule));">
+    <div class="exam-banner-inner" style="background:var(--vestibule);">
+      <div class="exam-banner-text">
+        <span class="exam-banner-chip" style="color:#FCA5A5;background:rgba(248,113,113,.14);border-color:rgba(248,113,113,.35);">44 mixed questions</span>
+        <h2>NCLEX Final Vestibule Questions</h2>
+        <p>A standalone, mixed testlet — delegation, mental health, perioperative safety, cardiac &amp; respiratory pharm, DKA, acid-base, and infection control blended together in one run.</p>
+      </div>
+      <a class="exam-banner-btn" style="background:var(--vestibule-dim);color:var(--vestibule);" href="nclex_final_vestibule_practice_site.html#setup">Start vestibule questions →</a>
     </div>
   </div>
 
@@ -480,27 +519,27 @@
       </div>
     </div>
 
-    <!-- NCLEX Final Vestibule -->
-    <div class="topic-card" style="--accent:var(--vestibule);--accent-dim:var(--vestibule-dim);">
+    <!-- Neurological Medications -->
+    <div class="topic-card" style="--accent:var(--neuro);--accent-dim:var(--neuro-dim);">
       <div class="topic-top">
         <div class="icon-medallion">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5a2 2 0 0 1 2-2h9l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 3.5a3 3 0 0 1 5 2.2v.6a3 3 0 0 1 2 5.4 3 3 0 0 1-1.7 5.3 3 3 0 0 1-5.6 1.5 3 3 0 0 1-5.4-1.5A3 3 0 0 1 2 12a3 3 0 0 1 2-5.3v-.6a3 3 0 0 1 5-2.2z"/><path d="M9 12a2 2 0 1 0 4 0 2 2 0 1 0-4 0"/></svg>
         </div>
         <div class="topic-headline">
           <span class="topic-chip">Available now</span>
-          <h3>NCLEX Final Vestibule</h3>
-          <p>A mixed, cross-content testlet — delegation, mental health, perioperative safety, cardiac &amp; respiratory pharm, DKA, and infection control blended together, the way the real exam interleaves topics.</p>
+          <h3>Neurological Medications</h3>
+          <p>Seizure management, Parkinson's &amp; Alzheimer's meds, acute stroke and tPA, increased intracranial pressure, myasthenia gravis, Guillain-Barré syndrome, migraine, meningitis, and SIADH.</p>
         </div>
       </div>
       <div class="stat-row">
-        <span class="stat-pill"><span class="dot"></span>105 practice questions</span>
+        <span class="stat-pill"><span class="dot"></span>100 practice questions</span>
         <span class="stat-pill"><span class="dot"></span>Course notes + flashcards</span>
-        <span class="stat-pill"><span class="dot"></span>20 / 44 / 75 / 105-question sets</span>
+        <span class="stat-pill"><span class="dot"></span>20 / 40 / 70 / 100-question sets</span>
       </div>
       <div class="topic-actions">
-        <a class="btn" href="nclex_final_vestibule_practice_site.html#notes">Course notes</a>
-        <a class="btn" href="nclex_final_vestibule_practice_site.html#flashcards">Flashcards</a>
-        <a class="btn primary" href="nclex_final_vestibule_practice_site.html#setup">Start practice test →</a>
+        <a class="btn" href="neurological_medications_practice_site.html#notes">Course notes</a>
+        <a class="btn" href="neurological_medications_practice_site.html#flashcards">Flashcards</a>
+        <a class="btn primary" href="neurological_medications_practice_site.html#setup">Start practice test →</a>
       </div>
     </div>
 
