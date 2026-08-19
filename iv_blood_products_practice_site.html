@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nursing NCLEX Review</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  :root{
+    --ink:#211B36;
+    --ink-soft:#524A6B;
+    --paper:#F7F5FB;
+    --card:#FFFFFF;
+    --line:#E2DCEF;
+    --pulse:#DC2626;
+    --pulse-dim:#FEE2E2;
+    --correct:#1B8A5A;
+    --correct-bg:#E7F5EE;
+    --incorrect:#C1443D;
+    --incorrect-bg:#FBEAE8;
+    --muted:#8A80A0;
+    --amber:#B8791A;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    padding:40px 20px 80px;
+  }
+  .wrap{max-width:860px;margin:0 auto;}
+  .view{display:none;}
+  .view.active{display:block;}
+
+  .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:10px;}
+  .brand{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--pulse);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;gap:8px;}
+  .brand:hover{color:var(--ink);}
+  .crumbs{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);}
+  .crumbs span{cursor:pointer;}
+  .crumbs span:hover{color:var(--pulse);}
+
+  .eyebrow{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--pulse);font-weight:600;margin-bottom:10px;}
+  h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(28px,5vw,40px);line-height:1.08;margin:0 0 6px;letter-spacing:-.01em;}
+  h2.section-title{font-family:'Fraunces',serif;font-weight:600;font-size:22px;margin:34px 0 12px;color:var(--ink);}
+  h2.section-title:first-of-type{margin-top:0;}
+  .subtitle{color:var(--ink-soft);font-size:15px;margin:0 0 26px;max-width:60ch;}
+
+  .ekg{width:100%;height:46px;margin-bottom:24px;overflow:hidden;}
+  .ekg svg{width:100%;height:100%;display:block;}
+  .ekg path{fill:none;stroke:var(--pulse);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  .ekg-trace{stroke-dasharray:1000;stroke-dashoffset:1000;animation:draw 2.6s ease-out forwards;}
+  @keyframes draw{to{stroke-dashoffset:0;}}
+  @media (prefers-reduced-motion:reduce){.ekg-trace{animation:none;stroke-dashoffset:0;}}
+
+  .topic-tabs{display:flex;gap:8px;margin-bottom:26px;flex-wrap:wrap;}
+  .tab-btn{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;padding:11px 18px;border-radius:9px;cursor:pointer;border:1.5px solid var(--line);background:var(--card);color:var(--ink-soft);}
+  .tab-btn:hover{border-color:var(--pulse);color:var(--pulse);}
+  .tab-btn.selected{background:var(--ink);border-color:var(--ink);color:#fff;}
+
+  .notes-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:30px 28px;}
+  .notes-card p{color:var(--ink-soft);font-size:14.5px;line-height:1.6;}
+  .note-table{width:100%;border-collapse:collapse;margin:10px 0 24px;font-size:13.5px;}
+  .note-table th{background:var(--ink);color:#fff;text-align:left;padding:9px 12px;font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.03em;text-transform:uppercase;}
+  .note-table td{padding:9px 12px;border-bottom:1px solid var(--line);color:var(--ink-soft);vertical-align:top;}
+  .note-table tr:nth-child(even) td{background:var(--paper);}
+  .note-table td b{color:var(--ink);}
+  .drugclass{border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:14px;background:var(--paper);}
+  .drugclass h4{margin:0 0 8px;font-family:'Inter',sans-serif;font-size:15px;color:var(--ink);}
+  .drugclass .suffix-tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--pulse);background:var(--pulse-dim);padding:2px 8px;border-radius:5px;margin-left:8px;}
+  .drugclass ul{margin:6px 0 0;padding-left:20px;color:var(--ink-soft);font-size:13.5px;line-height:1.6;}
+  .note-callout{border-left:3px solid var(--pulse);background:var(--pulse-dim);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13.5px;color:var(--ink);margin:14px 0;}
+  .note-callout b{color:var(--pulse);}
+  .casebox{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:14px;font-size:13.5px;color:var(--ink-soft);line-height:1.6;}
+  .casebox b{color:var(--ink);}
+  .stat-strip{display:flex;gap:14px;flex-wrap:wrap;margin:14px 0 26px;}
+  .stat-box{background:var(--pulse-dim);border-radius:10px;padding:12px 18px;flex:1;min-width:140px;}
+  .stat-box .big{font-family:'Fraunces',serif;font-size:26px;font-weight:600;color:var(--pulse);line-height:1;}
+  .stat-box .lbl{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.04em;margin-top:4px;}
+
+  .setup-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:32px 28px;text-align:center;}
+  .setup-card p{color:var(--ink-soft);font-size:14px;margin-bottom:24px;}
+  .count-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+  @media (max-width:560px){.count-grid{grid-template-columns:repeat(2,1fr);}}
+  .count-btn{background:var(--paper);border:1.5px solid var(--line);border-radius:12px;padding:22px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:all .12s ease;}
+  .count-btn:hover{border-color:var(--pulse);background:#FEECEC;}
+  .count-num{font-family:'Fraunces',serif;font-size:30px;font-weight:600;color:var(--ink);}
+  .count-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+
+  .picker{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px 20px;margin-bottom:22px;}
+  .picker-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:10px;flex-wrap:wrap;}
+  .picker-title{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;}
+  .picker-actions{display:flex;gap:8px;}
+  .mini-btn{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;background:var(--paper);border:1px solid var(--line);color:var(--ink-soft);padding:6px 11px;border-radius:7px;cursor:pointer;}
+  .mini-btn:hover{border-color:var(--pulse);color:var(--pulse);}
+  .picker-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:7px;}
+  @media (max-width:520px){.picker-grid{grid-template-columns:repeat(6,1fr);}}
+  .pick-btn{aspect-ratio:1;border-radius:8px;border:1.5px solid var(--line);background:var(--paper);font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:600;color:var(--ink-soft);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s ease;}
+  .pick-btn:hover{border-color:var(--pulse);color:var(--pulse);}
+  .pick-btn.current{border-color:var(--ink);box-shadow:0 0 0 2px var(--ink) inset;color:var(--ink);}
+  .pick-btn.correct{background:var(--correct-bg);border-color:var(--correct);color:var(--correct);}
+  .pick-btn.incorrect{background:var(--incorrect-bg);border-color:var(--incorrect);color:var(--incorrect);}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);}
+  .legend span{display:inline-flex;align-items:center;gap:5px;}
+  .dot{width:9px;height:9px;border-radius:3px;display:inline-block;}
+  .dot.unanswered{background:var(--paper);border:1.5px solid var(--line);}
+  .dot.correct{background:var(--correct-bg);border:1.5px solid var(--correct);}
+  .dot.incorrect{background:var(--incorrect-bg);border:1.5px solid var(--incorrect);}
+
+  .statusbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;}
+  .progress-track{flex:1;height:6px;background:var(--line);border-radius:4px;overflow:hidden;position:relative;}
+  .progress-fill{height:100%;background:var(--pulse);border-radius:4px;width:0%;transition:width .35s ease;}
+  .score-pill{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--ink);background:var(--card);border:1px solid var(--line);padding:6px 12px;border-radius:20px;white-space:nowrap;}
+  .score-pill span{color:var(--pulse);}
+
+  .qcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:28px 26px 24px;margin-bottom:20px;box-shadow:0 1px 2px rgba(33,27,54,.05);}
+  .qmeta{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
+  .qnum{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--pulse);background:var(--pulse-dim);padding:3px 9px;border-radius:6px;}
+  .qtag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;}
+  .qsal{font-family:'JetBrains Mono',monospace;font-size:11px;color:#B91C1C;letter-spacing:.03em;border:1px solid #FCA5A5;background:#FEF2F2;padding:2px 8px;border-radius:5px;}
+  .stem{font-size:18px;line-height:1.48;font-weight:600;color:var(--ink);margin:0 0 20px;}
+
+  .options{display:flex;flex-direction:column;gap:10px;}
+  .opt{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;padding:13px 14px;border:1.5px solid var(--line);background:var(--paper);border-radius:10px;cursor:pointer;font-family:'Inter',sans-serif;font-size:15px;color:var(--ink);transition:border-color .15s ease, background .15s ease, transform .1s ease;}
+  .opt:hover:not(.locked){border-color:var(--pulse);background:#FEECEC;}
+  .opt:active:not(.locked){transform:scale(.997);}
+  .opt:focus-visible{outline:2px solid var(--pulse);outline-offset:2px;}
+  .opt-letter{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:13px;color:var(--ink-soft);background:var(--card);border:1px solid var(--line);min-width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+  .opt-text{flex:1;line-height:1.45;}
+  .opt.correct-choice{border-color:var(--correct);background:var(--correct-bg);}
+  .opt.correct-choice .opt-letter{background:var(--correct);border-color:var(--correct);color:#fff;}
+  .opt.incorrect-choice{border-color:var(--incorrect);background:var(--incorrect-bg);}
+  .opt.incorrect-choice .opt-letter{background:var(--incorrect);border-color:var(--incorrect);color:#fff;}
+  .opt.locked{cursor:default;}
+  .opt.dim{opacity:.55;}
+  .opt-explain{margin-top:6px;font-size:13.5px;line-height:1.5;font-family:'Inter',sans-serif;}
+  .opt.correct-choice .opt-explain{color:#15694A;}
+  .opt.incorrect-choice .opt-explain{color:#96332E;}
+  .opt.dim .opt-explain{color:var(--muted);}
+  .opt.dim.correct-choice .opt-explain{color:var(--correct);}
+  .opt.sal .opt-letter{border-radius:5px;}
+
+  .result-banner{display:none;align-items:center;gap:10px;margin-top:18px;padding:11px 14px;border-radius:9px;font-size:14px;font-weight:600;font-family:'Inter',sans-serif;}
+  .result-banner.show{display:flex;}
+  .result-banner.correct{background:var(--correct-bg);color:var(--correct);}
+  .result-banner.incorrect{background:var(--incorrect-bg);color:var(--incorrect);}
+
+  .actions{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:10px;}
+  .btn-prev{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;background:var(--card);color:var(--ink-soft);border:1px solid var(--line);padding:11px 18px;border-radius:8px;cursor:pointer;}
+  .btn-prev:hover{border-color:var(--pulse);color:var(--pulse);}
+  .btn-prev:disabled{opacity:.4;cursor:not-allowed;}
+  .btn-next{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;letter-spacing:.03em;background:var(--ink);color:#fff;border:none;padding:11px 20px;border-radius:8px;cursor:pointer;display:none;align-items:center;gap:8px;}
+  .btn-next.show{display:inline-flex;}
+  .btn-next:hover{background:var(--pulse);}
+  .btn-sal-submit{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;background:var(--pulse);color:#fff;border:none;padding:11px 20px;border-radius:8px;cursor:pointer;margin-top:16px;}
+
+  .summary{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:36px 30px;text-align:center;display:none;}
+  .summary.show{display:block;}
+  .summary .big-score{font-family:'Fraunces',serif;font-size:56px;font-weight:600;color:var(--pulse);line-height:1;margin-bottom:6px;}
+  .summary .big-score sub{font-size:22px;font-weight:500;color:var(--muted);}
+  .summary p{color:var(--ink-soft);font-size:14px;margin:6px 0 22px;}
+  .btn-restart{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;background:var(--ink);color:#fff;border:none;padding:12px 22px;border-radius:8px;cursor:pointer;margin:4px;}
+  .btn-restart:hover{background:var(--pulse);}
+  .btn-restart.secondary{background:var(--card);color:var(--ink-soft);border:1px solid var(--line);}
+  .btn-restart.secondary:hover{color:var(--pulse);border-color:var(--pulse);}
+  .btn-restart.print-btn{background:var(--ink-soft);}
+  .btn-restart.print-btn:hover{background:var(--pulse);}
+
+  footer{text-align:center;margin-top:34px;font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;}
+
+
+  /* ---------- Flashcards ---------- */
+  .flash-wrap{max-width:480px;margin:0 auto;text-align:center;}
+  .flash-progress{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:14px;}
+  .flashcard{width:100%;height:260px;perspective:1200px;cursor:pointer;margin-bottom:20px;}
+  .flash-inner{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d;}
+  .flashcard.flipped .flash-inner{transform:rotateY(180deg);}
+  .flash-face{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:16px;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;padding:30px;font-family:'Inter',sans-serif;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.05);}
+  .flash-front{background:var(--card);font-size:18px;font-weight:600;color:var(--ink);}
+  .flash-back{background:var(--pulse-dim);transform:rotateY(180deg);color:var(--ink);font-weight:500;font-size:15px;line-height:1.5;}
+  .flash-tag{position:absolute;top:14px;left:16px;font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--pulse);font-weight:700;}
+  .flash-hint{position:absolute;bottom:12px;right:16px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);}
+  .flash-controls{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
+
+  /* ---------- Printable report (hidden on screen, shown only when printing) ---------- */
+  #printReport{display:none;}
+  @media print{
+    body *{visibility:hidden;}
+    #printReport, #printReport *{visibility:visible;}
+    #printReport{
+      display:block;position:absolute;top:0;left:0;width:100%;
+      padding:0;margin:0;background:#fff;color:#111;font-family:'Inter',sans-serif;
+    }
+    .wrap, .topbar, .view, footer{display:none !important;}
+    #printReport .rpt-header{border-bottom:2px solid #333;padding-bottom:10px;margin-bottom:16px;}
+    #printReport h1{font-family:'Fraunces',serif;font-size:22px;margin:0 0 4px;}
+    #printReport .rpt-meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:#555;}
+    #printReport .rpt-score{font-family:'Fraunces',serif;font-size:26px;font-weight:600;margin:10px 0;}
+    #printReport .rpt-q{page-break-inside:avoid;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid #ddd;}
+    #printReport .rpt-q .rq-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:#6B4FA0;font-weight:700;}
+    #printReport .rpt-q .rq-stem{font-weight:700;font-size:13px;margin:2px 0 6px;}
+    #printReport .rpt-opt{font-size:12px;margin:3px 0;padding-left:14px;}
+    #printReport .rpt-opt.correct{color:#15694A;font-weight:700;}
+    #printReport .rpt-opt.incorrect{color:#96332E;font-weight:700;text-decoration:underline;}
+    #printReport .rpt-explain{font-size:11px;color:#444;margin:1px 0 4px 14px;}
+    #printReport .rpt-banner{font-size:11px;font-weight:700;margin-top:2px;}
+    #printReport .rpt-banner.correct{color:#15694A;}
+    #printReport .rpt-banner.incorrect{color:#96332E;}
+  }
+
+  /* ==== Unified gradient palette override ==== */
+  :root{--pulse:#1E6E60;--pulse-dim:#DCEEE6;}
+  body{
+    background: linear-gradient(125deg, #ECE6A6 0%, #C7DE9C 20%, #8FC79E 42%, #56A98D 64%, #2F8A78 84%, #1E6E60 100%);
+    background-attachment: fixed;
+  }
+  .brand{color:#FFFFFF;}
+  .brand:hover{color:#FFF6D0;}
+  .crumbs{color:rgba(255,255,255,.72);}
+  .crumbs span:hover{color:#FFF6D0;}
+  .eyebrow{color:#FFF6D0;}
+  h1{color:#FFFFFF;text-shadow:0 1px 4px rgba(0,0,0,.18);}
+  .subtitle{color:rgba(255,255,255,.88);}
+  footer{color:rgba(255,255,255,.62);}
+  .flash-progress{color:rgba(255,255,255,.85);}
+  .progress-track{background:rgba(255,255,255,.28);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand" onclick="location.href='index.html'">◆ Nursing NCLEX Review</div>
+    <div class="crumbs" id="crumbs"></div>
+  </div>
+
+  <!-- ============ COURSE NOTES ============ -->
+  <div class="view" id="view-notes">
+    <div class="eyebrow">IV &amp; Blood Products</div>
+    <div class="topic-tabs">
+      <button class="tab-btn selected" id="tabNotesA" onclick="showView('notes')">Course Notes</button>
+      <button class="tab-btn" id="tabFlashA" onclick="showView('flashcards')">Flashcards</button>
+      <button class="tab-btn" id="tabSetupA" onclick="showView('setup')">Practice Test</button>
+    </div>
+    <h1>Course Notes</h1>
+    <p class="subtitle">IV therapy, peripheral and central line access, complications, parenteral nutrition, and blood product administration &amp; transfusion safety for the NCLEX-RN Physiological Adaptation and Pharmacological/Parenteral Therapies sections.</p>
+    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
+
+    <div class="notes-card" id="notesContent"></div>
+
+    <div style="text-align:center;margin-top:20px;">
+      <button class="btn-restart" style="background:var(--pulse);" onclick="showView('setup')">Start practice test →</button>
+    </div>
+  </div>
+
+  <!-- ============ FLASHCARDS ============ -->
+  <div class="view" id="view-flashcards">
+    <div class="eyebrow">IV &amp; Blood Products</div>
+    <div class="topic-tabs">
+      <button class="tab-btn" id="tabNotesB" onclick="showView('notes')">Course Notes</button>
+      <button class="tab-btn selected" id="tabFlashB" onclick="showView('flashcards')">Flashcards</button>
+      <button class="tab-btn" id="tabSetupB" onclick="showView('setup')">Practice Test</button>
+    </div>
+    <h1>Flashcards</h1>
+    <p class="subtitle">Tap a card to flip it. Use the arrows to move through the deck, or shuffle for random order.</p>
+    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
+
+    <div class="flash-wrap">
+      <div class="flash-progress">Card <span id="flashIndex">1</span> / <span id="flashTotal">1</span></div>
+      <div class="flashcard" id="flashcard" onclick="flipCard()">
+        <div class="flash-inner" id="flashInner">
+          <div class="flash-face flash-front">
+            <span class="flash-tag">Term</span>
+            <span id="flashFront"></span>
+            <span class="flash-hint">Tap to flip</span>
+          </div>
+          <div class="flash-face flash-back">
+            <span class="flash-tag">Answer</span>
+            <span id="flashBack"></span>
+          </div>
+        </div>
+      </div>
+      <div class="flash-controls">
+        <button class="mini-btn" id="flashPrev">← Prev</button>
+        <button class="mini-btn" id="flashShuffle">🔀 Shuffle</button>
+        <button class="mini-btn" id="flashNext">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SETUP ============ -->
+  <div class="view" id="view-setup">
+    <div class="eyebrow">IV &amp; Blood Products</div>
+    <div class="topic-tabs">
+      <button class="tab-btn" id="tabNotesC" onclick="showView('notes')">Course Notes</button>
+      <button class="tab-btn" id="tabFlashC" onclick="showView('flashcards')">Flashcards</button>
+      <button class="tab-btn selected" id="tabSetupC" onclick="showView('setup')">Practice Test</button>
+    </div>
+    <h1>Practice Test</h1>
+    <p class="subtitle">Choose how many questions you want to take. Questions are randomly selected from a bank of 113 each time, and every option — right or wrong — comes with an explanation. Print or save a PDF of your results after every exam.</p>
+    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
+
+    <div class="setup-card">
+      <p>How many questions would you like to take?</p>
+      <div class="count-grid">
+        <button class="count-btn" onclick="startQuiz(10)"><span class="count-num">10</span><span class="count-label">Quick review</span></button>
+        <button class="count-btn" onclick="startQuiz(20)"><span class="count-num">20</span><span class="count-label">Standard</span></button>
+        <button class="count-btn" onclick="startQuiz(40)"><span class="count-num">40</span><span class="count-label">Extended</span></button>
+        <button class="count-btn" onclick="startQuiz(113)"><span class="count-num">113</span><span class="count-label">Full bank</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ QUIZ ============ -->
+  <div class="view" id="view-quiz">
+    <div class="eyebrow">IV &amp; Blood Products</div>
+    <h1 id="quizTitle">Practice Test</h1>
+    <p class="subtitle">Choose an answer to see the correct choice and why every option is right or wrong. Jump to any question using the picker below.</p>
+    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
+
+    <div class="picker">
+      <div class="picker-head">
+        <span class="picker-title">Jump to a question</span>
+        <div class="picker-actions">
+          <button class="mini-btn" id="randomBtn">🎲 Random</button>
+          <button class="mini-btn" id="resultsBtn">View results</button>
+        </div>
+      </div>
+      <div class="picker-grid" id="pickerGrid"></div>
+      <div class="legend">
+        <span><span class="dot unanswered"></span>Unanswered</span>
+        <span><span class="dot correct"></span>Correct</span>
+        <span><span class="dot incorrect"></span>Incorrect</span>
+      </div>
+    </div>
+
+    <div class="statusbar">
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="score-pill">Score <span id="scoreLabel">0 / 0</span></div>
+    </div>
+
+    <div id="quizArea"></div>
+
+    <div class="summary" id="summary">
+      <div class="big-score"><span id="finalScore">0</span><sub id="finalOutOf">/20</sub></div>
+      <p id="finalMsg"></p>
+      <button class="btn-restart print-btn" id="printBtn">🖨️ Print / Save PDF</button>
+      <button class="btn-restart secondary" id="reviewBtn">Back to test</button>
+      <button class="btn-restart secondary" id="setupBtn">Change length</button>
+      <button class="btn-restart" id="restartBtn">New random set</button>
+    </div>
+  </div>
+
+  <footer>IV &amp; BLOOD PRODUCTS · PRACTICE SET</footer>
+</div>
+
+<!-- Printable results report — hidden on screen, populated and shown only for printing -->
+<div id="printReport"></div>
+
+<script>
+document.getElementById('notesContent').innerHTML = `
+<div class="stat-strip">
+  <div class="stat-box"><div class="big">18–19G</div><div class="lbl">Preferred needle gauge for blood</div></div>
+  <div class="stat-box"><div class="big">2–4 hrs</div><div class="lbl">Max time to infuse one unit</div></div>
+  <div class="stat-box"><div class="big">15 min</div><div class="lbl">Nurse stays at start of transfusion</div></div>
+</div>
+
+<h2 class="section-title">Intravenous Therapy Overview</h2>
+<p><b>IV therapy</b> provides rapid hydration and replacement of water, electrolytes, and nutrients, and serves as the vascular route for administering blood components.</p>
+<div class="drugclass"><h4>Isotonic <span class="suffix-tag">Same osmolality as body fluids</span></h4>
+<ul><li>Increases ECF volume</li><li>Does not enter cells</li></ul></div>
+<div class="drugclass"><h4>Hypotonic <span class="suffix-tag">More dilute, lower osmolality</span></h4>
+<ul><li>Causes water to move INTO cells by osmosis</li></ul></div>
+<div class="drugclass"><h4>Hypertonic <span class="suffix-tag">More concentrated, higher osmolality</span></h4>
+<ul><li>Causes water to move OUT of cells by osmosis</li></ul></div>
+<div class="drugclass"><h4>Colloids <span class="suffix-tag">Plasma expanders</span></h4>
+<ul><li>Pull fluid from the interstitial space into the vascular space</li><li>Used for severe hypovolemia</li></ul></div>
+
+<h2 class="section-title">IV Fluid Uses by Condition</h2>
+<table class="note-table">
+<tr><th>Condition</th><th>Preferred Fluid</th><th>Why?</th></tr>
+<tr><td>Burns</td><td>Lactated Ringer's (LR)</td><td>Replaces fluid + electrolytes</td></tr>
+<tr><td>Diarrhea</td><td>Lactated Ringer's (LR)</td><td>Corrects acidosis &amp; fluid loss</td></tr>
+<tr><td>Vomiting</td><td>Normal Saline (NS)</td><td>Sodium &amp; chloride replacement</td></tr>
+<tr><td>DKA</td><td>Lactated Ringer's (LR)</td><td>Expands volume before insulin</td></tr>
+<tr><td>Blood Transfusion</td><td>Normal Saline (NS)</td><td>Primes &amp; flushes IV lines; only compatible fluid with blood</td></tr>
+<tr><td>Head Injury</td><td>Normal Saline (NS)</td><td>Prevents cerebral edema (avoid hypotonic solutions)</td></tr>
+<tr><td>Dehydration</td><td>Half Normal Saline (0.45% NS)</td><td>Gentle rehydration</td></tr>
+<tr><td>Liver Failure</td><td>Albumin</td><td>Pulls fluid into circulation</td></tr>
+</table>
+<div class="note-callout"><b>Blood administration:</b> 0.9% Normal Saline is the ONLY fluid compatible with blood components. Never add medications or other fluids to blood or piggyback into the line.</div>
+
+<h2 class="section-title">Types of IV Solutions</h2>
+<table class="note-table">
+<tr><th>Solution / Type</th><th>Uses</th></tr>
+<tr><td><b>0.9% saline (NS): Isotonic</b></td><td>Extracellular fluid deficits with low serum sodium/chloride and metabolic acid-base imbalances. Used before/after blood product infusion.</td></tr>
+<tr><td><b>Ringer's lactate: Isotonic</b></td><td>Extracellular fluid deficits — burns, bleeding, dehydration from bile/diarrhea loss.</td></tr>
+<tr><td><b>D5W: Isotonic</b> at administration, becomes hypotonic as dextrose is metabolized</td><td>Replaces total body water deficits. Not used alone to expand ECF volume (electrolyte dilution risk).</td></tr>
+<tr><td><b>D5 0.225% NS: Isotonic</b> at administration, becomes hypertonic as dextrose is metabolized</td><td>Initial hydration and maintenance fluid — provides more water than sodium.</td></tr>
+<tr><td><b>D5 0.9% NS: Hypertonic</b></td><td>ECF deficits with low serum sodium/chloride and metabolic alkalosis.</td></tr>
+<tr><td><b>D5 0.45% NS: Hypertonic</b></td><td>Initial hydration and maintenance fluid — provides more water than sodium.</td></tr>
+<tr><td><b>D5 in Ringer's lactate: Hypertonic</b></td><td>ECF deficits — burns, bleeding, dehydration from bile/diarrhea loss.</td></tr>
+</table>
+
+<h2 class="section-title">Equipment and Setup</h2>
+<p><b>IV devices:</b> butterfly sets, plastic cannulas. <b>Components:</b> IV gauges, containers, tubing, drip chambers, filters.</p>
+<table class="note-table">
+<tr><th>Drip Chamber</th><th>Drop Factor</th></tr>
+<tr><td>Macrodrip</td><td>10–20 gtt/mL</td></tr>
+<tr><td>Microdrip</td><td>60 gtt/mL</td></tr>
+</table>
+
+<h2 class="section-title">Peripheral IV (PIV) Site Selection</h2>
+<div class="note-callout"><b>Sites to avoid:</b> edematous extremity; weak, traumatized, or paralyzed arm; mastectomy-side arm; arm with AV fistula/shunt for dialysis; infected skin; neck or feet (RN cannot access PIVs there); hematomas; or an arm with an ongoing infusion (e.g., heparin).</div>
+<div class="drugclass"><h4>General Guidelines for PIV Insertion</h4>
+<ul><li>Patient verification similar to medication administration</li><li>Standard precautions are used</li><li>Select site distal to proximal when possible</li><li>Warming devices (not exceeding 42°C) may be used to assist vein dilation</li></ul></div>
+
+<h2 class="section-title">Inserting a Peripheral IV Line</h2>
+<ol style="color:var(--ink-soft);font-size:14.5px;line-height:1.9;">
+<li>Check the PHCP's prescription, determine device type/size, prepare tubing and solution, prime tubing to remove air, and explain the procedure to the client.</li>
+<li>Select vein based on quality, client size, and indication; apply tourniquet and palpate vein for resilience.</li>
+<li>Clean skin with an antimicrobial solution using an inner-to-outer circular motion (or per CDC guidelines/agency policy).</li>
+<li>Stabilize the vein below the insertion site, puncture skin/vein observing for blood in the flashback chamber, then lower the catheter flush with skin and advance into the vein (use a new sterile device if an attempt is unsuccessful).</li>
+<li>Remove the tourniquet. Apply pressure above the insertion site with the middle finger of the nondominant hand, retract the stylet, connect IV tubing, secure, and begin flow. Check client comfort and site flow.</li>
+<li>Tape and secure the site with a transparent dressing; label tubing, dressing, and bags with date/time.</li>
+<li>Document specifics: number of attempts, site, device type/size, solution, flow rate, time, client response.</li>
+</ol>
+
+<h2 class="section-title">Removing a Peripheral IV Line</h2>
+<ol style="color:var(--ink-soft);font-size:14.5px;line-height:1.9;">
+<li>Check the PHCP's prescription and explain the procedure; ask the client to hold the extremity still.</li>
+<li>Turn off the IV tubing clamp; remove dressing/tape while stabilizing the catheter.</li>
+<li>Apply light pressure with sterile gauze over the site; withdraw the catheter in a slow, steady movement parallel to the skin.</li>
+<li>Apply pressure for 2–3 minutes with dry sterile gauze (longer if the client has a bleeding disorder or is on anticoagulant therapy).</li>
+<li>Inspect the site for redness, drainage, or swelling; check the catheter tip for intactness.</li>
+<li>Apply a dressing as needed per agency policy; document the procedure and client response.</li>
+</ol>
+
+<h2 class="section-title">Complications of IV Therapy</h2>
+<div class="drugclass"><h4>Infection</h4><ul><li><b>Cause:</b> germs enter at the IV site</li><li><b>Signs:</b> redness, pain, swelling, fever</li></ul></div>
+<div class="drugclass"><h4>Phlebitis</h4><ul><li><b>Cause:</b> mechanical, chemical, or local infection; can progress to thrombophlebitis (clot)</li><li><b>Signs:</b> heat, redness, tenderness, sluggish infusion; thrombophlebitis = hard, cordlike vein</li><li><b>Interventions:</b> catheter smaller than vein; avoid flexion areas/lower extremities; change site every 72–96 hrs. Stop/remove IV and apply warm, moist compresses. Do NOT irrigate if thrombophlebitis is suspected.</li></ul></div>
+<div class="drugclass"><h4>Infiltration</h4><ul><li><b>Cause:</b> fluid leaks into interstitial tissue from dislodgement/perforation</li><li><b>Signs:</b> edema, cool skin, pain, numbness, sluggish/stopped flow</li><li><b>Interventions:</b> remove IV immediately, elevate extremity, apply warm/cool compress per solution type. Do not rub the area.</li></ul></div>
+<div class="drugclass"><h4>Extravasation / Tissue Damage</h4><ul><li><b>Cause:</b> vesicant/irritant infiltrates into tissue</li><li><b>Signs:</b> pain, redness, blistering, skin sloughing, tissue necrosis</li><li><b>Interventions:</b> immediate PHCP notification for antidote/treatment; document and photograph per policy.</li></ul></div>
+<div class="drugclass"><h4>Hematoma</h4><ul><li><b>Cause:</b> blood leaks outside the vein after unsuccessful puncture/discontinuation</li><li><b>Signs:</b> ecchymosis, immediate swelling, hard/painful lump</li><li><b>Interventions:</b> pressure 2–3 min (longer for bleeding risk), elevate extremity, apply ice.</li></ul></div>
+<div class="drugclass"><h4>Air Embolism</h4><ul><li><b>Cause:</b> air enters vein and travels to lungs</li><li><b>Signs:</b> sudden low BP, tachycardia, dyspnea — can be fatal</li></ul></div>
+<div class="drugclass"><h4>Electrolyte Overload / Imbalance</h4><ul><li><b>Cause:</b> excessive/overly rapid infusion or improper solution</li><li><b>Interventions:</b> monitor lab values, verify flow rates with electronic devices/time tapes, use red medication stickers for additives.</li></ul></div>
+
+<h2 class="section-title">Central Venous Catheters (CVC)</h2>
+<div class="note-callout"><b>Indications:</b> hyperosmolar solutions, CVP monitoring, parenteral nutrition (TPN/PPN), or multiple simultaneous IV medications/solutions. <b>Verification:</b> position MUST be confirmed by X-ray prior to use. <b>Lumens:</b> single, double, or triple.</div>
+<div class="drugclass"><h4>Tunneled CVCs</h4><ul><li>Placed in the OR for long-term therapy (e.g., Hickman, Broviac, Groshong)</li></ul></div>
+<div class="drugclass"><h4>Vascular Access Ports (Implantable Ports)</h4><ul><li>Surgically implanted under the skin for long-term/repeated access (e.g., chemotherapy, blood products, fluids)</li><li>Accessed via a non-coring/PowerLoc needle (e.g., Port-a-cath, Mediport, Infusaport)</li></ul></div>
+<div class="drugclass"><h4>Peripherally Inserted Central Catheter (PICC)</h4><ul><li>Inserted via basilic or cephalic vein in the antecubital fossa</li><li>Tip terminates in the superior vena cava (SVC); used for long-term therapy</li></ul></div>
+<div class="drugclass"><h4>Epidural Catheter</h4><ul><li>Inserted into the epidural space of the vertebrae for analgesics or nerve blocks</li></ul></div>
+
+<h2 class="section-title">Parenteral Nutrition (PN) &amp; Complications</h2>
+<div class="note-callout"><b>Adverse reaction to lipids:</b> chest/back pain, chills, cyanosis, diaphoresis, dyspnea, fever, flushing, headache, nausea/vomiting, pressure over the eyes, thrombophlebitis, vertigo.</div>
+<table class="note-table">
+<tr><th>Complication</th><th>Cause</th><th>Signs &amp; Symptoms</th><th>Interventions</th></tr>
+<tr><td><b>Hypervolemia</b></td><td>Excessive/rapid fluid, renal/heart/hepatic dysfunction</td><td>Bounding pulse, lung crackles, headache, ↑BP, JVD, weight gain &gt;1–2 lb/wk</td><td>Slow/stop infusion, notify PHCP, restrict fluids, diuretics, monitor I&amp;O/weight. Never increase rate to "catch up."</td></tr>
+<tr><td><b>Hypoglycemia</b></td><td>Abrupt PN discontinuation, excess insulin</td><td>Anxiety, diaphoresis, hunger, BG &lt;70 mg/dL</td><td>Notify PHCP, give IV dextrose. Taper PN gradually; infuse 10% dextrose at same rate for 1–2 hrs after stopping.</td></tr>
+<tr><td><b>Infection</b></td><td>Poor aseptic technique, contamination</td><td>Chills, fever, ↑WBC, redness/drainage at site</td><td>Strict aseptic technique. Notify PHCP, remove catheter and culture tip, draw blood cultures, give antibiotics.</td></tr>
+</table>
+
+<h2 class="section-title">Administration of Blood Products</h2>
+<p><b>Components:</b> Packed Red Blood Cells (PRBCs), Platelet transfusions, Fresh-Frozen Plasma (FFP), Cryoprecipitates.</p>
+<table class="note-table">
+<tr><th>Recipient Type</th><th>Can Receive From (Donor)</th></tr>
+<tr><td><b>Type A</b></td><td>Type A, Type O</td></tr>
+<tr><td><b>Type B</b></td><td>Type B, Type O</td></tr>
+<tr><td><b>Type AB</b></td><td>Type A, Type B, Type AB, Type O (Universal Recipient)</td></tr>
+<tr><td><b>Type O</b></td><td>Type O only (Universal Donor)</td></tr>
+</table>
+
+<h2 class="section-title">General Safety Guidelines &amp; Preparation</h2>
+<div class="note-callout"><b>Compatibility:</b> ABO type must be compatible; consent must be signed prior to procedure.</div>
+<div class="note-callout"><b>Timing:</b> initiate within <b>30 minutes</b> of release from the blood bank; infuse 1 unit within <b>2 to 4 hours</b> maximum to avoid septicemia/bacterial growth.</div>
+<div class="note-callout"><b>Fluids:</b> ONLY 0.9% Normal Saline is compatible. NEVER add medications or other fluids to blood or the piggyback line.</div>
+<div class="note-callout"><b>Tubing:</b> dedicated blood Y-tubing or straight tubing with a filter to catch fibrin clots; change tubing with each unit or per policy.</div>
+<div class="note-callout"><b>Gauge:</b> 18- or 19-gauge preferred for rapid delivery and to prevent RBC damage (smaller gauges require dilution with NS per policy).</div>
+<div class="note-callout"><b>Verification:</b> double-verification by 2 licensed nurses at bedside (prescription, identity with 2 identifiers, unit expiration, ABO/Rh type, barcode scanning).</div>
+<div class="note-callout"><b>Pre-medication:</b> oral antihistamines/acetaminophen 30 minutes prior; IV formulations immediately prior, if prescribed for allergy history.</div>
+<div class="note-callout"><b>Monitoring:</b> vital signs before start, at 15 minutes, every 30 min to 1 hour during, and 1 hour post-completion.</div>
+<div class="note-callout"><b>Stay for first 15 minutes:</b> infuse slowly; most severe reactions (e.g., ABO incompatibility) occur within the first 50 mL.</div>
+<div class="note-callout"><b>Cultural considerations:</b> respect beliefs (e.g., Jehovah's Witness clients cannot receive blood/blood products).</div>
+
+<h2 class="section-title">Transfusion Reactions</h2>
+<p><b>Action upon reaction:</b></p>
+<ol style="color:var(--ink-soft);font-size:14.5px;line-height:1.9;">
+<li>STOP the transfusion immediately.</li>
+<li>Change IV tubing down to the insertion site and run Normal Saline to keep the line open.</li>
+<li>Notify the PHCP and blood bank.</li>
+<li>Monitor vital signs and remain with the client.</li>
+<li>Return the blood bag, tubing, and labs (blood/urine samples to check for free hemoglobin) to the blood bank.</li>
+</ol>
+<table class="note-table">
+<tr><th>Reaction</th><th>Clinical Presentation</th></tr>
+<tr><td>Hemolytic</td><td>Flank pain, chills, fever, headache, hypotension, hemoglobinuria</td></tr>
+<tr><td>Febrile Non-Hemolytic</td><td>Fever, chills, headache</td></tr>
+<tr><td>Allergic</td><td>Urticaria, itching, flushing</td></tr>
+<tr><td>Septic</td><td>High fever, chills, hypotension, shock</td></tr>
+<tr><td>In Unconscious Clients</td><td>Weak pulse, fever, tachycardia/bradycardia, hypotension, visible hemoglobinuria, oliguria/anuria</td></tr>
+<tr><td>Delayed</td><td>Days to years post-transfusion: fever, mild jaundice, decreased hematocrit</td></tr>
+</table>
+<div class="note-callout"><b>Other complications:</b> circulatory overload, iron overload, disease transmission, hypocalcemia, hyperkalemia, citrate toxicity.</div>
+
+<h2 class="section-title">5 High-Yield NCLEX Facts About Blood Transfusions</h2>
+<ol style="color:var(--ink-soft);font-size:14.5px;line-height:1.9;">
+<li><b>Start within 30 minutes</b> of pickup from the blood bank to prevent bacterial growth.</li>
+<li><b>Transfuse within 4 hours</b> — complete individual unit infusion within 4 hours maximum.</li>
+<li><b>Only Normal Saline</b> — 0.9% NS is the ONLY compatible fluid.</li>
+<li><b>Stay for the first 15 minutes</b> to observe for acute reactions.</li>
+<li><b>Administration safety</b> must be verified by 2 licensed nurses prior to initiation.</li>
+</ol>
+`;
+
+const QUESTIONS = [{"stem": "A client is prescribed an isotonic IV solution. What effect will this fluid have on the cells?", "options": [{"text": "It will not enter the cells; it expands extracellular fluid volume", "correct": true, "explain": "Isotonic solutions have the same osmolality as body fluids, so they stay in the extracellular compartment and expand ECF volume without shifting fluid into or out of cells."}, {"text": "It will cause water to move into the cells by osmosis", "correct": false, "explain": "Fluid moving into cells by osmosis describes a hypotonic solution, not an isotonic one."}, {"text": "It will cause water to move out of the cells by osmosis", "correct": false, "explain": "Fluid moving out of cells describes a hypertonic solution, not an isotonic one."}, {"text": "It will immediately cause cellular lysis", "correct": false, "explain": "Isotonic solutions do not cause cellular lysis; that risk is more associated with severely hypotonic fluids causing cells to swell and burst."}]}, {"stem": "Which statement correctly describes a hypotonic IV solution?", "options": [{"text": "It is more dilute than body fluids and causes water to move into cells by osmosis", "correct": true, "explain": "Hypotonic solutions have a lower osmolality than body fluids, so water moves into the more concentrated intracellular space by osmosis."}, {"text": "It has the same osmolality as body fluids and does not enter cells", "correct": false, "explain": "This describes an isotonic solution, not a hypotonic one."}, {"text": "It is more concentrated than body fluids and pulls water out of cells", "correct": false, "explain": "This describes a hypertonic solution, not a hypotonic one."}, {"text": "It is used primarily as a plasma expander in severe hypovolemia", "correct": false, "explain": "Plasma expansion pulling fluid from the interstitial space into the vascular space describes colloids, not hypotonic crystalloids."}]}, {"stem": "A colloid IV solution is administered for which primary purpose?", "options": [{"text": "To act as a plasma expander by pulling fluid from the interstitial space into the vascular space", "correct": true, "explain": "Colloids contain larger molecules that increase oncotic pressure, pulling fluid from the interstitial space into the vascular space, making them useful in severe hypovolemia."}, {"text": "To provide free water for cellular rehydration", "correct": false, "explain": "Providing free water for cellular rehydration is more characteristic of hypotonic solutions such as D5W once metabolized."}, {"text": "To directly replace lost red blood cells", "correct": false, "explain": "Colloids are plasma expanders, not a substitute for red blood cell transfusion."}, {"text": "To decrease osmolality below that of body fluids", "correct": false, "explain": "Colloids typically increase, not decrease, oncotic/osmotic pull relative to plasma."}]}, {"stem": "Which IV fluid is classified as isotonic and commonly used before or after the infusion of blood products?", "options": [{"text": "0.9% normal saline (NS)", "correct": true, "explain": "0.9% normal saline is isotonic and is used for extracellular fluid deficits and is the fluid used before or after infusing blood products."}, {"text": "5% dextrose in water (D5W)", "correct": false, "explain": "D5W is isotonic in the bag but becomes hypotonic once the dextrose is metabolized, and it is not the fluid used with blood administration."}, {"text": "5% dextrose in 0.45% saline", "correct": false, "explain": "This solution is hypertonic once dextrose is metabolized and is not the compatible fluid for blood administration."}, {"text": "Albumin", "correct": false, "explain": "Albumin is a colloid used to pull fluid into circulation in conditions like liver failure, not the fluid used to prime or flush blood tubing."}]}, {"stem": "A nurse is teaching a new graduate about D5W (5% dextrose in water). Which statement is accurate?", "options": [{"text": "It is isotonic at the time of administration but becomes hypotonic as the dextrose is metabolized", "correct": true, "explain": "D5W begins isotonic in the bag, but once the body metabolizes the dextrose, only free water remains, making the net effect hypotonic."}, {"text": "It is used alone to expand extracellular fluid volume", "correct": false, "explain": "D5W is not used alone to expand ECF volume because dilution of electrolytes can occur; it primarily replaces total body water deficits."}, {"text": "It remains hypertonic throughout administration", "correct": false, "explain": "D5W does not remain hypertonic; it starts isotonic and becomes hypotonic after dextrose metabolism."}, {"text": "It is the only fluid compatible with blood product administration", "correct": false, "explain": "0.9% normal saline, not D5W, is the only fluid compatible with blood product administration."}]}, {"stem": "Which combination correctly matches an IV solution with its tonicity classification once administered and metabolized?", "options": [{"text": "5% dextrose in 0.9% saline (D5 0.9% NS) — hypertonic", "correct": true, "explain": "D5 0.9% NS is classified as hypertonic and is used for extracellular fluid deficits with low serum sodium or chloride and metabolic alkalosis."}, {"text": "Ringer's lactate — hypertonic", "correct": false, "explain": "Ringer's lactate is isotonic, used for extracellular fluid deficits from burns, bleeding, or dehydration."}, {"text": "0.9% saline — hypotonic", "correct": false, "explain": "0.9% saline (normal saline) is isotonic, not hypotonic."}, {"text": "5% dextrose in water — hypertonic at time of administration", "correct": false, "explain": "D5W is isotonic at the time of administration; it becomes hypotonic, not hypertonic, once the dextrose is metabolized."}]}, {"stem": "A client with fluid volume deficit from severe diarrhea and dehydration from loss of bile is prescribed which type of isotonic fluid to correct acidosis and fluid loss?", "options": [{"text": "Ringer's lactate solution", "correct": true, "explain": "Ringer's lactate solution is used for extracellular fluid deficits such as fluid loss from burns, bleeding, and dehydration from loss of bile or diarrhea, and it helps correct acidosis and fluid loss."}, {"text": "5% dextrose in water", "correct": false, "explain": "D5W replaces total body water deficits and is not the preferred fluid for correcting acidosis and fluid loss from diarrhea."}, {"text": "5% dextrose in 0.225% saline", "correct": false, "explain": "This maintenance fluid provides more water than sodium and is not the preferred choice for diarrhea-related acidosis and fluid loss."}, {"text": "Albumin", "correct": false, "explain": "Albumin is a colloid for pulling fluid into circulation, such as in liver failure, not the standard fluid for diarrhea-related fluid loss."}]}, {"stem": "Which IV fluid is commonly used as an initial and maintenance fluid because it provides more water than sodium?", "options": [{"text": "5% dextrose in 0.225% saline (D5 0.225% NS)", "correct": true, "explain": "D5 0.225% NS is isotonic at time of administration and is commonly used as an initial fluid for hydration and as a maintenance fluid because it provides more water than sodium."}, {"text": "Ringer's lactate solution", "correct": false, "explain": "Ringer's lactate is used for extracellular fluid deficits, not specifically as a maintenance fluid providing more water than sodium."}, {"text": "5% dextrose in 0.9% saline", "correct": false, "explain": "This hypertonic solution is used for extracellular fluid deficits with low sodium/chloride and metabolic alkalosis, not as a typical maintenance fluid."}, {"text": "Albumin", "correct": false, "explain": "Albumin is a colloid, not a maintenance crystalloid fluid."}]}, {"stem": "A client is receiving 5% dextrose in Ringer's lactate solution. What is the correct tonicity classification of this fluid?", "options": [{"text": "Hypertonic", "correct": true, "explain": "5% dextrose in Ringer's lactate solution is classified as hypertonic and is used for extracellular fluid deficits such as fluid loss from burns, bleeding, and dehydration."}, {"text": "Isotonic", "correct": false, "explain": "Once the dextrose component is factored in, this combination solution is classified as hypertonic, not isotonic."}, {"text": "Hypotonic", "correct": false, "explain": "This solution is hypertonic, not hypotonic."}, {"text": "Colloid", "correct": false, "explain": "This is a crystalloid dextrose/electrolyte combination, not a colloid."}]}, {"stem": "Why are hypotonic solutions generally avoided in a client with a head injury?", "options": [{"text": "They can cause water to shift into cells, worsening cerebral edema", "correct": true, "explain": "Hypotonic solutions cause water to move into cells by osmosis, which can worsen cerebral edema in a client with a head injury; normal saline is preferred to help prevent this."}, {"text": "They cause excessive sodium retention", "correct": false, "explain": "Sodium retention is not the primary mechanism of concern; the concern is water shifting into cells and worsening cerebral edema."}, {"text": "They are incompatible with blood administration", "correct": false, "explain": "While normal saline is the only fluid compatible with blood, incompatibility with blood is not the reason hypotonic fluids are avoided in head injury."}, {"text": "They increase serum osmolality excessively", "correct": false, "explain": "Hypotonic solutions decrease, not increase, serum osmolality, which is exactly why they risk worsening cerebral edema."}]}, {"stem": "Which IV fluid is preferred for a client with extensive burns, and why?", "options": [{"text": "Lactated Ringer's (LR), because it replaces fluid and electrolytes", "correct": true, "explain": "LR is the preferred fluid for burns because it replaces both fluid and electrolytes lost through burn injury."}, {"text": "Normal saline (NS), because it prevents cerebral edema", "correct": false, "explain": "Preventing cerebral edema is the rationale for NS use in head injury, not the primary rationale for burns."}, {"text": "D5W, because it replaces total body water only", "correct": false, "explain": "D5W replacing total body water is not the preferred rationale for burn fluid resuscitation, which requires both fluid and electrolyte replacement."}, {"text": "Albumin, because it is the universal donor fluid", "correct": false, "explain": "Albumin is not described as a universal donor fluid; that terminology applies to blood type compatibility, specifically Type O red blood cells."}]}, {"stem": "A client presents with vomiting and resulting sodium and chloride losses. Which IV fluid is preferred?", "options": [{"text": "Normal saline (NS), for sodium and chloride replacement", "correct": true, "explain": "NS is preferred for vomiting because it replaces the sodium and chloride lost through gastric losses."}, {"text": "Lactated Ringer's (LR), to correct acidosis and fluid loss", "correct": false, "explain": "LR is preferred for conditions like burns and diarrhea, not specifically for vomiting-related sodium and chloride loss."}, {"text": "Half normal saline (0.45% NS), for gentle rehydration", "correct": false, "explain": "Half normal saline is preferred for general dehydration, not specifically for replacing sodium and chloride lost from vomiting."}, {"text": "Albumin, to pull fluid into circulation", "correct": false, "explain": "Albumin is used in conditions like liver failure, not as the preferred fluid for vomiting-related electrolyte loss."}]}, {"stem": "Which IV fluid is preferred for a client in diabetic ketoacidosis (DKA), and why?", "options": [{"text": "Lactated Ringer's (LR), to expand volume before insulin therapy is started", "correct": true, "explain": "LR is preferred in DKA to expand intravascular volume before insulin therapy begins."}, {"text": "Normal saline (NS), to prime and flush blood tubing", "correct": false, "explain": "Priming and flushing blood tubing is the role of NS with blood transfusions, not the primary rationale for DKA fluid resuscitation."}, {"text": "D5W, to replace total body water deficits only", "correct": false, "explain": "D5W replacing total body water alone is not the priority fluid choice in DKA volume expansion before insulin."}, {"text": "Albumin, as a plasma expander", "correct": false, "explain": "Albumin as a plasma expander is not the standard first fluid choice in DKA management."}]}, {"stem": "Why is normal saline (NS) the preferred IV fluid before initiating a blood transfusion?", "options": [{"text": "It is used to prime and flush IV lines and is the only fluid compatible with blood", "correct": true, "explain": "NS is used to prime and flush IV lines before blood administration because it is the only fluid compatible with blood components."}, {"text": "It expands volume before insulin therapy", "correct": false, "explain": "Expanding volume before insulin therapy describes the rationale for LR use in DKA, not the rationale for NS use with blood transfusions."}, {"text": "It corrects acidosis and fluid loss from diarrhea", "correct": false, "explain": "Correcting acidosis and fluid loss from diarrhea describes the rationale for LR, not NS with blood transfusions."}, {"text": "It gently rehydrates a client with mild dehydration", "correct": false, "explain": "Gentle rehydration describes the use of half normal saline, not the rationale for NS with blood transfusions."}]}, {"stem": "A client with a head injury requires IV fluid replacement. Which fluid is preferred, and why?", "options": [{"text": "Normal saline (NS), because it helps prevent cerebral edema", "correct": true, "explain": "NS is preferred in head injury because, unlike hypotonic solutions, it helps prevent worsening cerebral edema."}, {"text": "Half normal saline (0.45% NS), for gentle rehydration", "correct": false, "explain": "Half normal saline is a hypotonic solution and should generally be avoided in head injury because it can worsen cerebral edema."}, {"text": "D5W, to replace total body water", "correct": false, "explain": "D5W becomes hypotonic once metabolized and is not preferred in head injury for the same reason hypotonic solutions are avoided."}, {"text": "Lactated Ringer's, to correct acidosis", "correct": false, "explain": "LR is not specifically identified as the preferred fluid for head injury; NS is preferred to help avoid cerebral edema."}]}, {"stem": "Which fluid provides gentle rehydration and is preferred for a client with general dehydration?", "options": [{"text": "Half normal saline (0.45% NS)", "correct": true, "explain": "Half normal saline is preferred for general dehydration because it provides gentle rehydration."}, {"text": "Lactated Ringer's (LR)", "correct": false, "explain": "LR is preferred for conditions such as burns, diarrhea, and DKA rather than general gentle rehydration."}, {"text": "Normal saline (NS)", "correct": false, "explain": "NS is preferred for vomiting, head injury, and blood transfusion priming, not specifically labeled as gentle rehydration."}, {"text": "Albumin", "correct": false, "explain": "Albumin is preferred for liver failure to pull fluid into circulation, not for gentle rehydration in general dehydration."}]}, {"stem": "Albumin is the preferred fluid choice for a client with which condition, and why?", "options": [{"text": "Liver failure, because it pulls fluid into circulation", "correct": true, "explain": "Albumin is preferred for liver failure because, as a colloid, it pulls fluid into circulation, helping manage conditions like ascites related to low oncotic pressure."}, {"text": "DKA, to expand volume before insulin", "correct": false, "explain": "Expanding volume before insulin in DKA is the role of LR, not albumin."}, {"text": "Head injury, to prevent cerebral edema", "correct": false, "explain": "Preventing cerebral edema in head injury is the role of NS, not albumin."}, {"text": "Burns, to replace fluid and electrolytes", "correct": false, "explain": "Replacing fluid and electrolytes in burns is the role of LR, not albumin."}]}, {"stem": "A client with diarrhea is prescribed Lactated Ringer's (LR). What is the primary rationale for this fluid choice?", "options": [{"text": "It corrects acidosis and fluid loss", "correct": true, "explain": "LR is preferred for diarrhea because it corrects the acidosis and fluid loss associated with significant GI fluid losses."}, {"text": "It replaces sodium and chloride specifically lost through vomiting", "correct": false, "explain": "Sodium and chloride replacement for vomiting is the rationale for NS, not the primary rationale for LR in diarrhea."}, {"text": "It primes and flushes blood administration tubing", "correct": false, "explain": "Priming and flushing blood tubing is the role of NS, not LR."}, {"text": "It provides gentle rehydration only", "correct": false, "explain": "LR corrects acidosis and fluid loss rather than simply providing gentle rehydration, which describes half normal saline."}]}, {"stem": "A nurse needs to administer a very precise, slow IV infusion to a pediatric client. Which drip chamber type and rate is most appropriate?", "options": [{"text": "Microdrip, delivering 60 gtt/mL", "correct": true, "explain": "A microdrip chamber delivers 60 gtt/mL, allowing for more precise control of small or slow infusion volumes, which is ideal for pediatric or closely titrated infusions."}, {"text": "Macrodrip, delivering 60 gtt/mL", "correct": false, "explain": "Macrodrip chambers deliver 10-20 gtt/mL, not 60 gtt/mL; 60 gtt/mL is the microdrip rate."}, {"text": "Macrodrip, delivering 10-20 gtt/mL", "correct": false, "explain": "While this is the correct macrodrip rate, macrodrip sets are not the most appropriate choice for precise, slow pediatric infusions; microdrip is preferred."}, {"text": "Microdrip, delivering 10-20 gtt/mL", "correct": false, "explain": "10-20 gtt/mL is the macrodrip rate, not the microdrip rate, which is 60 gtt/mL."}]}, {"stem": "What is the standard drop factor range for a macrodrip IV administration set?", "options": [{"text": "10-20 gtt/mL", "correct": true, "explain": "A macrodrip chamber has a standard drop factor of 10-20 gtt/mL."}, {"text": "60 gtt/mL", "correct": false, "explain": "60 gtt/mL is the drop factor for a microdrip set, not a macrodrip set."}, {"text": "1-5 gtt/mL", "correct": false, "explain": "1-5 gtt/mL is not a standard drop factor for either macrodrip or microdrip sets."}, {"text": "100 gtt/mL", "correct": false, "explain": "100 gtt/mL is not a standard IV administration set drop factor."}]}, {"stem": "Which IV device category includes butterfly sets and plastic cannulas?", "options": [{"text": "Intravenous devices used for peripheral access", "correct": true, "explain": "Butterfly sets and plastic cannulas are both categorized as intravenous devices used to establish peripheral IV access."}, {"text": "Central venous catheter lumens", "correct": false, "explain": "Butterfly sets and plastic cannulas are peripheral devices, not central venous catheter lumens."}, {"text": "Parenteral nutrition filters", "correct": false, "explain": "Butterfly sets and cannulas are access devices, not PN filtration components."}, {"text": "Blood administration Y-tubing components", "correct": false, "explain": "Blood administration tubing is a distinct component from butterfly sets and plastic cannulas used for general peripheral IV access."}]}, {"stem": "A nurse is preparing IV equipment and needs to identify which components are part of a standard IV setup. Select all that apply.", "options": [{"text": "IV gauges", "correct": true, "explain": "IV gauges are a standard component of IV equipment and setup."}, {"text": "IV tubing", "correct": true, "explain": "IV tubing is a standard component of IV equipment and setup."}, {"text": "Drip chambers", "correct": true, "explain": "Drip chambers are a standard component of IV equipment and setup."}, {"text": "Non-coring PowerLoc needles", "correct": false, "explain": "Non-coring/PowerLoc needles are specifically used to access implantable vascular ports, not a standard general peripheral IV setup component."}], "isSAL": true}, {"stem": "Which peripheral IV site should the nurse avoid due to risk of complications?", "options": [{"text": "An arm with an arteriovenous fistula or shunt for dialysis", "correct": true, "explain": "Peripheral IV access should be avoided in an arm with an arteriovenous fistula or shunt because it can damage the access needed for dialysis."}, {"text": "A vein selected distal before moving proximal", "correct": false, "explain": "Selecting a distal site before moving proximal is a general guideline for site selection, not a site to avoid."}, {"text": "A vein on the client's non-dominant hand", "correct": false, "explain": "The non-dominant hand is not listed as a site to avoid; sites to avoid relate to edema, trauma, mastectomy side, fistulas, infection, and specific body regions."}, {"text": "A vein assessed for resilience after tourniquet application", "correct": false, "explain": "Assessing for vein resilience after tourniquet application is part of proper insertion technique, not a site to avoid."}]}, {"stem": "A nurse is selecting a peripheral IV site for a client who had a mastectomy on the right side. What is the priority action?", "options": [{"text": "Avoid inserting the IV in the right arm", "correct": true, "explain": "Peripheral IVs should be avoided on the same side as a mastectomy due to lymphedema risk and impaired lymphatic drainage."}, {"text": "Select the right arm because it has not been used recently", "correct": false, "explain": "The right arm should be avoided regardless of recent use because of the mastectomy on that side."}, {"text": "Use the right foot instead", "correct": false, "explain": "Feet should not be used for peripheral IVs, as PIVs cannot be accessed by the RN on the feet."}, {"text": "Use the neck as an alternative site", "correct": false, "explain": "The neck should not be used for peripheral IVs, as PIVs cannot be accessed by the RN on the neck."}]}, {"stem": "Which of the following are appropriate reasons to avoid a peripheral IV site? Select all that apply.", "options": [{"text": "Edematous extremity", "correct": true, "explain": "An edematous extremity should be avoided for peripheral IV placement."}, {"text": "Infected skin area", "correct": true, "explain": "An infected skin area should be avoided for peripheral IV placement."}, {"text": "Arm that is weak, traumatized, or paralyzed", "correct": true, "explain": "A weak, traumatized, or paralyzed arm should be avoided for peripheral IV placement."}, {"text": "A vein located proximal to a previously used distal site", "correct": false, "explain": "Selecting a site proximal to a previously used distal site is generally appropriate, as the general guideline is to move from distal to proximal over time, not a reason to avoid a site outright."}], "isSAL": true}, {"stem": "The nurse is unable to palpate a vein in a client's foot for IV access. What is the correct nursing action?", "options": [{"text": "Do not use the foot for peripheral IV access; the RN cannot access PIVs on the feet", "correct": true, "explain": "Feet should not be used for peripheral IVs because PIVs cannot be accessed by the RN on the feet."}, {"text": "Proceed with foot IV placement using a smaller gauge catheter", "correct": false, "explain": "Feet are not an appropriate peripheral IV site for the RN regardless of catheter gauge."}, {"text": "Use the neck as the next best alternative", "correct": false, "explain": "The neck is also not an appropriate site, as PIVs cannot be accessed by the RN on the neck either."}, {"text": "Warm the foot above 42°C to dilate the vein before insertion", "correct": false, "explain": "Warming devices should not exceed 42°C regardless of site, and the foot should not be used for peripheral IV access at all."}]}, {"stem": "Which client would be the least appropriate candidate for peripheral IV placement in the left arm?", "options": [{"text": "A client with an active heparin infusion running in the left arm", "correct": true, "explain": "Venipuncture through an arm with an ongoing IV infusion, such as heparin, should be avoided for a new peripheral IV site."}, {"text": "A client whose right arm was used for the most recent IV", "correct": false, "explain": "Using the opposite arm from the most recent IV site is an appropriate practice, not a reason for avoidance."}, {"text": "A client with a resilient vein palpated after tourniquet placement", "correct": false, "explain": "A resilient vein palpated after tourniquet placement is an appropriate finding supporting site selection, not a reason to avoid the site."}, {"text": "A client who is right-hand dominant", "correct": false, "explain": "Hand dominance alone is not listed as a reason to avoid a peripheral IV site."}]}, {"stem": "What is the maximum temperature recommended for a warming device used to assist with vein dilation prior to IV insertion?", "options": [{"text": "42°C", "correct": true, "explain": "Warming devices used to assist vein dilation should not exceed 42°C."}, {"text": "38°C", "correct": false, "explain": "38°C is below the maximum recommended temperature of 42°C for vein-dilation warming devices."}, {"text": "45°C", "correct": false, "explain": "45°C exceeds the maximum recommended temperature of 42°C and could risk thermal injury."}, {"text": "50°C", "correct": false, "explain": "50°C significantly exceeds the maximum safe temperature of 42°C for warming devices."}]}, {"stem": "Which principle should guide the nurse's general approach to selecting a vein for peripheral IV insertion over the course of a client's therapy?", "options": [{"text": "Select sites distal to proximal when possible", "correct": true, "explain": "The general guideline for PIV insertion is to select veins distal to proximal when possible, preserving proximal sites for future use."}, {"text": "Always select the most proximal vein first", "correct": false, "explain": "The correct approach is distal to proximal, not proximal first, to preserve future venous access options."}, {"text": "Select veins only in areas of flexion for easier access", "correct": false, "explain": "Areas of flexion should generally be avoided when possible, particularly to reduce the risk of phlebitis and mechanical irritation."}, {"text": "Select any accessible vein regardless of prior IV or hematoma history", "correct": false, "explain": "Hematomas and areas with an ongoing IV infusion should be avoided, not selected regardless of history."}]}, {"stem": "A client has a hematoma on the forearm from a recent unsuccessful venipuncture attempt. What should the nurse do regarding this site for a new IV attempt?", "options": [{"text": "Avoid venipuncture through the hematoma", "correct": true, "explain": "The nurse should avoid venipuncture through hematomas, selecting an alternate site for the new IV attempt."}, {"text": "Proceed with venipuncture directly through the hematoma using a larger catheter", "correct": false, "explain": "Venipuncture through a hematoma should be avoided altogether, not attempted with a different catheter size."}, {"text": "Apply a tourniquet directly over the hematoma and proceed", "correct": false, "explain": "A tourniquet over the hematoma does not make venipuncture through it appropriate; the site should be avoided."}, {"text": "Use the site since it is easier to visualize the vein", "correct": false, "explain": "Ease of visualization does not outweigh the recommendation to avoid venipuncture through a hematoma."}]}, {"stem": "Place the following steps of inserting a peripheral IV in the correct order: (1) apply tourniquet and palpate vein, (2) clean skin with antimicrobial solution, (3) check PHCP prescription and prepare tubing, (4) puncture skin/vein observing for flashback.", "options": [{"text": "3, 1, 2, 4", "correct": true, "explain": "The correct order is: check the PHCP prescription and prepare tubing/solution first, then select the vein and apply the tourniquet, then clean the skin, and finally puncture the skin/vein while observing for flashback."}, {"text": "1, 2, 3, 4", "correct": false, "explain": "The prescription check and tubing preparation (step 3) must occur before vein selection and tourniquet application (step 1)."}, {"text": "2, 1, 3, 4", "correct": false, "explain": "Skin cleaning (step 2) should occur after tourniquet application and vein selection (step 1), and both should follow the prescription check (step 3)."}, {"text": "4, 3, 2, 1", "correct": false, "explain": "Puncturing the skin (step 4) must occur last, after prescription verification, vein selection, and skin cleansing, not first."}]}, {"stem": "Which technique should the nurse use to clean the skin prior to peripheral IV insertion?", "options": [{"text": "Antimicrobial solution using an inner-to-outer circular motion", "correct": true, "explain": "Skin should be cleaned with an antimicrobial solution using an inner-to-outer circular motion, or per CDC guidelines and agency policy."}, {"text": "Antimicrobial solution using an outer-to-inner circular motion", "correct": false, "explain": "The correct technique is inner-to-outer, not outer-to-inner, circular motion."}, {"text": "Plain water only, moving in a straight line", "correct": false, "explain": "Plain water alone is not the recommended cleansing method; an antimicrobial solution should be used."}, {"text": "Alcohol swab wiped in a single back-and-forth motion", "correct": false, "explain": "The described technique is an inner-to-outer circular motion with an antimicrobial solution, not a single back-and-forth wipe."}]}, {"stem": "During peripheral IV insertion, the nurse observes blood in the flashback chamber. What should the nurse do next?", "options": [{"text": "Lower the catheter flush with the skin and advance the catheter into the vein", "correct": true, "explain": "Once flashback is observed, the nurse should lower the catheter flush with the skin and advance the catheter into the vein."}, {"text": "Immediately remove the tourniquet and catheter", "correct": false, "explain": "Removing the catheter immediately after flashback is not correct; the nurse should advance the catheter into the vein first."}, {"text": "Apply additional pressure above the insertion site before advancing", "correct": false, "explain": "Pressure above the insertion site is applied after the tourniquet is removed and the stylet retracted, not immediately upon seeing flashback."}, {"text": "Reapply the tourniquet more tightly and reattempt puncture", "correct": false, "explain": "Reapplying the tourniquet is not indicated once flashback confirms successful vein entry; the nurse should advance the catheter."}]}, {"stem": "After successfully cannulating a vein and removing the tourniquet, what is the nurse's next step before connecting the IV tubing?", "options": [{"text": "Apply pressure above the insertion site with the middle finger of the nondominant hand and retract the stylet", "correct": true, "explain": "After tourniquet removal, the nurse applies pressure above the insertion site with the middle finger of the nondominant hand and retracts the stylet before connecting tubing."}, {"text": "Immediately begin the prescribed infusion at full rate", "correct": false, "explain": "The stylet must be retracted and tubing connected and secured, with comfort and flow checked, before infusion continues per prescribed parameters."}, {"text": "Reapply the tourniquet to control bleeding", "correct": false, "explain": "The tourniquet has already been removed at this point; pressure is applied manually rather than reapplying the tourniquet."}, {"text": "Immediately apply the transparent dressing before connecting tubing", "correct": false, "explain": "Tubing must be connected, secured, and flow/comfort checked before the site is taped and secured with the dressing."}]}, {"stem": "What should the nurse do if an initial peripheral IV insertion attempt is unsuccessful?", "options": [{"text": "Use a new sterile device for the next attempt", "correct": true, "explain": "If an insertion attempt is unsuccessful, the nurse should use a new sterile device for the next attempt rather than reusing the same catheter."}, {"text": "Reuse the same catheter at a more proximal site", "correct": false, "explain": "The same catheter should not be reused; a new sterile device should be used for the next attempt."}, {"text": "Attempt insertion at the same exact site with the same device", "correct": false, "explain": "A new sterile device should be used, and generally a different site is selected for a subsequent attempt."}, {"text": "Document the failed attempt only after three failed tries", "correct": false, "explain": "Each attempt, including the number of attempts, should be documented, not only after three failed tries."}]}, {"stem": "Which of the following should be documented after inserting a peripheral IV? Select all that apply.", "options": [{"text": "Number of insertion attempts", "correct": true, "explain": "The number of attempts should be documented after peripheral IV insertion."}, {"text": "Site, device type, and size", "correct": true, "explain": "The site along with the device type and size should be documented after peripheral IV insertion."}, {"text": "Solution, flow rate, and time", "correct": true, "explain": "The solution being infused, flow rate, and time should be documented after peripheral IV insertion."}, {"text": "The client's complete medication administration record for the shift", "correct": false, "explain": "While documentation is essential, the specific items required after PIV insertion are attempts, site, device details, solution, flow rate, time, and client response, not the entire shift's medication administration record."}], "isSAL": true}, {"stem": "Before beginning peripheral IV insertion, what should the nurse do regarding client identification?", "options": [{"text": "Perform patient verification similar to medication administration", "correct": true, "explain": "Patient verification for IV insertion should be performed similarly to the verification process used for medication administration."}, {"text": "Skip identity verification since a chart is already open", "correct": false, "explain": "Identity verification should still be performed similarly to medication administration, not skipped."}, {"text": "Verify identity only if the client seems confused", "correct": false, "explain": "Verification should be performed for every client, not selectively based on apparent confusion."}, {"text": "Ask a family member to confirm identity instead of the client", "correct": false, "explain": "Standard patient verification procedures, similar to medication administration, should be used rather than relying solely on a family member."}]}, {"stem": "What precaution category should the nurse use during peripheral IV insertion?", "options": [{"text": "Standard precautions", "correct": true, "explain": "Standard precautions are used during peripheral IV insertion procedures."}, {"text": "Airborne precautions only", "correct": false, "explain": "Airborne precautions are not the standard precaution category specified for routine PIV insertion."}, {"text": "No precautions are required if the client has no known infections", "correct": false, "explain": "Standard precautions should be used for every client, regardless of known infection status."}, {"text": "Contact precautions only", "correct": false, "explain": "Contact precautions specifically are not what is described; standard precautions apply to PIV insertion."}]}, {"stem": "Place the following peripheral IV removal steps in order: (1) apply pressure with dry sterile gauze for 2-3 minutes, (2) turn off the tubing clamp and remove dressing while stabilizing the catheter, (3) check PHCP prescription and explain the procedure, (4) withdraw the catheter in a slow, steady movement parallel to the skin.", "options": [{"text": "3, 2, 4, 1", "correct": true, "explain": "The correct order is: check the prescription and explain the procedure, turn off the clamp and remove the dressing while stabilizing the catheter, withdraw the catheter parallel to the skin, and then apply pressure with dry sterile gauze for 2-3 minutes."}, {"text": "1, 2, 3, 4", "correct": false, "explain": "Pressure application (step 1) occurs last, after catheter withdrawal, not first."}, {"text": "2, 3, 1, 4", "correct": false, "explain": "The prescription check and explanation (step 3) should occur before turning off the clamp and removing the dressing (step 2)."}, {"text": "4, 1, 2, 3", "correct": false, "explain": "Catheter withdrawal (step 4) cannot occur before checking the prescription, explaining the procedure, and preparing the site."}]}, {"stem": "A client on anticoagulant therapy is having a peripheral IV removed. How should the nurse modify the standard removal procedure?", "options": [{"text": "Apply pressure for longer than the standard 2-3 minutes", "correct": true, "explain": "For a client with a bleeding disorder or on anticoagulant therapy, the nurse should apply pressure for longer than the standard 2-3 minutes."}, {"text": "Skip applying pressure altogether", "correct": false, "explain": "Pressure should still be applied, and for longer, not skipped, in a client on anticoagulant therapy."}, {"text": "Apply pressure for exactly 2-3 minutes as with any client", "correct": false, "explain": "The standard 2-3 minutes should be extended for a client with a bleeding disorder or on anticoagulant therapy."}, {"text": "Apply ice instead of gauze pressure", "correct": false, "explain": "The described intervention is extended manual pressure with dry sterile gauze, not substituting ice for pressure."}]}, {"stem": "In what direction should the nurse withdraw a peripheral IV catheter during removal?", "options": [{"text": "In a slow, steady movement parallel to the skin", "correct": true, "explain": "The catheter should be withdrawn in a slow, steady movement parallel to the skin during peripheral IV removal."}, {"text": "Perpendicular to the skin in a quick motion", "correct": false, "explain": "Withdrawal should be slow and steady, parallel to the skin, not perpendicular and quick."}, {"text": "At a 45-degree angle with rapid force", "correct": false, "explain": "The correct technique is slow and steady, parallel to the skin, not at an angle with rapid force."}, {"text": "In a twisting, rotational motion", "correct": false, "explain": "A twisting or rotational motion is not the described technique; withdrawal should be slow, steady, and parallel to the skin."}]}, {"stem": "After removing a peripheral IV, the nurse notices redness and drainage at the site. What should the nurse do?", "options": [{"text": "Inspect the site for redness, drainage, or swelling and document findings; this warrants attention as a possible complication", "correct": true, "explain": "The nurse should inspect the site for redness, drainage, or swelling after removal, and these findings should be documented as they may indicate a complication requiring follow-up."}, {"text": "Ignore the finding since the IV has already been removed", "correct": false, "explain": "Findings such as redness or drainage should not be ignored even after removal; they should be inspected, documented, and addressed appropriately."}, {"text": "Reinsert an IV at the same site immediately", "correct": false, "explain": "Reinsertion at the same site is not the appropriate response to redness and drainage; the finding should be assessed and documented, with a different site chosen if a new IV is needed."}, {"text": "Apply a warm compress only, with no further action needed", "correct": false, "explain": "Simply applying a warm compress without further inspection, documentation, and follow-up is not sufficient for signs of a possible site complication."}]}, {"stem": "What is the correct sequence when checking the intactness of a peripheral catheter tip after removal?", "options": [{"text": "Inspect the catheter tip to confirm it is intact and was fully removed", "correct": true, "explain": "After removal, the nurse should inspect the catheter tip for intactness to confirm the entire catheter was removed."}, {"text": "Discard the catheter immediately without inspection", "correct": false, "explain": "The catheter tip should be inspected for intactness, not discarded without inspection, to rule out catheter fragment embolism."}, {"text": "Send the catheter tip for culture in every routine removal", "correct": false, "explain": "Routine removals do not require sending the catheter tip for culture; catheter tip culture is typically associated with suspected catheter-related infection, such as with central lines."}, {"text": "Only inspect the tip if the client reports pain", "correct": false, "explain": "The catheter tip should be inspected for intactness in every removal, not only when pain is reported."}]}, {"stem": "A client's peripheral IV site shows heat, redness, tenderness, and sluggish infusion. What complication does the nurse suspect?", "options": [{"text": "Phlebitis", "correct": true, "explain": "Heat, redness, tenderness at the site, and sluggish infusion are signs of phlebitis, an irritation or inflammation of the vein."}, {"text": "Infiltration", "correct": false, "explain": "Infiltration presents with edema, cool skin, pain, numbness, and sluggish or stopped flow, not heat and redness with tenderness."}, {"text": "Air embolism", "correct": false, "explain": "Air embolism presents with sudden low BP, tachycardia, and dyspnea, not local heat and redness."}, {"text": "Hematoma", "correct": false, "explain": "Hematoma presents with ecchymosis and hard/painful lumps after a puncture, not the described heat, redness, and tenderness pattern."}]}, {"stem": "A client's IV site develops a hard, cordlike vein. What complication should the nurse suspect, and what is the priority nursing action?", "options": [{"text": "Thrombophlebitis; stop/remove the IV and apply warm, moist compresses without irrigating the line", "correct": true, "explain": "A hard, cordlike vein indicates thrombophlebitis, a clot associated with phlebitis. The nurse should stop/remove the IV immediately and apply warm, moist compresses, and must NOT irrigate the line if thrombophlebitis is suspected."}, {"text": "Infiltration; elevate the extremity and apply a cool compress", "correct": false, "explain": "Infiltration is characterized by edema and cool skin, not a hard cordlike vein, which specifically indicates thrombophlebitis."}, {"text": "Air embolism; position the client in Trendelenburg on the left side", "correct": false, "explain": "Air embolism presents with sudden respiratory and cardiovascular symptoms, not a hard cordlike vein at the site."}, {"text": "Phlebitis; irrigate the line to restore patency", "correct": false, "explain": "Irrigating the line is contraindicated if thrombophlebitis is suspected, as it could dislodge the clot."}]}, {"stem": "Which finding is most consistent with infiltration rather than phlebitis?", "options": [{"text": "Edema, cool skin, and sluggish or stopped flow", "correct": true, "explain": "Infiltration is characterized by fluid leaking into surrounding tissue, causing edema, cool skin, pain, numbness, and sluggish or stopped flow."}, {"text": "Heat and redness with a sluggish infusion", "correct": false, "explain": "Heat and redness with sluggish infusion are more consistent with phlebitis, not infiltration."}, {"text": "A hard, cordlike, tender vein", "correct": false, "explain": "A hard cordlike vein is a sign of thrombophlebitis, not simple infiltration."}, {"text": "Sudden hypotension and tachypnea", "correct": false, "explain": "Sudden hypotension and tachypnea are signs of air embolism, not infiltration."}]}, {"stem": "A vesicant solution has infiltrated into the tissue surrounding an IV site, causing blistering and skin sloughing. What complication has occurred, and what is the priority intervention?", "options": [{"text": "Extravasation; notify the PHCP immediately for antidote/treatment and document/photograph per policy", "correct": true, "explain": "Extravasation is infiltration of a vesicant or irritant solution into tissue, causing pain, redness, blistering, and tissue necrosis; the priority is immediate PHCP notification for possible antidote treatment, with documentation and photography per policy."}, {"text": "Simple infiltration; elevate the extremity and monitor", "correct": false, "explain": "Blistering and skin sloughing from a vesicant indicate extravasation, a more serious complication than simple infiltration, requiring immediate PHCP notification."}, {"text": "Hematoma; apply ice and pressure", "correct": false, "explain": "Hematoma results from blood leaking into tissue after venipuncture, not vesicant solution causing blistering and sloughing."}, {"text": "Phlebitis; apply warm compresses only", "correct": false, "explain": "The described tissue damage from a vesicant solution is extravasation, requiring immediate PHCP notification, not simple warm compress management for phlebitis."}]}, {"stem": "A nurse suspects an air embolism in a client receiving IV therapy. Which findings support this suspicion? Select all that apply.", "options": [{"text": "Sudden low blood pressure", "correct": true, "explain": "Sudden low blood pressure is a sign of air embolism."}, {"text": "Tachycardia", "correct": true, "explain": "Tachycardia is a sign of air embolism."}, {"text": "Dyspnea or trouble breathing", "correct": true, "explain": "Dyspnea or trouble breathing is a sign of air embolism, and this complication can be fatal."}, {"text": "Hard, cordlike vein at the insertion site", "correct": false, "explain": "A hard, cordlike vein indicates thrombophlebitis, not air embolism, which presents with sudden cardiopulmonary symptoms."}], "isSAL": true}, {"stem": "What is the primary cause of infiltration at a peripheral IV site?", "options": [{"text": "Fluid leaking into surrounding interstitial tissue due to catheter dislodgement or vein perforation", "correct": true, "explain": "Infiltration occurs when fluid leaks into the surrounding interstitial tissue because of catheter dislodgement or perforation of the vein."}, {"text": "Irritation or inflammation of the vein from mechanical, chemical, or infectious causes", "correct": false, "explain": "This describes the cause of phlebitis, not infiltration."}, {"text": "Blood leaking outside the vein into tissue after an unsuccessful puncture", "correct": false, "explain": "This describes the cause of a hematoma, not infiltration."}, {"text": "Air entering the vein and traveling to the lungs", "correct": false, "explain": "This describes the cause of an air embolism, not infiltration."}]}, {"stem": "Which nursing intervention is appropriate for a suspected hematoma after IV catheter discontinuation?", "options": [{"text": "Apply pressure for 2-3 minutes (longer for bleeding risk), elevate the extremity, and apply ice", "correct": true, "explain": "For a suspected hematoma, the nurse should apply pressure for 2-3 minutes (longer if the client has bleeding risk), elevate the extremity, and apply ice."}, {"text": "Apply warm, moist compresses immediately", "correct": false, "explain": "Warm, moist compresses are the intervention for thrombophlebitis, not the initial management of an active hematoma, which is managed with pressure, elevation, and ice."}, {"text": "Massage the site vigorously to disperse the blood", "correct": false, "explain": "Vigorous massage is not an appropriate intervention for a hematoma and could worsen bleeding or bruising."}, {"text": "Reinsert a new IV at the exact same puncture site immediately", "correct": false, "explain": "A new IV should not be reinserted at the exact same site immediately after a hematoma; a different site should generally be selected."}]}, {"stem": "What is the recommended interval for routinely changing a peripheral IV site per general agency policy to help prevent phlebitis?", "options": [{"text": "Every 72-96 hours", "correct": true, "explain": "Changing the peripheral IV site every 72-96 hours per agency policy is a recommended intervention to help prevent phlebitis."}, {"text": "Every 12 hours", "correct": false, "explain": "Every 12 hours is more frequent than the general recommended interval of 72-96 hours."}, {"text": "Every 7 days", "correct": false, "explain": "Every 7 days is longer than the general recommended interval of 72-96 hours."}, {"text": "Only when visibly infected", "correct": false, "explain": "Waiting until visible infection contradicts the proactive site-change interval of 72-96 hours meant to help prevent complications like phlebitis."}]}, {"stem": "Which action should the nurse take if thrombophlebitis is suspected at a peripheral IV site?", "options": [{"text": "Stop/remove the IV immediately and apply warm, moist compresses; do NOT irrigate the line", "correct": true, "explain": "If thrombophlebitis is suspected, the nurse should stop and remove the IV immediately, apply warm, moist compresses, and specifically avoid irrigating the line."}, {"text": "Irrigate the line to check for patency before removing it", "correct": false, "explain": "The line should NOT be irrigated if thrombophlebitis is suspected, as this could dislodge a clot."}, {"text": "Increase the infusion rate to flush the suspected clot", "correct": false, "explain": "Increasing the infusion rate is not appropriate; the IV should be stopped and removed, not used to flush a suspected clot."}, {"text": "Apply a cool compress and continue the infusion", "correct": false, "explain": "A cool compress and continued infusion are not appropriate; a warm, moist compress should be applied after stopping and removing the IV."}]}, {"stem": "A client's IV insertion site shows redness, pain, swelling, and fever. What complication is most consistent with these findings?", "options": [{"text": "Infection", "correct": true, "explain": "Redness, pain, swelling, and fever at the IV site are classic signs of infection, caused by germs entering at the IV site."}, {"text": "Extravasation", "correct": false, "explain": "Extravasation is characterized by blistering, skin sloughing, and tissue necrosis from a vesicant, not the general redness, pain, swelling, and fever pattern described."}, {"text": "Electrolyte overload", "correct": false, "explain": "Electrolyte overload does not present with local site redness, pain, swelling, and fever; it is a systemic complication related to infusion rate or solution."}, {"text": "Hematoma", "correct": false, "explain": "Hematoma presents with ecchymosis and swelling immediately after venipuncture, not fever, which is more indicative of infection."}]}, {"stem": "Which nursing action helps prevent electrolyte overload or imbalance during IV therapy?", "options": [{"text": "Calculate and verify flow rates using electronic infusion devices or time tapes and monitor lab values", "correct": true, "explain": "Preventing electrolyte overload/imbalance involves monitoring lab values and calculating/verifying flow rates using electronic devices or time tapes."}, {"text": "Use only manual gravity-based tubing without any rate verification", "correct": false, "explain": "Relying solely on manual gravity tubing without verification does not align with the recommended prevention strategy of verified flow rates and lab monitoring."}, {"text": "Avoid documenting additive medications on the IV bag", "correct": false, "explain": "Red medication stickers should be used if additives are present, not omitted from documentation, to help prevent errors leading to overload/imbalance."}, {"text": "Increase the infusion rate whenever a client falls behind on fluid intake goals", "correct": false, "explain": "Increasing the rate to 'catch up' is not an appropriate intervention and can contribute to complications such as electrolyte imbalance or hypervolemia."}]}, {"stem": "A client reports numbness and pain at the IV site, and the nurse observes cool skin with sluggish flow but no redness or warmth. Which complication is most likely?", "options": [{"text": "Infiltration", "correct": true, "explain": "Numbness, pain, cool skin, and sluggish or stopped flow without redness or warmth are classic findings of infiltration."}, {"text": "Phlebitis", "correct": false, "explain": "Phlebitis presents with heat, redness, and tenderness, not the cool skin described in this scenario."}, {"text": "Infection", "correct": false, "explain": "Infection typically presents with redness, warmth, and fever, not cool skin without redness."}, {"text": "Extravasation", "correct": false, "explain": "While related to infiltration, extravasation specifically involves a vesicant/irritant causing blistering or tissue necrosis, which is not described in this scenario."}]}, {"stem": "The nurse is caring for a client receiving a vesicant medication through a peripheral IV. What is the most important ongoing nursing action to prevent a severe complication?", "options": [{"text": "Frequently assess the IV site for early signs of infiltration or extravasation", "correct": true, "explain": "Frequent assessment of the IV site is critical when infusing a vesicant, allowing early detection of infiltration or extravasation before significant tissue damage occurs."}, {"text": "Increase the infusion rate to complete the medication more quickly", "correct": false, "explain": "Increasing the infusion rate is not an appropriate strategy to prevent extravasation and could increase the risk or severity of tissue damage if infiltration occurs."}, {"text": "Apply a tourniquet proximal to the site throughout the infusion", "correct": false, "explain": "Applying a tourniquet during infusion is not an appropriate ongoing safety measure for vesicant administration."}, {"text": "Avoid assessing the site until the infusion is complete", "correct": false, "explain": "The site should be frequently assessed throughout the infusion, not only after it is complete, to catch early signs of infiltration or extravasation."}]}, {"stem": "Which statement about air embolism during IV therapy is correct?", "options": [{"text": "It occurs when air enters the vein and travels to the lungs, and can be fatal", "correct": true, "explain": "Air embolism occurs when air enters the vein and travels to the lungs; it presents with sudden low BP, tachycardia, and dyspnea, and can be fatal."}, {"text": "It is caused by irritation or inflammation of the vein", "correct": false, "explain": "Irritation or inflammation of the vein describes the cause of phlebitis, not air embolism."}, {"text": "It presents primarily with a hard, cordlike vein at the site", "correct": false, "explain": "A hard, cordlike vein is a sign of thrombophlebitis, not air embolism, which presents with systemic cardiopulmonary symptoms."}, {"text": "It is a minor complication that resolves without intervention", "correct": false, "explain": "Air embolism can be fatal and is not a minor, self-resolving complication."}]}, {"stem": "Before a newly placed central venous catheter (CVC) can be used, what must occur first?", "options": [{"text": "Position must be confirmed by X-ray", "correct": true, "explain": "CVC position must be confirmed by X-ray prior to use to verify correct placement before the catheter is used for infusion."}, {"text": "The client must ambulate to confirm patency", "correct": false, "explain": "Ambulation does not confirm catheter tip placement; X-ray confirmation is required."}, {"text": "A flush with normal saline confirms placement is sufficient", "correct": false, "explain": "A saline flush alone does not confirm correct tip placement; X-ray confirmation is required before use."}, {"text": "Verification is only required for tunneled catheters, not all CVCs", "correct": false, "explain": "X-ray confirmation of position is required prior to use for CVCs generally, not only for tunneled catheters."}]}, {"stem": "Which type of central venous catheter is inserted via the basilic or cephalic vein in the antecubital fossa with the tip terminating in the superior vena cava?", "options": [{"text": "Peripherally Inserted Central Catheter (PICC)", "correct": true, "explain": "A PICC line is inserted via the basilic or cephalic vein in the antecubital fossa, with the tip terminating in the superior vena cava, and is used for long-term therapy."}, {"text": "Tunneled CVC (e.g., Hickman, Broviac)", "correct": false, "explain": "Tunneled CVCs like Hickman or Broviac catheters are placed in the OR for long-term therapy, not via the antecubital fossa vein."}, {"text": "Vascular access port (e.g., Port-a-cath)", "correct": false, "explain": "Vascular access ports are surgically implanted under the skin and accessed with a non-coring needle, not inserted via the antecubital fossa."}, {"text": "Epidural catheter", "correct": false, "explain": "An epidural catheter is inserted into the epidural space of the vertebrae, not the antecubital fossa vein."}]}, {"stem": "A client requires long-term chemotherapy access with infrequent, repeated use and wants a device that is not visible externally between treatments. Which CVC type is most appropriate?", "options": [{"text": "Vascular access port (implantable port, e.g., Port-a-cath or Mediport)", "correct": true, "explain": "An implantable vascular access port is surgically placed under the skin for long-term, repeated access such as chemotherapy, and is not visible externally between treatments, being accessed via a non-coring/PowerLoc needle."}, {"text": "PICC line", "correct": false, "explain": "A PICC line has external components and tubing, unlike an implanted port that sits fully under the skin between uses."}, {"text": "Epidural catheter", "correct": false, "explain": "An epidural catheter is used for analgesics or nerve blocks, not for chemotherapy or repeated blood draws."}, {"text": "Standard peripheral IV catheter", "correct": false, "explain": "A standard peripheral IV is a short-term device and is not appropriate for long-term, repeated chemotherapy access."}]}, {"stem": "Which needle type is used to access an implantable vascular port?", "options": [{"text": "Non-coring/PowerLoc needle", "correct": true, "explain": "Implantable vascular ports such as a Port-a-cath, Mediport, or Infusaport are accessed via a non-coring/PowerLoc needle."}, {"text": "Standard hypodermic needle", "correct": false, "explain": "A standard hypodermic needle is not the appropriate device for accessing an implanted port; a non-coring/PowerLoc needle is used."}, {"text": "18-gauge blood administration needle", "correct": false, "explain": "An 18-gauge needle is preferred for blood transfusion via peripheral access, not for accessing an implanted port."}, {"text": "Butterfly needle", "correct": false, "explain": "A butterfly set is a peripheral IV device, not the specialized non-coring needle used to access implanted ports."}]}, {"stem": "Which of the following are indications for a central venous catheter? Select all that apply.", "options": [{"text": "Delivery of hyperosmolar solutions", "correct": true, "explain": "Delivery of hyperosmolar solutions is an indication for central venous catheter placement."}, {"text": "Central venous pressure (CVP) monitoring", "correct": true, "explain": "CVP monitoring is an indication for central venous catheter placement."}, {"text": "Parenteral nutrition (TPN/PPN)", "correct": true, "explain": "Delivery of parenteral nutrition (TPN/PPN) is an indication for central venous catheter placement."}, {"text": "Routine administration of a single short-term isotonic maintenance fluid", "correct": false, "explain": "A routine short-term isotonic maintenance fluid can typically be given through a standard peripheral IV and is not a primary indication requiring central venous access."}], "isSAL": true}, {"stem": "What lumen configurations may a central venous catheter have?", "options": [{"text": "Single, double, or triple lumen", "correct": true, "explain": "Central venous catheters may have single, double, or triple lumen configurations, depending on the therapies needed."}, {"text": "Only single lumen", "correct": false, "explain": "CVCs are not limited to single lumen only; double and triple lumen options are also available."}, {"text": "Only quadruple lumen", "correct": false, "explain": "Quadruple lumen is not the described lumen option range for CVCs; single, double, or triple lumen options are described."}, {"text": "Lumen number is not a relevant CVC characteristic", "correct": false, "explain": "Lumen number is a relevant characteristic, as CVCs may be single, double, or triple lumen depending on clinical need."}]}, {"stem": "An epidural catheter is inserted into which anatomic space, and for what general purpose?", "options": [{"text": "The epidural space of the skeletal vertebrae, for analgesics or nerve blocks", "correct": true, "explain": "An epidural catheter is inserted into the epidural space of the skeletal vertebrae for the administration of analgesics or nerve blocks."}, {"text": "The superior vena cava, for parenteral nutrition", "correct": false, "explain": "Superior vena cava placement for parenteral nutrition describes a PICC or other central line, not an epidural catheter."}, {"text": "The antecubital fossa vein, for chemotherapy administration", "correct": false, "explain": "The antecubital fossa vein describes PICC placement, not the epidural catheter, which is placed in the epidural space."}, {"text": "Subcutaneous tissue over the chest wall, for CVP monitoring", "correct": false, "explain": "Subcutaneous chest wall placement describes an implantable port, not an epidural catheter used for analgesics/nerve blocks."}]}, {"stem": "Which type of CVC is placed in the operating room and is intended for long-term therapy, with examples including Hickman, Broviac, and Groshong catheters?", "options": [{"text": "Tunneled CVC", "correct": true, "explain": "Tunneled CVCs, such as Hickman, Broviac, and Groshong catheters, are placed in the OR for long-term therapy."}, {"text": "PICC line", "correct": false, "explain": "A PICC line is inserted at the bedside or by specially trained staff via the antecubital fossa vein, not necessarily placed in the OR like a tunneled CVC."}, {"text": "Vascular access port", "correct": false, "explain": "While vascular access ports are also surgically implanted, the examples of Hickman, Broviac, and Groshong specifically describe tunneled CVCs."}, {"text": "Epidural catheter", "correct": false, "explain": "An epidural catheter is used for analgesics/nerve blocks and is not described by the examples Hickman, Broviac, or Groshong."}]}, {"stem": "A client receiving parenteral nutrition develops a bounding pulse, lung crackles, headache, elevated BP, JVD, and a weight gain of 3 lb over one week. What complication does the nurse suspect?", "options": [{"text": "Hypervolemia", "correct": true, "explain": "Bounding pulse, lung crackles, headache, elevated BP, JVD, and weight gain greater than 1-2 lb/week are signs of hypervolemia, often from excessive or rapid fluid administration."}, {"text": "Hypoglycemia", "correct": false, "explain": "Hypoglycemia presents with anxiety, diaphoresis, hunger, and low blood glucose, not the fluid-overload signs described."}, {"text": "Infection", "correct": false, "explain": "Infection presents with chills, fever, elevated WBC, and site redness/drainage, not the described fluid-overload pattern."}, {"text": "Air embolism", "correct": false, "explain": "Air embolism presents with sudden hypotension, tachycardia, and dyspnea, not the gradual fluid-overload pattern described."}]}, {"stem": "A client's PN infusion was abruptly discontinued, and the client now reports anxiety, diaphoresis, and hunger, with a blood glucose of 58 mg/dL. What is the priority nursing intervention?", "options": [{"text": "Notify the PHCP and administer IV dextrose", "correct": true, "explain": "For PN-related hypoglycemia (blood glucose less than 70 mg/dL) with symptoms like anxiety, diaphoresis, and hunger, the priority is to notify the PHCP and administer IV dextrose."}, {"text": "Increase the PN infusion rate to compensate", "correct": false, "explain": "Increasing the PN rate abruptly is not the intervention; IV dextrose administration and notifying the PHCP is the priority for acute hypoglycemia."}, {"text": "Withhold all further glucose sources until the next scheduled PN bag", "correct": false, "explain": "Withholding glucose is inappropriate for symptomatic hypoglycemia; IV dextrose should be administered."}, {"text": "Apply a warming blanket and reassess in one hour", "correct": false, "explain": "A warming blanket does not address hypoglycemia; the priority is IV dextrose administration and PHCP notification."}]}, {"stem": "How should PN be discontinued in order to prevent hypoglycemia?", "options": [{"text": "Gradually taper PN, infusing 10% dextrose at the same rate for 1-2 hours after stopping PN", "correct": true, "explain": "To prevent hypoglycemia from abrupt PN discontinuation, PN should be gradually tapered, and 10% dextrose infused at the same rate for 1-2 hours after stopping PN."}, {"text": "Stop PN abruptly with no additional dextrose support", "correct": false, "explain": "Abrupt discontinuation without dextrose support increases the risk of hypoglycemia; gradual tapering with dextrose support is recommended."}, {"text": "Increase the PN rate sharply just before discontinuation", "correct": false, "explain": "Sharply increasing the rate before discontinuation is not the recommended method; a gradual taper with dextrose support is used instead."}, {"text": "Discontinue PN and immediately begin a hypertonic saline infusion", "correct": false, "explain": "Hypertonic saline is not the intervention described for preventing PN-related hypoglycemia; 10% dextrose infusion is used."}]}, {"stem": "A client with a PN catheter develops chills, fever, and elevated WBC count, with redness and drainage at the insertion site. What is the suspected complication and priority intervention?", "options": [{"text": "Infection; notify the PHCP, remove the catheter and send the tip for culture, draw blood cultures, and administer antibiotics as ordered", "correct": true, "explain": "Chills, fever, elevated WBC, and site redness/drainage indicate infection. Priority actions include notifying the PHCP, removing the catheter and sending the tip for culture, drawing blood cultures, and administering antibiotics as ordered."}, {"text": "Hypervolemia; restrict fluids and administer diuretics", "correct": false, "explain": "Fluid restriction and diuretics address hypervolemia, not the infection signs (fever, elevated WBC, site redness/drainage) described in this scenario."}, {"text": "Hypoglycemia; administer IV dextrose", "correct": false, "explain": "IV dextrose addresses hypoglycemia, not the infection-related signs of fever, elevated WBC, and site redness/drainage described."}, {"text": "Air embolism; place the client in Trendelenburg position", "correct": false, "explain": "The described findings are consistent with infection, not air embolism, which presents with sudden respiratory/cardiovascular symptoms."}]}, {"stem": "Which findings are consistent with an adverse reaction to IV lipid emulsion? Select all that apply.", "options": [{"text": "Chest or back pain", "correct": true, "explain": "Chest or back pain is a listed adverse reaction sign to IV lipids."}, {"text": "Chills and fever", "correct": true, "explain": "Chills and fever are listed adverse reaction signs to IV lipids."}, {"text": "Dyspnea and cyanosis", "correct": true, "explain": "Dyspnea and cyanosis are listed adverse reaction signs to IV lipids."}, {"text": "Bradypnea with bounding peripheral pulses only", "correct": false, "explain": "This specific combination is not listed among the described lipid adverse reaction signs, which include chest/back pain, chills, cyanosis, diaphoresis, dyspnea, fever, flushing, headache, nausea/vomiting, pressure over the eyes, thrombophlebitis, and vertigo."}], "isSAL": true}, {"stem": "What is the priority nursing action for a client experiencing hypervolemia related to parenteral nutrition?", "options": [{"text": "Slow/stop the infusion, notify the PHCP, restrict fluids, and administer diuretics as ordered", "correct": true, "explain": "For PN-related hypervolemia, the priority is to slow or stop the infusion, notify the PHCP, restrict fluids, and administer diuretics as ordered, while monitoring I&O and daily weight."}, {"text": "Increase the infusion rate to help flush excess fluid", "correct": false, "explain": "Increasing the rate would worsen hypervolemia; the nurse should slow or stop the infusion instead."}, {"text": "Encourage a high-sodium diet to balance fluid status", "correct": false, "explain": "A high-sodium diet is not an appropriate intervention for hypervolemia; fluid restriction is indicated."}, {"text": "Administer IV dextrose immediately", "correct": false, "explain": "IV dextrose is the intervention for PN-related hypoglycemia, not hypervolemia."}]}, {"stem": "Which nursing action helps prevent PN-related catheter infection?", "options": [{"text": "Strict aseptic technique during catheter care and PN administration", "correct": true, "explain": "Strict aseptic technique during catheter care and PN administration is the key prevention strategy for PN-related infection."}, {"text": "Increasing the PN infusion rate to reduce hang time", "correct": false, "explain": "Increasing the infusion rate is not the described infection-prevention strategy; strict aseptic technique is the key intervention."}, {"text": "Avoiding daily weight monitoring", "correct": false, "explain": "Avoiding daily weight monitoring is not related to infection prevention and would actually be counterproductive for monitoring hypervolemia."}, {"text": "Discontinuing PN abruptly at the first sign of any complication", "correct": false, "explain": "Abrupt discontinuation is not the described infection-prevention strategy and is specifically discouraged due to hypoglycemia risk; strict aseptic technique is the key prevention method."}]}, {"stem": "What should the nurse never do in response to a client falling behind on their prescribed parenteral nutrition volume?", "options": [{"text": "Increase the infusion rate to 'catch up'", "correct": true, "explain": "The nurse should never increase the PN infusion rate to 'catch up' on missed volume, as this can precipitate complications such as hypervolemia."}, {"text": "Notify the PHCP of the delay", "correct": false, "explain": "Notifying the PHCP of a delay is an appropriate action, not something the nurse should avoid doing."}, {"text": "Monitor I&O and daily weight closely", "correct": false, "explain": "Monitoring I&O and daily weight is an appropriate, recommended action, not something to avoid."}, {"text": "Assess for signs of hypervolemia", "correct": false, "explain": "Assessing for hypervolemia is an appropriate action to take, not something the nurse should avoid."}]}, {"stem": "Which of the following are types of blood products administered via transfusion? Select all that apply.", "options": [{"text": "Packed Red Blood Cells (PRBCs)", "correct": true, "explain": "Packed Red Blood Cells (PRBCs) are a type of blood product administered via transfusion."}, {"text": "Platelet transfusions", "correct": true, "explain": "Platelet transfusions are a type of blood product administered via transfusion."}, {"text": "Fresh-Frozen Plasma (FFP)", "correct": true, "explain": "Fresh-Frozen Plasma (FFP) is a type of blood product administered via transfusion."}, {"text": "Albumin infusion", "correct": false, "explain": "Albumin is a colloid IV solution used to pull fluid into circulation, distinct from the blood product components of PRBCs, platelets, FFP, and cryoprecipitate."}], "isSAL": true}, {"stem": "A client requires replacement of clotting factors due to a fibrinogen deficiency. Which blood product is most appropriate?", "options": [{"text": "Cryoprecipitate", "correct": true, "explain": "Cryoprecipitate contains concentrated clotting factors, including fibrinogen, making it appropriate for replacing fibrinogen deficiency."}, {"text": "Packed Red Blood Cells (PRBCs)", "correct": false, "explain": "PRBCs are used to increase oxygen-carrying capacity, not primarily to replace clotting factors like fibrinogen."}, {"text": "Platelet transfusion", "correct": false, "explain": "Platelet transfusions address thrombocytopenia or platelet dysfunction, not specifically fibrinogen deficiency."}, {"text": "Normal saline", "correct": false, "explain": "Normal saline is a crystalloid solution and does not provide clotting factor replacement."}]}, {"stem": "Which blood product would the nurse anticipate administering to a client with severe anemia to increase oxygen-carrying capacity?", "options": [{"text": "Packed Red Blood Cells (PRBCs)", "correct": true, "explain": "PRBCs are administered to increase oxygen-carrying capacity in a client with severe anemia."}, {"text": "Fresh-Frozen Plasma (FFP)", "correct": false, "explain": "FFP is used primarily to replace clotting factors, not specifically to increase oxygen-carrying capacity."}, {"text": "Cryoprecipitate", "correct": false, "explain": "Cryoprecipitate replaces concentrated clotting factors such as fibrinogen, not oxygen-carrying capacity."}, {"text": "Platelet transfusion", "correct": false, "explain": "Platelet transfusions address platelet counts/function, not oxygen-carrying capacity."}]}, {"stem": "A client with thrombocytopenia and active bleeding is most likely to receive which blood product?", "options": [{"text": "Platelet transfusion", "correct": true, "explain": "A client with thrombocytopenia and active bleeding would most likely receive a platelet transfusion to help restore adequate platelet levels for clotting."}, {"text": "Packed Red Blood Cells (PRBCs)", "correct": false, "explain": "PRBCs increase oxygen-carrying capacity and are not the primary product for thrombocytopenia-related bleeding."}, {"text": "Cryoprecipitate", "correct": false, "explain": "Cryoprecipitate replaces clotting factors such as fibrinogen, not specifically low platelet counts."}, {"text": "Albumin", "correct": false, "explain": "Albumin is a colloid plasma expander, not a blood product used to address thrombocytopenia."}]}, {"stem": "A client with Type A blood requires a red blood cell transfusion. Which donor blood type(s) are compatible?", "options": [{"text": "Type A or Type O", "correct": true, "explain": "A client with Type A blood can safely receive Type A or Type O red blood cells."}, {"text": "Type A, Type B, Type AB, or Type O", "correct": false, "explain": "This range of compatible donor types applies to a Type AB recipient (the universal recipient), not a Type A recipient."}, {"text": "Type O only", "correct": false, "explain": "Type O only describes what a Type O recipient can receive; a Type A recipient can also receive Type A blood."}, {"text": "Type B or Type AB", "correct": false, "explain": "Type B and Type AB are not compatible donor types for a Type A recipient; Type A and Type O are compatible."}]}, {"stem": "Which blood type is known as the universal donor for red blood cell transfusions?", "options": [{"text": "Type O", "correct": true, "explain": "Type O is known as the universal donor because Type O red blood cells can be given to recipients of any ABO type."}, {"text": "Type AB", "correct": false, "explain": "Type AB is known as the universal recipient, not the universal donor."}, {"text": "Type A", "correct": false, "explain": "Type A is not the universal donor; Type A recipients can only receive Type A or Type O blood."}, {"text": "Type B", "correct": false, "explain": "Type B is not the universal donor; Type B recipients can only receive Type B or Type O blood."}]}, {"stem": "A client with Type AB blood requires a red blood cell transfusion. Which statement is correct regarding compatible donor types?", "options": [{"text": "Type AB is the universal recipient and can receive Type A, B, AB, or O blood", "correct": true, "explain": "Type AB is the universal recipient for red blood cell transfusions and can receive blood from Type A, Type B, Type AB, or Type O donors."}, {"text": "Type AB can only receive Type AB blood", "correct": false, "explain": "Type AB recipients are not restricted to only Type AB donor blood; they can receive from any ABO type as the universal recipient."}, {"text": "Type AB is the universal donor", "correct": false, "explain": "Type O, not Type AB, is described as the universal donor; Type AB is the universal recipient."}, {"text": "Type AB can only receive Type O blood", "correct": false, "explain": "While Type AB can receive Type O blood, it is not limited to Type O only; it can receive from any ABO type."}]}, {"stem": "A client with Type B blood is prescribed a red blood cell transfusion. Which donor blood type(s) would be compatible?", "options": [{"text": "Type B or Type O", "correct": true, "explain": "A client with Type B blood can safely receive Type B or Type O red blood cells."}, {"text": "Type A or Type AB", "correct": false, "explain": "Type A and Type AB are not compatible donor types for a Type B recipient; Type B and Type O are compatible."}, {"text": "Type AB only", "correct": false, "explain": "Type AB alone is not the correct compatible donor set for a Type B recipient; Type B and Type O are compatible."}, {"text": "Type A only", "correct": false, "explain": "Type A alone is not compatible for a Type B recipient; Type B and Type O are the compatible donor types."}]}, {"stem": "Prior to hanging a unit of blood, why must the nurse verify ABO type compatibility even after the blood bank has already cross-matched the unit?", "options": [{"text": "Because ABO type compatibility must be verified at the bedside to prevent a life-threatening hemolytic reaction from a mismatched transfusion", "correct": true, "explain": "Even after blood bank cross-matching, bedside ABO compatibility verification by two licensed nurses is required to catch any error before administration, since a mismatched transfusion can cause a life-threatening hemolytic reaction."}, {"text": "Because cross-matching by the blood bank is not a reliable process", "correct": false, "explain": "The rationale is not that blood bank cross-matching is unreliable, but that an additional bedside safety check by two nurses is a required verification step to catch potential errors."}, {"text": "Because ABO compatibility only matters for platelet transfusions, not PRBCs", "correct": false, "explain": "ABO compatibility is critical for red blood cell transfusions specifically, due to the risk of hemolytic reaction from a mismatch."}, {"text": "Because Type O blood never requires any compatibility verification", "correct": false, "explain": "Even Type O blood, though the universal donor for red cells, still requires the standard double-verification process before administration."}]}, {"stem": "A Type O client requires a red blood cell transfusion. Which donor type(s) can this client safely receive?", "options": [{"text": "Type O only", "correct": true, "explain": "A Type O client, as the universal recipient's counterpart limitation, can only safely receive Type O red blood cells."}, {"text": "Type A or Type O", "correct": false, "explain": "A Type O recipient cannot receive Type A blood; only Type O is compatible for a Type O recipient."}, {"text": "Any ABO type", "correct": false, "explain": "A Type O recipient cannot receive any ABO type; only Type O donor blood is compatible."}, {"text": "Type AB only", "correct": false, "explain": "Type AB is not compatible with a Type O recipient; only Type O donor blood is compatible."}]}, {"stem": "Within what time frame must blood administration be initiated after release from the blood bank?", "options": [{"text": "30 minutes", "correct": true, "explain": "Blood administration must be initiated within 30 minutes of release from the blood bank to help prevent bacterial growth."}, {"text": "2 hours", "correct": false, "explain": "2 hours is not the initiation window; blood must be started within 30 minutes of release from the blood bank."}, {"text": "15 minutes", "correct": false, "explain": "15 minutes describes how long the nurse must stay with the client at the start of the transfusion, not the initiation window after blood bank release."}, {"text": "4 hours", "correct": false, "explain": "4 hours is the maximum time allowed to complete infusion of one unit, not the window to initiate administration after release."}]}, {"stem": "What is the maximum time allowed to infuse one unit of blood, in order to avoid septicemia and bacterial growth?", "options": [{"text": "2 to 4 hours", "correct": true, "explain": "One unit of blood must be infused within 2 to 4 hours, which is the maximum allowable time to avoid septicemia and bacterial growth."}, {"text": "30 minutes", "correct": false, "explain": "30 minutes is the window to initiate the transfusion after release from the blood bank, not the maximum infusion time for one unit."}, {"text": "8 to 10 hours", "correct": false, "explain": "8 to 10 hours far exceeds the maximum allowable 2 to 4 hour infusion window and would risk septicemia and bacterial growth."}, {"text": "15 minutes", "correct": false, "explain": "15 minutes is the time the nurse must remain with the client at the start of the transfusion, not the maximum infusion time."}]}, {"stem": "Which fluid is the ONLY fluid compatible with blood component administration?", "options": [{"text": "0.9% Normal Saline", "correct": true, "explain": "0.9% normal saline is the only fluid compatible with blood component administration; no medications or other fluids should be added to blood or piggybacked into the line."}, {"text": "Lactated Ringer's", "correct": false, "explain": "Lactated Ringer's is not the compatible fluid for blood administration; only 0.9% normal saline should be used."}, {"text": "5% dextrose in water", "correct": false, "explain": "Dextrose-containing solutions are not compatible with blood administration and can cause red blood cell hemolysis; only 0.9% normal saline is used."}, {"text": "Half normal saline", "correct": false, "explain": "Half normal saline is not the compatible fluid for blood administration; only 0.9% normal saline should be used."}]}, {"stem": "What size needle gauge is generally preferred for blood transfusion to prevent RBC damage and allow rapid delivery?", "options": [{"text": "18- or 19-gauge", "correct": true, "explain": "An 18- or 19-gauge needle is preferred for blood transfusion to allow rapid delivery and prevent RBC damage; smaller gauges require dilution with NS per policy."}, {"text": "22- or 24-gauge", "correct": false, "explain": "22- or 24-gauge needles are smaller and would require dilution with NS per policy rather than being the preferred initial gauge to prevent RBC damage."}, {"text": "14-gauge only", "correct": false, "explain": "14-gauge is smaller-numbered (larger bore) than the described preferred range of 18- or 19-gauge for blood transfusion."}, {"text": "25-gauge", "correct": false, "explain": "A 25-gauge needle is far smaller than the preferred 18- or 19-gauge and would risk RBC damage during rapid transfusion."}]}, {"stem": "Blood transfusion verification requires which of the following steps? Select all that apply.", "options": [{"text": "Double-verification by two licensed nurses at the bedside", "correct": true, "explain": "Blood transfusion requires double-verification by two licensed nurses at the bedside."}, {"text": "Checking client identity with two identifiers and barcode scanning", "correct": true, "explain": "Checking client identity with two identifiers and barcode scanning is part of the required verification process."}, {"text": "Verifying unit expiration and ABO/Rh type", "correct": true, "explain": "Verifying the unit's expiration date and ABO/Rh type is part of the required verification process."}, {"text": "Verification by a single RN is sufficient if a UAP witnesses", "correct": false, "explain": "Verification requires two licensed nurses, not a single RN with a UAP witness."}], "isSAL": true}, {"stem": "A client has a documented allergy history and is prescribed an oral antihistamine before a blood transfusion. When should this premedication be given?", "options": [{"text": "30 minutes prior to the transfusion", "correct": true, "explain": "Oral antihistamines/acetaminophen should be given 30 minutes prior to the transfusion when prescribed for a client with an allergy history."}, {"text": "Immediately before starting the transfusion", "correct": false, "explain": "Immediately before starting is the timing for IV formulations, not oral premedications, which should be given 30 minutes prior."}, {"text": "1 hour after the transfusion begins", "correct": false, "explain": "Premedication should occur before the transfusion begins, not after it has started."}, {"text": "There is no specific timing requirement", "correct": false, "explain": "There is a specific timing requirement: oral premedications should be given 30 minutes prior to the transfusion."}]}, {"stem": "When should IV antihistamine formulations be administered for a client with an allergy history prior to blood transfusion?", "options": [{"text": "Immediately prior to the transfusion, if prescribed", "correct": true, "explain": "IV formulations are given immediately prior to the transfusion if prescribed for a client's allergy history, in contrast to oral formulations given 30 minutes prior."}, {"text": "30 minutes prior, the same as oral formulations", "correct": false, "explain": "30 minutes prior is the timing for oral formulations; IV formulations are given immediately prior to the transfusion."}, {"text": "1 hour after the transfusion is complete", "correct": false, "explain": "Premedication, whether oral or IV, is given before the transfusion begins, not after it is complete."}, {"text": "Only after a reaction has already occurred", "correct": false, "explain": "Premedication is given proactively before the transfusion for a client with a known allergy history, not only after a reaction occurs."}]}, {"stem": "At what points should the nurse measure the client's vital signs during a blood transfusion? Select all that apply.", "options": [{"text": "Before the transfusion starts", "correct": true, "explain": "Vital signs should be measured before the transfusion starts."}, {"text": "At 15 minutes into the transfusion", "correct": true, "explain": "Vital signs should be measured at 15 minutes into the transfusion."}, {"text": "Every 30 minutes to 1 hour during the transfusion", "correct": true, "explain": "Vital signs should be measured every 30 minutes to 1 hour during the transfusion."}, {"text": "Only once, immediately after the transfusion is fully completed", "correct": false, "explain": "Vital signs monitoring includes measurements before, at 15 minutes, periodically during, and 1 hour after completion — not only a single measurement after completion."}], "isSAL": true}, {"stem": "Why must the nurse remain with the client for the first 15 minutes of a blood transfusion?", "options": [{"text": "Because the infusion is run slowly during this time and most severe reactions, such as ABO incompatibility, occur within the first 50 mL", "correct": true, "explain": "The nurse must stay with the client for the first 15 minutes because the transfusion is infused slowly during this period, and most severe reactions, including ABO incompatibility, occur within the first 50 mL infused."}, {"text": "Because this is when the blood must be double-verified by two nurses", "correct": false, "explain": "Double-verification occurs before the transfusion begins, not specifically during the first 15 minutes of infusion."}, {"text": "Because the blood must be returned to the blood bank if unused within 15 minutes", "correct": false, "explain": "This describes a different safety rule about initiating the transfusion within 30 minutes of blood bank release, not the rationale for staying with the client for the first 15 minutes."}, {"text": "Because vital signs are only required once during the entire transfusion", "correct": false, "explain": "Vital signs are required at multiple points, not only once, and the 15-minute rule pertains to close monitoring for severe reactions."}]}, {"stem": "A client identifies as a Jehovah's Witness and expresses that they cannot receive blood or blood products for religious reasons. What is the appropriate nursing response?", "options": [{"text": "Respect the client's cultural and religious beliefs regarding blood product refusal", "correct": true, "explain": "The nurse should respect cultural considerations, such as a Jehovah's Witness client's belief that they cannot receive blood or blood products."}, {"text": "Proceed with transfusion since it is medically necessary, overriding the client's wishes", "correct": false, "explain": "A competent client's informed refusal based on religious beliefs should be respected, not overridden."}, {"text": "Delay documentation of the client's refusal until after the emergency passes", "correct": false, "explain": "The client's refusal and its rationale should be appropriately documented, not delayed, as part of respecting their autonomy and cultural beliefs."}, {"text": "Assume the client is mistaken about their own beliefs and proceed regardless", "correct": false, "explain": "The nurse should respect, not dismiss, the client's stated cultural and religious beliefs regarding blood product administration."}]}, {"stem": "What must be verified as signed prior to blood product administration?", "options": [{"text": "Informed consent", "correct": true, "explain": "Consent must be verified as signed prior to blood product administration, along with confirming ABO type compatibility."}, {"text": "A do-not-resuscitate order", "correct": false, "explain": "A DNR order is unrelated to the required consent verification for blood product administration."}, {"text": "A living will", "correct": false, "explain": "A living will is not the document specifically required to be verified as signed prior to blood administration; informed consent is required."}, {"text": "An advance directive naming a healthcare proxy", "correct": false, "explain": "While important in general care, this is not the specific document that must be verified as signed prior to blood administration; informed consent is required."}]}, {"stem": "What is the purpose of using dedicated blood Y-tubing or straight tubing with a filter during transfusion?", "options": [{"text": "To catch fibrin clots in the blood product", "correct": true, "explain": "A filter within dedicated blood tubing (Y-tubing or straight tubing) is used to catch fibrin clots present in the blood product."}, {"text": "To allow simultaneous administration of medications with the blood", "correct": false, "explain": "Medications should never be added to or piggybacked with blood administration tubing; the filter's purpose is to catch fibrin clots, not facilitate medication co-administration."}, {"text": "To warm the blood product prior to infusion", "correct": false, "explain": "Warming is not the described function of the filter; its purpose is to catch fibrin clots."}, {"text": "To measure the exact volume of blood infused", "correct": false, "explain": "Volume measurement is not the primary function of the filter; catching fibrin clots is its purpose."}]}, {"stem": "A client begins showing signs of a possible transfusion reaction. What is the nurse's priority first action?", "options": [{"text": "STOP the transfusion immediately", "correct": true, "explain": "The priority first action when a transfusion reaction is suspected is to stop the transfusion immediately."}, {"text": "Notify the PHCP before stopping the infusion", "correct": false, "explain": "The transfusion must be stopped immediately first; notifying the PHCP is an important but subsequent step."}, {"text": "Increase the normal saline infusion rate while continuing the blood", "correct": false, "explain": "The blood transfusion itself must be stopped immediately; it is not continued alongside an increased saline rate."}, {"text": "Document the reaction before taking any other action", "correct": false, "explain": "Documentation is important but is not the priority first action; stopping the transfusion immediately takes priority."}]}, {"stem": "After stopping a suspected transfusion reaction, what should the nurse do with the IV tubing?", "options": [{"text": "Change the IV tubing down to the insertion site and run normal saline to keep the line open", "correct": true, "explain": "After stopping the transfusion, the nurse should change the IV tubing down to the insertion site and run normal saline to keep the line open."}, {"text": "Leave the original blood tubing in place and simply clamp it", "correct": false, "explain": "The tubing should be changed down to the insertion site with new tubing running normal saline, not simply clamped while leaving the blood tubing in place."}, {"text": "Disconnect the IV entirely and remove the catheter immediately", "correct": false, "explain": "The line should be kept open with new tubing and normal saline, not removed entirely, in order to maintain access for potential treatment."}, {"text": "Flush the existing blood tubing with dextrose solution", "correct": false, "explain": "Dextrose solution should not be used to flush blood tubing; normal saline is used, and it should be run through new tubing changed to the insertion site."}]}, {"stem": "Which action is included in the standard nursing response to a suspected transfusion reaction? Select all that apply.", "options": [{"text": "Notify the PHCP and blood bank", "correct": true, "explain": "Notifying the PHCP and the blood bank is part of the standard response to a suspected transfusion reaction."}, {"text": "Monitor vital signs and remain with the client", "correct": true, "explain": "Monitoring vital signs and remaining with the client is part of the standard response to a suspected transfusion reaction."}, {"text": "Return the blood bag, tubing, and labs to the blood bank", "correct": true, "explain": "Returning the blood bag, tubing, and blood/urine samples to the blood bank is part of the standard response to check for free hemoglobin."}, {"text": "Restart the same unit of blood at a slower rate after 30 minutes", "correct": false, "explain": "The same unit of blood should not be restarted after a suspected reaction; the transfusion is stopped and the unit returned to the blood bank, not resumed."}], "isSAL": true}, {"stem": "A client receiving a transfusion develops flank pain, chills, fever, headache, hypotension, and hemoglobinuria. Which type of transfusion reaction does the nurse suspect?", "options": [{"text": "Hemolytic reaction", "correct": true, "explain": "Flank pain, chills, fever, headache, hypotension, and hemoglobinuria are the classic clinical presentation of a hemolytic transfusion reaction."}, {"text": "Febrile non-hemolytic reaction", "correct": false, "explain": "Febrile non-hemolytic reaction presents with fever, chills, and headache, but not the flank pain and hemoglobinuria described, which point to a hemolytic reaction."}, {"text": "Allergic reaction", "correct": false, "explain": "Allergic reaction presents with urticaria, itching, and flushing, not flank pain and hemoglobinuria."}, {"text": "Septic reaction", "correct": false, "explain": "Septic reaction presents with high fever, chills, hypotension, and shock, but the specific combination of flank pain and hemoglobinuria points more specifically to a hemolytic reaction."}]}, {"stem": "A client develops urticaria, itching, and flushing during a blood transfusion, without fever or hypotension. Which reaction is most consistent with these findings?", "options": [{"text": "Allergic reaction", "correct": true, "explain": "Urticaria, itching, and flushing without other systemic findings are consistent with an allergic transfusion reaction."}, {"text": "Hemolytic reaction", "correct": false, "explain": "Hemolytic reaction presents with flank pain, fever, hypotension, and hemoglobinuria, not simply urticaria, itching, and flushing."}, {"text": "Septic reaction", "correct": false, "explain": "Septic reaction presents with high fever, chills, hypotension, and shock, which are not described in this scenario."}, {"text": "Delayed reaction", "correct": false, "explain": "Delayed reactions occur days to years later with fever, mild jaundice, and decreased hematocrit, not the immediate urticaria and flushing described."}]}, {"stem": "A client presents with fever, chills, and headache during a transfusion but no hypotension, flank pain, or hemoglobinuria. Which reaction is most likely?", "options": [{"text": "Febrile non-hemolytic reaction", "correct": true, "explain": "Fever, chills, and headache without hemolytic findings such as flank pain, hypotension, or hemoglobinuria are consistent with a febrile non-hemolytic reaction."}, {"text": "Hemolytic reaction", "correct": false, "explain": "A hemolytic reaction includes flank pain, hypotension, and hemoglobinuria in addition to fever and chills, which are absent in this scenario."}, {"text": "Allergic reaction", "correct": false, "explain": "Allergic reaction presents with urticaria, itching, and flushing, not primarily fever, chills, and headache."}, {"text": "Circulatory overload", "correct": false, "explain": "Circulatory overload is a different complication category (fluid-related), not primarily characterized by fever, chills, and headache."}]}, {"stem": "A client develops high fever, chills, hypotension, and shock during a transfusion. Which reaction does the nurse suspect?", "options": [{"text": "Septic reaction", "correct": true, "explain": "High fever, chills, hypotension, and shock are the classic presentation of a septic transfusion reaction, often related to bacterial contamination of the blood product."}, {"text": "Febrile non-hemolytic reaction", "correct": false, "explain": "Febrile non-hemolytic reaction presents with fever, chills, and headache but not the shock described, which is characteristic of a septic reaction."}, {"text": "Allergic reaction", "correct": false, "explain": "Allergic reaction presents with urticaria, itching, and flushing, not hypotension and shock."}, {"text": "Delayed reaction", "correct": false, "explain": "Delayed reactions occur days to years later with fever, mild jaundice, and decreased hematocrit, not acute hypotension and shock during the transfusion."}]}, {"stem": "An unconscious client is receiving a blood transfusion. Which findings would alert the nurse to a possible transfusion reaction in this client?", "options": [{"text": "Weak pulse, fever, tachycardia or bradycardia, hypotension, visible hemoglobinuria, or oliguria/anuria", "correct": true, "explain": "In an unconscious client, signs of a possible transfusion reaction include weak pulse, fever, tachycardia/bradycardia, hypotension, visible hemoglobinuria, and oliguria/anuria, since the client cannot report subjective symptoms."}, {"text": "Urticaria and itching are the only reliable signs in an unconscious client", "correct": false, "explain": "While urticaria may be observed, the nurse must also assess other objective findings such as vital sign changes and urine output/hemoglobinuria, since subjective symptoms cannot be reported."}, {"text": "No assessment changes are possible in an unconscious client", "correct": false, "explain": "Objective assessment findings, such as vital signs, hemoglobinuria, and urine output, can and should still be monitored in an unconscious client."}, {"text": "Only a delayed reaction can be detected in an unconscious client", "correct": false, "explain": "Acute reactions can and should still be detected in an unconscious client through objective findings like vital sign changes and hemoglobinuria, not only delayed reactions."}]}, {"stem": "A client returns for a follow-up visit two weeks after a blood transfusion and reports mild jaundice and fatigue, with lab work showing a decreased hematocrit. What is the most likely explanation?", "options": [{"text": "A delayed transfusion reaction", "correct": true, "explain": "Delayed transfusion reactions occur days to years after transfusion and present with signs such as fever, mild jaundice, and decreased hematocrit."}, {"text": "An acute hemolytic reaction", "correct": false, "explain": "Acute hemolytic reactions occur during or shortly after the transfusion with flank pain, hypotension, and hemoglobinuria, not two weeks later with jaundice and decreased hematocrit."}, {"text": "A septic reaction", "correct": false, "explain": "Septic reactions occur acutely during the transfusion with high fever, chills, and shock, not as a delayed presentation two weeks later."}, {"text": "An allergic reaction", "correct": false, "explain": "Allergic reactions occur acutely with urticaria, itching, and flushing, not as a delayed presentation with jaundice and decreased hematocrit weeks later."}]}, {"stem": "Which of the following are recognized complications of blood transfusion beyond the acute hemolytic, febrile, allergic, and septic reactions? Select all that apply.", "options": [{"text": "Circulatory overload", "correct": true, "explain": "Circulatory overload is a recognized complication of blood transfusion."}, {"text": "Iron overload", "correct": true, "explain": "Iron overload is a recognized complication of blood transfusion, particularly with repeated transfusions."}, {"text": "Hypocalcemia, hyperkalemia, and citrate toxicity", "correct": true, "explain": "Hypocalcemia, hyperkalemia, and citrate toxicity are recognized complications of blood transfusion."}, {"text": "Permanent hair loss", "correct": false, "explain": "Permanent hair loss is not a recognized complication of blood transfusion; recognized complications include circulatory overload, iron overload, disease transmission, hypocalcemia, hyperkalemia, and citrate toxicity."}], "isSAL": true}, {"stem": "What samples should be returned to the blood bank following a suspected transfusion reaction?", "options": [{"text": "The blood bag, tubing, and blood/urine samples to check for free hemoglobin", "correct": true, "explain": "Following a suspected reaction, the blood bag, tubing, and labs — including blood/urine samples to check for free hemoglobin — should be returned to the blood bank."}, {"text": "Only the empty blood bag, with no additional samples needed", "correct": false, "explain": "In addition to the blood bag and tubing, blood/urine samples to check for free hemoglobin must also be returned/collected."}, {"text": "A stool sample for occult blood", "correct": false, "explain": "A stool sample is not part of the described post-reaction sample collection; blood and urine samples to check for free hemoglobin are required."}, {"text": "Only a repeat type and crossmatch sample, with the original bag discarded", "correct": false, "explain": "The original blood bag and tubing should be returned, not discarded, along with blood/urine samples."}]}, {"stem": "What is the underlying cause of a hemolytic transfusion reaction?", "options": [{"text": "ABO or Rh incompatibility between the donor blood and the recipient", "correct": true, "explain": "A hemolytic transfusion reaction is caused by incompatibility, such as ABO or Rh mismatch, between the donor blood and the recipient, leading to destruction of red blood cells."}, {"text": "Bacterial contamination of the blood product", "correct": false, "explain": "Bacterial contamination is the underlying cause of a septic reaction, not a hemolytic reaction."}, {"text": "An IgE-mediated hypersensitivity to plasma proteins", "correct": false, "explain": "IgE-mediated hypersensitivity to plasma proteins is more associated with allergic reactions, not the incompatibility-driven hemolytic reaction."}, {"text": "Excessive infusion volume delivered too quickly", "correct": false, "explain": "Excessive volume delivered quickly is more associated with circulatory overload, not the incompatibility mechanism of a hemolytic reaction."}]}, {"stem": "A nurse notes a client's transfusion reaction assessment shows hemoglobinuria and flank pain, and recognizes the reaction may progress rapidly. What underlying process explains hemoglobinuria in this context?", "options": [{"text": "Red blood cell destruction (hemolysis) releasing free hemoglobin, which is then excreted in the urine", "correct": true, "explain": "In a hemolytic reaction, red blood cells are destroyed (hemolysis), releasing free hemoglobin into circulation, which is then excreted in the urine as hemoglobinuria."}, {"text": "Excess plasma proteins being filtered by the kidneys", "correct": false, "explain": "Hemoglobinuria in this context results from red blood cell hemolysis releasing free hemoglobin, not from excess plasma protein filtration."}, {"text": "Bacterial toxins directly damaging the renal tubules", "correct": false, "explain": "While septic reactions can affect the kidneys, hemoglobinuria specifically in a hemolytic reaction reflects hemolysis and free hemoglobin excretion, not direct bacterial toxin damage."}, {"text": "Citrate toxicity binding calcium in the renal tubules", "correct": false, "explain": "Hemoglobinuria in this scenario reflects hemolysis, not citrate toxicity, which is a separate transfusion complication related to calcium binding."}]}, {"stem": "Which statement about circulatory overload as a transfusion complication is accurate?", "options": [{"text": "It can occur when blood products are infused too quickly or in excessive volume relative to the client's cardiovascular capacity", "correct": true, "explain": "Circulatory overload is a recognized transfusion complication that can occur when blood is infused too quickly or in a volume the client's cardiovascular system cannot accommodate."}, {"text": "It is caused exclusively by ABO incompatibility", "correct": false, "explain": "Circulatory overload is related to volume and rate of infusion relative to cardiovascular capacity, not ABO incompatibility, which causes hemolytic reactions."}, {"text": "It only occurs more than 24 hours after the transfusion is complete", "correct": false, "explain": "Circulatory overload is not restricted to occurring only more than 24 hours after completion; it is listed among transfusion complications that can occur in relation to the infusion itself."}, {"text": "It presents identically to an allergic reaction with only urticaria", "correct": false, "explain": "Circulatory overload is a distinct complication from an allergic reaction and is not characterized simply by urticaria."}]}, {"stem": "Which of the following are among the high-yield NCLEX facts about blood transfusions? Select all that apply.", "options": [{"text": "Transfusion must start within 30 minutes of pickup from the blood bank", "correct": true, "explain": "Starting within 30 minutes of blood bank pickup is one of the high-yield facts to prevent bacterial growth."}, {"text": "Each unit must be completed within 4 hours maximum", "correct": true, "explain": "Completing each unit within 4 hours maximum is one of the high-yield facts."}, {"text": "Normal saline (0.9%) is the only compatible fluid", "correct": true, "explain": "0.9% normal saline being the only compatible fluid is one of the high-yield facts."}, {"text": "Any single licensed nurse can verify blood administration alone", "correct": false, "explain": "This is incorrect; the high-yield fact specifies that administration safety must be verified by two licensed nurses, not a single nurse alone."}], "isSAL": true}, {"stem": "What is the significance of the nurse remaining with the client for the first 15 minutes of a transfusion, according to the high-yield NCLEX facts?", "options": [{"text": "To observe for acute reactions, since most severe reactions occur early in the infusion", "correct": true, "explain": "Remaining with the patient at the start allows the nurse to observe for acute reactions, since most severe reactions occur early in the infusion, particularly within the first 50 mL."}, {"text": "To complete the required documentation paperwork", "correct": false, "explain": "While documentation is important, the specific significance of staying for the first 15 minutes is to observe for acute reactions, not to complete paperwork."}, {"text": "To wait for the blood bank to confirm receipt of the unit", "correct": false, "explain": "This is not the described significance of the first 15 minutes; it relates to close observation for acute transfusion reactions."}, {"text": "To allow time for the second nurse to leave the bedside", "correct": false, "explain": "The significance of the first 15 minutes is close observation of the client for reactions, not related to the second nurse's presence or departure."}]}, {"stem": "According to high-yield safety facts, blood administration must be verified by how many licensed nurses prior to initiation?", "options": [{"text": "Two", "correct": true, "explain": "Blood administration must be verified by two licensed nurses prior to initiation, as one of the high-yield safety facts."}, {"text": "One", "correct": false, "explain": "One nurse alone is not sufficient; verification requires two licensed nurses."}, {"text": "Three", "correct": false, "explain": "Three nurses is more than the required number; verification requires two licensed nurses."}, {"text": "None, as long as barcode scanning is used", "correct": false, "explain": "Barcode scanning is part of the verification process, but it does not replace the requirement for two licensed nurses to verify administration."}]}, {"stem": "A nursing student is reviewing high-yield facts about blood transfusions before an exam. Which statement should the student identify as correct?", "options": [{"text": "One unit of blood must be completed within 4 hours maximum to prevent septicemia and bacterial growth", "correct": true, "explain": "Completing one unit within 4 hours maximum is a high-yield fact to help prevent septicemia and bacterial growth."}, {"text": "Lactated Ringer's may be used interchangeably with normal saline for blood administration", "correct": false, "explain": "Only 0.9% normal saline is compatible with blood administration; Lactated Ringer's is not an interchangeable option."}, {"text": "The nurse only needs to observe the client for the first 5 minutes of the transfusion", "correct": false, "explain": "The nurse must remain with the client for the first 15 minutes, not just 5 minutes, since most severe reactions occur early in the infusion."}, {"text": "Transfusion can be initiated up to 2 hours after release from the blood bank", "correct": false, "explain": "Transfusion must be initiated within 30 minutes of release from the blood bank, not up to 2 hours."}]}];
+
+const FLASHCARDS = [{"front": "Only fluid compatible with blood products", "back": "0.9% Normal Saline (NS) — used to prime/flush lines. Never add medications or other fluids to blood or piggyback into the line."}, {"front": "Blood transfusion: start-time rule", "back": "Must initiate within 30 minutes of release from the blood bank to prevent bacterial growth."}, {"front": "Blood transfusion: max infusion time per unit", "back": "2 to 4 hours maximum — avoids septicemia/bacterial growth."}, {"front": "Stay with the client rule", "back": "Nurse stays for the first 15 minutes, infusing slowly — most severe reactions (e.g., ABO incompatibility) occur within the first 50 mL."}, {"front": "Blood transfusion verification", "back": "Requires double-verification by 2 licensed nurses at bedside: prescription, client identity (2 identifiers), unit expiration, ABO/Rh type, barcode scanning."}, {"front": "Preferred needle gauge for transfusion", "back": "18- or 19-gauge, for rapid delivery and to prevent RBC damage. Smaller gauges require dilution with NS per policy."}, {"front": "Universal blood donor", "back": "Type O — can be given to any ABO recipient type."}, {"front": "Universal blood recipient", "back": "Type AB — can receive Type A, B, AB, or O blood."}, {"front": "Type A compatible donors", "back": "Type A or Type O."}, {"front": "Type B compatible donors", "back": "Type B or Type O."}, {"front": "First action for a suspected transfusion reaction", "back": "STOP the transfusion immediately, then change tubing down to the insertion site and run NS to keep the line open."}, {"front": "Hemolytic transfusion reaction signs", "back": "Flank pain, chills, fever, headache, hypotension, hemoglobinuria — caused by ABO/Rh incompatibility."}, {"front": "Febrile non-hemolytic reaction signs", "back": "Fever, chills, headache — without the flank pain/hemoglobinuria of a hemolytic reaction."}, {"front": "Allergic transfusion reaction signs", "back": "Urticaria, itching, flushing."}, {"front": "Septic transfusion reaction signs", "back": "High fever, chills, hypotension, shock — often from bacterial contamination."}, {"front": "Delayed transfusion reaction", "back": "Occurs days to years post-transfusion; fever, mild jaundice, decreased hematocrit."}, {"front": "Isotonic IV solution", "back": "Same osmolality as body fluids; increases ECF volume; does not enter cells."}, {"front": "Hypotonic IV solution", "back": "More dilute/lower osmolality; causes water to move INTO cells by osmosis."}, {"front": "Hypertonic IV solution", "back": "More concentrated/higher osmolality; causes water to move OUT of cells by osmosis."}, {"front": "Colloid IV solution", "back": "Plasma expander; pulls fluid from interstitial space into vascular space — used for severe hypovolemia."}, {"front": "Preferred fluid for burns", "back": "Lactated Ringer's (LR) — replaces fluid + electrolytes."}, {"front": "Preferred fluid for DKA", "back": "Lactated Ringer's (LR) — expands volume before insulin therapy."}, {"front": "Preferred fluid for vomiting", "back": "Normal Saline (NS) — sodium & chloride replacement."}, {"front": "Preferred fluid for head injury", "back": "Normal Saline (NS) — prevents cerebral edema; avoid hypotonic solutions."}, {"front": "Preferred fluid for liver failure", "back": "Albumin (colloid) — pulls fluid into circulation."}, {"front": "Macrodrip drop factor", "back": "10–20 gtt/mL."}, {"front": "Microdrip drop factor", "back": "60 gtt/mL — used for precise/slow infusions."}, {"front": "PIV sites to avoid", "back": "Edematous, weak/traumatized/paralyzed, mastectomy-side arm, AV fistula/shunt arm, infected skin, feet/neck, hematomas, or an arm with an ongoing infusion (e.g., heparin)."}, {"front": "Max warming device temperature for vein dilation", "back": "42°C."}, {"front": "Phlebitis signs", "back": "Heat, redness, tenderness at site, sluggish infusion; thrombophlebitis = hard, cordlike vein."}, {"front": "Thrombophlebitis intervention", "back": "Stop/remove IV, apply warm moist compresses. Do NOT irrigate the line."}, {"front": "Infiltration signs", "back": "Edema/swelling, cool skin, pain, numbness, sluggish or stopped flow."}, {"front": "Infiltration intervention", "back": "Remove IV immediately, elevate extremity, apply warm or cool compress per solution type. Do not rub the area."}, {"front": "Extravasation", "back": "Infiltration of a vesicant/irritant causing pain, redness, blistering, tissue necrosis. Notify PHCP immediately; document/photograph per policy."}, {"front": "Hematoma intervention", "back": "Apply pressure 2–3 min (longer if bleeding risk), elevate extremity, apply ice."}, {"front": "Air embolism signs", "back": "Sudden low BP, tachycardia, dyspnea — can be fatal."}, {"front": "PIV site change interval", "back": "Every 72–96 hours per agency policy."}, {"front": "CVC verification before use", "back": "Position MUST be confirmed by X-ray prior to use."}, {"front": "PICC line", "back": "Inserted via basilic/cephalic vein in antecubital fossa; tip terminates in superior vena cava (SVC)."}, {"front": "Tunneled CVC examples", "back": "Hickman, Broviac, Groshong — placed in OR for long-term therapy."}, {"front": "Implantable vascular port", "back": "Port-a-cath, Mediport, Infusaport — accessed via non-coring/PowerLoc needle."}, {"front": "Epidural catheter purpose", "back": "Inserted into epidural space of vertebrae for analgesics or nerve blocks."}, {"front": "PN hypervolemia signs", "back": "Bounding pulse, lung crackles, headache, ↑BP, JVD, weight gain >1–2 lb/week."}, {"front": "PN hypoglycemia cause", "back": "Abrupt PN discontinuation or excess insulin; BG <70 mg/dL."}, {"front": "Preventing PN-related hypoglycemia", "back": "Gradually taper PN; infuse 10% dextrose at same rate for 1–2 hrs after stopping."}, {"front": "Never do this with PN rate", "back": "Never increase the rate to 'catch up' on missed volume."}, {"front": "PN infection intervention", "back": "Strict aseptic technique; notify PHCP, remove catheter and culture tip, draw blood cultures, give antibiotics."}, {"front": "Cryoprecipitate use", "back": "Concentrated clotting factors, including fibrinogen replacement."}, {"front": "FFP use", "back": "Fresh-Frozen Plasma — replaces clotting factors."}, {"front": "Cultural consideration in transfusion", "back": "Jehovah's Witness clients may refuse blood/blood products — respect this belief."}];
+
+/* ======================= FLASHCARDS ======================= */
+let flashOrder = FLASHCARDS.map((_,i)=>i);
+let flashIdx = 0;
+
+function renderFlashcard(){
+  if(!FLASHCARDS.length) return;
+  const card = FLASHCARDS[flashOrder[flashIdx]];
+  document.getElementById('flashFront').textContent = card.front;
+  document.getElementById('flashBack').textContent = card.back;
+  document.getElementById('flashcard').classList.remove('flipped');
+  document.getElementById('flashIndex').textContent = flashIdx+1;
+  document.getElementById('flashTotal').textContent = FLASHCARDS.length;
+}
+function flipCard(){ document.getElementById('flashcard').classList.toggle('flipped'); }
+document.getElementById('flashPrev').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  flashIdx = (flashIdx - 1 + FLASHCARDS.length) % FLASHCARDS.length;
+  renderFlashcard();
+});
+document.getElementById('flashNext').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  flashIdx = (flashIdx + 1) % FLASHCARDS.length;
+  renderFlashcard();
+});
+document.getElementById('flashShuffle').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  flashOrder = shuffle(flashOrder.length ? flashOrder : FLASHCARDS.map((_,i)=>i));
+  flashIdx = 0;
+  renderFlashcard();
+});
+
+
+let activeQuestions = [];
+let currentIndex = 0;
+let score = 0;
+let questionState = [];
+let optionOrders = [];
+
+function showView(name){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+name).classList.add('active');
+  const crumbs = document.getElementById('crumbs');
+  const homeLink = "<span onclick=\"location.href='index.html'\">Home</span>";
+  if(name==='notes') crumbs.innerHTML = homeLink + " / IV &amp; Blood Products / Course Notes";
+  else if(name==='flashcards') crumbs.innerHTML = homeLink + " / IV &amp; Blood Products / Flashcards";
+  else if(name==='setup') crumbs.innerHTML = homeLink + " / IV &amp; Blood Products / Practice Test";
+  else if(name==='quiz') crumbs.innerHTML = homeLink + " / <span onclick=\"showView('setup')\">IV &amp; Blood Products</span> / Practice Test";
+  ['tabNotesA','tabFlashA','tabSetupA','tabNotesB','tabFlashB','tabSetupB','tabNotesC','tabFlashC','tabSetupC'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+    let kind = 'setup';
+    if(id.indexOf('Notes') !== -1) kind = 'notes';
+    else if(id.indexOf('Flash') !== -1) kind = 'flashcards';
+    el.classList.toggle('selected', kind === name || (kind==='setup' && name==='quiz'));
+  });
+
+  if(name === 'flashcards' && typeof renderFlashcard === 'function') renderFlashcard();
+  history.replaceState(null, '', '#'+name);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+(function initialRoute(){
+  const hash = (location.hash || '').replace('#','');
+  const validViews = ['notes','flashcards','setup'];
+  showView(validViews.includes(hash) ? hash : 'setup');
+})();
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function startQuiz(n){
+  const indices = shuffle([...Array(QUESTIONS.length).keys()]).slice(0,n);
+  activeQuestions = indices.map(i=>QUESTIONS[i]);
+  questionState = new Array(activeQuestions.length).fill(null);
+  optionOrders = new Array(activeQuestions.length).fill(null);
+  score = 0;
+  currentIndex = 0;
+  document.getElementById('quizTitle').textContent = 'Practice Test — ' + n + ' Questions';
+  document.getElementById('finalOutOf').textContent = '/' + n;
+  buildPicker();
+  document.getElementById('quizArea').innerHTML='';
+  document.getElementById('summary').classList.remove('show');
+  updateStatus();
+  renderQuestion(0);
+  showView('quiz');
+}
+
+const pickerGrid = document.getElementById('pickerGrid');
+function buildPicker(){
+  pickerGrid.innerHTML = '';
+  activeQuestions.forEach((q,i)=>{
+    const btn = document.createElement('button');
+    btn.className = 'pick-btn';
+    btn.textContent = (i+1);
+    btn.title = 'Question ' + (i+1);
+    btn.addEventListener('click', ()=> goToQuestion(i));
+    pickerGrid.appendChild(btn);
+  });
+  refreshPicker();
+}
+function refreshPicker(){
+  const btns = pickerGrid.querySelectorAll('.pick-btn');
+  btns.forEach((btn,i)=>{
+    btn.classList.remove('current','correct','incorrect');
+    const st = questionState[i];
+    if(st) btn.classList.add(st.correct ? 'correct' : 'incorrect');
+    if(i === currentIndex) btn.classList.add('current');
+  });
+}
+
+function goToQuestion(idx){
+  currentIndex = idx;
+  document.getElementById('quizArea').innerHTML = '';
+  document.getElementById('summary').classList.remove('show');
+  renderQuestion(idx);
+  refreshPicker();
+  document.getElementById('quizArea').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function letter(i){ return String.fromCharCode(65+i); }
+
+function renderQuestion(qIndex){
+  const q = activeQuestions[qIndex];
+  const state = questionState[qIndex];
+  const quizArea = document.getElementById('quizArea');
+  const card = document.createElement('div');
+  card.className = 'qcard';
+
+  const meta = document.createElement('div');
+  meta.className = 'qmeta';
+  meta.innerHTML = `<span class="qnum">Q${qIndex+1} / ${activeQuestions.length}</span><span class="qtag">IV &amp; Blood Products</span>` +
+    (q.isSAL ? `<span class="qsal">Select all that apply</span>` : '');
+  card.appendChild(meta);
+
+  const stem = document.createElement('p');
+  stem.className = 'stem';
+  stem.textContent = q.stem;
+  card.appendChild(stem);
+
+  const optsWrap = document.createElement('div');
+  optsWrap.className = 'options';
+  const banner = document.createElement('div');
+  banner.className = 'result-banner';
+
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'btn-next';
+  nextBtn.textContent = (qIndex === activeQuestions.length-1) ? 'See results →' : 'Next question →';
+
+  const prevBtn = document.createElement('button');
+  prevBtn.className = 'btn-prev';
+  prevBtn.textContent = '← Previous';
+  prevBtn.disabled = (qIndex === 0);
+  prevBtn.addEventListener('click', ()=>{ if(qIndex>0) goToQuestion(qIndex-1); });
+
+  if(!optionOrders[qIndex]){
+    optionOrders[qIndex] = shuffle(q.options.map((_,i)=>i));
+  }
+  const order = optionOrders[qIndex];
+
+  if(q.isSAL){
+    let selected = state ? new Set(state.selected) : new Set();
+    order.forEach((origIdx, pos)=>{
+      const opt = q.options[origIdx];
+      const el = document.createElement('div');
+      el.className = 'opt sal';
+      el.dataset.origIdx = origIdx;
+      el.innerHTML = `<span class="opt-letter">${selected.has(origIdx)?'☑':'☐'}</span><div><div class="opt-text">${opt.text}</div><div class="opt-explain" style="display:none"></div></div>`;
+      if(!state){
+        el.addEventListener('click', ()=>{
+          if(el.classList.contains('locked')) return;
+          if(selected.has(origIdx)){ selected.delete(origIdx); el.querySelector('.opt-letter').textContent='☐'; el.style.background='var(--paper)'; el.style.borderColor='var(--line)'; }
+          else { selected.add(origIdx); el.querySelector('.opt-letter').textContent='☑'; el.style.background='#F0E9FA'; el.style.borderColor='var(--pulse)'; }
+        });
+      }
+      optsWrap.appendChild(el);
+    });
+    card.appendChild(optsWrap);
+    if(state){
+      revealSAL(qIndex, state.selected, optsWrap, banner, state.correct);
+      nextBtn.classList.add('show');
+    } else {
+      const submitBtn = document.createElement('button');
+      submitBtn.className = 'btn-sal-submit';
+      submitBtn.textContent = 'Submit answer';
+      submitBtn.addEventListener('click', ()=>{
+        lockSAL(qIndex, selected, optsWrap, banner, nextBtn, submitBtn);
+      });
+      card.appendChild(submitBtn);
+    }
+  } else {
+    order.forEach((origIdx, pos)=>{
+      const opt = q.options[origIdx];
+      const el = document.createElement('div');
+      el.className = 'opt';
+      el.dataset.origIdx = origIdx;
+      el.innerHTML = `<span class="opt-letter">${letter(pos)}</span><div><div class="opt-text">${opt.text}</div><div class="opt-explain" style="display:none"></div></div>`;
+      if(!state){
+        el.addEventListener('click', ()=> lockSingle(qIndex, origIdx, optsWrap, banner, nextBtn));
+      }
+      optsWrap.appendChild(el);
+    });
+    card.appendChild(optsWrap);
+    if(state){
+      revealSingle(qIndex, state.selected, optsWrap, banner, state.correct);
+      nextBtn.classList.add('show');
+    }
+  }
+
+  card.appendChild(banner);
+  const actions = document.createElement('div');
+  actions.className = 'actions';
+  actions.appendChild(prevBtn);
+  actions.appendChild(nextBtn);
+  card.appendChild(actions);
+
+  nextBtn.addEventListener('click', ()=>{
+    if(qIndex+1 < activeQuestions.length){ goToQuestion(qIndex+1); }
+    else { showSummary(); }
+  });
+
+  quizArea.appendChild(card);
+}
+
+function revealSingle(qIndex, chosenIdx, optsWrap, banner, isCorrect){
+  const q = activeQuestions[qIndex];
+  const opts = optsWrap.querySelectorAll('.opt');
+  opts.forEach((el)=>{
+    const i = parseInt(el.dataset.origIdx, 10);
+    el.classList.add('locked');
+    const explainEl = el.querySelector('.opt-explain');
+    explainEl.textContent = q.options[i].explain;
+    explainEl.style.display = 'block';
+    if(q.options[i].correct){ el.classList.add('correct-choice'); }
+    else if(i === chosenIdx){ el.classList.add('incorrect-choice'); }
+    else { el.classList.add('dim'); }
+  });
+  banner.classList.add('show', isCorrect ? 'correct' : 'incorrect');
+  banner.innerHTML = isCorrect ? `<span>✓</span> Correct.` : `<span>✕</span> Not quite — the correct answer is highlighted above.`;
+}
+
+function revealSAL(qIndex, selectedArr, optsWrap, banner, allCorrect){
+  const q = activeQuestions[qIndex];
+  const selected = new Set(selectedArr);
+  const opts = optsWrap.querySelectorAll('.opt');
+  opts.forEach((el)=>{
+    const i = parseInt(el.dataset.origIdx, 10);
+    el.classList.add('locked');
+    const explainEl = el.querySelector('.opt-explain');
+    explainEl.textContent = q.options[i].explain;
+    explainEl.style.display = 'block';
+    const letterEl = el.querySelector('.opt-letter');
+    if(q.options[i].correct){ el.classList.add('correct-choice'); letterEl.textContent='✓'; }
+    else if(selected.has(i)){ el.classList.add('incorrect-choice'); letterEl.textContent='✕'; }
+    else { el.classList.add('dim'); letterEl.textContent='☐'; }
+  });
+  banner.classList.add('show', allCorrect ? 'correct' : 'incorrect');
+  banner.innerHTML = allCorrect ? `<span>✓</span> Correct — all applicable choices selected.` : `<span>✕</span> Not quite — correct choices are highlighted above.`;
+}
+
+function lockSingle(qIndex, chosenIdx, optsWrap, banner, nextBtn){
+  if(questionState[qIndex]) return;
+  const q = activeQuestions[qIndex];
+  const isCorrect = q.options[chosenIdx].correct;
+  questionState[qIndex] = { correct: isCorrect, selected: chosenIdx };
+  if(isCorrect) score++;
+  revealSingle(qIndex, chosenIdx, optsWrap, banner, isCorrect);
+  nextBtn.classList.add('show');
+  refreshPicker();
+  updateStatus();
+}
+
+function lockSAL(qIndex, selected, optsWrap, banner, nextBtn, submitBtn){
+  if(questionState[qIndex]) return;
+  const q = activeQuestions[qIndex];
+  const correctSet = new Set(q.options.map((o,i)=>o.correct?i:null).filter(v=>v!==null));
+  let allCorrect = correctSet.size === selected.size && [...correctSet].every(i=>selected.has(i));
+  questionState[qIndex] = { correct: allCorrect, selected: [...selected] };
+  if(allCorrect) score++;
+  submitBtn.style.display = 'none';
+  revealSAL(qIndex, [...selected], optsWrap, banner, allCorrect);
+  nextBtn.classList.add('show');
+  refreshPicker();
+  updateStatus();
+}
+
+function updateStatus(){
+  const answeredCount = questionState.filter(Boolean).length;
+  const total = activeQuestions.length || 1;
+  document.getElementById('progressFill').style.width = (answeredCount/total*100)+'%';
+  document.getElementById('scoreLabel').innerHTML = `<span>${score}</span> / ${answeredCount}`;
+}
+
+function showSummary(){
+  document.getElementById('quizArea').innerHTML = '';
+  const answeredCount = questionState.filter(Boolean).length;
+  document.getElementById('finalScore').textContent = score;
+  document.getElementById('finalOutOf').textContent = '/' + activeQuestions.length;
+  const pct = answeredCount ? Math.round(score/answeredCount*100) : 0;
+  const msgEl = document.getElementById('finalMsg');
+  if(answeredCount < activeQuestions.length){
+    msgEl.textContent = `You've answered ${answeredCount} of ${activeQuestions.length} questions (${score} correct so far). Use the picker above to finish the rest.`;
+  } else if(pct >= 90) msgEl.textContent = 'Excellent — strong command of pharmacology test-taking strategy.';
+  else if(pct >= 75) msgEl.textContent = 'Solid work. Revisit the missed rationales above before your exam.';
+  else if(pct >= 60) msgEl.textContent = 'Decent start — review the explanations above, especially on the concepts you missed.';
+  else msgEl.textContent = 'Worth another pass — scroll up and read every rationale carefully, then retake.';
+  document.getElementById('summary').classList.add('show');
+  document.getElementById('summary').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+/* ---------- Print / Save PDF ---------- */
+function buildPrintReport(){
+  const answeredCount = questionState.filter(Boolean).length;
+  const pct = answeredCount ? Math.round(score/answeredCount*100) : 0;
+  const now = new Date();
+  const dateStr = now.toLocaleDateString(undefined, { year:'numeric', month:'long', day:'numeric' });
+  const timeStr = now.toLocaleTimeString(undefined, { hour:'2-digit', minute:'2-digit' });
+
+  let html = '';
+  html += '<div class="rpt-header">';
+  html += '<h1>IV &amp; Blood Products — Practice Test Results</h1>';
+  html += '<div class="rpt-meta">' + dateStr + ' at ' + timeStr + ' &middot; ' + activeQuestions.length + ' questions</div>';
+  html += '<div class="rpt-score">Score: ' + score + ' / ' + answeredCount + ' answered (' + pct + '%)</div>';
+  html += '</div>';
+
+  activeQuestions.forEach((q, qi) => {
+    const state = questionState[qi];
+    html += '<div class="rpt-q">';
+    html += '<div class="rq-num">Question ' + (qi+1) + (q.isSAL ? ' (Select all that apply)' : '') + '</div>';
+    html += '<div class="rq-stem">' + escapeHtml(q.stem) + '</div>';
+
+    q.options.forEach((opt, oi) => {
+      let cls = '';
+      let marker = '';
+      const chosen = state ? (q.isSAL ? state.selected.includes(oi) : state.selected === oi) : false;
+      if(opt.correct){ cls = 'correct'; marker = '✓ '; }
+      else if(chosen){ cls = 'incorrect'; marker = '✕ '; }
+      html += '<div class="rpt-opt ' + cls + '">' + marker + escapeHtml(opt.text) + '</div>';
+      html += '<div class="rpt-explain">' + escapeHtml(opt.explain) + '</div>';
+    });
+
+    if(state){
+      const isCorrect = state.correct;
+      html += '<div class="rpt-banner ' + (isCorrect ? 'correct' : 'incorrect') + '">' +
+        (isCorrect ? 'Answered correctly' : 'Answered incorrectly') + '</div>';
+    } else {
+      html += '<div class="rpt-banner">Not answered</div>';
+    }
+    html += '</div>';
+  });
+
+  document.getElementById('printReport').innerHTML = html;
+}
+
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+document.getElementById('printBtn').addEventListener('click', ()=>{
+  buildPrintReport();
+  window.print();
+});
+
+document.getElementById('resultsBtn').addEventListener('click', showSummary);
+document.getElementById('randomBtn').addEventListener('click', ()=>{
+  const idx = Math.floor(Math.random()*activeQuestions.length);
+  goToQuestion(idx);
+});
+document.getElementById('reviewBtn').addEventListener('click', ()=>{
+  document.getElementById('summary').classList.remove('show');
+  goToQuestion(currentIndex);
+});
+document.getElementById('setupBtn').addEventListener('click', ()=> showView('setup'));
+document.getElementById('restartBtn').addEventListener('click', ()=> startQuiz(activeQuestions.length));
+</script>
+</body>
+</html>
