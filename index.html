@@ -46,6 +46,9 @@
     --blood:#9F1239;
     --blood-dim:#FCE7EC;
 
+    --ati:#4338CA;
+    --ati-dim:#E0E7FF;
+
     --comprehensive:#0F2438;
     --comprehensive-dim:#E7EBEF;
     --comprehensive-gold:#F59E0B;
@@ -197,6 +200,21 @@
   }
   .exam-banner-btn:hover{filter:brightness(1.08);transform:translateY(-1px);box-shadow:0 8px 18px -4px rgba(245,158,11,.5);}
 
+  /* ---------- Section divider ---------- */
+  .section-divider{
+    display:flex;align-items:center;gap:16px;margin:52px 0 22px;
+    opacity:0;animation:fadeUp .6s ease-out .9s forwards;
+  }
+  .section-divider .line{flex:1;height:1px;background:rgba(255,255,255,.35);}
+  .section-divider h2{
+    font-family:'Fraunces',serif;font-weight:600;font-size:26px;margin:0;color:#fff;
+    text-shadow:0 1px 4px rgba(0,0,0,.18);white-space:nowrap;
+  }
+  .section-sub{
+    color:rgba(255,255,255,.85);font-size:13.5px;margin:-8px 0 24px;
+    opacity:0;animation:fadeUp .6s ease-out .95s forwards;
+  }
+
   /* ---------- Topic containers ---------- */
   .topic-grid{
     display:grid;
@@ -311,6 +329,7 @@
     --immuno:#115E59; --immuno-dim:#D6EAE7;
     --neuro:#3F6212; --neuro-dim:#E3EDD0;
     --blood:#9F1239; --blood-dim:#FBDCE4;
+    --ati:#4338CA; --ati-dim:#E0E7FF;
     --comprehensive:#1E6E60; --comprehensive-dim:#DCEEE6; --comprehensive-gold:#E3B341;
     --vestibule:#92400E; --vestibule-dim:#F3E1CC;
   }
@@ -615,6 +634,34 @@
         <a class="btn" href="iv_blood_products_practice_site.html#notes">Course notes</a>
         <a class="btn" href="iv_blood_products_practice_site.html#flashcards">Flashcards</a>
         <a class="btn primary" href="iv_blood_products_practice_site.html#setup">Start practice test →</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-divider"><div class="line"></div><h2>ATI</h2><div class="line"></div></div>
+  <p class="section-sub">Homework sets 1–4, all in one place — pick a set, then review question by question with a rationale for every option.</p>
+
+  <div class="topic-grid" id="ati-grid">
+
+    <!-- ATI Homework -->
+    <div class="topic-card" style="--accent:var(--ati);--accent-dim:var(--ati-dim);">
+      <div class="topic-top">
+        <div class="icon-medallion">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="3.5" width="15" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+        </div>
+        <div class="topic-headline">
+          <span class="topic-chip">Available now</span>
+          <h3>ATI Homework</h3>
+          <p>HW-1 through HW-4 in one hub — pick a set on the page itself. Covers foundations, wound care &amp; isolation, legal/ethical practice, and safety/medication administration, with a rationale on every option.</p>
+        </div>
+      </div>
+      <div class="stat-row">
+        <span class="stat-pill"><span class="dot"></span>4 homework sets · 100 questions</span>
+        <span class="stat-pill"><span class="dot"></span>Rationale on every option</span>
+      </div>
+      <div class="topic-actions">
+        <a class="btn primary" href="ati_practice_site.html#setup">Open ATI Homework →</a>
       </div>
     </div>
 
