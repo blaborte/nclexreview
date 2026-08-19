@@ -8,16 +8,12 @@
   @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
   :root{
-    --ink:#233240;
-    --ink-soft:#5C6E76;
-    --paper:#FAFBF9;
-    --paper-b:#EAF1EC;
+    --ink:#12283D;
+    --ink-soft:#4C6272;
+    --paper:#F4F7F6;
     --card:#FFFFFF;
-    --line:#E4EAE6;
-    --muted:#93A3A8;
-
-    --halo-a:#F2A9A5;
-    --halo-b:#F3D98A;
+    --line:#DCE6E4;
+    --muted:#7C8B94;
 
     --cardio:#0F8B8D;
     --cardio-dim:#DCF0EF;
@@ -41,128 +37,119 @@
     --immuno:#4338CA;
     --immuno-dim:#E0E7FF;
 
+    --vestibule:#7C2D12;
+    --vestibule-dim:#FEE2E2;
+
     --comprehensive:#0F2438;
     --comprehensive-dim:#E7EBEF;
-    --comprehensive-gold:#C9962C;
+    --comprehensive-gold:#F59E0B;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
     background:
-      radial-gradient(600px circle at 6% -6%, rgba(242,169,165,.42), transparent 62%),
-      radial-gradient(560px circle at 96% 2%, rgba(243,217,138,.4), transparent 60%),
-      radial-gradient(560px circle at 8% 62%, rgba(183,206,155,.4), transparent 62%),
-      radial-gradient(600px circle at 100% 80%, rgba(243,217,138,.32), transparent 60%),
-      radial-gradient(520px circle at 45% 105%, rgba(242,169,165,.28), transparent 60%),
-      linear-gradient(180deg, #FBF7EF 0%, #FDF5EC 55%, #FBF7EF 100%);
-    background-attachment:fixed;
+      repeating-linear-gradient(0deg, rgba(15,40,61,.028) 0px, rgba(15,40,61,.028) 1px, transparent 1px, transparent 34px),
+      repeating-linear-gradient(90deg, rgba(15,40,61,.028) 0px, rgba(15,40,61,.028) 1px, transparent 1px, transparent 34px),
+      var(--paper);
     color:var(--ink);
     font-family:'Inter',sans-serif;
     -webkit-font-smoothing:antialiased;
     min-height:100vh;
-    padding:72px 20px 90px;
+    padding:56px 20px 80px;
   }
-  .wrap{max-width:1080px;margin:0 auto;position:relative;}
-
-  /* ---------- Glass surface (shared) ---------- */
-  .glass{
-    background:rgba(255,251,245,.55);
-    -webkit-backdrop-filter:blur(22px) saturate(160%);
-    backdrop-filter:blur(22px) saturate(160%);
-    border:1px solid rgba(255,255,255,.7);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.75), 0 10px 30px rgba(18,40,61,.07);
-  }
-  @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
-    .glass{background:rgba(255,251,245,.94);}
-  }
+  .wrap{max-width:1080px;margin:0 auto;}
 
   @keyframes fadeUp{
-    from{opacity:0;transform:translateY(10px);}
+    from{opacity:0;transform:translateY(14px);}
     to{opacity:1;transform:translateY(0);}
   }
-  @keyframes breathe{
-    0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.55;}
-    50%{transform:translate(-50%,-50%) scale(1.08);opacity:.8;}
-  }
-  @keyframes breatheSlow{
-    0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.4;}
-    50%{transform:translate(-50%,-50%) scale(1.14);opacity:.6;}
+  @keyframes popIn{
+    0%{opacity:0;transform:translateY(18px) scale(.96);}
+    70%{opacity:1;transform:translateY(-2px) scale(1.01);}
+    100%{opacity:1;transform:translateY(0) scale(1);}
   }
   @keyframes rxPulse{
-    0%,100%{opacity:.85;}
-    50%{opacity:1;}
+    0%,100%{transform:scale(1);filter:drop-shadow(0 0 0 rgba(15,139,141,0));}
+    50%{transform:scale(1.14);filter:drop-shadow(0 0 6px rgba(15,139,141,.45));}
+  }
+  @keyframes heartTick{
+    0%,100%{opacity:1;}
+    50%{opacity:.72;}
   }
   @media (prefers-reduced-motion:reduce){
     *{animation-duration:.01ms !important;animation-iteration-count:1 !important;}
   }
 
   /* ---------- Hero ---------- */
-  .hero{position:relative;padding-top:8px;margin-bottom:8px;}
-  .halo{
-    position:absolute;top:38px;left:50%;width:520px;height:520px;border-radius:50%;
-    background:radial-gradient(circle, var(--halo-a) 0%, transparent 68%);
-    filter:blur(38px);pointer-events:none;z-index:0;
-    animation:breathe 7s ease-in-out infinite;
-  }
-  .halo.b{
-    width:360px;height:360px;top:70px;
-    background:radial-gradient(circle, var(--halo-b) 0%, transparent 70%);
-    filter:blur(30px);
-    animation:breatheSlow 9s ease-in-out infinite 1.2s;
-  }
   .eyebrow{
-    position:relative;z-index:1;
     font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.16em;
-    text-transform:uppercase;color:#D9756A;font-weight:600;margin-bottom:16px;
+    text-transform:uppercase;color:var(--cardio);font-weight:600;margin-bottom:14px;
     text-align:center;display:flex;align-items:center;justify-content:center;gap:8px;
-    opacity:0;animation:fadeUp .7s ease-out .05s forwards;
+    opacity:0;animation:fadeUp .6s ease-out .05s forwards;
   }
-  .eyebrow .rx{font-size:15px;display:inline-block;animation:rxPulse 3.4s ease-in-out 1.2s infinite;}
+  .eyebrow .rx{font-size:15px;display:inline-block;animation:rxPulse 2.2s ease-in-out 1.1s 3;}
   h1{
-    position:relative;z-index:1;
-    font-family:'Fraunces',serif;font-weight:600;font-size:clamp(36px,6.4vw,56px);
-    line-height:1.08;margin:0 0 18px;letter-spacing:-.01em;text-align:center;color:var(--ink);
-    opacity:0;animation:fadeUp .7s ease-out .14s forwards;
-  }
-  .grad-text{
-    background:linear-gradient(90deg, #E8837A 0%, #D9A25C 45%, #7FA968 100%);
-    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+    font-family:'Fraunces',serif;font-weight:600;font-size:clamp(34px,6vw,52px);
+    line-height:1.05;margin:0 0 16px;letter-spacing:-.01em;text-align:center;color:var(--ink);
+    opacity:0;animation:fadeUp .6s ease-out .12s forwards;
   }
   .subtitle{
-    position:relative;z-index:1;
-    color:var(--ink-soft);font-size:16.5px;margin:0 auto 56px;max-width:52ch;
-    text-align:center;line-height:1.7;
-    opacity:0;animation:fadeUp .7s ease-out .24s forwards;
+    color:var(--ink-soft);font-size:16px;margin:0 auto 40px;max-width:54ch;
+    text-align:center;line-height:1.65;
+    opacity:0;animation:fadeUp .6s ease-out .2s forwards;
   }
+
+  /* ---------- Monitor strip (signature element) ---------- */
+  .monitor{
+    max-width:480px;margin:0 auto 50px;background:var(--ink);border-radius:14px;
+    padding:18px 22px 14px;box-shadow:0 10px 30px rgba(18,40,61,.18);
+    opacity:0;animation:fadeUp .6s ease-out .28s forwards;
+  }
+  .monitor-readouts{display:flex;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:10px;}
+  .readout{font-family:'JetBrains Mono',monospace;}
+  .readout .label{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#8FB4B0;display:block;margin-bottom:2px;}
+  .readout .value{font-size:17px;font-weight:600;color:#EAF6F5;}
+  .readout.hr .value{color:#5FE0B8;animation:heartTick 1.05s ease-in-out .8s infinite;}
+  .readout.bp .value{color:#7FD1FF;}
+  .readout.spo2 .value{color:#FFD98A;}
+  .monitor-wave{width:100%;height:38px;overflow:hidden;}
+  .monitor-wave svg{width:100%;height:100%;display:block;}
+  .monitor-wave path{fill:none;stroke:#5FE0B8;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  .wave-trace{stroke-dasharray:1000;stroke-dashoffset:1000;animation:draw 2.6s linear .3s infinite;}
+  @keyframes draw{
+    0%{stroke-dashoffset:1000;}
+    55%{stroke-dashoffset:0;}
+    100%{stroke-dashoffset:-1000;}
+  }
+  @media (prefers-reduced-motion:reduce){.wave-trace{animation:none;stroke-dashoffset:0;}}
 
   /* ---------- Comprehensive exam banner ---------- */
   .exam-banner{
-    max-width:100%;margin:0 0 36px;border-radius:20px;
-    padding:2px;
-    opacity:0;animation:fadeUp .6s ease-out .30s forwards;
+    max-width:100%;margin:0 0 32px;background:var(--comprehensive);border-radius:16px;
+    padding:2px;box-shadow:0 14px 34px rgba(15,36,56,.20);
+    opacity:0;animation:fadeUp .6s ease-out .32s forwards;
+    background-image:linear-gradient(135deg, var(--comprehensive-gold), var(--comprehensive));
   }
   .exam-banner-inner{
-    border-radius:19px;padding:30px 32px;
+    background:var(--comprehensive);border-radius:14px;padding:28px 30px;
     display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;
   }
   .exam-banner-text{flex:1;min-width:240px;}
   .exam-banner-chip{
     font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
-    color:var(--comprehensive-gold);background:rgba(201,150,44,.14);border:1px solid rgba(201,150,44,.32);
+    color:var(--comprehensive-gold);background:rgba(245,158,11,.14);border:1px solid rgba(245,158,11,.35);
     padding:3px 10px;border-radius:5px;display:inline-block;margin-bottom:10px;font-weight:700;
   }
   .exam-banner-text h2{
-    font-family:'Fraunces',serif;font-weight:600;font-size:24px;margin:0 0 8px;color:var(--ink);
+    font-family:'Fraunces',serif;font-weight:600;font-size:24px;margin:0 0 8px;color:#fff;
   }
-  .exam-banner-text p{margin:0;color:var(--ink-soft);font-size:13.5px;line-height:1.65;max-width:52ch;}
+  .exam-banner-text p{margin:0;color:#B9C6D3;font-size:13.5px;line-height:1.6;max-width:52ch;}
   .exam-banner-btn{
     font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;
-    background:rgba(255,255,255,.5);color:var(--comprehensive);padding:12px 21px;border-radius:9px;
-    border:1.5px solid var(--comprehensive-gold);
-    -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
-    text-decoration:none;white-space:nowrap;transition:all .2s ease;flex-shrink:0;
+    background:var(--comprehensive-gold);color:#1A1200;padding:13px 22px;border-radius:9px;
+    text-decoration:none;white-space:nowrap;transition:all .15s ease;flex-shrink:0;
   }
-  .exam-banner-btn:hover{background:var(--comprehensive-gold);color:#fff;transform:translateY(-1px);box-shadow:0 8px 18px -4px rgba(201,150,44,.4);}
+  .exam-banner-btn:hover{filter:brightness(1.08);transform:translateY(-1px);box-shadow:0 8px 18px -4px rgba(245,158,11,.5);}
 
   /* ---------- Topic containers ---------- */
   .topic-grid{
@@ -175,50 +162,49 @@
     --accent:var(--cardio);
     --accent-dim:var(--cardio-dim);
     position:relative;
-    border-top:4px solid var(--accent);
-    border-radius:16px;
-    padding:28px 30px 26px;
-    transition:box-shadow .3s ease, transform .3s ease, border-color .3s ease, background .3s ease;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-top:5px solid var(--accent);
+    border-radius:14px;
+    padding:26px 28px 24px;
+    box-shadow:0 1px 3px rgba(18,40,61,.05);
+    transition:box-shadow .22s ease, transform .22s ease, border-color .22s ease;
     overflow:hidden;
     opacity:0;
-    animation:fadeUp .6s ease-out forwards;
+    animation:popIn .55s cubic-bezier(.22,.9,.32,1.15) forwards;
     display:flex;
     flex-direction:column;
   }
-  .topic-grid .topic-card:nth-child(1){animation-delay:.34s;}
-  .topic-grid .topic-card:nth-child(2){animation-delay:.40s;}
-  .topic-grid .topic-card:nth-child(3){animation-delay:.46s;}
-  .topic-grid .topic-card:nth-child(4){animation-delay:.52s;}
-  .topic-grid .topic-card:nth-child(5){animation-delay:.58s;}
-  .topic-grid .topic-card:nth-child(6){animation-delay:.64s;}
-  .topic-grid .topic-card:nth-child(n+7){animation-delay:.70s;}
+  .topic-grid .topic-card:nth-child(1){animation-delay:.36s;}
+  .topic-grid .topic-card:nth-child(2){animation-delay:.44s;}
+  .topic-grid .topic-card:nth-child(3){animation-delay:.52s;}
+  .topic-grid .topic-card:nth-child(4){animation-delay:.60s;}
+  .topic-grid .topic-card:nth-child(5){animation-delay:.68s;}
+  .topic-grid .topic-card:nth-child(6){animation-delay:.76s;}
+  .topic-grid .topic-card:nth-child(n+7){animation-delay:.84s;}
   .topic-card::before{
     content:"";position:absolute;top:0;right:0;width:220px;height:220px;
     background:radial-gradient(circle at top right, var(--accent-dim) 0%, transparent 70%);
-    opacity:.5;pointer-events:none;
-    transition:opacity .3s ease;
+    opacity:.7;pointer-events:none;
+    transition:opacity .25s ease;
   }
   .topic-card:not(.disabled):hover{
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.8), 0 18px 38px rgba(18,40,61,.11);
-    transform:translateY(-3px);
+    box-shadow:0 14px 32px rgba(18,40,61,.12);
+    transform:translateY(-4px);
     border-color:var(--accent);
-    background:rgba(255,255,255,.66);
   }
   .topic-card:not(.disabled):hover::before{opacity:1;}
-  .topic-card:not(.disabled):hover .icon-medallion{transform:scale(1.06);}
-  .topic-card:not(.disabled):active{transform:translateY(-1px);}
+  .topic-card:not(.disabled):hover .icon-medallion{transform:scale(1.1) rotate(-4deg);}
+  .topic-card:not(.disabled):active{transform:translateY(-2px);}
 
   .topic-card.disabled{--accent:#B9C4C8;--accent-dim:#EEF2F2;}
   .topic-card.disabled .icon-medallion{filter:grayscale(1);}
 
   .topic-top{display:flex;align-items:flex-start;gap:16px;position:relative;z-index:1;}
   .icon-medallion{
-    width:50px;height:50px;border-radius:14px;
-    background:linear-gradient(145deg, var(--accent-dim) 0%, rgba(255,255,255,.5) 130%);
-    border:1px solid rgba(255,255,255,.7);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.8);
+    width:50px;height:50px;border-radius:13px;background:var(--accent-dim);
     display:flex;align-items:center;justify-content:center;flex-shrink:0;
-    transition:transform .35s ease;
+    transition:transform .3s cubic-bezier(.34,1.56,.64,1);
   }
   .icon-medallion svg{width:26px;height:26px;stroke:var(--accent);}
 
@@ -230,7 +216,7 @@
   }
   .topic-chip.soon{color:var(--muted);background:transparent;border:1px dashed #C7D2D5;}
   .topic-card.locked{filter:grayscale(65%);opacity:.62;}
-  .topic-card.locked:hover{transform:none;box-shadow:none;background:rgba(255,255,255,.5);}
+  .topic-card.locked:hover{transform:none;box-shadow:none;}
   .topic-chip.locked-chip{color:var(--muted);background:transparent;border:1px solid #C7D2D5;}
   .topic-actions .btn.disabled{
     pointer-events:none;cursor:not-allowed;background:transparent;color:var(--muted);
@@ -244,8 +230,7 @@
   .stat-row{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 20px;position:relative;z-index:1;}
   .stat-pill{
     font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--ink-soft);
-    background:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.7);padding:6px 11px;border-radius:20px;
-    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+    background:var(--paper);border:1px solid var(--line);padding:6px 11px;border-radius:20px;
     display:inline-flex;align-items:center;gap:6px;
   }
   .stat-pill .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);display:inline-block;}
@@ -253,13 +238,12 @@
   .topic-actions{display:flex;gap:10px;flex-wrap:wrap;position:relative;z-index:1;margin-top:auto;padding-top:4px;}
   .btn{
     font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;
-    padding:11px 18px;border-radius:9px;cursor:pointer;border:1px solid rgba(255,255,255,.7);
-    background:rgba(255,255,255,.45);color:var(--ink-soft);white-space:nowrap;text-decoration:none;
-    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+    padding:11px 18px;border-radius:9px;cursor:pointer;border:1px solid var(--line);
+    background:var(--card);color:var(--ink-soft);white-space:nowrap;text-decoration:none;
     display:inline-block;transition:all .15s ease;
   }
-  .btn:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px);background:rgba(255,255,255,.7);}
-  .btn.primary{background:var(--accent);color:#fff;border:none;-webkit-backdrop-filter:none;backdrop-filter:none;}
+  .btn:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px);}
+  .btn.primary{background:var(--accent);color:#fff;border:none;}
   .btn.primary:hover{filter:brightness(1.08);color:#fff;transform:translateY(-1px);box-shadow:0 6px 14px -4px var(--accent);}
   .btn.locked{opacity:.55;cursor:not-allowed;pointer-events:none;}
 
@@ -273,16 +257,25 @@
 <body>
 <div class="wrap">
 
-  <div class="hero">
-    <div class="halo"></div>
-    <div class="halo b"></div>
-    <div class="eyebrow"><span class="rx">℞</span> Study Portal</div>
-    <h1>Nursing <span class="grad-text">NCLEX Review</span></h1>
-    <p class="subtitle">Pick a topic chart below. Each one includes course notes pulled straight from lecture material, plus an interactive practice test you can size to your study session.</p>
+  <div class="eyebrow"><span class="rx">℞</span> Study Portal</div>
+  <h1>Nursing NCLEX Review</h1>
+  <p class="subtitle">Pick a topic chart below. Each one includes course notes pulled straight from lecture material, plus an interactive practice test you can size to your study session.</p>
+
+  <div class="monitor">
+    <div class="monitor-readouts">
+      <div class="readout hr"><span class="label">HR</span><span class="value">72 bpm</span></div>
+      <div class="readout bp"><span class="label">BP</span><span class="value">118/76</span></div>
+      <div class="readout spo2"><span class="label">SpO₂</span><span class="value">98%</span></div>
+    </div>
+    <div class="monitor-wave">
+      <svg viewBox="0 0 480 38" preserveAspectRatio="none">
+        <path class="wave-trace" d="M0,19 L70,19 L82,19 L90,4 L98,34 L106,10 L114,19 L140,19 L340,19 L352,19 L360,4 L368,34 L376,10 L384,19 L480,19"/>
+      </svg>
+    </div>
   </div>
 
   <!-- Comprehensive Exam banner -->
-  <div class="exam-banner glass">
+  <div class="exam-banner">
     <div class="exam-banner-inner">
       <div class="exam-banner-text">
         <span class="exam-banner-chip">All 8 topics · 433 questions</span>
@@ -296,7 +289,7 @@
   <div class="topic-grid">
 
     <!-- Cardiovascular Medications -->
-    <div class="topic-card glass" style="--accent:var(--cardio);--accent-dim:var(--cardio-dim);">
+    <div class="topic-card" style="--accent:var(--cardio);--accent-dim:var(--cardio-dim);">
       <div class="topic-top">
         <div class="icon-medallion">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/><path d="M3 13h4l2-4 3 7 2-4h4"/></svg>
@@ -315,13 +308,12 @@
       <div class="topic-actions">
         <a class="btn" href="cv_meds_practice_site.html#notes">Course notes</a>
         <a class="btn" href="cv_meds_practice_site.html#flashcards">Flashcards</a>
-        <a class="btn" href="cv_meds_practice_site.html#cases">Case studies</a>
         <a class="btn primary" href="cv_meds_practice_site.html#setup">Start practice test →</a>
       </div>
     </div>
 
     <!-- Respiratory Medications -->
-    <div class="topic-card glass" style="--accent:var(--resp);--accent-dim:var(--resp-dim);">
+    <div class="topic-card" style="--accent:var(--resp);--accent-dim:var(--resp-dim);">
       <div class="topic-top">
         <div class="icon-medallion">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3v6c0 2-1.5 3-3 3s-3 2-3 5 1.5 5 3.5 5c2.2 0 2.5-2 2.5-4v-4"/><path d="M15 3v6c0 2 1.5 3 3 3s3 2 3 5-1.5 5-3.5 5c-2.2 0-2.5-2-2.5-4v-4"/><path d="M9 9h6"/></svg>
@@ -340,13 +332,12 @@
       <div class="topic-actions">
         <a class="btn" href="respiratory_practice_site.html#notes">Course notes</a>
         <a class="btn" href="respiratory_practice_site.html#flashcards">Flashcards</a>
-        <a class="btn" href="respiratory_practice_site.html#cases">Case studies</a>
         <a class="btn primary" href="respiratory_practice_site.html#setup">Start practice test →</a>
       </div>
     </div>
 
     <!-- Endocrine Medications (locked — not in use) -->
-    <div class="topic-card locked glass" style="--accent:var(--endo);--accent-dim:var(--endo-dim);">
+    <div class="topic-card locked" style="--accent:var(--endo);--accent-dim:var(--endo-dim);">
       <div class="topic-top">
         <div class="icon-medallion">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="8" r="3"/><circle cx="17" cy="8" r="3"/><circle cx="12" cy="17" r="3"/><path d="M9.5 9.8 10.5 15M14.5 9.8 13.5 15"/></svg>
@@ -370,7 +361,7 @@
     </div>
 
     <!-- NCLEX Pharm Essentials -->
-    <div class="topic-card glass" style="--accent:var(--strategy);--accent-dim:var(--strategy-dim);">
+    <div class="topic-card" style="--accent:var(--strategy);--accent-dim:var(--strategy-dim);">
       <div class="topic-top">
         <div class="icon-medallion">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.4c.6.6 1 1.4 1 2.3V16h6v-.3c0-.9.4-1.7 1-2.3A6 6 0 0 0 12 3z"/></svg>
@@ -389,13 +380,12 @@
       <div class="topic-actions">
         <a class="btn" href="pharm_essentials_practice_site.html#notes">Course notes</a>
         <a class="btn" href="pharm_essentials_practice_site.html#flashcards">Flashcards</a>
-        <a class="btn" href="pharm_essentials_practice_site.html#cases">Case studies</a>
         <a class="btn primary" href="pharm_essentials_practice_site.html#setup">Start practice test →</a>
       </div>
     </div>
 
     <!-- Fluids & Electrolytes -->
-    <div class="topic-card glass" style="--accent:var(--fluid);--accent-dim:var(--fluid-dim);">
+    <div class="topic-card" style="--accent:var(--fluid);--accent-dim:var(--fluid-dim);">
       <div class="topic-top">
         <div class="icon-medallion">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c3 4.5 6 8 6 11.5A6 6 0 0 1 6 14.5C6 11 9 7.5 12 3z"/></svg>
@@ -414,13 +404,12 @@
       <div class="topic-actions">
         <a class="btn" href="fluids_electrolytes_practice_site.html#notes">Course notes</a>
         <a class="btn" href="fluids_electrolytes_practice_site.html#flashcards">Flashcards</a>
-        <a class="btn" href="fluids_electrolytes_practice_site.html#cases">Case studies</a>
         <a class="btn primary" href="fluids_electrolytes_practice_site.html#setup">Start practice test →</a>
       </div>
     </div>
 
     <!-- Acid-Base Balance -->
-    <div class="topic-card glass" style="--accent:var(--acidbase);--accent-dim:var(--acidbase-dim);">
+    <div class="topic-card" style="--accent:var(--acidbase);--accent-dim:var(--acidbase-dim);">
       <div class="topic-top">
         <div class="icon-medallion">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6v4l4 9a2 2 0 0 1-2 3H7a2 2 0 0 1-2-3l4-9V3z"/><path d="M8 14h8"/></svg>
@@ -439,13 +428,12 @@
       <div class="topic-actions">
         <a class="btn" href="acidbase_practice_site.html#notes">Course notes</a>
         <a class="btn" href="acidbase_practice_site.html#flashcards">Flashcards</a>
-        <a class="btn" href="acidbase_practice_site.html#cases">Case studies</a>
         <a class="btn primary" href="acidbase_practice_site.html#setup">Start practice test →</a>
       </div>
     </div>
 
     <!-- Safety & Infection Control -->
-    <div class="topic-card glass" style="--accent:var(--safety);--accent-dim:var(--safety-dim);">
+    <div class="topic-card" style="--accent:var(--safety);--accent-dim:var(--safety-dim);">
       <div class="topic-top">
         <div class="icon-medallion">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>
@@ -464,13 +452,12 @@
       <div class="topic-actions">
         <a class="btn" href="safety_infection_control_practice_site.html#notes">Course notes</a>
         <a class="btn" href="safety_infection_control_practice_site.html#flashcards">Flashcards</a>
-        <a class="btn" href="safety_infection_control_practice_site.html#cases">Case studies</a>
         <a class="btn primary" href="safety_infection_control_practice_site.html#setup">Start practice test →</a>
       </div>
     </div>
 
     <!-- Immunological & Anti-Infective Medications -->
-    <div class="topic-card glass" style="--accent:var(--immuno);--accent-dim:var(--immuno-dim);">
+    <div class="topic-card" style="--accent:var(--immuno);--accent-dim:var(--immuno-dim);">
       <div class="topic-top">
         <div class="icon-medallion">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M12 4v16M4 12h16"/><circle cx="12" cy="12" r="2.5" fill="currentColor" stroke="none"/></svg>
@@ -489,8 +476,31 @@
       <div class="topic-actions">
         <a class="btn" href="immuno_antiinfective_practice_site.html#notes">Course notes</a>
         <a class="btn" href="immuno_antiinfective_practice_site.html#flashcards">Flashcards</a>
-        <a class="btn" href="immuno_antiinfective_practice_site.html#cases">Case studies</a>
         <a class="btn primary" href="immuno_antiinfective_practice_site.html#setup">Start practice test →</a>
+      </div>
+    </div>
+
+    <!-- NCLEX Final Vestibule -->
+    <div class="topic-card" style="--accent:var(--vestibule);--accent-dim:var(--vestibule-dim);">
+      <div class="topic-top">
+        <div class="icon-medallion">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5a2 2 0 0 1 2-2h9l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg>
+        </div>
+        <div class="topic-headline">
+          <span class="topic-chip">Available now</span>
+          <h3>NCLEX Final Vestibule</h3>
+          <p>A mixed, cross-content testlet — delegation, mental health, perioperative safety, cardiac &amp; respiratory pharm, DKA, and infection control blended together, the way the real exam interleaves topics.</p>
+        </div>
+      </div>
+      <div class="stat-row">
+        <span class="stat-pill"><span class="dot"></span>44 practice questions</span>
+        <span class="stat-pill"><span class="dot"></span>Course notes + flashcards</span>
+        <span class="stat-pill"><span class="dot"></span>10 / 20 / 30 / 44-question sets</span>
+      </div>
+      <div class="topic-actions">
+        <a class="btn" href="nclex_final_vestibule_practice_site.html#notes">Course notes</a>
+        <a class="btn" href="nclex_final_vestibule_practice_site.html#flashcards">Flashcards</a>
+        <a class="btn primary" href="nclex_final_vestibule_practice_site.html#setup">Start practice test →</a>
       </div>
     </div>
 
