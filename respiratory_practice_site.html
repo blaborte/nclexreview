@@ -300,6 +300,14 @@
     <p class="subtitle">Choose how many questions you want to take. Questions are randomly selected from a bank of 100 each time, and every option — right or wrong — comes with an explanation.</p>
     <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 Q40,4 80,23 T160,23 Q200,4 240,23 T320,23 L480,23 Q520,4 560,23 T640,23 Q680,4 720,23 T800,23"/></svg></div>
 
+    <div class="badges-section">
+      <div class="badges-head">
+        <h2>Badges</h2>
+        <span class="badges-count" id="badgesCount">0 / 0 earned</span>
+      </div>
+      <div class="badges-grid" id="badgesGrid"></div>
+    </div>
+
     <div class="setup-card">
       <p>How many questions would you like to take?</p>
       <div class="count-grid">
@@ -357,6 +365,7 @@
 <!-- Printable results report — hidden on screen, populated and shown only for printing -->
 <div id="printReport"></div>
 
+<script src="badges.js"></script>
 <script>
 document.getElementById('notesContent').innerHTML = `
 <div class="note-callout"><b>Source:</b> Respiratory Medications lecture (Gerard Dela Cruz, MA, RN — Aug 4, 2026). Learning objectives: recall the action of prescribed respiratory medications; identify therapeutic and adverse effects; identify nursing considerations including safety and teaching.</div>
@@ -1213,6 +1222,7 @@ let currentIndex = 0;
 let score = 0;
 let questionState = [];
 let optionOrders = [];
+let sessionCompletionRecorded = false;
 
 function showView(name){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
@@ -1259,6 +1269,7 @@ function startQuiz(n){
   optionOrders = new Array(activeQuestions.length).fill(null);
   score = 0;
   currentIndex = 0;
+  sessionCompletionRecorded = false;
   document.getElementById('quizTitle').textContent = 'Practice Test — ' + n + ' Questions';
   document.getElementById('finalOutOf').textContent = '/' + n;
   buildPicker();
@@ -1489,6 +1500,12 @@ function showSummary(){
   else msgEl.textContent = 'Worth another pass — scroll up and read every rationale carefully, then retake.';
   document.getElementById('summary').classList.add('show');
   document.getElementById('summary').scrollIntoView({behavior:'smooth', block:'start'});
+
+  const answeredAll = answeredCount === activeQuestions.length;
+  if(answeredAll && !sessionCompletionRecorded){
+    sessionCompletionRecorded = true;
+    NCLEXBadges.recordCompletion('respiratory', pct);
+  }
 }
 
 /* ---------- Print / Save PDF ---------- */

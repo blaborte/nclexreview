@@ -300,6 +300,14 @@
     <p class="subtitle">Choose how many questions you want to take. Questions are randomly selected from a bank of 100 each time, and every option — right or wrong — comes with an explanation.</p>
     <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,33 C40,33 60,10 100,10 S160,33 200,33 S260,10 300,10 S360,33 400,33 L440,33 C480,33 500,10 540,10 S600,33 640,33 S700,10 740,10 S780,33 800,33"/></svg></div>
 
+    <div class="badges-section">
+      <div class="badges-head">
+        <h2>Badges</h2>
+        <span class="badges-count" id="badgesCount">0 / 0 earned</span>
+      </div>
+      <div class="badges-grid" id="badgesGrid"></div>
+    </div>
+
     <div class="setup-card">
       <p>How many questions would you like to take?</p>
       <div class="count-grid">
@@ -357,6 +365,7 @@
 <!-- Printable results report — hidden on screen, populated and shown only for printing -->
 <div id="printReport"></div>
 
+<script src="badges.js"></script>
 <script>
 document.getElementById('notesContent').innerHTML = `
 <h2 class="section-title">Insulin</h2>
@@ -1166,6 +1175,7 @@ let currentIndex = 0;
 let score = 0;
 let questionState = [];
 let optionOrders = [];
+let sessionCompletionRecorded = false;
 
 function showView(name){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
@@ -1212,6 +1222,7 @@ function startQuiz(n){
   optionOrders = new Array(activeQuestions.length).fill(null);
   score = 0;
   currentIndex = 0;
+  sessionCompletionRecorded = false;
   document.getElementById('quizTitle').textContent = 'Practice Test — ' + n + ' Questions';
   document.getElementById('finalOutOf').textContent = '/' + n;
   buildPicker();
@@ -1442,6 +1453,12 @@ function showSummary(){
   else msgEl.textContent = 'Worth another pass — scroll up and read every rationale carefully, then retake.';
   document.getElementById('summary').classList.add('show');
   document.getElementById('summary').scrollIntoView({behavior:'smooth', block:'start'});
+
+  const answeredAll = answeredCount === activeQuestions.length;
+  if(answeredAll && !sessionCompletionRecorded){
+    sessionCompletionRecorded = true;
+    NCLEXBadges.recordCompletion('endocrine', pct);
+  }
 }
 
 /* ---------- Print / Save PDF ---------- */
