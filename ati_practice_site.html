@@ -92,41 +92,6 @@
   .hw-card .go{font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:700;color:var(--coral-deep);margin-top:4px;}
 
   .stat-strip{display:flex;gap:14px;flex-wrap:wrap;margin:14px 0 26px;}
-
-  /* ---------- Badges ---------- */
-  .badges-section{margin:8px 0 30px;}
-  .badges-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:12px;flex-wrap:wrap;}
-  .badges-head h2{font-family:'Fraunces',serif;font-weight:600;font-size:19px;margin:0;color:var(--ink);}
-  .badges-count{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);}
-  .badges-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;}
-  .badge-chip{
-    position:relative;background:var(--card);border:1px solid var(--line);border-radius:12px;
-    padding:14px 12px;text-align:center;cursor:default;transition:transform .18s ease, box-shadow .18s ease;
-  }
-  .badge-chip:hover{transform:translateY(-2px);box-shadow:0 10px 22px -10px rgba(18,40,61,.25);}
-  .badge-chip .badge-icon{font-size:26px;line-height:1;margin-bottom:8px;filter:none;}
-  .badge-chip.locked{opacity:.42;}
-  .badge-chip.locked .badge-icon{filter:grayscale(1);}
-  .badge-chip .badge-name{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--ink);letter-spacing:.02em;}
-  .badge-chip .badge-desc{
-    position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%) translateY(4px);
-    width:190px;background:var(--ink);color:#fff;font-size:11.5px;line-height:1.4;padding:9px 11px;border-radius:9px;
-    opacity:0;pointer-events:none;transition:opacity .16s ease, transform .16s ease;z-index:20;box-shadow:0 10px 24px -8px rgba(18,40,61,.4);
-  }
-  .badge-chip .badge-desc::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:var(--ink);}
-  .badge-chip:hover .badge-desc{opacity:1;transform:translateX(-50%) translateY(0);}
-  .badge-toast-stack{position:fixed;top:18px;right:18px;z-index:999;display:flex;flex-direction:column;gap:10px;align-items:flex-end;}
-  .badge-toast{
-    display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:14px;
-    padding:12px 16px;box-shadow:0 16px 34px -10px rgba(18,40,61,.35);min-width:230px;max-width:300px;
-    animation:badgeIn .45s cubic-bezier(.22,.9,.32,1.15) forwards, badgeOut .5s ease forwards 3.6s;
-  }
-  .badge-toast .bt-icon{font-size:28px;line-height:1;flex-shrink:0;}
-  .badge-toast .bt-text{display:flex;flex-direction:column;gap:1px;}
-  .badge-toast .bt-label{font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--coral-deep);}
-  .badge-toast .bt-name{font-family:'Fraunces',serif;font-weight:600;font-size:15px;color:var(--ink);}
-  @keyframes badgeIn{from{opacity:0;transform:translateX(24px) scale(.96);}to{opacity:1;transform:translateX(0) scale(1);}}
-  @keyframes badgeOut{from{opacity:1;}to{opacity:0;transform:translateX(24px);}}
   .stat-box{background:rgba(184,230,211,0.4);backdrop-filter:blur(10px);border:1px solid var(--glass-border);border-radius:14px;padding:12px 18px;flex:1;min-width:140px;}
   .stat-box .big{font-family:'Fraunces',serif;font-size:26px;font-weight:600;color:var(--mint-deep);line-height:1;}
   .stat-box .lbl{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.04em;margin-top:4px;}
@@ -257,13 +222,6 @@
       <div class="stat-box"><div class="big">300</div><div class="lbl">Total questions</div></div>
     </div>
 
-    <div class="badges-section">
-      <div class="badges-head">
-        <h2>Badges</h2>
-        <span class="badges-count" id="badgesCount">0 / 0 earned</span>
-      </div>
-      <div class="badges-grid" id="badgesGrid"></div>
-    </div>
     <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
 
     <div class="hw-grid">
