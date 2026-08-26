@@ -79,7 +79,7 @@
 
   .setup-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:32px 28px;text-align:center;}
   .setup-card p{color:var(--ink-soft);font-size:14px;margin-bottom:24px;}
-  .count-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+  .count-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
   @media (max-width:560px){.count-grid{grid-template-columns:repeat(2,1fr);}}
   .count-btn{background:var(--paper);border:1.5px solid var(--line);border-radius:12px;padding:22px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:all .12s ease;}
   .count-btn:hover{border-color:var(--pulse);background:#FBF1DE;}
@@ -243,7 +243,7 @@
       <button class="tab-btn" id="tabSetupA" onclick="showView('setup')">Practice Test</button>
     </div>
     <h1>Course Notes</h1>
-    <p class="subtitle">Reference notes on insulin, oral hypoglycemics, and thyroid pharmacology. Use this to study before or during the practice test.</p>
+    <p class="subtitle">Reference notes on insulin, oral hypoglycemics, thyroid pharmacology, glucocorticoids, mineralocorticoids, and osteoporosis medications. Use this to study before or during the practice test.</p>
     <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,33 C40,33 60,10 100,10 S160,33 200,33 S260,10 300,10 S360,33 400,33 L440,33 C480,33 500,10 540,10 S600,33 640,33 S700,10 740,10 S780,33 800,33"/></svg></div>
 
     <div class="notes-card" id="notesContent"></div>
@@ -297,7 +297,7 @@
       <button class="tab-btn selected" id="tabSetupC" onclick="showView('setup')">Practice Test</button>
     </div>
     <h1>Practice Test</h1>
-    <p class="subtitle">Choose how many questions you want to take. Questions are randomly selected from a bank of 100 each time, and every option — right or wrong — comes with an explanation.</p>
+    <p class="subtitle">Choose how many questions you want to take. Questions are randomly selected from a bank of 170 each time, and every option — right or wrong — comes with an explanation.</p>
     <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,33 C40,33 60,10 100,10 S160,33 200,33 S260,10 300,10 S360,33 400,33 L440,33 C480,33 500,10 540,10 S600,33 640,33 S700,10 740,10 S780,33 800,33"/></svg></div>
 
     <div class="setup-card">
@@ -305,8 +305,9 @@
       <div class="count-grid">
         <button class="count-btn" onclick="startQuiz(20)"><span class="count-num">20</span><span class="count-label">Quick review</span></button>
         <button class="count-btn" onclick="startQuiz(30)"><span class="count-num">30</span><span class="count-label">Standard</span></button>
-        <button class="count-btn" onclick="startQuiz(40)"><span class="count-num">40</span><span class="count-label">Extended</span></button>
-        <button class="count-btn" onclick="startQuiz(100)"><span class="count-num">100</span><span class="count-label">Full bank</span></button>
+        <button class="count-btn" onclick="startQuiz(50)"><span class="count-num">50</span><span class="count-label">Extended</span></button>
+        <button class="count-btn" onclick="startQuiz(100)"><span class="count-num">100</span><span class="count-label">Deep dive</span></button>
+        <button class="count-btn" onclick="startQuiz(QUESTIONS.length)"><span class="count-num" id="fullBankNum">170</span><span class="count-label">Full bank</span></button>
       </div>
     </div>
   </div>
@@ -362,13 +363,14 @@
 document.getElementById('notesContent').innerHTML = `
 <h2 class="section-title">Insulin</h2>
 <table class="note-table">
-<tr><th>Type</th><th>Examples</th><th>Onset</th><th>Peak</th><th>Duration</th></tr>
-<tr><td>Rapid-acting</td><td>Lispro, aspart, glulisine</td><td>10–15 min</td><td>1–2 hr</td><td>3–5 hr</td></tr>
-<tr><td>Short-acting</td><td>Regular insulin</td><td>30–60 min</td><td>2–4 hr</td><td>6–8 hr</td></tr>
-<tr><td>Intermediate-acting</td><td>NPH</td><td>1–2 hr</td><td>4–12 hr</td><td>14–24 hr</td></tr>
-<tr><td>Long-acting</td><td>Glargine, detemir, degludec</td><td>1–2 hr</td><td>No pronounced peak</td><td>Up to 24 hr+</td></tr>
+<tr><th>Type</th><th>Generic examples</th><th>Onset</th><th>Peak</th><th>Duration</th></tr>
+<tr><td>Rapid-acting</td><td>Lispro, Aspart, Glulisine, Afrezza (inhaled)</td><td>10–30 min (Afrezza &lt;15 min)</td><td>0.5–3 hr (Afrezza ~50 min)</td><td>3–5 hr (Afrezza 2–3 hr)</td></tr>
+<tr><td>Short-acting</td><td>Regular</td><td>30–60 min</td><td>1–5 hr</td><td>6–10 hr</td></tr>
+<tr><td>Intermediate-acting</td><td>Isophane (NPH)</td><td>1–2 hr</td><td>4–12 hr</td><td>16 hr</td></tr>
+<tr><td>Long-acting</td><td>Glargine, Detemir, Degludec</td><td>1–4 hr</td><td>No pronounced peak (Degludec has minimal peak activity)</td><td>24 hr</td></tr>
 </table>
-<div class="note-callout"><b>Mixing insulins:</b> when drawing up regular and NPH insulin in the same syringe, draw up the clear (regular) insulin first, then the cloudy (NPH) insulin — "clear before cloudy." <b>Storage:</b> unopened insulin is refrigerated; in-use vials/pens may be kept at room temperature per manufacturer guidance and are typically discarded after 28 days. <b>Injection sites</b> should be rotated within the same general area to prevent lipodystrophy.</div>
+<div class="note-callout"><b>Scenario recall:</b> intermediate-acting (NPH) — cloudy, taken twice daily within 30–60 min of a meal. Rapid-acting — taken right before a meal, may be used in an insulin pump. Long-acting — no peak, 24-hr duration, usually once daily. Short-acting (Regular) — watch for hypoglycemia 1–5 hr after administration (its peak window).</div>
+<div class="note-callout"><b>Mixing insulins ("clear before cloudy"):</b> (1) inject air into the NPH (cloudy) vial first, (2) inject air into the Regular (clear) vial, (3) withdraw the Regular (clear) insulin first, (4) withdraw the NPH (cloudy) insulin second. <b>Storage:</b> unopened insulin is refrigerated; in-use vials/pens may be kept at room temperature per manufacturer guidance and are typically discarded after 28 days. <b>Injection sites</b> should be rotated within the same general area to prevent lipodystrophy.</div>
 
 <h2 class="section-title">Hypoglycemia</h2>
 <p>Signs: shakiness, diaphoresis, confusion, tachycardia, hunger. <b>Treatment — the "15-15 rule":</b> give 15 grams of fast-acting carbohydrate, recheck blood glucose in 15 minutes, and repeat if still low.</p>
@@ -377,26 +379,75 @@ document.getElementById('notesContent').innerHTML = `
 <h2 class="section-title">Oral &amp; Injectable Hypoglycemics</h2>
 <table class="note-table">
 <tr><th>Class</th><th>Examples</th><th>Mechanism</th><th>Key adverse effects</th></tr>
-<tr><td>Biguanides</td><td>Metformin</td><td>Decreases hepatic glucose production</td><td>GI upset, lactic acidosis risk; hold before/after IV contrast dye</td></tr>
-<tr><td>Sulfonylureas</td><td>Glipizide, glyburide, glimepiride</td><td>Stimulates insulin release from the pancreas</td><td>Hypoglycemia, weight gain</td></tr>
-<tr><td>Meglitinides</td><td>Repaglinide</td><td>Rapid, short stimulation of insulin release</td><td>Hypoglycemia; take shortly before meals, skip dose if meal is skipped</td></tr>
-<tr><td>Thiazolidinediones</td><td>Pioglitazone</td><td>Increases insulin sensitivity</td><td>Fluid retention/heart failure risk, hepatotoxicity</td></tr>
-<tr><td>Alpha-glucosidase inhibitors</td><td>Acarbose</td><td>Delays carbohydrate absorption in the gut</td><td>GI upset (gas, bloating); treat hypoglycemia with glucose tablets, not table sugar (sucrose), since sucrose breakdown is blocked</td></tr>
-<tr><td>DPP-4 inhibitors</td><td>Sitagliptin</td><td>Prolongs incretin activity</td><td>Pancreatitis risk</td></tr>
-<tr><td>GLP-1 receptor agonists</td><td>Exenatide, liraglutide, semaglutide</td><td>Incretin mimetic; slows gastric emptying, promotes satiety</td><td>GI upset, weight loss, pancreatitis risk</td></tr>
-<tr><td>SGLT2 inhibitors</td><td>Canagliflozin, empagliflozin</td><td>Blocks glucose reabsorption in the kidney, causing glucosuria</td><td>Genital/UTI infections; risk of euglycemic DKA (DKA with a near-normal glucose)</td></tr>
+<tr><td>Biguanides</td><td>Metformin</td><td>Decreases hepatic glucose production</td><td>GI upset, lactic acidosis risk, decreased B12; hold before/after IV contrast dye</td></tr>
+<tr><td>Sulfonylureas</td><td>Glimepiride, Glipizide, Glyburide</td><td>Stimulates insulin release from the pancreas</td><td>Hypoglycemia, photosensitivity, GI upset, weight gain, disulfiram-like reaction with alcohol</td></tr>
+<tr><td>Meglitinides <span class="suffix-tag">-glinide</span></td><td>Nateglinide, Repaglinide</td><td>Rapid, short stimulation of insulin release</td><td>Hypoglycemia, weight gain; take shortly before meals, skip dose if meal is skipped</td></tr>
+<tr><td>Thiazolidinediones (TZDs) <span class="suffix-tag">-glitazone</span></td><td>Pioglitazone, Rosiglitazone</td><td>Increases insulin sensitivity &amp; reduces liver glucose production</td><td>Edema, weight gain, liver failure, heart failure, bladder cancer risk, rhabdomyolysis</td></tr>
+<tr><td>Alpha-glucosidase inhibitors</td><td>Acarbose</td><td>Slows carbohydrate absorption in the small intestine</td><td>Flatulence, GI upset; treat hypoglycemia with glucose tablets, not table sugar (sucrose), since sucrose breakdown is blocked</td></tr>
+<tr><td>DPP-4 inhibitors <span class="suffix-tag">-gliptin</span></td><td>Alogliptin, Linagliptin, Saxagliptin, Sitagliptin</td><td>Inhibits DPP-4 to intensify incretin effects</td><td>Pancreatitis, heart failure, Stevens-Johnson syndrome</td></tr>
+<tr><td>GLP-1 agonists</td><td>Dulaglutide, Exenatide, Liraglutide, Semaglutide</td><td>Mimics incretin effects; slows gastric emptying, promotes satiety</td><td>GI upset, pancreatitis, thyroid tumors, acute renal failure</td></tr>
+<tr><td>SGLT2 inhibitors <span class="suffix-tag">-gliflozin</span></td><td>Canagliflozin, Dapagliflozin, Empagliflozin, Ertugliflozin</td><td>Blocks glucose reabsorption in the kidney, causing glucosuria</td><td>Hypotension, genital/UTI infections, AKI/urosepsis, bone fractures; risk of euglycemic DKA</td></tr>
 </table>
 
-<h2 class="section-title">Thyroid Medications</h2>
-<div class="drugclass"><h4>Levothyroxine (thyroid replacement)</h4>
-<ul><li>Take on an empty stomach, in the morning, at least 30–60 minutes before food</li><li>Separate from calcium and iron supplements, which impair absorption</li><li>Monitor TSH to guide dosing</li><li><b>Toxicity signs:</b> tachycardia, weight loss, tremor, heat intolerance, insomnia (signs of hyperthyroidism)</li></ul></div>
-<div class="drugclass"><h4>Antithyroid Medications</h4>
-<ul><li>Examples: methimazole, propylthiouracil (PTU)</li><li>Block synthesis of thyroid hormone</li><li><b>Adverse effect:</b> agranulocytosis — teach clients to report sore throat, fever, or signs of infection immediately</li><li>PTU is generally preferred over methimazole in the first trimester of pregnancy</li></ul></div>
+<h2 class="section-title">Diabetic Case Study: Disulfiram-Like Reaction</h2>
+<div class="casebox"><b>Presentation:</b> Adult with Type 2 DM on Metformin, Glyburide, Simvastatin, and Lisinopril presents with nausea, vomiting, abdominal cramps, dizziness, headache, facial flushing, diaphoresis, and tachycardia (HR 110) after drinking one beer with dinner. Blood glucose 60 mg/dL; creatinine, BUN normal; urine negative for ketones.<br><br>
+<b>Nursing concern:</b> the client has most likely developed a <b>disulfiram-like reaction</b> due to alcohol use in combination with a <b>sulfonylurea</b> (glyburide). Sulfonylureas can cause a disulfiram-like reaction with alcohol — flushing, GI upset, headache, and tachycardia.</div>
 
-<h2 class="section-title">Diabetic Emergencies</h2>
+<h2 class="section-title">Thyroid Medications</h2>
+<div class="drugclass"><h4>Antithyroid Agents</h4>
+<ul><li><b>Examples:</b> Methimazole, Propylthiouracil (PTU), Potassium iodide, Lugol's solution, Radioactive iodine</li>
+<li><b>Action:</b> reduce vascularity of the thyroid; inhibit thyroid secretion; PTU also inhibits peripheral conversion of T4 to T3</li>
+<li><b>Uses:</b> hyperthyroidism, Graves' disease, thyroid storm</li>
+<li><b>Side effects:</b> leukopenia, rash, thrombocytopenia, N/V/D, bitter taste, burning mouth; <b>agranulocytosis</b> — teach clients to report sore throat, fever, or infection signs immediately</li>
+<li><b>Nursing considerations:</b> give with meals, check CBC, enforce radiation precautions for radioactive iodine</li>
+<li>PTU is generally preferred over methimazole in the first trimester of pregnancy</li></ul></div>
+<div class="drugclass"><h4>Thyroid Replacement Agents</h4>
+<ul><li><b>Examples:</b> Levothyroxine (T4), Liothyronine</li>
+<li><b>Action:</b> increases metabolic rate</li>
+<li><b>Uses:</b> hypothyroidism, myxedema</li>
+<li><b>Side effects:</b> nervousness, N/V/D, weight loss, headache, insomnia, tachycardia/palpitations</li>
+<li><b>Nursing considerations:</b> administer in the morning on an empty stomach, separate from calcium/iron supplements, monitor weight/pulse/BP and TSH, monitor for signs of hyperthyroidism</li></ul></div>
+<div class="note-callout"><b>Thyrotoxicosis (elevated T3 &amp; T4) treatment:</b> Iodine, propylthiouracil, and propranolol (beta-blocker for adrenergic symptoms). <b>Post-thyroidectomy numbness/tingling and muscle twitching/spasms</b> signal hypocalcemia from parathyroid disruption — administer <b>IV calcium gluconate</b>.</div>
+
+<h2 class="section-title">Diabetic Emergencies &amp; Sick Day Rules</h2>
 <div class="casebox"><b>Diabetic ketoacidosis (DKA):</b> most common in type 1 diabetes; hyperglycemia, ketosis, metabolic acidosis, Kussmaul respirations, fruity breath odor. Treated with IV fluids, IV insulin, and electrolyte replacement (monitor potassium closely, since insulin therapy drives potassium into cells).<br><br>
 <b>Hyperosmolar hyperglycemic state (HHS):</b> more common in type 2 diabetes; severe hyperglycemia with profound dehydration, usually without significant ketosis. Treated with IV fluids and insulin, similar overall approach to DKA but without the acidosis component.</div>
-<div class="note-callout"><b>Sick day rules:</b> continue taking insulin/oral hypoglycemics even when unable to eat normally; monitor blood glucose more frequently; stay hydrated; check for ketones if glucose is significantly elevated; contact the provider for persistent vomiting, illness, or uncontrolled glucose.</div>
+<div class="note-callout"><b>Sick day rules:</b> insulin demands typically <b>increase</b> during infection/illness, even with reduced oral intake. Continue taking insulin/oral hypoglycemics even when unable to eat normally; monitor blood glucose more frequently; stay hydrated; check for ketones if glucose is significantly elevated; contact the provider for persistent vomiting, illness, or uncontrolled glucose.</div>
+
+<h2 class="section-title">Glucocorticoids</h2>
+<p><b>Physiological role:</b> regulates carbohydrate, fat, and protein metabolism; raises blood glucose levels. <b>Therapeutic effects:</b> adrenal hormone replacement, anti-inflammatory, antiallergic, immunosuppression.</p>
+<p><b>Indications:</b> adrenal insufficiency, joint/eye inflammation, acute allergic conditions, autoimmune diseases, IBD, organ transplant, asthma. <b>Systemic examples:</b> Hydrocortisone, Dexamethasone, Prednisone, Methylprednisolone, Prednisolone.</p>
+<div class="note-callout"><b>Precautions/contraindications:</b> infection (depresses immune response), hypertension/heart failure (edema), peptic ulcer disease (gastric acidity), live vaccines.</div>
+<table class="note-table">
+<tr><th>System</th><th>Adverse reactions</th></tr>
+<tr><td>Fluid/Electrolyte</td><td>Sodium/water retention, edema, hypokalemia</td></tr>
+<tr><td>Musculoskeletal/Bone</td><td>Bone loss, osteoporosis, protein breakdown</td></tr>
+<tr><td>CNS</td><td>Neuroexcitability, anxiety, mood swings, insomnia</td></tr>
+<tr><td>GI</td><td>Gastric irritation, peptic ulcer disease</td></tr>
+<tr><td>Metabolic/Endocrine</td><td>Hyperglycemia, cushingoid appearance, delayed wound healing, hyperlipidemia/atherosclerosis risk</td></tr>
+</table>
+<div class="drugclass"><h4>Priority Nursing Actions</h4>
+<ul><li><b>Assess:</b> electrolytes, blood glucose, lipids, weight, BP, fluid status, mental status, GI symptoms</li>
+<li><b>Implementation:</b> administer early in the morning with food/milk; do NOT stop abruptly (taper); avoid live vaccines; increase calcium &amp; vitamin D intake</li></ul></div>
+
+<h2 class="section-title">Mineralocorticoids (Fludrocortisone)</h2>
+<p><b>Action:</b> retains sodium and water; excretes potassium and hydrogen ions. <b>Indications:</b> Addison's disease, chronic postural hypotension.</p>
+<div class="note-callout"><b>Precautions:</b> hypertension, heart failure, fluid/electrolyte imbalances (hypokalemia, alkalosis), bleeding disorders, pregnancy. <b>Adverse reactions:</b> hypertension, heart failure, muscle pain, fractures, edema, hypokalemia, hyperglycemia, GI bleeding.</div>
+<div class="drugclass"><h4>Nursing Actions</h4>
+<ul><li>Monitor electrolytes, I&amp;O, fluid status, daily weights, signs of bleeding</li><li>Instruct client to wear a MedicAlert bracelet</li><li>Do NOT discontinue abruptly</li></ul></div>
+
+<h2 class="section-title">Osteoporosis Medications</h2>
+<p><b>Actions:</b> decrease bone breakdown, increase bone mineral density (BMD), form new bone, block bone-resorbing enzymes.</p>
+<table class="note-table">
+<tr><th>Class</th><th>Examples</th><th>Key precautions</th><th>Key adverse reactions</th></tr>
+<tr><td>Estrogens (HRT)</td><td>—</td><td>Not recommended (CV and cancer risks)</td><td>—</td></tr>
+<tr><td>Calcitonin preparations</td><td>Calcitonin-Salmon</td><td>—</td><td>Nasal irritation (intranasal); flushing &amp; nausea (SC)</td></tr>
+<tr><td>Bisphosphonates</td><td>Alendronate, Risedronate, Ibandronate, Zoledronic acid</td><td>GI disease, active dental procedures, renal impairment</td><td>Esophagitis, gastritis, heartburn, flatulence, musculoskeletal pain, osteonecrosis of the jaw (ONJ)</td></tr>
+<tr><td>SERMs</td><td>Raloxifene</td><td>History of VTE, pregnancy/lactation</td><td>Leg cramps, hot flashes, VTE/blood clots, GI upset</td></tr>
+<tr><td>Recombinant PTH</td><td>Teriparatide</td><td>Paget's disease, prior skeletal radiation</td><td>Nausea, diarrhea, leg cramps</td></tr>
+<tr><td>RANKL Inhibitors</td><td>Denosumab</td><td>Latex allergy, dental procedures, hypocalcemia</td><td>Hypocalcemia, jaw necrosis, dermatitis</td></tr>
+</table>
+<div class="note-callout"><b>Priority nursing actions for bisphosphonates:</b> administer first thing in the morning with a full glass of plain water; do NOT chew or crush the medication; client must remain upright (sitting or standing) for 30–60 minutes and refrain from food/beverages during this window; educate client to report musculoskeletal pain, chest pain, or heartburn; maintain adequate calcium &amp; vitamin D intake.</div>
 `;
 
 const QUESTIONS = [
@@ -1104,6 +1155,519 @@ const QUESTIONS = [
     {text:"This finding has no relevance to the client's metformin therapy",correct:false,explain:"Renal function is directly relevant to metformin safety, given its renal clearance and the associated lactic acidosis risk with impaired kidney function."},
     {text:"The metformin dose should be increased to compensate for reduced kidney function",correct:false,explain:"Increasing the dose would further increase the risk of drug accumulation and lactic acidosis in the setting of reduced renal function; a dose reduction or discontinuation is more likely warranted."},
     {text:"This finding only affects insulin dosing, not oral medications like metformin",correct:false,explain:"While renal function can affect insulin dosing as well, this finding is specifically and significantly relevant to metformin safety given its renal clearance pathway."}
+  ]},
+{ stem:"Which insulin can be delivered via an inhaled route in addition to injection?",
+  options:[
+    {text:"Afrezza (inhaled insulin)",correct:true,explain:"Afrezza is a rapid-acting insulin available in an inhaled form, with an onset of less than 15 minutes and a duration of about 2-3 hours."},
+    {text:"Glargine",correct:false,explain:"Glargine is a long-acting insulin given by subcutaneous injection only, not by inhalation."},
+    {text:"NPH (isophane)",correct:false,explain:"NPH is an intermediate-acting insulin given by subcutaneous injection only, not by inhalation."},
+    {text:"Regular insulin",correct:false,explain:"Regular insulin is given by subcutaneous or IV injection, not by inhalation."}
+  ]},
+{ stem:"A nurse is mixing NPH (intermediate-acting) and Regular (short-acting) insulin in the same syringe. What is the correct sequence for injecting air into the vials?",
+  options:[
+    {text:"Inject air into the NPH (cloudy) vial first, then inject air into the Regular (clear) vial",correct:true,explain:"The correct mixing sequence is to inject air into the cloudy (NPH) vial first, then inject air into the clear (Regular) vial, before withdrawing the insulins in the reverse order — clear (Regular) first, then cloudy (NPH)."},
+    {text:"Inject air into the Regular (clear) vial first, then inject air into the NPH (cloudy) vial",correct:false,explain:"Air is injected into the cloudy (NPH) vial first, then into the clear (Regular) vial; withdrawal order is the reverse — clear before cloudy."},
+    {text:"Inject air into only one vial, whichever is drawn up first",correct:false,explain:"Air must be injected into both vials before withdrawing either insulin, following the specific cloudy-first air sequence."},
+    {text:"No air needs to be injected into either vial",correct:false,explain:"Air is injected into both vials to equalize pressure before withdrawal; this step should not be skipped."}
+  ]},
+{ stem:"After injecting air into both the NPH and Regular insulin vials, in what order should the nurse withdraw the insulins into the syringe?",
+  options:[
+    {text:"Withdraw the Regular (clear) insulin first, then the NPH (cloudy) insulin second",correct:true,explain:"Following the \"clear before cloudy\" rule, the nurse withdraws the Regular (clear) insulin first, then the NPH (cloudy) insulin second, to avoid contaminating the Regular insulin vial with NPH."},
+    {text:"Withdraw the NPH (cloudy) insulin first, then the Regular (clear) insulin second",correct:false,explain:"This is the reverse of the correct withdrawal order; Regular (clear) insulin must be withdrawn first."},
+    {text:"Withdraw both insulins simultaneously using two syringes",correct:false,explain:"Both insulins are drawn into the same syringe in a specific clear-then-cloudy order, not simultaneously with separate syringes."},
+    {text:"The withdrawal order does not matter as long as air was injected into both vials",correct:false,explain:"The withdrawal order does matter — Regular (clear) must be withdrawn before NPH (cloudy) to prevent contamination."}
+  ]},
+{ stem:"According to insulin pharmacokinetics, which rapid-acting insulin has the shortest onset of action?",
+  options:[
+    {text:"Afrezza (inhaled), with an onset of less than 15 minutes",correct:true,explain:"Afrezza has an onset of less than 15 minutes, faster than injectable rapid-acting insulins such as lispro, aspart, and glulisine, which have onsets in the 10-30 minute range."},
+    {text:"Lispro, with an onset of 15-30 minutes",correct:false,explain:"Lispro's onset of 15-30 minutes is slower than Afrezza's onset of less than 15 minutes."},
+    {text:"Aspart, with an onset of 15-30 minutes",correct:false,explain:"Aspart's onset of 15-30 minutes is slower than Afrezza's onset of less than 15 minutes."},
+    {text:"Glargine, with an onset of 3-4 hours",correct:false,explain:"Glargine is a long-acting insulin with a much slower onset than any rapid-acting insulin."}
+  ]},
+{ stem:"A nurse is caring for a client with Type 1 diabetes who develops an upper respiratory infection. How should the nurse expect the client's insulin needs to change during the illness?",
+  options:[
+    {text:"Insulin demands typically increase during infection or illness",correct:true,explain:"Insulin demands typically increase during infection or illness due to stress hormone release, even if the client is eating less than usual."},
+    {text:"Insulin demands typically decrease during infection or illness",correct:false,explain:"Insulin demands generally increase, not decrease, during illness due to the physiologic stress response."},
+    {text:"Insulin demands remain unchanged regardless of illness",correct:false,explain:"Illness and infection typically increase insulin demands due to stress hormone release, so insulin needs are not expected to remain unchanged."},
+    {text:"Insulin should be discontinued entirely until the client recovers",correct:false,explain:"Insulin should generally be continued, and sick day rules emphasize not stopping insulin even when oral intake is reduced."}
+  ]},
+{ stem:"What is a key component of sick day management teaching for a client with diabetes?",
+  options:[
+    {text:"Continue taking insulin or oral hypoglycemic medication even when unable to eat normally",correct:true,explain:"Sick day rules teach clients to continue insulin or oral hypoglycemic medication even when they are unable to eat normally, since illness typically increases insulin demand."},
+    {text:"Stop all diabetes medications until the illness resolves",correct:false,explain:"Diabetes medications, especially insulin, should generally be continued during illness, not stopped, since insulin needs typically increase."},
+    {text:"Check blood glucose less frequently to avoid unnecessary stress",correct:false,explain:"Blood glucose should be monitored more frequently, not less, during illness to catch dangerous fluctuations."},
+    {text:"Avoid contacting the provider unless vomiting lasts more than one week",correct:false,explain:"The provider should be contacted for persistent vomiting, illness, or uncontrolled glucose much sooner than a week."}
+  ]},
+{ stem:"A client taking metformin and glyburide for Type 2 diabetes presents to the ED with nausea, vomiting, abdominal cramps, dizziness, facial flushing, and tachycardia after drinking one beer with dinner. What is the nurse most concerned this client has developed?",
+  options:[
+    {text:"A disulfiram-like reaction related to alcohol use with a sulfonylurea",correct:true,explain:"Sulfonylureas such as glyburide can cause a disulfiram-like reaction (flushing, nausea, vomiting, headache, tachycardia) when combined with alcohol, and this presentation with recent beer consumption is most consistent with that reaction."},
+    {text:"Diabetic ketoacidosis",correct:false,explain:"DKA typically presents with hyperglycemia and ketones in the urine; this client's presentation and history point to a disulfiram-like reaction from alcohol combined with a sulfonylurea."},
+    {text:"An allergic reaction to metformin",correct:false,explain:"The presentation described is classic for a disulfiram-like reaction related to alcohol and sulfonylurea use, not a metformin allergy."},
+    {text:"Expected postprandial hyperglycemia",correct:false,explain:"This client's symptoms (flushing, nausea, tachycardia after alcohol) are not simply postprandial hyperglycemia; they reflect a disulfiram-like reaction."}
+  ]},
+{ stem:"A client with Type 1 diabetes takes 6 units of Regular insulin and 15 units of NPH insulin, ate very little breakfast, and now presents with weakness, confusion, and dizziness. What is the most likely cause of these symptoms?",
+  options:[
+    {text:"Hypoglycemia",correct:true,explain:"Taking insulin without adequate food intake places the client at risk for hypoglycemia, which presents with weakness, confusion, dizziness, shakiness, and diaphoresis."},
+    {text:"Hyperglycemia",correct:false,explain:"Hyperglycemia would more typically present with polyuria, polydipsia, and gradual symptom onset, not the acute weakness, confusion, and dizziness described after insufficient food intake with insulin on board."},
+    {text:"Diabetic ketoacidosis",correct:false,explain:"DKA typically develops over hours with hyperglycemia and ketosis, which is not consistent with this client's acute presentation after inadequate food intake with insulin on board."},
+    {text:"A normal, expected response to insulin administration",correct:false,explain:"Weakness, confusion, and dizziness are not expected, normal responses to insulin; they indicate hypoglycemia requiring intervention."}
+  ]},
+{ stem:"A client reports diaphoresis, palpitations, and jitteriness approximately 1.5 hours after receiving Regular insulin. What is the appropriate nursing action?",
+  options:[
+    {text:"Monitor the blood glucose level and administer carbohydrates",correct:true,explain:"These symptoms suggest hypoglycemia occurring during the peak action time of Regular insulin (1-5 hours); the nurse should check the blood glucose level and administer fast-acting carbohydrates as indicated."},
+    {text:"Administer an additional dose of Regular insulin",correct:false,explain:"Administering more insulin would worsen a hypoglycemic episode; carbohydrate administration is indicated instead."},
+    {text:"Withhold all further insulin doses indefinitely",correct:false,explain:"The immediate action is to treat the suspected hypoglycemia with carbohydrates and monitor glucose, not to indefinitely withhold all future insulin doses."},
+    {text:"Reassure the client that these symptoms are unrelated to insulin timing",correct:false,explain:"These symptoms occurring during Regular insulin's peak window (1-5 hours) are very likely related to hypoglycemia and should be addressed, not dismissed."}
+  ]},
+{ stem:"Which insulin type is described as having no peak in its pharmacokinetic profile, making it appropriate for once-daily basal dosing?",
+  options:[
+    {text:"Glargine",correct:true,explain:"Glargine has no pronounced peak and a duration of about 24 hours, making it appropriate for once-daily basal insulin coverage."},
+    {text:"Regular insulin",correct:false,explain:"Regular insulin has a peak of 1-5 hours and is not typically used as a once-daily peakless basal insulin."},
+    {text:"NPH (isophane)",correct:false,explain:"NPH has a defined peak (4-12 hours) and is not classified as a peakless insulin."},
+    {text:"Lispro",correct:false,explain:"Lispro is a rapid-acting insulin with a defined peak (0.5-1.5 hours), not a peakless basal insulin."}
+  ]},
+{ stem:"A client with thyrotoxicosis has elevated T3 and T4 levels. Which combination of medications would the nurse expect to be administered?",
+  options:[
+    {text:"Iodine, propylthiouracil, and propranolol",correct:true,explain:"For thyrotoxicosis, treatment typically includes iodine preparations and propylthiouracil to reduce thyroid hormone synthesis/release, along with propranolol (a beta-blocker) to control the adrenergic symptoms such as tachycardia."},
+    {text:"Levothyroxine, calcium gluconate, and furosemide",correct:false,explain:"Levothyroxine would worsen thyrotoxicosis by adding more thyroid hormone; it is not an appropriate treatment for this condition."},
+    {text:"Insulin, metformin, and glyburide",correct:false,explain:"These are antidiabetic medications and are not used to treat thyrotoxicosis."},
+    {text:"Alendronate, calcitonin, and teriparatide",correct:false,explain:"These are osteoporosis medications and are not used to treat thyrotoxicosis."}
+  ]},
+{ stem:"A client develops numbness, tingling, and muscle twitching/spasms following a thyroidectomy. What should the nurse anticipate administering?",
+  options:[
+    {text:"IV calcium gluconate",correct:true,explain:"Numbness, tingling, and muscle twitching/spasms after thyroidectomy suggest hypocalcemia from inadvertent parathyroid gland disruption; IV calcium gluconate is the appropriate treatment."},
+    {text:"IV potassium chloride",correct:false,explain:"The described symptoms are classic for hypocalcemia, not hypokalemia, so IV calcium gluconate rather than potassium chloride is indicated."},
+    {text:"Oral levothyroxine",correct:false,explain:"Levothyroxine treats hypothyroidism and would not address the acute hypocalcemia causing these neuromuscular symptoms."},
+    {text:"IV magnesium sulfate",correct:false,explain:"While magnesium can affect neuromuscular symptoms, the classic post-thyroidectomy complication described here is hypocalcemia, treated with IV calcium gluconate."}
+  ]},
+{ stem:"Which medications are classified as antithyroid agents? Select all that apply.",
+  isSAL:true,
+  options:[
+    {text:"Methimazole",correct:true,explain:"Methimazole is an antithyroid agent that inhibits thyroid hormone secretion."},
+    {text:"Propylthiouracil (PTU)",correct:true,explain:"Propylthiouracil (PTU) is an antithyroid agent that inhibits thyroid hormone secretion and peripheral T4-to-T3 conversion."},
+    {text:"Potassium iodide",correct:true,explain:"Potassium iodide is an antithyroid agent used to reduce thyroid vascularity and hormone secretion."},
+    {text:"Levothyroxine",correct:false,explain:"Levothyroxine is a thyroid replacement agent, not an antithyroid agent; it increases rather than decreases thyroid hormone levels."}
+  ]},
+{ stem:"What is the mechanism of action shared by antithyroid agents such as methimazole and PTU?",
+  options:[
+    {text:"They reduce vascularity of the thyroid and inhibit thyroid hormone secretion",correct:true,explain:"Antithyroid agents reduce the vascularity of the thyroid gland, inhibit thyroid hormone secretion, and PTU also inhibits peripheral conversion of T4 to T3."},
+    {text:"They increase the metabolic rate by replacing thyroid hormone",correct:false,explain:"Increasing metabolic rate by replacing thyroid hormone describes thyroid replacement agents like levothyroxine, not antithyroid agents."},
+    {text:"They stimulate the pancreas to release more insulin",correct:false,explain:"Stimulating insulin release is unrelated to the mechanism of antithyroid agents, which act on the thyroid gland."},
+    {text:"They block calcium absorption in the GI tract",correct:false,explain:"Blocking calcium absorption is not the mechanism of antithyroid agents; they act on thyroid hormone synthesis and secretion."}
+  ]},
+{ stem:"A client is prescribed radioactive iodine for treatment of hyperthyroidism. What nursing consideration is specifically important for this therapy?",
+  options:[
+    {text:"Enforcing radiation precautions",correct:true,explain:"Radioactive iodine requires the nurse to enforce radiation safety precautions to protect the client, staff, and others from radiation exposure."},
+    {text:"Administering the medication on an empty stomach only",correct:false,explain:"Radiation precautions, not fasting status, are the specific nursing consideration emphasized for radioactive iodine therapy."},
+    {text:"Monitoring for signs of hypocalcemia",correct:false,explain:"Hypocalcemia monitoring is specifically associated with post-thyroidectomy care, not radioactive iodine administration."},
+    {text:"Encouraging a high-iodine diet during treatment",correct:false,explain:"A high-iodine diet is not a nursing consideration for radioactive iodine therapy; radiation precautions are the priority."}
+  ]},
+{ stem:"What side effects should the nurse monitor for in a client taking antithyroid agents such as methimazole or PTU? Select all that apply.",
+  isSAL:true,
+  options:[
+    {text:"Leukopenia",correct:true,explain:"Leukopenia is a recognized side effect of antithyroid agents that requires monitoring of CBC."},
+    {text:"Rash and thrombocytopenia",correct:true,explain:"Rash and thrombocytopenia are recognized side effects of antithyroid agents."},
+    {text:"Bitter taste and burning mouth",correct:true,explain:"A bitter taste and burning mouth sensation are recognized side effects of antithyroid agents."},
+    {text:"Weight loss and heat intolerance",correct:false,explain:"Weight loss and heat intolerance are signs of hyperthyroidism/thyroid excess (or levothyroxine overdose), not typical antithyroid agent side effects."}
+  ]},
+{ stem:"A client taking levothyroxine sodium should be monitored for which adverse effect?",
+  options:[
+    {text:"Palpitations",correct:true,explain:"Palpitations, along with nervousness, weight loss, tachycardia, and insomnia, are adverse effects of levothyroxine related to excess thyroid hormone effect."},
+    {text:"Bradycardia",correct:false,explain:"Levothyroxine is more associated with tachycardia and palpitations due to increased metabolic rate, not bradycardia."},
+    {text:"Weight gain",correct:false,explain:"Levothyroxine increases metabolic rate and is associated with weight loss, not weight gain, as an adverse effect."},
+    {text:"Hypoglycemia",correct:false,explain:"Hypoglycemia is not a typical adverse effect of levothyroxine; it is associated with antidiabetic medications."}
+  ]},
+{ stem:"Which statements reflect appropriate discharge teaching for a client newly prescribed levothyroxine? Select all that apply.",
+  isSAL:true,
+  options:[
+    {text:"Avoid OTC medications containing iodine or iodine salts",correct:true,explain:"Clients on levothyroxine should avoid OTC medications containing iodine or iodine salts, which can interfere with thyroid regulation."},
+    {text:"Take the medication on an empty stomach",correct:true,explain:"Levothyroxine should be taken on an empty stomach, in the morning, to optimize and ensure consistent absorption."},
+    {text:"Take the medication at the same time daily",correct:true,explain:"Taking levothyroxine at the same time daily helps maintain consistent hormone levels."},
+    {text:"Expect side effects of hypotension and weight gain",correct:false,explain:"Levothyroxine's adverse effects include tachycardia/palpitations and weight loss, not hypotension and weight gain."}
+  ]},
+{ stem:"What is the expected therapeutic action of thyroid replacement agents such as levothyroxine and liothyronine?",
+  options:[
+    {text:"They increase the metabolic rate",correct:true,explain:"Thyroid replacement agents like levothyroxine and liothyronine work by increasing the client's metabolic rate to treat hypothyroidism and myxedema."},
+    {text:"They decrease the metabolic rate",correct:false,explain:"Thyroid replacement agents increase, not decrease, metabolic rate, since they replace hormone deficient in hypothyroidism."},
+    {text:"They reduce thyroid vascularity",correct:false,explain:"Reducing thyroid vascularity describes antithyroid agents, not thyroid replacement agents."},
+    {text:"They inhibit peripheral conversion of T4 to T3",correct:false,explain:"Inhibiting T4-to-T3 conversion describes PTU (an antithyroid agent), not thyroid replacement agents."}
+  ]},
+{ stem:"What is the primary physiological role of glucocorticoids in the body?",
+  options:[
+    {text:"Regulating carbohydrate, fat, and protein metabolism and raising blood glucose levels",correct:true,explain:"Glucocorticoids physiologically regulate carbohydrate, fat, and protein metabolism, and they raise blood glucose levels."},
+    {text:"Retaining sodium and water while excreting potassium and hydrogen ions",correct:false,explain:"This describes the physiological role of mineralocorticoids like fludrocortisone, not glucocorticoids."},
+    {text:"Increasing bone mineral density",correct:false,explain:"Increasing bone mineral density describes the goal of osteoporosis medications, not the physiological role of glucocorticoids."},
+    {text:"Blocking thyroid hormone synthesis",correct:false,explain:"Blocking thyroid hormone synthesis describes antithyroid agents, not glucocorticoids."}
+  ]},
+{ stem:"Which of the following are therapeutic effects of glucocorticoid therapy? Select all that apply.",
+  isSAL:true,
+  options:[
+    {text:"Adrenal hormone replacement",correct:true,explain:"Adrenal hormone replacement is a therapeutic effect of glucocorticoid therapy, used in adrenal insufficiency."},
+    {text:"Anti-inflammatory and antiallergic effects",correct:true,explain:"Anti-inflammatory and antiallergic effects are key therapeutic effects of glucocorticoids."},
+    {text:"Immunosuppression",correct:true,explain:"Immunosuppression is a therapeutic effect of glucocorticoids, useful in autoimmune disease and transplant management."},
+    {text:"Increased bone mineral density",correct:false,explain:"Glucocorticoids are associated with bone loss and osteoporosis as an adverse effect, not increased bone mineral density as a therapeutic effect."}
+  ]},
+{ stem:"Which of the following are indications for systemic glucocorticoid therapy? Select all that apply.",
+  isSAL:true,
+  options:[
+    {text:"Adrenal insufficiency",correct:true,explain:"Adrenal insufficiency is an indication for glucocorticoid replacement therapy."},
+    {text:"Joint/eye inflammation and acute allergic conditions",correct:true,explain:"Joint/eye inflammation and acute allergic conditions are indications for glucocorticoid therapy given their anti-inflammatory and antiallergic effects."},
+    {text:"Autoimmune diseases, IBD, organ transplant, and asthma",correct:true,explain:"Autoimmune diseases, inflammatory bowel disease, organ transplant, and asthma are all indications for glucocorticoid therapy."},
+    {text:"Uncomplicated urinary tract infection",correct:false,explain:"An uncomplicated UTI is treated with antibiotics, not glucocorticoids, which are not indicated for this condition."}
+  ]},
+{ stem:"Which medications are examples of systemic glucocorticoids? Select all that apply.",
+  isSAL:true,
+  options:[
+    {text:"Hydrocortisone and dexamethasone",correct:true,explain:"Hydrocortisone and dexamethasone are systemic glucocorticoid examples."},
+    {text:"Prednisone and methylprednisolone",correct:true,explain:"Prednisone and methylprednisolone are systemic glucocorticoid examples."},
+    {text:"Prednisolone",correct:true,explain:"Prednisolone is a systemic glucocorticoid example."},
+    {text:"Fludrocortisone",correct:false,explain:"Fludrocortisone is a mineralocorticoid, not classified among the systemic glucocorticoid examples listed."}
+  ]},
+{ stem:"A client is being considered for glucocorticoid therapy. Which pre-existing conditions require the nurse to exercise caution due to glucocorticoid precautions/contraindications? Select all that apply.",
+  isSAL:true,
+  options:[
+    {text:"Active infection",correct:true,explain:"Glucocorticoids depress the immune response, so active infection is a precaution requiring caution."},
+    {text:"Hypertension or heart failure",correct:true,explain:"Hypertension or heart failure is a precaution because glucocorticoids can cause sodium/water retention and edema."},
+    {text:"Peptic ulcer disease",correct:true,explain:"Peptic ulcer disease is a precaution because glucocorticoids increase gastric acidity, worsening ulcer risk."},
+    {text:"Vitamin D deficiency",correct:false,explain:"Vitamin D deficiency is not listed as a precaution/contraindication for glucocorticoids; in fact, increased Vitamin D intake is part of the nursing plan during therapy."}
+  ]},
+{ stem:"A client on long-term glucocorticoid therapy develops a round, puffy face and fat redistribution to the trunk. What is this finding called, and to which adverse effect category does it belong?",
+  options:[
+    {text:"Cushingoid appearance, a metabolic/endocrine adverse effect of glucocorticoids",correct:true,explain:"A round, puffy face with truncal fat redistribution describes a cushingoid appearance, a recognized metabolic/endocrine adverse effect of glucocorticoid therapy."},
+    {text:"Myxedema, a musculoskeletal adverse effect",correct:false,explain:"Myxedema is associated with severe hypothyroidism, not glucocorticoid therapy, and is not a musculoskeletal finding."},
+    {text:"Addisonian crisis, a fluid/electrolyte adverse effect",correct:false,explain:"Addisonian crisis relates to adrenal insufficiency (glucocorticoid deficiency), not an adverse effect of glucocorticoid excess."},
+    {text:"Thyroid storm, a CNS adverse effect",correct:false,explain:"Thyroid storm is a thyroid hormone excess emergency, unrelated to the cushingoid appearance caused by glucocorticoid therapy."}
+  ]},
+{ stem:"Which fluid/electrolyte adverse reactions are associated with glucocorticoid therapy? Select all that apply.",
+  isSAL:true,
+  options:[
+    {text:"Sodium and water retention",correct:true,explain:"Sodium and water retention are fluid/electrolyte adverse reactions of glucocorticoid therapy."},
+    {text:"Edema",correct:true,explain:"Edema is a fluid/electrolyte adverse reaction of glucocorticoid therapy, related to sodium/water retention."},
+    {text:"Hypokalemia",correct:true,explain:"Hypokalemia is a fluid/electrolyte adverse reaction associated with glucocorticoid therapy."},
+    {text:"Hyperkalemia",correct:false,explain:"Glucocorticoids are associated with hypokalemia, not hyperkalemia, as a fluid/electrolyte adverse reaction."}
+  ]},
+{ stem:"Which musculoskeletal/bone adverse reactions should the nurse monitor for in a client on long-term glucocorticoid therapy?",
+  options:[
+    {text:"Bone loss, osteoporosis, and protein breakdown",correct:true,explain:"Long-term glucocorticoid therapy is associated with bone loss, osteoporosis, and protein breakdown (musculoskeletal/bone adverse reactions)."},
+    {text:"Increased bone density and muscle hypertrophy",correct:false,explain:"Glucocorticoids cause bone loss and protein breakdown, not increased bone density or muscle hypertrophy."},
+    {text:"Improved wound healing",correct:false,explain:"Glucocorticoids cause delayed wound healing, not improved wound healing."},
+    {text:"Increased calcium absorption",correct:false,explain:"Glucocorticoids are associated with bone loss, not increased calcium absorption; adequate calcium and vitamin D intake is recommended to help offset this risk."}
+  ]},
+{ stem:"What CNS-related adverse reactions can occur with glucocorticoid therapy?",
+  options:[
+    {text:"Neuroexcitability, anxiety, mood swings, and insomnia",correct:true,explain:"Glucocorticoid therapy can cause CNS adverse reactions including neuroexcitability, anxiety, mood swings, and insomnia."},
+    {text:"Sedation and significant memory loss",correct:false,explain:"Sedation and significant memory loss are not the CNS adverse reactions specifically listed for glucocorticoids; neuroexcitability, anxiety, mood swings, and insomnia are."},
+    {text:"Seizures as the primary CNS effect",correct:false,explain:"Seizures are not listed as the primary CNS adverse reaction of glucocorticoids; neuroexcitability, anxiety, mood swings, and insomnia are the noted effects."},
+    {text:"Bradykinesia and tremor",correct:false,explain:"Bradykinesia and tremor are associated with Parkinsonian conditions, not listed as glucocorticoid CNS adverse reactions."}
+  ]},
+{ stem:"What is the priority nursing action regarding the timing and manner of glucocorticoid discontinuation?",
+  options:[
+    {text:"Never stop glucocorticoids abruptly; the dose should be tapered",correct:true,explain:"Glucocorticoids should never be stopped abruptly; the dose must be tapered gradually to allow the adrenal glands to resume normal function and to avoid adrenal insufficiency."},
+    {text:"Glucocorticoids can be stopped abruptly once symptoms improve",correct:false,explain:"Abruptly stopping glucocorticoids risks adrenal insufficiency; the dose must be tapered instead."},
+    {text:"Glucocorticoids should be increased sharply right before discontinuation",correct:false,explain:"Increasing the dose sharply before discontinuation is not the correct approach; a gradual taper down is required."},
+    {text:"The timing of discontinuation does not matter as long as the client feels better",correct:false,explain:"The timing and method of discontinuation matter significantly; abrupt discontinuation risks adrenal insufficiency, so tapering is required."}
+  ]},
+{ stem:"When should a client take their oral glucocorticoid dose, and what should accompany the dose?",
+  options:[
+    {text:"Early in the morning, with food or milk",correct:true,explain:"Glucocorticoids should be administered early in the morning (to mimic natural cortisol rhythm) with food or milk to reduce GI irritation."},
+    {text:"At bedtime, on an empty stomach",correct:false,explain:"Glucocorticoids are administered in the morning, not at bedtime, and should be given with food or milk, not on an empty stomach."},
+    {text:"Only during acute flares, with no set schedule",correct:false,explain:"Glucocorticoids typically follow a consistent morning dosing schedule with food, not an as-needed schedule with no routine."},
+    {text:"At noon, with citrus juice to enhance absorption",correct:false,explain:"Morning dosing with food or milk is recommended, not noon dosing with citrus juice."}
+  ]},
+{ stem:"A client on glucocorticoid therapy is due for a live vaccine. What is the appropriate nursing consideration?",
+  options:[
+    {text:"Avoid administering live vaccines during glucocorticoid therapy",correct:true,explain:"Live vaccines should be avoided in clients on glucocorticoid therapy because the immunosuppressive effect increases the risk of vaccine-related infection."},
+    {text:"Live vaccines are safe and encouraged during glucocorticoid therapy",correct:false,explain:"Live vaccines should be avoided during glucocorticoid therapy due to the immunosuppressive effects increasing infection risk."},
+    {text:"Only inactivated vaccines need to be avoided",correct:false,explain:"It is live vaccines, not inactivated vaccines, that should specifically be avoided during glucocorticoid therapy."},
+    {text:"Vaccine timing has no relationship to glucocorticoid therapy",correct:false,explain:"Vaccine timing is directly relevant, since live vaccines should be avoided due to immunosuppression from glucocorticoids."}
+  ]},
+{ stem:"Which parameters should the nurse routinely assess in a client receiving glucocorticoid therapy? Select all that apply.",
+  isSAL:true,
+  options:[
+    {text:"Electrolytes and blood glucose",correct:true,explain:"Electrolytes and blood glucose should be routinely assessed, since glucocorticoids can cause electrolyte imbalance and hyperglycemia."},
+    {text:"Lipids, weight, and blood pressure",correct:true,explain:"Lipids, weight, and blood pressure should be routinely assessed, since glucocorticoids affect lipid metabolism, fluid balance, and blood pressure."},
+    {text:"Fluid status, mental status, and GI symptoms",correct:true,explain:"Fluid status, mental status, and GI symptoms should be routinely assessed due to the risk of fluid retention, CNS effects, and gastric irritation with glucocorticoids."},
+    {text:"Only respiratory rate, with no other parameters needed",correct:false,explain:"Multiple parameters — electrolytes, glucose, lipids, weight, BP, fluid status, mental status, and GI symptoms — should be assessed, not respiratory rate alone."}
+  ]},
+{ stem:"What dietary supplementation should be encouraged for a client on long-term glucocorticoid therapy to help mitigate bone loss?",
+  options:[
+    {text:"Increased calcium and vitamin D intake",correct:true,explain:"Increased calcium and vitamin D intake is encouraged for clients on long-term glucocorticoid therapy to help mitigate the risk of bone loss and osteoporosis."},
+    {text:"Increased potassium intake only",correct:false,explain:"Increased calcium and vitamin D, not potassium alone, is the specific dietary recommendation to help offset glucocorticoid-related bone loss."},
+    {text:"Restriction of all dairy products",correct:false,explain:"Dairy products are often a good source of calcium, and restricting them would not help mitigate glucocorticoid-related bone loss."},
+    {text:"Increased sodium intake to prevent hypotension",correct:false,explain:"Increased sodium intake is not recommended, since glucocorticoids already cause sodium and water retention; calcium/vitamin D intake addresses bone loss instead."}
+  ]},
+{ stem:"What is the mechanism of action of the mineralocorticoid fludrocortisone?",
+  options:[
+    {text:"It retains sodium and water while excreting potassium and hydrogen ions",correct:true,explain:"Fludrocortisone, a mineralocorticoid, retains sodium and water while promoting excretion of potassium and hydrogen ions."},
+    {text:"It blocks thyroid hormone synthesis",correct:false,explain:"Blocking thyroid hormone synthesis describes antithyroid agents, not the mineralocorticoid fludrocortisone."},
+    {text:"It increases bone mineral density",correct:false,explain:"Increasing bone mineral density describes osteoporosis medications, not the mechanism of fludrocortisone."},
+    {text:"It reduces vascularity of the thyroid gland",correct:false,explain:"Reducing thyroid vascularity describes antithyroid agents, not the mineralocorticoid fludrocortisone."}
+  ]},
+{ stem:"Which conditions are indications for fludrocortisone therapy? Select all that apply.",
+  isSAL:true,
+  options:[
+    {text:"Addison's disease",correct:true,explain:"Addison's disease (primary adrenal insufficiency) is an indication for fludrocortisone replacement therapy."},
+    {text:"Chronic postural (orthostatic) hypotension",correct:true,explain:"Chronic postural hypotension is an indication for fludrocortisone, which helps retain sodium and water to support blood pressure."},
+    {text:"Hyperthyroidism",correct:false,explain:"Hyperthyroidism is treated with antithyroid agents, not fludrocortisone, which is not indicated for this condition."},
+    {text:"Osteoporosis",correct:false,explain:"Osteoporosis is treated with bisphosphonates and other bone-specific agents, not fludrocortisone."}
+  ]},
+{ stem:"Which adverse reactions are associated with fludrocortisone therapy? Select all that apply.",
+  isSAL:true,
+  options:[
+    {text:"Hypertension and heart failure",correct:true,explain:"Hypertension and heart failure are adverse reactions of fludrocortisone due to its sodium- and water-retaining effects."},
+    {text:"Hypokalemia and hyperglycemia",correct:true,explain:"Hypokalemia and hyperglycemia are recognized adverse reactions of fludrocortisone."},
+    {text:"Edema and GI bleeding",correct:true,explain:"Edema and GI bleeding are recognized adverse reactions of fludrocortisone."},
+    {text:"Hyperkalemia",correct:false,explain:"Fludrocortisone causes potassium excretion, leading to hypokalemia, not hyperkalemia."}
+  ]},
+{ stem:"What precautions should the nurse consider before initiating fludrocortisone therapy? Select all that apply.",
+  isSAL:true,
+  options:[
+    {text:"Hypertension and heart failure",correct:true,explain:"Hypertension and heart failure are precautions for fludrocortisone due to its sodium/water retention effect."},
+    {text:"Fluid/electrolyte imbalances such as hypokalemia and alkalosis",correct:true,explain:"Fluid/electrolyte imbalances such as hypokalemia and alkalosis are precautions requiring caution with fludrocortisone."},
+    {text:"Bleeding disorders and pregnancy",correct:true,explain:"Bleeding disorders and pregnancy are listed precautions for fludrocortisone therapy."},
+    {text:"Vitamin D deficiency",correct:false,explain:"Vitamin D deficiency is not listed as a precaution for fludrocortisone; hypertension, heart failure, electrolyte imbalances, bleeding disorders, and pregnancy are."}
+  ]},
+{ stem:"Which nursing actions are appropriate for a client on fludrocortisone therapy? Select all that apply.",
+  isSAL:true,
+  options:[
+    {text:"Monitor electrolytes, I&O, and fluid status",correct:true,explain:"Monitoring electrolytes, intake and output, and fluid status is appropriate given fludrocortisone's sodium/water retention and potassium excretion effects."},
+    {text:"Obtain daily weights and monitor for signs of bleeding",correct:true,explain:"Daily weights help detect fluid retention, and monitoring for bleeding is appropriate given the medication's listed adverse reactions and precautions."},
+    {text:"Instruct the client to wear a MedicAlert bracelet and not discontinue the medication abruptly",correct:true,explain:"Clients should wear a MedicAlert bracelet and should not discontinue fludrocortisone abruptly, similar to other adrenal hormone replacement therapies."},
+    {text:"Encourage abrupt discontinuation if the client feels well",correct:false,explain:"Fludrocortisone should not be discontinued abruptly; this is directly contrary to the recommended nursing action."}
+  ]},
+{ stem:"A client taking fludrocortisone develops significant edema and a rapid weight gain over several days. What should the nurse suspect?",
+  options:[
+    {text:"An adverse reaction related to sodium and water retention from the medication",correct:true,explain:"Edema and rapid weight gain in a client on fludrocortisone are consistent with the medication's known adverse effect of sodium and water retention, and this should be reported to the provider."},
+    {text:"An expected and desirable therapeutic response requiring no action",correct:false,explain:"Significant edema and rapid weight gain are adverse reactions that should be reported and assessed further, not simply accepted as desirable."},
+    {text:"A sign of hyperkalemia caused by the medication",correct:false,explain:"Fludrocortisone causes potassium excretion (risk of hypokalemia), so hyperkalemia would not be the expected cause of these findings."},
+    {text:"An unrelated finding requiring no further evaluation",correct:false,explain:"The findings are directly related to fludrocortisone's known adverse effects and require nursing evaluation, not dismissal."}
+  ]},
+{ stem:"What are the general therapeutic actions of osteoporosis medications? Select all that apply.",
+  isSAL:true,
+  options:[
+    {text:"Decrease bone breakdown",correct:true,explain:"Decreasing bone breakdown (resorption) is a general therapeutic action of osteoporosis medications."},
+    {text:"Increase bone mineral density (BMD)",correct:true,explain:"Increasing bone mineral density is a general therapeutic action of osteoporosis medications."},
+    {text:"Form new bone",correct:true,explain:"Forming new bone is a therapeutic action of certain osteoporosis medications, such as teriparatide."},
+    {text:"Increase serum glucose levels",correct:false,explain:"Increasing serum glucose is not a therapeutic action of osteoporosis medications; their actions relate to bone breakdown, density, and formation."}
+  ]},
+{ stem:"Why are estrogens (hormone replacement therapy) generally not recommended for osteoporosis treatment?",
+  options:[
+    {text:"Due to cardiovascular and cancer risks",correct:true,explain:"Estrogens/HRT are generally not recommended for osteoporosis treatment due to associated cardiovascular and cancer risks."},
+    {text:"Because they have no effect on bone density",correct:false,explain:"Estrogens do affect bone density, but they are not recommended due to cardiovascular and cancer risks, not a lack of effect."},
+    {text:"Because they cause immediate hypocalcemia",correct:false,explain:"Immediate hypocalcemia is not the reason estrogens are avoided; cardiovascular and cancer risks are the stated concern."},
+    {text:"Because they are more expensive than other options",correct:false,explain:"Cost is not the reason given for avoiding estrogens; cardiovascular and cancer risks are the specific concern."}
+  ]},
+{ stem:"Which medications are classified as bisphosphonates? Select all that apply.",
+  isSAL:true,
+  options:[
+    {text:"Alendronate",correct:true,explain:"Alendronate is a bisphosphonate used in osteoporosis treatment."},
+    {text:"Risedronate and ibandronate",correct:true,explain:"Risedronate and ibandronate are bisphosphonates used in osteoporosis treatment."},
+    {text:"Zoledronic acid",correct:true,explain:"Zoledronic acid is a bisphosphonate used in osteoporosis treatment."},
+    {text:"Raloxifene",correct:false,explain:"Raloxifene is a SERM (selective estrogen receptor modulator), not a bisphosphonate."}
+  ]},
+{ stem:"Which osteoporosis medication is classified as a selective estrogen receptor modulator (SERM)?",
+  options:[
+    {text:"Raloxifene",correct:true,explain:"Raloxifene is the SERM (selective estrogen receptor modulator) used in osteoporosis treatment."},
+    {text:"Alendronate",correct:false,explain:"Alendronate is a bisphosphonate, not a SERM."},
+    {text:"Teriparatide",correct:false,explain:"Teriparatide is a recombinant PTH agent, not a SERM."},
+    {text:"Denosumab",correct:false,explain:"Denosumab is a RANKL inhibitor, not a SERM."}
+  ]},
+{ stem:"Which osteoporosis medication is a recombinant parathyroid hormone (PTH) that works by forming new bone?",
+  options:[
+    {text:"Teriparatide",correct:true,explain:"Teriparatide is a recombinant PTH agent that works to form new bone, unlike most other osteoporosis medications that primarily decrease bone breakdown."},
+    {text:"Calcitonin-salmon",correct:false,explain:"Calcitonin-salmon works differently, primarily decreasing bone resorption; it is not a recombinant PTH agent."},
+    {text:"Denosumab",correct:false,explain:"Denosumab is a RANKL inhibitor (enzyme blocker), not a recombinant PTH agent."},
+    {text:"Raloxifene",correct:false,explain:"Raloxifene is a SERM, not a recombinant PTH agent."}
+  ]},
+{ stem:"Which osteoporosis medication is classified as a RANKL inhibitor (enzyme blocker)?",
+  options:[
+    {text:"Denosumab",correct:true,explain:"Denosumab is the RANKL inhibitor (enzyme blocker) used in osteoporosis treatment, which blocks a bone-resorbing enzyme."},
+    {text:"Alendronate",correct:false,explain:"Alendronate is a bisphosphonate, not a RANKL inhibitor."},
+    {text:"Calcitonin-salmon",correct:false,explain:"Calcitonin-salmon is a synthetic hormone preparation, not a RANKL inhibitor."},
+    {text:"Teriparatide",correct:false,explain:"Teriparatide is a recombinant PTH agent, not a RANKL inhibitor."}
+  ]},
+{ stem:"A client is prescribed a bisphosphonate for osteoporosis. Which precautions/contraindications should the nurse consider? Select all that apply.",
+  isSAL:true,
+  options:[
+    {text:"GI disease",correct:true,explain:"GI disease is a precaution for bisphosphonates given their association with esophagitis and gastritis."},
+    {text:"Active dental procedures",correct:true,explain:"Active dental procedures are a precaution for bisphosphonates due to the risk of osteonecrosis of the jaw."},
+    {text:"Renal impairment",correct:true,explain:"Renal impairment is a precaution for bisphosphonates."},
+    {text:"History of venous thromboembolism",correct:false,explain:"History of VTE is a precaution specific to raloxifene, not bisphosphonates."}
+  ]},
+{ stem:"A nurse is providing discharge teaching for a client newly prescribed an oral bisphosphonate. Which instructions should be included? Select all that apply.",
+  isSAL:true,
+  options:[
+    {text:"Take the medication first thing in the morning with a full glass of plain water",correct:true,explain:"Bisphosphonates should be taken first thing in the morning with a full glass of plain water to optimize absorption and reduce esophageal irritation."},
+    {text:"Do not chew or crush the medication",correct:true,explain:"The medication should not be chewed or crushed, to help protect the esophagus from irritation."},
+    {text:"Remain upright (sitting or standing) for 30-60 minutes and avoid food/beverages during this time",correct:true,explain:"The client must remain upright for 30-60 minutes and avoid food or beverages during this window to reduce the risk of esophageal irritation and to optimize absorption."},
+    {text:"Take the medication at bedtime while lying flat",correct:false,explain:"Bisphosphonates should be taken in the morning while remaining upright, not at bedtime while lying flat, which increases the risk of esophageal irritation."}
+  ]},
+{ stem:"A client taking a bisphosphonate should be taught to report which symptoms to the provider? Select all that apply.",
+  isSAL:true,
+  options:[
+    {text:"Musculoskeletal pain",correct:true,explain:"Musculoskeletal pain should be reported, as bisphosphonates carry a risk of musculoskeletal pain and rare atypical fractures."},
+    {text:"Chest pain",correct:true,explain:"Chest pain should be reported, as it may indicate esophageal irritation or another complication requiring evaluation."},
+    {text:"Heartburn",correct:true,explain:"Heartburn should be reported, since bisphosphonates are associated with esophagitis, gastritis, and heartburn."},
+    {text:"Improved appetite",correct:false,explain:"Improved appetite is not a concerning symptom associated with bisphosphonate therapy that needs to be reported."}
+  ]},
+{ stem:"What serious adverse reaction of bisphosphonate therapy involves bone tissue death in the jaw?",
+  options:[
+    {text:"Osteonecrosis of the jaw (ONJ)",correct:true,explain:"Osteonecrosis of the jaw (ONJ) is a serious adverse reaction of bisphosphonate therapy, which is why active dental procedures are a precaution."},
+    {text:"Cushingoid appearance",correct:false,explain:"Cushingoid appearance is associated with glucocorticoid therapy, not bisphosphonates."},
+    {text:"Agranulocytosis",correct:false,explain:"Agranulocytosis is associated with antithyroid medications, not bisphosphonates."},
+    {text:"Thyroid storm",correct:false,explain:"Thyroid storm is a thyroid hormone excess emergency, unrelated to bisphosphonate therapy."}
+  ]},
+{ stem:"Which adverse reaction is specific to raloxifene that requires monitoring for signs such as leg swelling, warmth, and pain?",
+  options:[
+    {text:"Venous thromboembolism (VTE)/blood clots",correct:true,explain:"Raloxifene carries a risk of venous thromboembolism, so the nurse should monitor for signs of blood clots such as leg swelling, warmth, and pain."},
+    {text:"Osteonecrosis of the jaw",correct:false,explain:"Osteonecrosis of the jaw is specifically associated with bisphosphonates, not raloxifene."},
+    {text:"Nasal irritation",correct:false,explain:"Nasal irritation is an adverse reaction of intranasal calcitonin, not raloxifene."},
+    {text:"Cushingoid appearance",correct:false,explain:"Cushingoid appearance is associated with glucocorticoid therapy, not raloxifene."}
+  ]},
+{ stem:"A client with a history of venous thromboembolism (VTE) is being considered for osteoporosis therapy. Which medication should the nurse recognize as contraindicated in this client?",
+  options:[
+    {text:"Raloxifene",correct:true,explain:"Raloxifene is contraindicated in a client with a history of venous thromboembolism due to its associated VTE/blood clot risk."},
+    {text:"Calcitonin-salmon",correct:false,explain:"Calcitonin-salmon's precautions relate to nasal irritation and flushing/nausea, not specifically VTE history."},
+    {text:"Alendronate",correct:false,explain:"Alendronate's precautions relate to GI disease, dental procedures, and renal impairment, not specifically VTE history."},
+    {text:"Denosumab",correct:false,explain:"Denosumab's precautions relate to latex allergy, dental procedures, and hypocalcemia, not specifically VTE history."}
+  ]},
+{ stem:"What precautions/contraindications are associated with teriparatide therapy? Select all that apply.",
+  isSAL:true,
+  options:[
+    {text:"Paget's disease",correct:true,explain:"Paget's disease is a precaution/contraindication for teriparatide."},
+    {text:"Prior skeletal radiation",correct:true,explain:"Prior skeletal radiation is a precaution/contraindication for teriparatide."},
+    {text:"Latex allergy",correct:false,explain:"Latex allergy is a precaution specific to denosumab, not teriparatide."},
+    {text:"Active dental procedures",correct:false,explain:"Active dental procedures are a precaution specific to bisphosphonates and denosumab, not specifically listed for teriparatide."}
+  ]},
+{ stem:"Which adverse reactions are associated with teriparatide therapy?",
+  options:[
+    {text:"Nausea, diarrhea, and leg cramps",correct:true,explain:"Nausea, diarrhea, and leg cramps are recognized adverse reactions of teriparatide."},
+    {text:"Osteonecrosis of the jaw",correct:false,explain:"Osteonecrosis of the jaw is more specifically associated with bisphosphonates and denosumab, not listed as a primary teriparatide adverse reaction."},
+    {text:"Nasal irritation",correct:false,explain:"Nasal irritation is associated with intranasal calcitonin, not teriparatide."},
+    {text:"Cushingoid appearance",correct:false,explain:"Cushingoid appearance is associated with glucocorticoid therapy, not teriparatide."}
+  ]},
+{ stem:"A client with a known latex allergy is being considered for denosumab therapy. Why is this relevant?",
+  options:[
+    {text:"Latex allergy is a listed precaution for denosumab therapy",correct:true,explain:"Latex allergy is specifically listed as a precaution for denosumab therapy, so the nurse should assess for this before administration."},
+    {text:"Latex allergy has no relevance to denosumab therapy",correct:false,explain:"Latex allergy is directly relevant, as it is a listed precaution for denosumab."},
+    {text:"Latex allergy is a precaution for bisphosphonates, not denosumab",correct:false,explain:"Latex allergy is specifically listed as a precaution for denosumab, not bisphosphonates."},
+    {text:"Latex allergy increases the risk of hypercalcemia with denosumab",correct:false,explain:"Denosumab's associated risk is hypocalcemia, not hypercalcemia, and the relevance of latex allergy is as a direct precaution, not through a hyperglycemia mechanism."}
+  ]},
+{ stem:"Which electrolyte imbalance is a recognized adverse reaction of denosumab therapy?",
+  options:[
+    {text:"Hypocalcemia",correct:true,explain:"Hypocalcemia is a recognized adverse reaction of denosumab therapy, and calcium levels should be monitored."},
+    {text:"Hyperkalemia",correct:false,explain:"Hyperkalemia is not the electrolyte imbalance specifically associated with denosumab; hypocalcemia is."},
+    {text:"Hypernatremia",correct:false,explain:"Hypernatremia is not the electrolyte imbalance specifically associated with denosumab; hypocalcemia is."},
+    {text:"Hypermagnesemia",correct:false,explain:"Hypermagnesemia is not the electrolyte imbalance specifically associated with denosumab; hypocalcemia is."}
+  ]},
+{ stem:"Which adverse reaction is specific to intranasal calcitonin, as opposed to the subcutaneous route?",
+  options:[
+    {text:"Nasal irritation",correct:true,explain:"Nasal irritation is the adverse reaction specific to the intranasal route of calcitonin administration."},
+    {text:"Flushing and nausea",correct:false,explain:"Flushing and nausea are the adverse reactions associated with the subcutaneous route of calcitonin, not the intranasal route."},
+    {text:"Osteonecrosis of the jaw",correct:false,explain:"Osteonecrosis of the jaw is associated with bisphosphonates and denosumab, not calcitonin."},
+    {text:"Venous thromboembolism",correct:false,explain:"Venous thromboembolism is associated with raloxifene, not calcitonin."}
+  ]},
+{ stem:"A nurse is teaching a client about general osteoporosis medication therapy. Which statement by the client indicates a correct understanding?",
+  options:[
+    {text:"'These medications work by decreasing bone breakdown, increasing bone density, or helping form new bone.'",correct:true,explain:"This statement accurately reflects the general therapeutic actions of osteoporosis medications: decreasing bone breakdown, increasing bone mineral density, forming new bone, or blocking bone-resorbing enzymes."},
+    {text:"'These medications work by increasing blood glucose levels.'",correct:false,explain:"Increasing blood glucose is not a mechanism of osteoporosis medications; this describes a glucocorticoid effect."},
+    {text:"'These medications work by retaining sodium and water in the body.'",correct:false,explain:"Retaining sodium and water describes mineralocorticoid action, not the mechanism of osteoporosis medications."},
+    {text:"'These medications work by inhibiting thyroid hormone secretion.'",correct:false,explain:"Inhibiting thyroid hormone secretion describes antithyroid agents, not osteoporosis medications."}
+  ]},
+{ stem:"A client taking alendronate calls the clinic to report she took her dose while lying in bed and then went back to sleep. What is the priority nursing concern?",
+  options:[
+    {text:"Increased risk of esophageal irritation from not remaining upright after the dose",correct:true,explain:"Bisphosphonates require the client to remain upright for 30-60 minutes after the dose; taking it while lying down and going back to sleep increases the risk of esophageal irritation/esophagitis."},
+    {text:"Increased risk of hypocalcemia from this administration error",correct:false,explain:"The primary concern with improper positioning after a bisphosphonate dose is esophageal irritation, not hypocalcemia."},
+    {text:"Increased risk of a disulfiram-like reaction",correct:false,explain:"A disulfiram-like reaction is associated with sulfonylureas and alcohol, not bisphosphonate administration technique."},
+    {text:"No concern, since positioning after the dose does not matter",correct:false,explain:"Positioning after the dose is clinically significant; remaining upright is required to reduce esophageal irritation risk."}
+  ]},
+{ stem:"Which suffix is characteristic of thiazolidinedione (TZD) medication names?",
+  options:[
+    {text:"-glitazone (e.g., pioglitazone)",correct:true,explain:"Thiazolidinediones share the suffix -glitazone, as in pioglitazone and rosiglitazone."},
+    {text:"-gliptin (e.g., sitagliptin)",correct:false,explain:"The -gliptin suffix is characteristic of DPP-4 inhibitors, not thiazolidinediones."},
+    {text:"-gliflozin (e.g., empagliflozin)",correct:false,explain:"The -gliflozin suffix is characteristic of SGLT2 inhibitors, not thiazolidinediones."},
+    {text:"-glinide (e.g., repaglinide)",correct:false,explain:"The -glinide suffix is characteristic of meglitinides, not thiazolidinediones."}
+  ]},
+{ stem:"Which suffix is characteristic of DPP-4 inhibitor medication names?",
+  options:[
+    {text:"-gliptin (e.g., sitagliptin)",correct:true,explain:"DPP-4 inhibitors share the suffix -gliptin, as in alogliptin, linagliptin, saxagliptin, and sitagliptin."},
+    {text:"-glitazone (e.g., pioglitazone)",correct:false,explain:"The -glitazone suffix is characteristic of thiazolidinediones, not DPP-4 inhibitors."},
+    {text:"-gliflozin (e.g., empagliflozin)",correct:false,explain:"The -gliflozin suffix is characteristic of SGLT2 inhibitors, not DPP-4 inhibitors."},
+    {text:"-glinide (e.g., repaglinide)",correct:false,explain:"The -glinide suffix is characteristic of meglitinides, not DPP-4 inhibitors."}
+  ]},
+{ stem:"Which suffix is characteristic of SGLT2 inhibitor medication names?",
+  options:[
+    {text:"-gliflozin (e.g., canagliflozin)",correct:true,explain:"SGLT2 inhibitors share the suffix -gliflozin, as in canagliflozin, dapagliflozin, empagliflozin, and ertugliflozin."},
+    {text:"-gliptin (e.g., sitagliptin)",correct:false,explain:"The -gliptin suffix is characteristic of DPP-4 inhibitors, not SGLT2 inhibitors."},
+    {text:"-glitazone (e.g., pioglitazone)",correct:false,explain:"The -glitazone suffix is characteristic of thiazolidinediones, not SGLT2 inhibitors."},
+    {text:"-glinide (e.g., repaglinide)",correct:false,explain:"The -glinide suffix is characteristic of meglitinides, not SGLT2 inhibitors."}
+  ]},
+{ stem:"Which class of oral antidiabetic medications works by slowing carbohydrate absorption in the small intestine to limit postprandial blood glucose spikes?",
+  options:[
+    {text:"Alpha-glucosidase inhibitors",correct:true,explain:"Alpha-glucosidase inhibitors, such as acarbose, slow carbohydrate absorption in the small intestine, limiting postprandial blood glucose spikes."},
+    {text:"Biguanides",correct:false,explain:"Biguanides like metformin reduce hepatic glucose production, rather than slowing intestinal carbohydrate absorption."},
+    {text:"GLP-1 agonists",correct:false,explain:"GLP-1 agonists mimic incretin effects and slow gastric emptying rather than specifically slowing intestinal carbohydrate absorption."},
+    {text:"Sulfonylureas",correct:false,explain:"Sulfonylureas stimulate pancreatic insulin release rather than slowing intestinal carbohydrate absorption."}
+  ]},
+{ stem:"Which adverse effects are associated with SGLT2 inhibitor therapy? Select all that apply.",
+  isSAL:true,
+  options:[
+    {text:"Hypotension",correct:true,explain:"Hypotension is a recognized adverse effect of SGLT2 inhibitor therapy."},
+    {text:"Yeast/bacterial infections",correct:true,explain:"Yeast and bacterial infections are recognized adverse effects of SGLT2 inhibitor therapy due to glucosuria."},
+    {text:"Acute kidney injury and urosepsis",correct:true,explain:"Acute kidney injury and urosepsis are recognized adverse effects of SGLT2 inhibitor therapy."},
+    {text:"Agranulocytosis",correct:false,explain:"Agranulocytosis is associated with antithyroid medications, not SGLT2 inhibitors."}
+  ]},
+{ stem:"What therapeutic effects are associated with GLP-1 agonist therapy, in addition to glycemic control? Select all that apply.",
+  isSAL:true,
+  options:[
+    {text:"Cardiovascular death risk reduction",correct:true,explain:"GLP-1 agonists are associated with a reduction in cardiovascular death risk, in addition to glycemic control."},
+    {text:"Weight loss",correct:true,explain:"Weight loss is a recognized therapeutic effect of GLP-1 agonist therapy."},
+    {text:"Chronic weight management",correct:true,explain:"GLP-1 agonists are used for chronic weight management as well as Type 2 diabetes."},
+    {text:"Increased bone mineral density",correct:false,explain:"Increased bone mineral density is not a therapeutic effect of GLP-1 agonists; this is associated with osteoporosis medications."}
+  ]},
+{ stem:"Which adverse effects are associated with thiazolidinedione (TZD) therapy? Select all that apply.",
+  isSAL:true,
+  options:[
+    {text:"Edema and weight gain",correct:true,explain:"Edema and weight gain are recognized adverse effects of thiazolidinedione therapy."},
+    {text:"Liver failure and heart failure",correct:true,explain:"Liver failure and heart failure are serious recognized adverse effects of thiazolidinedione therapy."},
+    {text:"Bladder cancer risk and rhabdomyolysis",correct:true,explain:"Bladder cancer risk and rhabdomyolysis are recognized adverse effects associated with thiazolidinedione therapy."},
+    {text:"Agranulocytosis",correct:false,explain:"Agranulocytosis is associated with antithyroid medications, not thiazolidinediones."}
+  ]},
+{ stem:"What should the nurse monitor for in a client taking a thiazolidinedione such as pioglitazone? Select all that apply.",
+  isSAL:true,
+  options:[
+    {text:"Signs of heart failure",correct:true,explain:"Thiazolidinediones can worsen or precipitate heart failure, so the nurse should monitor for signs such as edema and dyspnea."},
+    {text:"Hepatic dysfunction",correct:true,explain:"Thiazolidinediones carry a risk of liver failure, so hepatic function should be monitored."},
+    {text:"Bladder cancer symptoms",correct:true,explain:"Thiazolidinediones carry an associated bladder cancer risk, so related symptoms should be monitored."},
+    {text:"Signs of agranulocytosis",correct:false,explain:"Agranulocytosis monitoring is associated with antithyroid medications, not thiazolidinediones."}
+  ]},
+{ stem:"A client taking a biguanide (metformin) is scheduled for a procedure requiring IV contrast dye. What is the priority nursing action?",
+  options:[
+    {text:"Withhold metformin before and after the procedure per protocol",correct:true,explain:"Metformin should be withheld before and after procedures involving IV contrast dye due to the risk of contrast-induced nephropathy and subsequent lactic acidosis."},
+    {text:"Continue metformin without any changes around the procedure",correct:false,explain:"Metformin should be withheld around the time of IV contrast dye administration, not continued without change, due to lactic acidosis risk."},
+    {text:"Double the metformin dose before the procedure",correct:false,explain:"Doubling the dose is inappropriate and would increase, not decrease, the risk of complications; metformin should be withheld instead."},
+    {text:"Switch the client to a sulfonylurea permanently before any contrast procedure",correct:false,explain:"A temporary hold of metformin around the contrast procedure is the standard action, not a permanent medication switch."}
+  ]},
+{ stem:"What should the nurse monitor for in a client taking a biguanide (metformin), given its association with malabsorption of a specific vitamin?",
+  options:[
+    {text:"Vitamin B12 levels",correct:true,explain:"Metformin is associated with decreased vitamin B12 absorption, so the nurse should monitor B12 levels along with renal function and signs of lactic acidosis."},
+    {text:"Vitamin D levels",correct:false,explain:"Vitamin D is not the specific vitamin associated with metformin therapy; vitamin B12 is."},
+    {text:"Vitamin K levels",correct:false,explain:"Vitamin K is not the specific vitamin associated with metformin therapy; vitamin B12 is."},
+    {text:"Vitamin A levels",correct:false,explain:"Vitamin A is not the specific vitamin associated with metformin therapy; vitamin B12 is."}
+  ]},
+{ stem:"Which nursing consideration is important for a client taking a sulfonylurea such as glyburide or glipizide?",
+  options:[
+    {text:"Confirm the client has Type 2 diabetes, check for sulfonamide allergy, and advise avoiding alcohol",correct:true,explain:"Sulfonylureas are used for Type 2 diabetes; the nurse should confirm this diagnosis, check for a sulfonamide allergy given the drug class relationship, monitor CBC and liver enzymes, and advise the client to avoid alcohol due to disulfiram-like reaction risk and photosensitivity."},
+    {text:"Administer only to clients with Type 1 diabetes",correct:false,explain:"Sulfonylureas are indicated for Type 2 diabetes, not Type 1 diabetes, since they work by stimulating existing pancreatic insulin secretion."},
+    {text:"Encourage regular alcohol consumption to enhance effectiveness",correct:false,explain:"Alcohol should be avoided with sulfonylureas due to the risk of a disulfiram-like reaction, not encouraged."},
+    {text:"No allergy history is relevant to this medication class",correct:false,explain:"A sulfonamide allergy history is specifically relevant to sulfonylureas given their chemical class relationship."}
+  ]},
+{ stem:"What should the nurse teach a client taking a sulfonylurea about sun exposure?",
+  options:[
+    {text:"Monitor for and protect against photosensitivity",correct:true,explain:"Sulfonylureas are associated with photosensitivity, so the nurse should teach the client to monitor for and protect against sun-related skin reactions."},
+    {text:"No precautions regarding sun exposure are needed",correct:false,explain:"Photosensitivity is a recognized effect of sulfonylureas, so sun exposure precautions are needed, not absent."},
+    {text:"Increase sun exposure to improve medication absorption",correct:false,explain:"There is no benefit to increased sun exposure with sulfonylureas; in fact, photosensitivity precautions are warranted."},
+    {text:"Photosensitivity is only a concern with insulin therapy",correct:false,explain:"Photosensitivity is specifically associated with sulfonylureas, not insulin therapy."}
   ]}
 ];
 
@@ -1127,7 +1691,58 @@ const FLASHCARDS = [
 {front:"Dawn phenomenon", back:"Early-morning hyperglycemia from natural overnight hormone release, without preceding hypoglycemia."},
 {front:"DKA presentation", back:"Hyperglycemia, ketosis, metabolic acidosis, Kussmaul respirations, fruity breath."},
 {front:"Insulin therapy during DKA — key electrolyte", back:"Potassium — insulin drives it into cells; monitor closely."},
-{front:"Acarbose + hypoglycemia treatment", back:"Use glucose tablets, not table sugar (sucrose) — acarbose blocks sucrose breakdown."}
+{front:"Acarbose + hypoglycemia treatment", back:"Use glucose tablets, not table sugar (sucrose) — acarbose blocks sucrose breakdown."},
+{front:"Insulin mixing — air injection order", back:"Inject air into NPH (cloudy) vial FIRST, then Regular (clear) vial. Withdraw in reverse: Regular (clear) first, then NPH (cloudy)."},
+{front:"Afrezza", back:"Inhaled rapid-acting insulin — onset <15 min, peak ~50 min, duration 2-3 hr."},
+{front:"Sick day rule for insulin demand", back:"Insulin demands typically INCREASE during infection/illness, even with reduced oral intake."},
+{front:"Disulfiram-like reaction", back:"Caused by sulfonylureas (e.g., glyburide) + alcohol — flushing, N/V, headache, tachycardia."},
+{front:"Thyrotoxicosis treatment", back:"Iodine, propylthiouracil (PTU), and propranolol."},
+{front:"Post-thyroidectomy numbness/tingling/muscle spasms", back:"Sign of hypocalcemia — treat with IV calcium gluconate."},
+{front:"Antithyroid agent examples", back:"Methimazole, Propylthiouracil (PTU), Potassium iodide, Lugol's solution, Radioactive iodine."},
+{front:"Antithyroid agent side effects", back:"Leukopenia, rash, thrombocytopenia, N/V/D, bitter taste, burning mouth."},
+{front:"Antithyroid agent nursing considerations", back:"Give with meals, check CBC, enforce radiation precautions for radioactive iodine."},
+{front:"Radioactive iodine key nursing action", back:"Enforce radiation safety precautions."},
+{front:"Thyroid replacement agent examples", back:"Levothyroxine (T4), Liothyronine."},
+{front:"Thyroid replacement action", back:"Increases metabolic rate."},
+{front:"Thyroid replacement adverse effects", back:"Nervousness, N/V/D, weight loss, headache, insomnia, tachycardia/palpitations."},
+{front:"Levothyroxine discharge teaching", back:"Avoid OTC iodine products; take on empty stomach; take at same time daily."},
+{front:"-glitazone suffix", back:"Thiazolidinediones (TZDs) — e.g., pioglitazone, rosiglitazone."},
+{front:"-gliptin suffix", back:"DPP-4 inhibitors — e.g., sitagliptin, linagliptin, saxagliptin, alogliptin."},
+{front:"-gliflozin suffix", back:"SGLT2 inhibitors — e.g., canagliflozin, dapagliflozin, empagliflozin, ertugliflozin."},
+{front:"-glinide suffix", back:"Meglitinides — e.g., repaglinide, nateglinide."},
+{front:"Alpha-glucosidase inhibitors mechanism", back:"Slows carbohydrate absorption in the small intestine; limits postprandial glucose spikes."},
+{front:"Metformin + IV contrast dye", back:"Withhold before/after procedure — risk of contrast-induced nephropathy and lactic acidosis."},
+{front:"Metformin vitamin concern", back:"Associated with decreased Vitamin B12 absorption."},
+{front:"Sulfonylurea nursing considerations", back:"Confirm Type 2 DM, check sulfonamide allergy, monitor CBC/liver enzymes, avoid alcohol, monitor photosensitivity."},
+{front:"GLP-1 agonist therapeutic effects", back:"Glycemic control, CV death risk reduction, weight loss."},
+{front:"SGLT2 inhibitor adverse effects", back:"Hypotension, GI upset, yeast/bacterial infections, AKI, urosepsis, bone fractures, hypersensitivity."},
+{front:"TZD adverse effects", back:"Edema, weight gain, infection, headache, liver failure, heart failure, bladder cancer, rhabdomyolysis."},
+{front:"Glucocorticoid physiological role", back:"Regulates carbohydrate/fat/protein metabolism; raises blood glucose."},
+{front:"Glucocorticoid therapeutic effects", back:"Adrenal hormone replacement, anti-inflammatory, antiallergic, immunosuppression."},
+{front:"Glucocorticoid systemic examples", back:"Hydrocortisone, Dexamethasone, Prednisone, Methylprednisolone, Prednisolone."},
+{front:"Glucocorticoid precautions", back:"Infection, hypertension/heart failure, peptic ulcer disease, live vaccines."},
+{front:"Glucocorticoid fluid/electrolyte effects", back:"Sodium/water retention, edema, hypokalemia."},
+{front:"Glucocorticoid MSK/bone effects", back:"Bone loss, osteoporosis, protein breakdown."},
+{front:"Glucocorticoid CNS effects", back:"Neuroexcitability, anxiety, mood swings, insomnia."},
+{front:"Glucocorticoid metabolic/endocrine effects", back:"Hyperglycemia, cushingoid appearance, delayed wound healing, hyperlipidemia."},
+{front:"Glucocorticoid administration timing", back:"Early morning with food/milk; never stop abruptly — must taper; avoid live vaccines; increase Ca & Vit D."},
+{front:"Fludrocortisone action", back:"Retains sodium/water; excretes potassium and hydrogen ions."},
+{front:"Fludrocortisone indications", back:"Addison's disease, chronic postural hypotension."},
+{front:"Fludrocortisone adverse reactions", back:"Hypertension, heart failure, muscle pain, fractures, edema, hypokalemia, hyperglycemia, GI bleeding."},
+{front:"Fludrocortisone nursing actions", back:"Monitor electrolytes/I&O/fluid status/daily weights/bleeding signs; MedicAlert bracelet; don't stop abruptly."},
+{front:"Osteoporosis med general actions", back:"Decrease bone breakdown, increase BMD, form new bone, block bone-resorbing enzymes."},
+{front:"Osteoporosis — estrogens/HRT", back:"Not recommended — CV and cancer risks."},
+{front:"Bisphosphonate examples", back:"Alendronate, Risedronate, Ibandronate, Zoledronic acid."},
+{front:"SERM example", back:"Raloxifene."},
+{front:"Recombinant PTH example", back:"Teriparatide — forms new bone."},
+{front:"RANKL inhibitor example", back:"Denosumab."},
+{front:"Bisphosphonate precautions", back:"GI disease, active dental procedures, renal impairment."},
+{front:"Bisphosphonate adverse reactions", back:"Esophagitis, gastritis, heartburn, flatulence, musculoskeletal pain, osteonecrosis of the jaw (ONJ)."},
+{front:"Bisphosphonate administration rule", back:"First thing AM with full glass plain water; do NOT chew/crush; remain upright 30-60 min; no food/beverage during that window."},
+{front:"Raloxifene precautions/adverse reactions", back:"History of VTE, pregnancy/lactation contraindicated; leg cramps, hot flashes, VTE/blood clots, GI upset."},
+{front:"Teriparatide precautions/adverse reactions", back:"Paget's disease, prior skeletal radiation; nausea, diarrhea, leg cramps."},
+{front:"Denosumab precautions/adverse reactions", back:"Latex allergy, dental procedures, hypocalcemia; hypocalcemia, jaw necrosis, dermatitis."},
+{front:"Calcitonin adverse reactions", back:"Nasal irritation (intranasal); flushing & nausea (SC)."}
 ];
 
 /* ======================= FLASHCARDS ======================= */
