@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oncological & Hematological Medications, IV Therapy & Medication Administration</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  :root{
+    --ink:#211B36;
+    --ink-soft:#524A6B;
+    --paper:#F7F5FB;
+    --card:#FFFFFF;
+    --line:#E2DCEF;
+    --pulse:#DC2626;
+    --pulse-dim:#FEE2E2;
+    --correct:#1B8A5A;
+    --correct-bg:#E7F5EE;
+    --incorrect:#C1443D;
+    --incorrect-bg:#FBEAE8;
+    --muted:#8A80A0;
+    --amber:#B8791A;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    padding:40px 20px 80px;
+  }
+  .wrap{max-width:860px;margin:0 auto;}
+  .view{display:none;}
+  .view.active{display:block;}
+
+  .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:10px;}
+  .brand{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--pulse);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;gap:8px;}
+  .brand:hover{color:var(--ink);}
+  .crumbs{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);}
+  .crumbs span{cursor:pointer;}
+  .crumbs span:hover{color:var(--pulse);}
+
+  .eyebrow{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--pulse);font-weight:600;margin-bottom:10px;}
+  h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(28px,5vw,40px);line-height:1.08;margin:0 0 6px;letter-spacing:-.01em;}
+  h2.section-title{font-family:'Fraunces',serif;font-weight:600;font-size:22px;margin:34px 0 12px;color:var(--ink);}
+  h2.section-title:first-of-type{margin-top:0;}
+  .subtitle{color:var(--ink-soft);font-size:15px;margin:0 0 26px;max-width:60ch;}
+
+  .ekg{width:100%;height:46px;margin-bottom:24px;overflow:hidden;}
+  .ekg svg{width:100%;height:100%;display:block;}
+  .ekg path{fill:none;stroke:var(--pulse);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  .ekg-trace{stroke-dasharray:1000;stroke-dashoffset:1000;animation:draw 2.6s ease-out forwards;}
+  @keyframes draw{to{stroke-dashoffset:0;}}
+  @media (prefers-reduced-motion:reduce){.ekg-trace{animation:none;stroke-dashoffset:0;}}
+
+  .topic-tabs{display:flex;gap:8px;margin-bottom:26px;flex-wrap:wrap;}
+  .tab-btn{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;padding:11px 18px;border-radius:9px;cursor:pointer;border:1.5px solid var(--line);background:var(--card);color:var(--ink-soft);}
+  .tab-btn:hover{border-color:var(--pulse);color:var(--pulse);}
+  .tab-btn.selected{background:var(--ink);border-color:var(--ink);color:#fff;}
+
+  .notes-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:30px 28px;}
+  .notes-card p{color:var(--ink-soft);font-size:14.5px;line-height:1.6;}
+  .note-table{width:100%;border-collapse:collapse;margin:10px 0 24px;font-size:13.5px;}
+  .note-table th{background:var(--ink);color:#fff;text-align:left;padding:9px 12px;font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.03em;text-transform:uppercase;}
+  .note-table td{padding:9px 12px;border-bottom:1px solid var(--line);color:var(--ink-soft);vertical-align:top;}
+  .note-table tr:nth-child(even) td{background:var(--paper);}
+  .note-table td b{color:var(--ink);}
+  .drugclass{border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:14px;background:var(--paper);}
+  .drugclass h4{margin:0 0 8px;font-family:'Inter',sans-serif;font-size:15px;color:var(--ink);}
+  .drugclass .suffix-tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--pulse);background:var(--pulse-dim);padding:2px 8px;border-radius:5px;margin-left:8px;}
+  .drugclass ul{margin:6px 0 0;padding-left:20px;color:var(--ink-soft);font-size:13.5px;line-height:1.6;}
+  .note-callout{border-left:3px solid var(--pulse);background:var(--pulse-dim);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13.5px;color:var(--ink);margin:14px 0;}
+  .note-callout b{color:var(--pulse);}
+  .casebox{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:14px;font-size:13.5px;color:var(--ink-soft);line-height:1.6;}
+  .casebox b{color:var(--ink);}
+  .stat-strip{display:flex;gap:14px;flex-wrap:wrap;margin:14px 0 26px;}
+  .stat-box{background:var(--pulse-dim);border-radius:10px;padding:12px 18px;flex:1;min-width:140px;}
+  .stat-box .big{font-family:'Fraunces',serif;font-size:26px;font-weight:600;color:var(--pulse);line-height:1;}
+  .stat-box .lbl{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.04em;margin-top:4px;}
+
+  .setup-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:32px 28px;text-align:center;}
+  .setup-card p{color:var(--ink-soft);font-size:14px;margin-bottom:24px;}
+  .count-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+  @media (max-width:560px){.count-grid{grid-template-columns:repeat(2,1fr);}}
+  .count-btn{background:var(--paper);border:1.5px solid var(--line);border-radius:12px;padding:22px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:all .12s ease;}
+  .count-btn:hover{border-color:var(--pulse);background:#FEECEC;}
+  .count-num{font-family:'Fraunces',serif;font-size:30px;font-weight:600;color:var(--ink);}
+  .count-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+
+  .picker{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px 20px;margin-bottom:22px;}
+  .picker-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:10px;flex-wrap:wrap;}
+  .picker-title{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;}
+  .picker-actions{display:flex;gap:8px;}
+  .mini-btn{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;background:var(--paper);border:1px solid var(--line);color:var(--ink-soft);padding:6px 11px;border-radius:7px;cursor:pointer;}
+  .mini-btn:hover{border-color:var(--pulse);color:var(--pulse);}
+  .picker-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:7px;}
+  @media (max-width:520px){.picker-grid{grid-template-columns:repeat(6,1fr);}}
+  .pick-btn{aspect-ratio:1;border-radius:8px;border:1.5px solid var(--line);background:var(--paper);font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:600;color:var(--ink-soft);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s ease;}
+  .pick-btn:hover{border-color:var(--pulse);color:var(--pulse);}
+  .pick-btn.current{border-color:var(--ink);box-shadow:0 0 0 2px var(--ink) inset;color:var(--ink);}
+  .pick-btn.correct{background:var(--correct-bg);border-color:var(--correct);color:var(--correct);}
+  .pick-btn.incorrect{background:var(--incorrect-bg);border-color:var(--incorrect);color:var(--incorrect);}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);}
+  .legend span{display:inline-flex;align-items:center;gap:5px;}
+  .dot{width:9px;height:9px;border-radius:3px;display:inline-block;}
+  .dot.unanswered{background:var(--paper);border:1.5px solid var(--line);}
+  .dot.correct{background:var(--correct-bg);border:1.5px solid var(--correct);}
+  .dot.incorrect{background:var(--incorrect-bg);border:1.5px solid var(--incorrect);}
+
+  .statusbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;}
+  .progress-track{flex:1;height:6px;background:var(--line);border-radius:4px;overflow:hidden;position:relative;}
+  .progress-fill{height:100%;background:var(--pulse);border-radius:4px;width:0%;transition:width .35s ease;}
+  .score-pill{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--ink);background:var(--card);border:1px solid var(--line);padding:6px 12px;border-radius:20px;white-space:nowrap;}
+  .score-pill span{color:var(--pulse);}
+
+  .qcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:28px 26px 24px;margin-bottom:20px;box-shadow:0 1px 2px rgba(33,27,54,.05);}
+  .qmeta{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
+  .qnum{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--pulse);background:var(--pulse-dim);padding:3px 9px;border-radius:6px;}
+  .qtag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;}
+  .qsal{font-family:'JetBrains Mono',monospace;font-size:11px;color:#B91C1C;letter-spacing:.03em;border:1px solid #FCA5A5;background:#FEF2F2;padding:2px 8px;border-radius:5px;}
+  .stem{font-size:18px;line-height:1.48;font-weight:600;color:var(--ink);margin:0 0 20px;}
+
+  .options{display:flex;flex-direction:column;gap:10px;}
+  .opt{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;padding:13px 14px;border:1.5px solid var(--line);background:var(--paper);border-radius:10px;cursor:pointer;font-family:'Inter',sans-serif;font-size:15px;color:var(--ink);transition:border-color .15s ease, background .15s ease, transform .1s ease;}
+  .opt:hover:not(.locked){border-color:var(--pulse);background:#FEECEC;}
+  .opt:active:not(.locked){transform:scale(.997);}
+  .opt:focus-visible{outline:2px solid var(--pulse);outline-offset:2px;}
+  .opt-letter{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:13px;color:var(--ink-soft);background:var(--card);border:1px solid var(--line);min-width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+  .opt-text{flex:1;line-height:1.45;}
+  .opt.correct-choice{border-color:var(--correct);background:var(--correct-bg);}
+  .opt.correct-choice .opt-letter{background:var(--correct);border-color:var(--correct);color:#fff;}
+  .opt.incorrect-choice{border-color:var(--incorrect);background:var(--incorrect-bg);}
+  .opt.incorrect-choice .opt-letter{background:var(--incorrect);border-color:var(--incorrect);color:#fff;}
+  .opt.locked{cursor:default;}
+  .opt.dim{opacity:.55;}
+  .opt-explain{margin-top:6px;font-size:13.5px;line-height:1.5;font-family:'Inter',sans-serif;}
+  .opt.correct-choice .opt-explain{color:#15694A;}
+  .opt.incorrect-choice .opt-explain{color:#96332E;}
+  .opt.dim .opt-explain{color:var(--muted);}
+  .opt.dim.correct-choice .opt-explain{color:var(--correct);}
+  .opt.sal .opt-letter{border-radius:5px;}
+
+  .result-banner{display:none;align-items:center;gap:10px;margin-top:18px;padding:11px 14px;border-radius:9px;font-size:14px;font-weight:600;font-family:'Inter',sans-serif;}
+  .result-banner.show{display:flex;}
+  .result-banner.correct{background:var(--correct-bg);color:var(--correct);}
+  .result-banner.incorrect{background:var(--incorrect-bg);color:var(--incorrect);}
+
+  .actions{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:10px;}
+  .btn-prev{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;background:var(--card);color:var(--ink-soft);border:1px solid var(--line);padding:11px 18px;border-radius:8px;cursor:pointer;}
+  .btn-prev:hover{border-color:var(--pulse);color:var(--pulse);}
+  .btn-prev:disabled{opacity:.4;cursor:not-allowed;}
+  .btn-next{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;letter-spacing:.03em;background:var(--ink);color:#fff;border:none;padding:11px 20px;border-radius:8px;cursor:pointer;display:none;align-items:center;gap:8px;}
+  .btn-next.show{display:inline-flex;}
+  .btn-next:hover{background:var(--pulse);}
+  .btn-sal-submit{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;background:var(--pulse);color:#fff;border:none;padding:11px 20px;border-radius:8px;cursor:pointer;margin-top:16px;}
+
+  .summary{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:36px 30px;text-align:center;display:none;}
+  .summary.show{display:block;}
+  .summary .big-score{font-family:'Fraunces',serif;font-size:56px;font-weight:600;color:var(--pulse);line-height:1;margin-bottom:6px;}
+  .summary .big-score sub{font-size:22px;font-weight:500;color:var(--muted);}
+  .summary p{color:var(--ink-soft);font-size:14px;margin:6px 0 22px;}
+  .btn-restart{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;background:var(--ink);color:#fff;border:none;padding:12px 22px;border-radius:8px;cursor:pointer;margin:4px;}
+  .btn-restart:hover{background:var(--pulse);}
+  .btn-restart.secondary{background:var(--card);color:var(--ink-soft);border:1px solid var(--line);}
+  .btn-restart.secondary:hover{color:var(--pulse);border-color:var(--pulse);}
+  .btn-restart.print-btn{background:var(--ink-soft);}
+  .btn-restart.print-btn:hover{background:var(--pulse);}
+
+  footer{text-align:center;margin-top:34px;font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;}
+
+
+  /* ---------- Flashcards ---------- */
+  .flash-wrap{max-width:480px;margin:0 auto;text-align:center;}
+  .flash-progress{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:14px;}
+  .flashcard{width:100%;height:260px;perspective:1200px;cursor:pointer;margin-bottom:20px;}
+  .flash-inner{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d;}
+  .flashcard.flipped .flash-inner{transform:rotateY(180deg);}
+  .flash-face{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:16px;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;padding:30px;font-family:'Inter',sans-serif;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.05);}
+  .flash-front{background:var(--card);font-size:18px;font-weight:600;color:var(--ink);}
+  .flash-back{background:var(--pulse-dim);transform:rotateY(180deg);color:var(--ink);font-weight:500;font-size:15px;line-height:1.5;}
+  .flash-tag{position:absolute;top:14px;left:16px;font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--pulse);font-weight:700;}
+  .flash-hint{position:absolute;bottom:12px;right:16px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);}
+  .flash-controls{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
+
+  /* ---------- Printable report (hidden on screen, shown only when printing) ---------- */
+  #printReport{display:none;}
+  @media print{
+    body *{visibility:hidden;}
+    #printReport, #printReport *{visibility:visible;}
+    #printReport{
+      display:block;position:absolute;top:0;left:0;width:100%;
+      padding:0;margin:0;background:#fff;color:#111;font-family:'Inter',sans-serif;
+    }
+    .wrap, .topbar, .view, footer{display:none !important;}
+    #printReport .rpt-header{border-bottom:2px solid #333;padding-bottom:10px;margin-bottom:16px;}
+    #printReport h1{font-family:'Fraunces',serif;font-size:22px;margin:0 0 4px;}
+    #printReport .rpt-meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:#555;}
+    #printReport .rpt-score{font-family:'Fraunces',serif;font-size:26px;font-weight:600;margin:10px 0;}
+    #printReport .rpt-q{page-break-inside:avoid;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid #ddd;}
+    #printReport .rpt-q .rq-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:#6B4FA0;font-weight:700;}
+    #printReport .rpt-q .rq-stem{font-weight:700;font-size:13px;margin:2px 0 6px;}
+    #printReport .rpt-opt{font-size:12px;margin:3px 0;padding-left:14px;}
+    #printReport .rpt-opt.correct{color:#15694A;font-weight:700;}
+    #printReport .rpt-opt.incorrect{color:#96332E;font-weight:700;text-decoration:underline;}
+    #printReport .rpt-explain{font-size:11px;color:#444;margin:1px 0 4px 14px;}
+    #printReport .rpt-banner{font-size:11px;font-weight:700;margin-top:2px;}
+    #printReport .rpt-banner.correct{color:#15694A;}
+    #printReport .rpt-banner.incorrect{color:#96332E;}
+  }
+
+  /* ==== Unified gradient palette override ==== */
+  :root{--pulse:#1E6E60;--pulse-dim:#DCEEE6;}
+  body{
+    background: linear-gradient(125deg, #ECE6A6 0%, #C7DE9C 20%, #8FC79E 42%, #56A98D 64%, #2F8A78 84%, #1E6E60 100%);
+    background-attachment: fixed;
+  }
+  .brand{color:#FFFFFF;}
+  .brand:hover{color:#FFF6D0;}
+  .crumbs{color:rgba(255,255,255,.72);}
+  .crumbs span:hover{color:#FFF6D0;}
+  .eyebrow{color:#FFF6D0;}
+  h1{color:#FFFFFF;text-shadow:0 1px 4px rgba(0,0,0,.18);}
+  .subtitle{color:rgba(255,255,255,.88);}
+  footer{color:rgba(255,255,255,.62);}
+  .flash-progress{color:rgba(255,255,255,.85);}
+  .progress-track{background:rgba(255,255,255,.28);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand" onclick="location.href='index.html'">◆ Nursing NCLEX Review</div>
+    <div class="crumbs" id="crumbs"></div>
+  </div>
+
+  <!-- ============ COURSE NOTES ============ -->
+  <div class="view" id="view-notes">
+    <div class="eyebrow">Oncological &amp; Hematological Medications, IV Therapy &amp; Medication Administration</div>
+    <div class="topic-tabs">
+      <button class="tab-btn selected" id="tabNotesA" onclick="showView('notes')">Course Notes</button>
+      <button class="tab-btn" id="tabFlashA" onclick="showView('flashcards')">Flashcards</button>
+      <button class="tab-btn" id="tabSetupA" onclick="showView('setup')">Practice Test</button>
+    </div>
+    <h1>Course Notes</h1>
+    <p class="subtitle">Chemotherapy drug classes, oncologic/hematologic emergencies, hematopoietic growth factors, medication administration safety, and IV therapy access &amp; complications for the NCLEX-RN Pharmacological/Parenteral Therapies and Physiological Adaptation sections.</p>
+    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
+
+    <div class="notes-card" id="notesContent"></div>
+
+    <div style="text-align:center;margin-top:20px;">
+      <button class="btn-restart" style="background:var(--pulse);" onclick="showView('setup')">Start practice test →</button>
+    </div>
+  </div>
+
+  <!-- ============ FLASHCARDS ============ -->
+  <div class="view" id="view-flashcards">
+    <div class="eyebrow">Oncological &amp; Hematological Medications, IV Therapy &amp; Medication Administration</div>
+    <div class="topic-tabs">
+      <button class="tab-btn" id="tabNotesB" onclick="showView('notes')">Course Notes</button>
+      <button class="tab-btn selected" id="tabFlashB" onclick="showView('flashcards')">Flashcards</button>
+      <button class="tab-btn" id="tabSetupB" onclick="showView('setup')">Practice Test</button>
+    </div>
+    <h1>Flashcards</h1>
+    <p class="subtitle">Tap a card to flip it. Use the arrows to move through the deck, or shuffle for random order.</p>
+    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
+
+    <div class="flash-wrap">
+      <div class="flash-progress">Card <span id="flashIndex">1</span> / <span id="flashTotal">1</span></div>
+      <div class="flashcard" id="flashcard" onclick="flipCard()">
+        <div class="flash-inner" id="flashInner">
+          <div class="flash-face flash-front">
+            <span class="flash-tag">Term</span>
+            <span id="flashFront"></span>
+            <span class="flash-hint">Tap to flip</span>
+          </div>
+          <div class="flash-face flash-back">
+            <span class="flash-tag">Answer</span>
+            <span id="flashBack"></span>
+          </div>
+        </div>
+      </div>
+      <div class="flash-controls">
+        <button class="mini-btn" id="flashPrev">← Prev</button>
+        <button class="mini-btn" id="flashShuffle">🔀 Shuffle</button>
+        <button class="mini-btn" id="flashNext">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SETUP ============ -->
+  <div class="view" id="view-setup">
+    <div class="eyebrow">Oncological &amp; Hematological Medications, IV Therapy &amp; Medication Administration</div>
+    <div class="topic-tabs">
+      <button class="tab-btn" id="tabNotesC" onclick="showView('notes')">Course Notes</button>
+      <button class="tab-btn" id="tabFlashC" onclick="showView('flashcards')">Flashcards</button>
+      <button class="tab-btn selected" id="tabSetupC" onclick="showView('setup')">Practice Test</button>
+    </div>
+    <h1>Practice Test</h1>
+    <p class="subtitle">Choose how many questions you want to take. Questions include five full case studies plus broader oncology, hematology, IV therapy, and medication administration content. Every option — right or wrong — comes with an explanation. Print or save a PDF of your results after every exam.</p>
+    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
+
+    <div class="setup-card">
+      <p>How many questions would you like to take?</p>
+      <div class="count-grid">
+        <button class="count-btn" onclick="startQuiz(10)"><span class="count-num">10</span><span class="count-label">Quick review</span></button>
+        <button class="count-btn" onclick="startQuiz(20)"><span class="count-num">20</span><span class="count-label">Standard</span></button>
+        <button class="count-btn" onclick="startQuiz(40)"><span class="count-num">40</span><span class="count-label">Extended</span></button>
+        <button class="count-btn" onclick="startQuiz(QUESTIONS.length)"><span class="count-num" id="fullBankNum">78</span><span class="count-label">Full bank</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ QUIZ ============ -->
+  <div class="view" id="view-quiz">
+    <div class="eyebrow">Oncological &amp; Hematological Medications, IV Therapy &amp; Medication Administration</div>
+    <h1 id="quizTitle">Practice Test</h1>
+    <p class="subtitle">Choose an answer to see the correct choice and why every option is right or wrong. Jump to any question using the picker below.</p>
+    <div class="ekg"><svg viewBox="0 0 800 46" preserveAspectRatio="none"><path class="ekg-trace" d="M0,23 L120,23 L138,23 L148,6 L158,40 L168,12 L178,23 L200,23 L620,23 L638,23 L648,6 L658,40 L668,12 L678,23 L800,23"/></svg></div>
+
+    <div class="picker">
+      <div class="picker-head">
+        <span class="picker-title">Jump to a question</span>
+        <div class="picker-actions">
+          <button class="mini-btn" id="randomBtn">🎲 Random</button>
+          <button class="mini-btn" id="resultsBtn">View results</button>
+        </div>
+      </div>
+      <div class="picker-grid" id="pickerGrid"></div>
+      <div class="legend">
+        <span><span class="dot unanswered"></span>Unanswered</span>
+        <span><span class="dot correct"></span>Correct</span>
+        <span><span class="dot incorrect"></span>Incorrect</span>
+      </div>
+    </div>
+
+    <div class="statusbar">
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="score-pill">Score <span id="scoreLabel">0 / 0</span></div>
+    </div>
+
+    <div id="quizArea"></div>
+
+    <div class="summary" id="summary">
+      <div class="big-score"><span id="finalScore">0</span><sub id="finalOutOf">/20</sub></div>
+      <p id="finalMsg"></p>
+      <button class="btn-restart print-btn" id="printBtn">🖨️ Print / Save PDF</button>
+      <button class="btn-restart secondary" id="reviewBtn">Back to test</button>
+      <button class="btn-restart secondary" id="setupBtn">Change length</button>
+      <button class="btn-restart" id="restartBtn">New random set</button>
+    </div>
+  </div>
+
+  <footer>ONCOLOGY &amp; HEMATOLOGY · IV THERAPY · MED ADMINISTRATION · PRACTICE SET</footer>
+</div>
+
+<!-- Printable results report — hidden on screen, populated and shown only for printing -->
+<div id="printReport"></div>
+
+<script src="badges.js"></script>
+<script>
+document.getElementById('notesContent').innerHTML = `<h2 class="section-title">Chemotherapy Medication Classes</h2>
+<table class="note-table">
+<tr><th>Class</th><th>Mechanism</th><th>Examples</th><th>Key adverse effects</th></tr>
+<tr><td>Alkylating agents &amp; platinum compounds</td><td>Interfere with DNA &amp; RNA synthesis</td><td>Busulfan, Chlorambucil, Cyclophosphamide, Cisplatin</td><td>Neutropenia, thrombocytopenia, anemia, alopecia, N/V, stomatitis</td></tr>
+<tr><td>Antimetabolites</td><td>Resemble cancer cell metabolites, disrupt metabolism</td><td>Cytarabine, Fluorouracil, Pemetrexed, Mercaptopurine, Methotrexate</td><td>Neutropenia, thrombocytopenia, anemia, N/V, diarrhea, stomatitis, skin reactions</td></tr>
+<tr><td>Antitumor antibiotics</td><td>Damage cancer cell DNA &amp; RNA synthesis</td><td>Bleomycin, Dactinomycin, Doxorubicin</td><td>Neutropenia, thrombocytopenia, anemia, dysrhythmias, lung damage</td></tr>
+<tr><td>Hormonal agents</td><td>Alter hormone-dependent tumor growth</td><td>Leuprolide, Flutamide, Diethylstilbestrol (prostate); Tamoxifen, Raloxifene (breast)</td><td>Impotence, breast enlargement; hot flashes, uterine cancer risk (antiestrogens)</td></tr>
+<tr><td>Mitotic inhibitors — vinca alkaloids</td><td>Interfere with cell division</td><td>Vinblastine, Vincristine</td><td>Peripheral neuropathy, extravasation</td></tr>
+<tr><td>Mitotic inhibitors — taxanes</td><td>Interfere with cell division</td><td>Paclitaxel, Docetaxel</td><td>Hypersensitivity, neutropenia, thrombocytopenia, anemia</td></tr>
+<tr><td>Topoisomerase inhibitors</td><td>Disrupt enzyme reactions in the cell</td><td>Irinotecan, Topotecan</td><td>Myelosuppression</td></tr>
+</table>
+
+<h2 class="section-title">Adverse Effects of Chemotherapy — Integumentary</h2>
+<p><b>Extravasation vs. infiltration:</b> extravasation is leakage of a vesicant drug into tissue; watch for pain, swelling, redness, vesicles, and skin ulcers. <b>Treatment:</b> discontinue the infusion immediately and follow drug-specific protocols.</p>
+
+<h2 class="section-title">Immune System — Neutropenia</h2>
+<p>Bone marrow depression causes fewer white cells to form. <b>Neutropenia = ANC &lt; 1500/mm³.</b></p>
+<div class="note-callout"><b>Assess:</b> skin/mucous membranes, lung sounds, urinary symptoms, IV insertion site, drainage.</div>
+<div class="drugclass"><h4>Nursing Care</h4><ul><li>Monitor vital signs, oral mucosa, skin, urine, lungs, neutrophil count</li><li>Private room; hand washing &amp; PPE; strict aseptic technique</li><li>Clean supplies/equipment; limit personnel &amp; visitors</li><li>Avoid fresh flowers/potted plants; low-bacteria diet; avoid indwelling catheters</li></ul></div>
+<div class="drugclass"><h4>Client Education</h4><ul><li>Monitor temperature; hand washing; avoid crowds/anyone with infection</li><li>Do NOT share personal toilet articles; wash toothbrush daily</li><li>Low-bacteria diet; careful dish washing; pet care precautions</li><li><b>Report:</b> temp &gt;100°F, cough, pus/drainage, skin lesions, burning with urination, change in urine</li></ul></div>
+
+<h2 class="section-title">Hematologic System — Thrombocytopenia</h2>
+<p>Bone marrow depression causes fewer platelets to form.</p>
+<div class="note-callout"><b>Assess:</b> nasal/oral mucosae, skin, venipuncture sites, urine/feces, vital signs, weakness/fatigue reports, neurologic status changes.</div>
+<div class="drugclass"><h4>Nursing Care</h4><ul><li>Avoid IM injections; apply pressure after venipuncture</li><li>Avoid aspirin &amp; NSAIDs; safety precautions</li><li>Administer blood &amp; blood products as ordered</li></ul></div>
+
+<h2 class="section-title">Stomatitis, Anemia &amp; Nausea/Vomiting</h2>
+<div class="drugclass"><h4>Stomatitis</h4><ul><li><b>Assess:</b> pain, swelling, decreased nutritional intake, reddened oral mucosa, tissue loss, infection</li><li><b>Care:</b> bland diet, topical anesthetics, topical antifungals</li></ul></div>
+<div class="drugclass"><h4>Anemia</h4><ul><li><b>Assess:</b> lack of energy, "tired feeling," loss of concentration</li><li><b>Care:</b> rest before activity, place items within reach, limit naps, nutritional support</li></ul></div>
+<div class="drugclass"><h4>Nausea &amp; Vomiting</h4><ul><li><b>Assess:</b> I&amp;O, symptoms of fluid volume deficit</li><li><b>Care:</b> antiemetics, light meals, avoid greasy foods, restrict fluids with meals, rest during nausea, antiemetics for several days</li></ul></div>
+
+<h2 class="section-title">Hematopoietic &amp; Immune Stimulant Therapies</h2>
+<div class="drugclass"><h4>Erythropoietin (Epoetin alfa/Procrit, Darbepoetin alfa/Aranesp)</h4>
+<ul><li><b>Action:</b> stimulates erythropoietin production, increasing red cells</li>
+<li><b>Uses:</b> preoperative phase, chronic renal failure, cancer treatment, zidovudine therapy</li>
+<li><b>Precautions:</b> hypertension (MI/stroke risk), cancer (increased cell growth), seizure history, clotting disorder, pregnancy/lactation</li>
+<li><b>Adverse reactions:</b> MI, stroke, heart failure, hypertension, hypersensitivity</li>
+<li><b>Nursing actions:</b> assess BP, MI/stroke symptoms, Hct/Hgb, reticulocyte count, meds/herbals; do not mix or shake; administer antihypertensives; educate on diet/lab monitoring/BP assessment</li></ul></div>
+<div class="drugclass"><h4>Filgrastim (Neupogen), Pegfilgrastim (Neulasta), Sargramostim (Leukine)</h4>
+<ul><li><b>Class:</b> granulocyte colony-stimulating factors (leukopoietic growth factors)</li>
+<li><b>Uses:</b> congenital/chronic neutropenia; stimulate bone marrow after transplant or with cancer</li>
+<li><b>Precautions:</b> cancer, hypersensitivity/anaphylaxis risk, chemotherapy (decreased effectiveness), pregnancy/lactation, edema</li>
+<li><b>Adverse reactions:</b> bone pain, "flu-like" syndrome, increased WBC count, N/V/D</li>
+<li><b>Nursing actions:</b> assess CBC/ANC, liver function, BUN/creatinine, edema; avoid shaking; refrigerate; attend to injection site &amp; timing</li></ul></div>
+
+<h2 class="section-title">Rights of Medication Administration</h2>
+<table class="note-table">
+<tr><th>Right</th><th>What it means</th></tr>
+<tr><td>Right client</td><td>Use two identifiers</td></tr>
+<tr><td>Right medication</td><td>Check generic name, expiration date, allergies</td></tr>
+<tr><td>Right time</td><td>Give within the specific window to maintain a therapeutic dose</td></tr>
+<tr><td>Right dosage</td><td>Some medications require two-nurse verification</td></tr>
+<tr><td>Right route/site</td><td>Onset of action is highly route-dependent</td></tr>
+<tr><td>Right documentation</td><td>Complete and accurate — never "PRE" document</td></tr>
+</table>
+
+<h2 class="section-title">Medication Orders &amp; Legal Aspects</h2>
+<p><b>Order components:</b> medication name, dosage, route, time frame for repeated administration, signature, date/time ordered.</p>
+<p><b>Types of orders:</b> routine/standing, PRN, one-time, stat, telephone/fax, verbal, electronic.</p>
+<div class="note-callout"><b>Legal aspects:</b> Nurse Practice Acts, institutional medication policies, patient's rights, federal &amp; state narcotics acts / substance abuse regulations.</div>
+
+<h2 class="section-title">Principles of Drug Action</h2>
+<p><b>Pharmacokinetics</b> (why route matters): absorption, distribution, metabolism, excretion.</p>
+<p><b>Pharmacodynamics</b> (why assessment/reassessment matters): therapeutic effects, adverse effects, side effects, hypersensitivity reactions, tolerance, allergic reactions, toxicity, interactions (synergism, antagonism, drug incompatibility).</p>
+
+<h2 class="section-title">Medication Assessment &amp; Safe Administration</h2>
+<div class="drugclass"><h4>Initial Assessment</h4><ul><li>Medication history</li><li>Allergies and tolerance</li><li>Medical history</li><li>Pregnancy and lactation status</li></ul></div>
+<div class="drugclass"><h4>Before Administration</h4><ul><li>Medication record, diet/fluid orders, laboratory values</li><li>Nursing assessment: ability to swallow, GI motility, muscle mass, venous access, vital signs, relevant body systems</li><li>Knowledge and compliance assessment</li></ul></div>
+<div class="note-callout"><b>Safe administration:</b> interpret the order using the "three checks"; calculate adult/pediatric dosages correctly (weight- or BSA-based for children); explain the medication's purpose; document without "PRE" charting; report and document medication errors via quality improvement/unusual incident forms.</div>
+
+<h2 class="section-title">Access Devices</h2>
+<table class="note-table">
+<tr><th>Device</th><th>Key points</th></tr>
+<tr><td>Peripheral IV</td><td>Short-term therapy; most distal appropriate site, nondominant arm; avoid infected sites, grafts/fistulas, flexion areas, hands in older clients; tourniquet 4-6 in. above site (BP cuff alt. inflated just below diastolic)</td></tr>
+<tr><td>Central Venous Access Devices (CVADs)</td><td>Long-term therapy; large vessels; can give blood/blood products, vesicants, parenteral nutrition; hemodynamic monitoring, venous samples; invasive, systemic infection risk</td></tr>
+<tr><td>Centrally inserted catheters (CVCs)</td><td>Superior vena cava, tunneled/non-tunneled, multi-lumen</td></tr>
+<tr><td>PICC</td><td>Inserted in arm; 1 week–6 months; multi-lumen; no BPs or blood draws in that arm</td></tr>
+<tr><td>Implanted infusion ports</td><td>Surgically implanted; long-term; special needle to access; low infection risk</td></tr>
+</table>
+
+<h2 class="section-title">IV Therapy: Role of Team Members</h2>
+<table class="note-table">
+<tr><th>Role</th><th>Responsibilities</th></tr>
+<tr><td>RN</td><td>Assess fluid/electrolyte imbalance signs; determine if prescription is appropriate; insert IV catheter; administer IV fluids to unstable/critically ill clients; evaluate for overload/hypovolemia; evaluate therapy effectiveness</td></tr>
+<tr><td>LPN/LVN (varies by state/facility)</td><td>Administer IV fluids to stable clients (per policy); adjust flow rate on stable clients per prescription/policy; monitor for adverse reactions; discontinue peripheral IV catheter</td></tr>
+<tr><td>UAP</td><td>Measure/record intake and output; report client complaints</td></tr>
+</table>
+
+<h2 class="section-title">Complications of IV Therapy</h2>
+<table class="note-table">
+<tr><th>Complication</th><th>Nursing considerations</th></tr>
+<tr><td>Circulatory overload</td><td>Reduce/stop IV rate; raise HOB; assess VS; consider O2/diuretics; notify HCP</td></tr>
+<tr><td>Local infection</td><td>Culture drainage; clean skin with alcohol; remove catheter and save for culture; apply sterile dressing</td></tr>
+<tr><td>Bleeding at venipuncture site</td><td>Assess if IV system intact; apply pressure dressing; if persists, discontinue and restart in other extremity/proximal site</td></tr>
+<tr><td>Infiltration</td><td>S/S: swelling, burning, tightness, coolness, fluid leakage. Remove device; elevate extremity; apply warm moist heat; check distal circulation</td></tr>
+<tr><td>Phlebitis</td><td>S/S: pain, tenderness, warmth, erythema, swelling, palpable cord. More common in antecubital area; risk ↑ with dwell time. Remove device; elevate; warm moist heat; oral/topical NSAIDs</td></tr>
+</table>
+`;
+
+const QUESTIONS = [{"stem": "The oncology clinical nurse specialist is developing a staff education program on chemotherapy. What are the primary goals of chemotherapy that should be included?", "options": [{"text": "Cure, control, or palliation of cancer, depending on the individual client's disease and treatment plan", "correct": true, "explain": "Chemotherapy goals generally fall into cure, control (long-term management), or palliation (symptom relief/comfort), depending on the type and stage of cancer and the client's overall treatment plan."}, {"text": "Chemotherapy is always intended to cure the client's cancer", "correct": false, "explain": "Chemotherapy is not always curative; it may instead be given for control or palliation, depending on the disease and client."}, {"text": "Chemotherapy's only purpose is symptom relief", "correct": false, "explain": "Symptom relief (palliation) is one possible goal, but chemotherapy can also be given with curative or control intent."}, {"text": "Chemotherapy goals are identical for every type of cancer", "correct": false, "explain": "Goals of chemotherapy vary based on the individual client's specific cancer type, stage, and overall treatment plan, not a single universal goal."}], "case": "Case Study: Chemotherapy Staff Development Program"}, {"stem": "A staff nurse asks the CNS why patients require rounds of chemotherapy, including different drugs given at varying intervals. What is the best explanation?", "options": [{"text": "Combination chemotherapy and cyclic dosing target cells at different phases of the cell cycle and allow healthy cells time to recover between cycles", "correct": true, "explain": "Different chemotherapy drugs act on cancer cells at different phases of the cell cycle, so combining agents and administering them in cycles increases cell kill while allowing normal, healthy tissues (such as bone marrow) time to recover between treatments."}, {"text": "Rounds of chemotherapy are given only to increase cost and have no clinical rationale", "correct": false, "explain": "There is a clear clinical rationale — targeting different phases of the cell cycle and allowing recovery time — not an arbitrary practice."}, {"text": "A single round of one chemotherapy drug is always equally effective as cyclic combination therapy", "correct": false, "explain": "Cyclic, combination therapy is generally more effective than a single round of one drug, since it targets rapidly dividing cells at multiple points and reduces the chance of resistant cells surviving."}, {"text": "Varying intervals are used only to accommodate scheduling convenience for staff", "correct": false, "explain": "The varying intervals are based on allowing normal cell recovery and targeting the cancer cell cycle, not staff scheduling convenience."}], "case": "Case Study: Chemotherapy Staff Development Program"}, {"stem": "In teaching about the administration of chemotherapeutic agents, what signs of extravasation should the nurse include in the education program?", "options": [{"text": "Pain, swelling, redness, vesicles (blistering), and skin ulcers at or around the infusion site", "correct": true, "explain": "Signs of extravasation include pain, swelling, redness, vesicles, and skin ulcers, since vesicant chemotherapy drugs that leak into surrounding tissue can cause significant local tissue damage."}, {"text": "Only a mild, painless discoloration with no other findings", "correct": false, "explain": "Extravasation typically produces pain, swelling, redness, vesicles, and possible ulceration — not just a mild, painless discoloration."}, {"text": "Improved comfort and no change in the appearance of the site", "correct": false, "explain": "Extravasation causes worsening local symptoms (pain, swelling, redness), not improved comfort or an unchanged appearance."}, {"text": "Signs are identical to those of a simple bruise and require no specific monitoring", "correct": false, "explain": "Extravasation requires specific vigilant monitoring for pain, swelling, redness, vesicles, and ulceration, distinct from a simple bruise, given the risk of significant tissue damage from vesicant agents."}], "case": "Case Study: Chemotherapy Staff Development Program"}, {"stem": "What immediate nursing action is required if extravasation of a vesicant chemotherapy drug is suspected?", "options": [{"text": "Discontinue the infusion immediately and follow drug-specific extravasation protocols", "correct": true, "explain": "If extravasation is suspected, the infusion should be discontinued immediately, and drug-specific protocols should be followed, since management differs depending on the specific vesicant involved."}, {"text": "Continue the infusion at a slower rate to complete the dose", "correct": false, "explain": "The infusion should be stopped immediately, not continued at a slower rate, once extravasation is suspected."}, {"text": "Flush the line with a large volume of saline before stopping the infusion", "correct": false, "explain": "The infusion should be discontinued immediately; flushing before stopping is not the correct sequence for managing suspected extravasation."}, {"text": "Apply firm pressure to the site to prevent further leakage", "correct": false, "explain": "Firm pressure is not the appropriate action; discontinuing the infusion and following drug-specific protocols (which may include aspiration, specific antidotes, and site care) is the priority."}], "case": "Case Study: Chemotherapy Staff Development Program"}, {"stem": "What clinical manifestations of myelosuppression, secondary to chemotherapy administration, should the CNS include in this staff development program?", "options": [{"text": "Neutropenia, thrombocytopenia, and anemia, reflecting suppression of white cells, platelets, and red cells respectively", "correct": true, "explain": "Myelosuppression from chemotherapy affects all three major blood cell lines: neutropenia (decreased white cells, increasing infection risk), thrombocytopenia (decreased platelets, increasing bleeding risk), and anemia (decreased red cells, causing fatigue)."}, {"text": "Only an increase in white blood cell count", "correct": false, "explain": "Myelosuppression causes a decrease, not an increase, in white blood cell count (neutropenia), along with decreases in platelets and red cells."}, {"text": "Improved wound healing and increased energy", "correct": false, "explain": "Myelosuppression is associated with impaired, not improved, outcomes — including fatigue from anemia and increased infection/bleeding risk, not improved wound healing or energy."}, {"text": "No clinically significant changes in blood cell counts", "correct": false, "explain": "Myelosuppression produces clinically significant decreases in neutrophils, platelets, and red cells that require careful monitoring and nursing intervention."}], "case": "Case Study: Chemotherapy Staff Development Program"}, {"stem": "A patient asks the nurse what valuable information they must know to take methotrexate safely. Which teaching points should the nurse include? Select all that apply.", "options": [{"text": "Do not take aspirin or other NSAIDs, which may cause GI bleeding", "correct": true, "explain": "Aspirin and other NSAIDs can increase the risk of GI bleeding and can also increase methotrexate toxicity by reducing its renal clearance, so clients should avoid these medications."}, {"text": "Increase fluid intake", "correct": true, "explain": "Increasing fluid intake helps promote renal excretion of methotrexate and reduces the risk of drug accumulation and toxicity."}, {"text": "Avoid crowds and people with known infections", "correct": true, "explain": "Methotrexate causes bone marrow suppression, increasing infection risk, so clients should avoid crowds and people with known infections."}, {"text": "Stomatitis is not an adverse reaction of this specific drug", "correct": false, "explain": "Stomatitis IS a recognized adverse reaction of methotrexate (as with other antimetabolites), so this statement is incorrect and should not be included as accurate teaching."}], "isSAL": true, "case": "Case Study: Methotrexate Safety Teaching"}, {"stem": "Why is it especially important for a client taking methotrexate to avoid NSAIDs?", "options": [{"text": "NSAIDs can reduce renal clearance of methotrexate, increasing the risk of methotrexate toxicity, in addition to increasing GI bleeding risk", "correct": true, "explain": "NSAIDs can reduce renal excretion of methotrexate, raising blood levels and increasing the risk of toxicity, and they also independently increase the risk of GI bleeding — both concerns that make this combination important to avoid."}, {"text": "NSAIDs have no interaction with methotrexate", "correct": false, "explain": "NSAIDs do have a significant interaction with methotrexate through reduced renal clearance, increasing toxicity risk."}, {"text": "NSAIDs increase the effectiveness of methotrexate with no added risk", "correct": false, "explain": "NSAIDs do not simply increase effectiveness; they increase the risk of methotrexate toxicity and GI bleeding, which is a safety concern, not a benefit."}, {"text": "NSAIDs are required to be taken alongside methotrexate for optimal absorption", "correct": false, "explain": "NSAIDs are not required for methotrexate absorption; in fact, they should generally be avoided due to the toxicity and bleeding risks."}], "case": "Case Study: Methotrexate Safety Teaching"}, {"stem": "A client taking methotrexate develops mouth sores and pain with eating. What should the nurse recognize about this finding?", "options": [{"text": "This is stomatitis, a recognized adverse reaction of methotrexate requiring nursing care such as a bland diet and topical treatments", "correct": true, "explain": "Stomatitis is a recognized adverse reaction of methotrexate (an antimetabolite), and nursing care includes a bland diet, topical anesthetics, and topical antifungals as needed."}, {"text": "This finding is unrelated to the methotrexate therapy", "correct": false, "explain": "Stomatitis is a recognized, medication-related adverse reaction of methotrexate, not an unrelated finding."}, {"text": "This is an expected sign that the medication is not working", "correct": false, "explain": "Stomatitis reflects an adverse effect of the medication on rapidly dividing mucosal cells, not an indicator of treatment failure."}, {"text": "No nursing intervention is needed for this finding", "correct": false, "explain": "Nursing interventions such as a bland diet, topical anesthetics, and topical antifungals are appropriate for stomatitis, not an absence of intervention."}], "case": "Case Study: Methotrexate Safety Teaching"}, {"stem": "What is the priority reason for the nurse to teach a client on methotrexate to increase fluid intake?", "options": [{"text": "Adequate hydration promotes renal excretion of the drug and helps reduce the risk of toxicity", "correct": true, "explain": "Increasing fluid intake promotes renal clearance of methotrexate, reducing the risk of drug accumulation and toxicity, since methotrexate is renally excreted."}, {"text": "Increased fluid intake has no effect on methotrexate levels", "correct": false, "explain": "Increased fluid intake does have a direct effect, promoting renal clearance and reducing toxicity risk."}, {"text": "Increased fluid intake is needed only to prevent constipation", "correct": false, "explain": "While hydration can help with bowel function generally, the priority reason specific to methotrexate is promoting renal excretion and reducing toxicity risk."}, {"text": "Increased fluid intake increases the risk of methotrexate toxicity", "correct": false, "explain": "This is the opposite of the actual effect; increased fluid intake helps reduce, not increase, the risk of toxicity by promoting renal clearance."}], "case": "Case Study: Methotrexate Safety Teaching"}, {"stem": "Which laboratory value should the nurse monitor closely in a client receiving methotrexate, given the medication's known adverse effects?", "options": [{"text": "Complete blood count (CBC), to monitor for bone marrow suppression (neutropenia, thrombocytopenia, anemia)", "correct": true, "explain": "Methotrexate causes bone marrow suppression, so the CBC should be monitored closely to detect neutropenia, thrombocytopenia, and anemia."}, {"text": "Serum lipase only, with no other lab monitoring needed", "correct": false, "explain": "While GI effects can occur, the primary and most critical lab monitoring priority for methotrexate is the CBC, given its bone marrow suppression risk."}, {"text": "Thyroid function tests exclusively", "correct": false, "explain": "Thyroid function is not the primary monitoring concern for methotrexate; CBC monitoring for bone marrow suppression is the priority."}, {"text": "No routine laboratory monitoring is required for this medication", "correct": false, "explain": "Routine laboratory monitoring, particularly CBC, is required for methotrexate given its significant bone marrow suppression risk."}], "case": "Case Study: Methotrexate Safety Teaching"}, {"stem": "A decrease in circulating neutrophils that increases risk for life-threatening infections, prolonged hospital stays, dose reductions, and dose delays is called neutropenia. Which of the following are included in appropriate nursing care for this condition? Select all that apply.", "options": [{"text": "Reinforce meticulous hand hygiene", "correct": true, "explain": "Meticulous hand hygiene is a fundamental nursing measure to reduce infection risk in a neutropenic client."}, {"text": "Avoid indwelling catheters", "correct": true, "explain": "Avoiding indwelling catheters when possible reduces the risk of introducing infection in a client with neutropenia."}, {"text": "Teach signs and symptoms of infection", "correct": true, "explain": "Teaching the client to recognize and report signs and symptoms of infection (such as fever) is an essential nursing measure given their increased vulnerability."}, {"text": "None of the above", "correct": false, "explain": "Several of the listed measures (hand hygiene, avoiding indwelling catheters, teaching signs of infection) are all appropriate nursing care measures for neutropenia, so this option is incorrect."}], "isSAL": true, "case": "Case Study: Neutropenia Nursing Care"}, {"stem": "What absolute neutrophil count (ANC) defines neutropenia?", "options": [{"text": "Less than 1500/mm3", "correct": true, "explain": "Neutropenia is defined as an absolute neutrophil count less than 1500/mm3."}, {"text": "Less than 4500/mm3", "correct": false, "explain": "This value is not the specific threshold for neutropenia; less than 1500/mm3 is the defining cutoff."}, {"text": "Greater than 1500/mm3", "correct": false, "explain": "A value greater than 1500/mm3 would not meet the definition of neutropenia."}, {"text": "Less than 150,000/mm3", "correct": false, "explain": "This value is far higher than the ANC threshold for neutropenia and closer to a platelet count range."}], "case": "Case Study: Neutropenia Nursing Care"}, {"stem": "Which environmental and dietary precautions should the nurse implement for a hospitalized client with severe neutropenia? Select all that apply.", "options": [{"text": "Private room and strict aseptic technique", "correct": true, "explain": "A private room and strict aseptic technique help reduce the client's exposure to infectious organisms during severe neutropenia."}, {"text": "Avoid fresh flowers or potted plants in the room", "correct": true, "explain": "Fresh flowers and potted plants can harbor bacteria and fungi, so they should be avoided in the room of a neutropenic client."}, {"text": "Provide a low-bacteria diet", "correct": true, "explain": "A low-bacteria diet helps reduce the client's risk of foodborne infection during a period of significant immune suppression."}, {"text": "Encourage frequent visits from large groups of visitors", "correct": false, "explain": "Visitors and personnel should be limited, not encouraged in large groups, to reduce the neutropenic client's exposure to potential sources of infection."}], "isSAL": true, "case": "Case Study: Neutropenia Nursing Care"}, {"stem": "What client education points are important for a client being discharged home with neutropenia? Select all that apply.", "options": [{"text": "Monitor temperature and report a fever over 100°F", "correct": true, "explain": "Monitoring temperature and reporting fever over 100°F is essential client education, since fever may be the only early sign of a life-threatening infection in a neutropenic client."}, {"text": "Wash the toothbrush daily", "correct": true, "explain": "Washing the toothbrush daily helps reduce the risk of introducing bacteria through oral care in a client with reduced immune defenses."}, {"text": "Do not share personal toilet articles", "correct": true, "explain": "Not sharing personal toilet articles (such as razors or toothbrushes) helps reduce infection risk."}, {"text": "Report any burning with urination or change in urine", "correct": true, "explain": "Burning with urination or a change in urine can indicate a urinary tract infection, which should be promptly reported given the client's increased infection risk."}], "isSAL": true, "case": "Case Study: Neutropenia Nursing Care"}, {"stem": "A client with neutropenia calls the clinic to report a temperature of 101.2°F (38.4°C). What is the priority nursing action?", "options": [{"text": "Instruct the client to seek immediate medical evaluation, since fever in a neutropenic client can indicate a life-threatening infection", "correct": true, "explain": "Fever in a neutropenic client is considered a medical emergency (neutropenic fever) requiring prompt evaluation, since these clients have a diminished ability to mount a normal inflammatory response and can rapidly progress to sepsis."}, {"text": "Advise the client to take an over-the-counter fever reducer and monitor at home", "correct": false, "explain": "A fever in a neutropenic client warrants prompt medical evaluation, not simply home management with an over-the-counter medication, given the risk of rapid progression to serious infection."}, {"text": "Tell the client this is not a concern unless the temperature exceeds 104°F", "correct": false, "explain": "Even a modest fever (typically defined as over 100.4°F or 38°C in this population) is significant and requires prompt evaluation in a neutropenic client; waiting for a much higher threshold is unsafe."}, {"text": "Reassure the client that fever is an expected, harmless finding with neutropenia", "correct": false, "explain": "Fever is not a harmless, expected finding in neutropenia; it is a significant warning sign requiring prompt evaluation."}], "case": "Case Study: Neutropenia Nursing Care"}, {"stem": "The nurse cares for a client receiving 0.9% NaCl through a peripheral IV in the left antecubital area. The client reports pain, tenderness, and swelling at the insertion site. Upon assessment, the nurse notes erythema, edema, and a palpable cord. The nurse should take which action first?", "options": [{"text": "Remove the device", "correct": true, "explain": "Given the classic signs of phlebitis (pain, tenderness, erythema, edema, and a palpable cord), the first action is to remove the IV device to stop further vein irritation and prevent progression to thrombophlebitis."}, {"text": "Assess capillary refill proximal to the affected site", "correct": false, "explain": "While ongoing assessment is important, the priority first action when phlebitis signs are present is to remove the device, not to assess capillary refill first."}, {"text": "Apply warm, moist heat to the affected site", "correct": false, "explain": "Warm, moist heat may be used after the device is removed, but the first action should be removing the device itself."}, {"text": "Elevate the affected extremity", "correct": false, "explain": "Elevating the extremity may be part of ongoing care, but removing the device is the priority first action when signs of phlebitis are present."}], "case": "Case Study: Peripheral IV Phlebitis"}, {"stem": "Why is it important to remove a peripheral IV device promptly when signs of phlebitis develop?", "options": [{"text": "Continuing to infuse through an inflamed vein increases the risk of progression to thrombophlebitis and further vein damage", "correct": true, "explain": "Prompt removal helps prevent progression from phlebitis (vein inflammation) to thrombophlebitis (inflammation with clot formation), and reduces further irritation and damage to the vein."}, {"text": "There is no clinical reason to remove the device promptly", "correct": false, "explain": "There is a clear clinical reason — preventing progression to thrombophlebitis and further vein damage — that is directly relevant to prompt device removal."}, {"text": "Removing the device promptly increases the risk of infection", "correct": false, "explain": "Prompt removal is intended to reduce complications from ongoing vein irritation, not to increase infection risk."}, {"text": "The device should be left in place indefinitely regardless of these findings", "correct": false, "explain": "The device should not be left in place with these findings; prompt removal is indicated to prevent further complications."}], "case": "Case Study: Peripheral IV Phlebitis"}, {"stem": "Where is peripheral IV phlebitis more likely to occur, according to recognized risk factors?", "options": [{"text": "In the antecubital area, and with increased length of time the IV has been in place", "correct": true, "explain": "Phlebitis is more likely to occur in the antecubital area and increases in likelihood with the length of time the IV catheter has remained in place."}, {"text": "Exclusively in the hand, regardless of dwell time", "correct": false, "explain": "While the hand can also be affected, phlebitis is specifically noted to be more likely in the antecubital area, and risk increases with dwell time, not confined to the hand alone."}, {"text": "Phlebitis risk decreases the longer an IV remains in place", "correct": false, "explain": "This is the opposite of the actual relationship; phlebitis risk increases, not decreases, with the length of time the IV has been in place."}, {"text": "Location and dwell time have no bearing on phlebitis risk", "correct": false, "explain": "Location (antecubital area) and dwell time are specifically identified as factors related to phlebitis risk."}], "case": "Case Study: Peripheral IV Phlebitis"}, {"stem": "Following removal of the peripheral IV due to phlebitis, what additional nursing interventions should the nurse implement?", "options": [{"text": "Elevate the extremity, apply warm moist heat, and consider oral/topical NSAIDs as ordered", "correct": true, "explain": "After device removal, additional interventions for phlebitis include elevating the affected extremity, applying warm, moist heat, and administering oral or topical NSAIDs as ordered to reduce inflammation and discomfort."}, {"text": "Apply a tight constrictive bandage to the site", "correct": false, "explain": "A tight constrictive bandage is not an appropriate intervention for phlebitis; elevation and warm, moist heat are the recommended measures."}, {"text": "Immediately restart a new IV in the same extremity, above the affected site", "correct": false, "explain": "Restarting an IV in the same extremity right above an inflamed site is not the recommended approach; the new site should generally be in a different location, and the priority interventions here are elevation, warm compresses, and NSAIDs as ordered."}, {"text": "No further intervention is needed once the device is removed", "correct": false, "explain": "Additional interventions (elevation, warm moist heat, NSAIDs as ordered) are appropriate after device removal, not simply stopping care once the device is out."}], "case": "Case Study: Peripheral IV Phlebitis"}, {"stem": "The nurse receives report on four clients on the medical-surgical unit. Which client should the nurse see first?", "options": [{"text": "The client with a history of kidney failure receiving 0.9% NS at 125 mL/hr who reports shortness of breath", "correct": true, "explain": "A client with kidney failure receiving IV fluids who develops shortness of breath is at significant risk for fluid volume overload and pulmonary edema, representing an acute, potentially life-threatening change that requires the nurse's immediate attention first."}, {"text": "The client with a history of liver dysfunction receiving lactated Ringer's at 100 mL/hr", "correct": false, "explain": "While LR requires caution in liver dysfunction due to lactate metabolism concerns, this client does not have an acute symptom described, making the client with kidney failure and new shortness of breath the higher priority."}, {"text": "The client receiving 0.45% NS at 150 mL/hr with dry, pale mucous membranes and a weak, thready pulse", "correct": false, "explain": "While this client shows signs of fluid volume deficit requiring attention, the client with kidney failure and acute shortness of breath (a sign of potential pulmonary edema) represents a more immediately life-threatening airway/breathing concern and should be seen first."}, {"text": "The client with a 3-day history of nausea, vomiting, and diarrhea receiving 0.9% NS at 50 mL/hr who reports a \"racing heart\"", "correct": false, "explain": "While tachycardia in this client warrants assessment, the client with kidney failure and new shortness of breath is at higher immediate risk for a life-threatening respiratory complication and should be prioritized first."}], "case": "Case Study: Peripheral IV Phlebitis"}, {"stem": "A postpartum client reports tightness, burning, and pain in the left forearm where an IV of NS is infusing at 100 mL/hr. Upon assessment, edema is noted, clear fluid is leaking from the site, and the extremity is cool to the touch. What condition should the nurse suspect?", "options": [{"text": "Infiltration", "correct": true, "explain": "Tightness, burning, pain, edema, leakage of clear fluid, and coolness of the extremity are classic signs of infiltration, where non-vesicant IV fluid has leaked into the surrounding tissue."}, {"text": "Phlebitis", "correct": false, "explain": "Phlebitis typically presents with warmth, redness, and a palpable cord along the vein, not coolness and leakage of clear fluid, which are more consistent with infiltration."}, {"text": "A normal, expected finding requiring no further assessment", "correct": false, "explain": "These findings represent a complication (infiltration) requiring nursing intervention, not a normal, expected finding to disregard."}, {"text": "Extravasation of a vesicant medication", "correct": false, "explain": "This client is receiving plain NS, not a vesicant chemotherapy agent, so extravasation of a vesicant is not the concern here; this presentation is consistent with infiltration of a non-vesicant fluid."}], "case": "Case Study: Postpartum IV Infiltration"}, {"stem": "What actions should the nurse take to address this client's suspected infiltration? Select all that apply.", "options": [{"text": "Remove the device", "correct": true, "explain": "Removing the IV device is a necessary action to stop further fluid infiltration into the tissue."}, {"text": "Elevate the extremity", "correct": true, "explain": "Elevating the affected extremity helps promote reabsorption of the infiltrated fluid and reduce swelling."}, {"text": "Apply warm, moist heat", "correct": true, "explain": "Applying warm, moist heat helps promote circulation and reabsorption of the infiltrated fluid, and provides comfort."}, {"text": "Apply an ice pack to the area", "correct": false, "explain": "An ice pack is not the recommended intervention for infiltration of a non-vesicant fluid; warm, moist heat is generally used instead to promote reabsorption."}], "isSAL": true, "case": "Case Study: Postpartum IV Infiltration"}, {"stem": "What parameters should the nurse monitor to assess this client's progress after treating the infiltration?", "options": [{"text": "Pulse distal to the site and capillary refill", "correct": true, "explain": "Monitoring the pulse distal to the site and capillary refill helps the nurse assess circulation to the affected extremity and evaluate whether the infiltration is resolving without compromising blood flow."}, {"text": "WBC count only, with no other monitoring needed", "correct": false, "explain": "While WBC count could be relevant if infection developed, the priority parameters to monitor for infiltration progress are circulation-related findings such as pulse distal to the site and capillary refill, not WBC count alone."}, {"text": "Blood pressure exclusively", "correct": false, "explain": "Blood pressure is not the specific parameter most directly relevant to monitoring local infiltration resolution; distal pulse and capillary refill are more directly relevant."}, {"text": "The Allen test result", "correct": false, "explain": "The Allen test is used to assess collateral circulation before arterial puncture, not to monitor recovery from a peripheral IV infiltration."}], "case": "Case Study: Postpartum IV Infiltration"}, {"stem": "Why is it important to avoid placing the extremity in a dependent position when managing this client's infiltration?", "options": [{"text": "A dependent position can worsen edema and impair venous return from the affected extremity", "correct": true, "explain": "Placing the extremity in a dependent position (lower than the heart) can worsen edema and impair venous return, so elevation, not a dependent position, is the recommended intervention for infiltration."}, {"text": "A dependent position has no effect on the extent of edema", "correct": false, "explain": "A dependent position does have an effect — worsening edema — which is why elevation is the recommended intervention instead."}, {"text": "A dependent position is required to promote reabsorption of the infiltrated fluid", "correct": false, "explain": "Elevation, not a dependent position, is required to promote reabsorption of infiltrated fluid; a dependent position would worsen, not help, the swelling."}, {"text": "A dependent position is the standard positioning for any peripheral IV complication", "correct": false, "explain": "A dependent position is not the standard positioning for infiltration; elevation is the recommended approach to reduce edema and promote reabsorption."}], "case": "Case Study: Postpartum IV Infiltration"}, {"stem": "What vital sign finding in this client's assessment is most consistent with a mild systemic inflammatory response, though not diagnostic of infection on its own?", "options": [{"text": "A temperature of 100.2°F (37.8°C)", "correct": true, "explain": "A temperature of 100.2°F is mildly elevated and could reflect a mild inflammatory response; while it should be monitored, it is not diagnostic of infection on its own and should be interpreted alongside the local IV site findings."}, {"text": "A heart rate of 85/min", "correct": false, "explain": "A heart rate of 85/min is within the normal range and is not the finding most suggestive of a mild inflammatory response in this scenario."}, {"text": "A blood pressure of 129/88 mmHg", "correct": false, "explain": "This blood pressure is not significantly abnormal and is not the finding most suggestive of a mild inflammatory response."}, {"text": "An SpO2 of 99% on room air", "correct": false, "explain": "An SpO2 of 99% is normal and does not suggest an inflammatory response."}], "case": "Case Study: Postpartum IV Infiltration"}, {"stem": "Which class of chemotherapy medications works by interfering with DNA and RNA synthesis, and includes cyclophosphamide and cisplatin?", "options": [{"text": "Alkylating agents and platinum compounds", "correct": true, "explain": "Alkylating agents and platinum compounds, including cyclophosphamide and cisplatin, interfere with DNA and RNA synthesis."}, {"text": "Antimetabolites", "correct": false, "explain": "Antimetabolites resemble cancer cell metabolites and disrupt metabolism; cyclophosphamide and cisplatin are alkylating/platinum agents, not antimetabolites."}, {"text": "Mitotic inhibitors", "correct": false, "explain": "Mitotic inhibitors interfere with cell division through a different mechanism; cyclophosphamide and cisplatin are alkylating/platinum agents."}, {"text": "Topoisomerase inhibitors", "correct": false, "explain": "Topoisomerase inhibitors disrupt enzyme reactions in the cell; cyclophosphamide and cisplatin are alkylating/platinum agents."}]}, {"stem": "Which adverse reactions are commonly associated with alkylating agents such as cyclophosphamide? Select all that apply.", "options": [{"text": "Neutropenia and thrombocytopenia", "correct": true, "explain": "Neutropenia and thrombocytopenia are common adverse reactions of alkylating agents."}, {"text": "Anemia and alopecia", "correct": true, "explain": "Anemia and alopecia are common adverse reactions of alkylating agents."}, {"text": "Nausea, vomiting, and stomatitis", "correct": true, "explain": "Nausea, vomiting, and stomatitis are common adverse reactions of alkylating agents."}, {"text": "Improved hair growth", "correct": false, "explain": "Alopecia (hair loss), not improved hair growth, is the adverse reaction associated with alkylating agents."}], "isSAL": true}, {"stem": "Methotrexate and fluorouracil belong to which chemotherapy classification?", "options": [{"text": "Antimetabolites", "correct": true, "explain": "Methotrexate and fluorouracil (5-FU) are antimetabolites, which resemble cancer cell metabolites, disrupt metabolism, and cause cell death."}, {"text": "Antitumor antibiotics", "correct": false, "explain": "Antitumor antibiotics include drugs like doxorubicin and bleomycin, not methotrexate or fluorouracil."}, {"text": "Hormonal agents", "correct": false, "explain": "Hormonal agents include drugs like tamoxifen and leuprolide, not methotrexate or fluorouracil."}, {"text": "Mitotic inhibitors", "correct": false, "explain": "Mitotic inhibitors include vinca alkaloids and taxanes, not methotrexate or fluorouracil."}]}, {"stem": "A client receiving doxorubicin (an antitumor antibiotic) should be monitored closely for which unique adverse reaction not typically seen with alkylating agents?", "options": [{"text": "Dysrhythmias and lung damage", "correct": true, "explain": "Antitumor antibiotics such as doxorubicin carry specific risk of dysrhythmias and lung damage, in addition to the myelosuppressive effects shared with other chemotherapy classes."}, {"text": "Hyperuricemia and gout-like symptoms", "correct": false, "explain": "Hyperuricemia is not the specific unique adverse reaction highlighted for antitumor antibiotics like doxorubicin; dysrhythmias and lung damage are."}, {"text": "Optic neuritis", "correct": false, "explain": "Optic neuritis is not associated with antitumor antibiotics; it is associated with ethambutol, an antitubercular medication."}, {"text": "Orange discoloration of body fluids", "correct": false, "explain": "Orange discoloration of body fluids is associated with rifampin, not antitumor antibiotic chemotherapy agents like doxorubicin."}]}, {"stem": "Leuprolide, a gonadotropin-releasing hormone agonist, and flutamide, an androgen receptor blocker, are hormonal chemotherapy agents used to treat which cancer?", "options": [{"text": "Prostate cancer", "correct": true, "explain": "Leuprolide (a GnRH agonist) and flutamide (an androgen receptor blocker) are hormonal agents indicated for prostate cancer treatment."}, {"text": "Breast cancer", "correct": false, "explain": "Breast cancer hormonal treatment more typically involves antiestrogens like tamoxifen, not leuprolide or flutamide."}, {"text": "Lung cancer", "correct": false, "explain": "Leuprolide and flutamide are not indicated for lung cancer; they are used for prostate cancer."}, {"text": "Colon cancer", "correct": false, "explain": "Leuprolide and flutamide are not indicated for colon cancer; they are used for prostate cancer."}]}, {"stem": "A client taking tamoxifen for breast cancer treatment should be monitored for which adverse effect?", "options": [{"text": "Increased risk of uterine cancer", "correct": true, "explain": "Tamoxifen, an antiestrogen used for breast cancer, carries an increased risk of uterine cancer, along with hot flashes, fluid retention, and menstrual irregularities."}, {"text": "Peripheral neuropathy", "correct": false, "explain": "Peripheral neuropathy is more specifically associated with vinca alkaloids (mitotic inhibitors), not tamoxifen."}, {"text": "Optic neuritis", "correct": false, "explain": "Optic neuritis is associated with ethambutol, not tamoxifen."}, {"text": "Hyperuricemia", "correct": false, "explain": "Hyperuricemia is associated with pyrazinamide, not tamoxifen."}]}, {"stem": "Vincristine and vinblastine, vinca alkaloid mitotic inhibitors, carry which specific adverse effect risk in addition to extravasation?", "options": [{"text": "Peripheral neuropathy", "correct": true, "explain": "Vinca alkaloids such as vincristine and vinblastine carry a specific risk of peripheral neuropathy, in addition to the risk of extravasation since these are vesicant agents."}, {"text": "Hyperuricemia and gout-like symptoms", "correct": false, "explain": "Hyperuricemia is more specifically associated with pyrazinamide, not vinca alkaloids."}, {"text": "Orange discoloration of body fluids", "correct": false, "explain": "Orange discoloration of body fluids is associated with rifampin, not vinca alkaloids."}, {"text": "Optic neuritis", "correct": false, "explain": "Optic neuritis is associated with ethambutol, not vinca alkaloids."}]}, {"stem": "Paclitaxel and docetaxel, taxane mitotic inhibitors, carry which adverse effect risk in addition to neutropenia, thrombocytopenia, and anemia?", "options": [{"text": "Hypersensitivity reactions", "correct": true, "explain": "Taxanes such as paclitaxel and docetaxel carry a risk of hypersensitivity reactions, in addition to the myelosuppressive effects (neutropenia, thrombocytopenia, anemia) common to many chemotherapy classes."}, {"text": "Optic neuritis", "correct": false, "explain": "Optic neuritis is associated with ethambutol, not taxanes."}, {"text": "Hyperuricemia", "correct": false, "explain": "Hyperuricemia is associated with pyrazinamide, not taxanes."}, {"text": "Orange discoloration of body fluids", "correct": false, "explain": "Orange discoloration of body fluids is associated with rifampin, not taxanes."}]}, {"stem": "Irinotecan and topotecan belong to which chemotherapy classification, and what is their mechanism of action?", "options": [{"text": "Topoisomerase inhibitors, which disrupt enzyme reactions in the cell", "correct": true, "explain": "Irinotecan and topotecan are topoisomerase inhibitors, which work by disrupting enzyme reactions involved in DNA replication within the cell."}, {"text": "Antimetabolites, which resemble cancer cell metabolites", "correct": false, "explain": "Antimetabolites (like methotrexate) resemble cancer cell metabolites; irinotecan and topotecan are topoisomerase inhibitors, a distinct class."}, {"text": "Alkylating agents, which interfere with DNA and RNA synthesis directly", "correct": false, "explain": "Alkylating agents (like cyclophosphamide) directly interfere with DNA/RNA synthesis; irinotecan and topotecan are topoisomerase inhibitors."}, {"text": "Hormonal agents, used for prostate or breast cancer", "correct": false, "explain": "Hormonal agents are a distinct class (e.g., leuprolide, tamoxifen); irinotecan and topotecan are topoisomerase inhibitors."}]}, {"stem": "A client receiving chemotherapy develops thrombocytopenia. Which nursing interventions are appropriate? Select all that apply.", "options": [{"text": "Avoid intramuscular injections", "correct": true, "explain": "IM injections should be avoided in a thrombocytopenic client due to increased bleeding risk at the injection site."}, {"text": "Apply pressure after venipuncture and avoid aspirin/NSAIDs", "correct": true, "explain": "Applying pressure after venipuncture and avoiding aspirin/NSAIDs (which impair platelet function) are appropriate interventions to reduce bleeding risk."}, {"text": "Institute safety/fall precautions", "correct": true, "explain": "Safety precautions to prevent falls and injury are appropriate given the increased bleeding risk with thrombocytopenia."}, {"text": "Encourage frequent flossing with a hard-bristled brush", "correct": false, "explain": "Vigorous oral hygiene with a hard-bristled brush or frequent flossing could cause gum bleeding and should be avoided or done gently, not encouraged, in a thrombocytopenic client."}], "isSAL": true}, {"stem": "What assessment findings should the nurse monitor for in a client with chemotherapy-induced thrombocytopenia? Select all that apply.", "options": [{"text": "Nasal and oral mucosae for bleeding", "correct": true, "explain": "Nasal and oral mucosae should be assessed for bleeding, a key finding of thrombocytopenia."}, {"text": "Skin and venipuncture sites for bruising or oozing", "correct": true, "explain": "Skin and venipuncture sites should be assessed for bruising or oozing blood, reflecting bleeding risk."}, {"text": "Urine and feces for occult or frank blood", "correct": true, "explain": "Urine and feces should be assessed for blood, another sign of bleeding risk with thrombocytopenia."}, {"text": "Serum glucose exclusively", "correct": false, "explain": "Serum glucose is not the assessment priority for thrombocytopenia; bleeding-related assessments (mucosae, skin, urine, feces, neuro status) are the priority."}], "isSAL": true}, {"stem": "A client with chemotherapy-induced anemia reports fatigue and difficulty concentrating. What nursing care is appropriate?", "options": [{"text": "Encourage rest before activity, place frequently used items within reach, and limit excessive napping", "correct": true, "explain": "Appropriate nursing care for anemia-related fatigue includes encouraging rest before activity, placing items within reach to conserve energy, and limiting excessive napping to help maintain a normal sleep-wake cycle."}, {"text": "Encourage vigorous exercise regardless of energy level", "correct": false, "explain": "Vigorous exercise is not appropriate for a client experiencing significant fatigue from anemia; energy conservation measures are more appropriate."}, {"text": "No specific nursing care is needed for chemotherapy-induced anemia", "correct": false, "explain": "Specific nursing care measures (rest before activity, energy conservation, limiting naps, nutritional support) are appropriate for anemia-related fatigue."}, {"text": "Encourage the client to skip meals to conserve energy", "correct": false, "explain": "Skipping meals is not appropriate; nutritional support is part of appropriate care for anemia, not meal avoidance."}]}, {"stem": "A client receiving chemotherapy reports nausea and vomiting. What nursing interventions are appropriate?", "options": [{"text": "Administer prescribed antiemetics, offer light meals, avoid greasy foods, and monitor for fluid volume deficit", "correct": true, "explain": "Appropriate interventions include administering prescribed antiemetics (often for several days), offering light meals, avoiding greasy foods, restricting fluids with meals, and monitoring intake/output and signs of fluid volume deficit."}, {"text": "Encourage large, heavy meals to maintain nutrition", "correct": false, "explain": "Large, heavy meals are not appropriate for a client experiencing nausea and vomiting; light meals and avoiding greasy foods are recommended instead."}, {"text": "Withhold all antiemetic medications to assess true symptom severity", "correct": false, "explain": "Antiemetics should be administered as prescribed to manage symptoms, not withheld to assess severity."}, {"text": "No monitoring of intake and output is needed", "correct": false, "explain": "Monitoring intake and output is important given the risk of fluid volume deficit from nausea and vomiting."}]}, {"stem": "Why is erythropoietin (epoetin alfa) used in clients with cancer or chronic renal failure?", "options": [{"text": "To stimulate erythropoietin production and increase red blood cell counts", "correct": true, "explain": "Erythropoietin (epoetin alfa) stimulates erythropoietin production, increasing red blood cell counts, and is indicated for anemia related to conditions including chronic renal failure, cancer treatment, the preoperative phase, and zidovudine therapy."}, {"text": "To stimulate white blood cell production exclusively", "correct": false, "explain": "Erythropoietin's primary action is on red blood cell production, not white blood cells; that is the role of granulocyte colony-stimulating factors like filgrastim."}, {"text": "To directly kill cancer cells", "correct": false, "explain": "Erythropoietin does not have a direct cytotoxic action on cancer cells; it stimulates red blood cell production to address anemia."}, {"text": "To treat neutropenia", "correct": false, "explain": "Erythropoietin treats anemia (low red blood cells), not neutropenia (low white blood cells); filgrastim and similar agents address neutropenia."}]}, {"stem": "What are the precautions and contraindications for epoetin alfa and darbepoetin alfa therapy? Select all that apply.", "options": [{"text": "Hypertension, given the risk of MI and stroke", "correct": true, "explain": "Hypertension is a precaution for erythropoietin therapy, given the associated risk of myocardial infarction and stroke."}, {"text": "Cancer, given the risk of increased cancer cell growth", "correct": true, "explain": "Cancer is a precaution for erythropoietin therapy, given the risk of increased cancer cell growth."}, {"text": "Seizure history and clotting disorders", "correct": true, "explain": "Seizure history (increased seizure risk) and clotting disorders (increased clotting risk) are precautions for erythropoietin therapy."}, {"text": "Vitamin D deficiency", "correct": false, "explain": "Vitamin D deficiency is not listed among the precautions/contraindications for erythropoietin therapy; hypertension, cancer, seizure history, and clotting disorders are."}], "isSAL": true}, {"stem": "What are the priority nursing implementation actions when administering epoetin alfa? Select all that apply.", "options": [{"text": "Do not mix with other medications", "correct": true, "explain": "Epoetin alfa should not be mixed with other medications during administration."}, {"text": "Avoid shaking the medication", "correct": true, "explain": "The medication should not be shaken, as this can denature the protein and reduce effectiveness."}, {"text": "Administer antihypertensive medications as needed", "correct": true, "explain": "Administering antihypertensive medications as needed is part of managing the hypertension risk associated with erythropoietin therapy."}, {"text": "Administer via rapid IV push only", "correct": false, "explain": "Rapid IV push is not the described administration method; epoetin alfa should be administered per specific protocol without shaking or mixing with other medications."}], "isSAL": true}, {"stem": "What priority assessments should the nurse perform before and during epoetin alfa therapy? Select all that apply.", "options": [{"text": "Blood pressure", "correct": true, "explain": "Blood pressure should be assessed given the risk of hypertension and cardiovascular events with erythropoietin therapy."}, {"text": "Symptoms of myocardial infarction or stroke", "correct": true, "explain": "The nurse should assess for symptoms of MI or stroke, given the cardiovascular risks associated with erythropoietin therapy."}, {"text": "Hematocrit, hemoglobin, and reticulocyte count", "correct": true, "explain": "Hematocrit, hemoglobin, and reticulocyte count should be monitored to assess the therapeutic response to erythropoietin therapy."}, {"text": "Serum lipase exclusively", "correct": false, "explain": "Serum lipase is not the assessment priority for erythropoietin therapy; cardiovascular status and hematologic parameters are the priorities."}], "isSAL": true}, {"stem": "Filgrastim, pegfilgrastim, and sargramostim are classified as which type of medication?", "options": [{"text": "Granulocyte colony-stimulating factors (leukopoietic growth factors)", "correct": true, "explain": "Filgrastim, pegfilgrastim, and sargramostim are granulocyte colony-stimulating factors, also called leukopoietic growth factors, which stimulate white cell production."}, {"text": "Erythropoietin agents", "correct": false, "explain": "Erythropoietin agents (epoetin alfa, darbepoetin alfa) stimulate red blood cell production; filgrastim and similar agents stimulate white cell production."}, {"text": "Antimetabolite chemotherapy agents", "correct": false, "explain": "These are hematopoietic growth factors, not antimetabolite chemotherapy agents."}, {"text": "Antitumor antibiotics", "correct": false, "explain": "These are hematopoietic growth factors, not antitumor antibiotic chemotherapy agents."}]}, {"stem": "Filgrastim, pegfilgrastim, and sargramostim are indicated for which conditions? Select all that apply.", "options": [{"text": "Congenital or chronic neutropenia", "correct": true, "explain": "These medications stimulate white cell production and are indicated for congenital or chronic neutropenia."}, {"text": "Bone marrow transplantation", "correct": true, "explain": "These medications are used to stimulate bone marrow recovery after bone marrow transplantation."}, {"text": "Cancer treatment-related neutropenia", "correct": true, "explain": "These medications are used to stimulate white cell recovery in clients with cancer, particularly following chemotherapy-induced neutropenia."}, {"text": "Uncomplicated iron-deficiency anemia", "correct": false, "explain": "Iron-deficiency anemia is not an indication for these white cell growth factors; they are indicated for neutropenia and bone marrow stimulation."}], "isSAL": true}, {"stem": "What adverse reaction is commonly associated with filgrastim, pegfilgrastim, and sargramostim therapy?", "options": [{"text": "Bone pain and a \"flu-like\" syndrome", "correct": true, "explain": "Bone pain and a flu-like syndrome are commonly associated musculoskeletal adverse reactions of granulocyte colony-stimulating factors."}, {"text": "Peripheral neuropathy", "correct": false, "explain": "Peripheral neuropathy is more specifically associated with vinca alkaloids, not granulocyte colony-stimulating factors."}, {"text": "Optic neuritis", "correct": false, "explain": "Optic neuritis is associated with ethambutol, not granulocyte colony-stimulating factors."}, {"text": "Orange discoloration of body fluids", "correct": false, "explain": "Orange discoloration of body fluids is associated with rifampin, not granulocyte colony-stimulating factors."}]}, {"stem": "What priority assessments should the nurse perform for a client receiving filgrastim, pegfilgrastim, or sargramostim? Select all that apply.", "options": [{"text": "Complete blood cell count and absolute neutrophil count", "correct": true, "explain": "CBC and ANC should be monitored to assess the therapeutic response of these white cell growth factors."}, {"text": "Liver function tests, BUN, and creatinine", "correct": true, "explain": "Liver function tests, BUN, and creatinine should be monitored as part of overall assessment during therapy."}, {"text": "Edema", "correct": true, "explain": "Edema should be assessed, since these medications carry a precaution related to increased edema."}, {"text": "Serum lipase exclusively", "correct": false, "explain": "Serum lipase is not the priority assessment for these growth factors; CBC/ANC, liver/renal function, and edema are the relevant priorities."}], "isSAL": true}, {"stem": "What implementation considerations are important when administering filgrastim, pegfilgrastim, or sargramostim? Select all that apply.", "options": [{"text": "Avoid shaking the preparation", "correct": true, "explain": "The preparation should not be shaken, to avoid denaturing the protein."}, {"text": "Refrigerate the medication", "correct": true, "explain": "These medications typically require refrigeration for storage."}, {"text": "Attend to injection site and timing of administration", "correct": true, "explain": "Attention to injection site rotation and proper timing of administration (often relative to chemotherapy cycles) are important implementation considerations."}, {"text": "Administer only via rapid IV push", "correct": false, "explain": "Rapid IV push is not the described administration approach; proper storage, handling, and timing considerations are emphasized instead."}], "isSAL": true}, {"stem": "According to the \"Rights of Medication Administration,\" what does the right client involve?", "options": [{"text": "Using two identifiers to confirm client identity", "correct": true, "explain": "The right client involves using two identifiers (such as name and date of birth) to confirm the correct client before administering medication."}, {"text": "Checking the medication's generic name and expiration date only", "correct": false, "explain": "Checking the generic name and expiration date pertains to the right medication, not the right client."}, {"text": "Ensuring the medication is given within a specific time window", "correct": false, "explain": "Giving the medication within a specific time window pertains to the right time, not the right client."}, {"text": "Determining the onset of action based on the route", "correct": false, "explain": "Onset of action based on route pertains to the right route/site, not the right client."}]}, {"stem": "According to the \"Rights of Medication Administration,\" what does the right medication involve?", "options": [{"text": "Checking the generic name, expiration date, and client allergies", "correct": true, "explain": "The right medication involves checking the generic name, expiration date, and the client's allergy history before administration."}, {"text": "Using two client identifiers", "correct": false, "explain": "Using two client identifiers pertains to the right client, not the right medication."}, {"text": "Complete and accurate charting after administration", "correct": false, "explain": "Complete and accurate charting pertains to the right documentation, not the right medication."}, {"text": "Verifying the medication is given during its specific therapeutic time window", "correct": false, "explain": "Verifying the therapeutic time window pertains to the right time, not the right medication."}]}, {"stem": "Why do some medications require two nurses to check the dosage before administration?", "options": [{"text": "This reflects the \"right dosage\" component of safe medication administration for high-risk medications", "correct": true, "explain": "Some medications require two nurses to independently verify the dosage as part of the \"right dosage\" component of safe medication administration, given the potential for serious harm if dosed incorrectly."}, {"text": "This is only a facility preference with no safety basis", "correct": false, "explain": "This double-check requirement has a clear safety basis — reducing dosing errors for high-risk medications — not merely a facility preference without rationale."}, {"text": "This applies to the right route/site component, not right dosage", "correct": false, "explain": "This double-check specifically relates to the right dosage component, not the right route/site."}, {"text": "This requirement applies to all medications equally, with no distinction by risk", "correct": false, "explain": "This double-check requirement is generally reserved for certain high-risk medications requiring extra verification, not applied equally to all medications."}]}, {"stem": "Why is the onset of action of a medication highly dependent on the route of administration?", "options": [{"text": "This reflects the \"right route/site\" component of safe medication administration and relates to pharmacokinetic principles like absorption", "correct": true, "explain": "The route of administration significantly affects how quickly a medication is absorbed and reaches its site of action, which is why the \"right route/site\" is one of the essential rights of medication administration."}, {"text": "Route of administration has no bearing on how quickly a medication works", "correct": false, "explain": "Route of administration does significantly affect onset of action through differences in absorption, which is why it is a critical safety consideration."}, {"text": "This principle applies only to oral medications", "correct": false, "explain": "This principle applies broadly across administration routes (oral, IV, IM, etc.), not exclusively to oral medications."}, {"text": "Onset of action is identical regardless of route", "correct": false, "explain": "Onset of action varies significantly by route (e.g., IV medications typically act faster than oral medications), so it is not identical regardless of route."}]}, {"stem": "What are the required components of a medication order?", "options": [{"text": "Medication name, dosage, route, time frame for repeated administration, signature, and date/time ordered", "correct": true, "explain": "A complete medication order includes the medication name, dosage, route of administration, time frame for repeated administration, prescriber signature, and the date and time the order was written."}, {"text": "Only the medication name and dosage", "correct": false, "explain": "A complete medication order requires more than just name and dosage; it also requires route, time frame, signature, and date/time ordered."}, {"text": "Only the prescriber's signature", "correct": false, "explain": "A signature alone is not sufficient; a complete order requires the medication name, dosage, route, time frame, and date/time as well."}, {"text": "The client's insurance information", "correct": false, "explain": "Insurance information is not a required component of a medication order; the order requires clinical and prescribing details."}]}, {"stem": "What are the different types of medication orders? Select all that apply.", "options": [{"text": "Routine/standing orders and PRN orders", "correct": true, "explain": "Routine/standing orders (given regularly) and PRN orders (given as needed) are recognized types of medication orders."}, {"text": "One-time orders and stat orders", "correct": true, "explain": "One-time orders (given once) and stat orders (given immediately) are recognized types of medication orders."}, {"text": "Telephone, fax, verbal, and electronic orders", "correct": true, "explain": "Telephone, fax, verbal, and electronic orders are recognized methods/types of medication orders based on how they are transmitted."}, {"text": "Orders requiring no documentation of any kind", "correct": false, "explain": "All medication orders require appropriate documentation; there is no type of order that requires no documentation."}], "isSAL": true}, {"stem": "What legal aspects govern medication administration? Select all that apply.", "options": [{"text": "Nurse Practice Acts", "correct": true, "explain": "Nurse Practice Acts, which define the scope of nursing practice in each state/jurisdiction, govern medication administration."}, {"text": "Institutional medication policies", "correct": true, "explain": "Institutional medication policies set specific procedures and safety requirements for medication administration within a facility."}, {"text": "Federal and state narcotics acts / substance abuse regulations", "correct": true, "explain": "Federal and state narcotics acts and substance abuse regulations govern the handling and administration of controlled substances."}, {"text": "Only informal facility custom, with no formal legal basis", "correct": false, "explain": "Medication administration is governed by formal legal and regulatory frameworks (Nurse Practice Acts, institutional policy, narcotics laws), not merely informal custom."}], "isSAL": true}, {"stem": "Which of the following are categories of drugs and medications that the nurse should consider during a medication history?", "options": [{"text": "Nonprescription and prescription medications, herbs/botanicals, and dietary supplements", "correct": true, "explain": "A complete medication history should include nonprescription medications, prescription medications, herbs and other botanicals, and dietary supplements (herbal preparations, teas, extracts, and tinctures)."}, {"text": "Only prescription medications", "correct": false, "explain": "A complete medication history includes more than prescription medications alone; it also includes nonprescription drugs, herbs, and supplements."}, {"text": "Only herbal preparations", "correct": false, "explain": "A complete medication history includes more than herbal preparations alone; it also includes prescription and nonprescription drugs and other supplements."}, {"text": "Only medications given within the healthcare facility", "correct": false, "explain": "A complete medication history should include all medications the client takes, not only those administered within the healthcare facility."}]}, {"stem": "What does pharmacokinetics describe, and why is understanding it important for the nurse?", "options": [{"text": "The route-related processes of absorption, distribution, metabolism, and excretion, which explain why the administration route matters", "correct": true, "explain": "Pharmacokinetics describes absorption, distribution, metabolism, and excretion — the processes that determine how a drug moves through and is eliminated from the body — which is why understanding the route of administration is clinically important."}, {"text": "The study of a drug's therapeutic and adverse effects only", "correct": false, "explain": "This describes pharmacodynamics, not pharmacokinetics, which specifically covers absorption, distribution, metabolism, and excretion."}, {"text": "The study of legal aspects of medication administration", "correct": false, "explain": "Pharmacokinetics is not about legal aspects; it is about the movement of drugs through the body (absorption, distribution, metabolism, excretion)."}, {"text": "Pharmacokinetics is unrelated to why the administration route matters", "correct": false, "explain": "Pharmacokinetics, particularly the absorption component, is directly related to why the route of administration matters clinically."}]}, {"stem": "What does pharmacodynamics describe, and why is it important for the nurse to assess and reassess the client?", "options": [{"text": "The drug's therapeutic effects, adverse effects, and interactions, which is why ongoing assessment and reassessment of the client is essential", "correct": true, "explain": "Pharmacodynamics covers therapeutic effects, adverse effects, side effects, hypersensitivity reactions, tolerance, allergic reactions, toxicity, and interactions (synergism, antagonism, incompatibility) — understanding these is why ongoing client assessment and reassessment is essential."}, {"text": "The route-related processes of absorption, distribution, metabolism, and excretion", "correct": false, "explain": "This describes pharmacokinetics, not pharmacodynamics, which instead covers therapeutic/adverse effects and interactions."}, {"text": "Pharmacodynamics is unrelated to the need for client assessment", "correct": false, "explain": "Pharmacodynamics is directly related to the need for assessment and reassessment, since it covers therapeutic effects, adverse effects, and interactions that must be monitored."}, {"text": "Pharmacodynamics only applies to IV medications", "correct": false, "explain": "Pharmacodynamics applies broadly to all medications regardless of route, not exclusively to IV medications."}]}, {"stem": "What should the nurse include in the initial medication assessment for a new client?", "options": [{"text": "Medication history, allergies and tolerance, medical history, and pregnancy/lactation status", "correct": true, "explain": "The initial medication assessment includes obtaining a medication history, assessing allergies and tolerance, gathering relevant medical history, and determining pregnancy/lactation status."}, {"text": "Only the client's current medication list", "correct": false, "explain": "The initial assessment includes more than the current medication list alone; it also includes allergies, medical history, and pregnancy/lactation status."}, {"text": "Only the client's allergy history", "correct": false, "explain": "The initial assessment includes more than allergy history alone; it also includes medication history, medical history, and pregnancy/lactation status."}, {"text": "Only the client's insurance and billing information", "correct": false, "explain": "Insurance and billing information is not part of the clinical medication assessment; medication history, allergies, medical history, and pregnancy/lactation status are the relevant components."}]}, {"stem": "Before administering a scheduled medication, what should the nurse review as part of the pre-administration assessment?", "options": [{"text": "The medication record, diet and fluid orders, and relevant laboratory values", "correct": true, "explain": "Before administration, the nurse should review the medication record, diet and fluid orders, and relevant laboratory values to ensure the medication is still appropriate to give."}, {"text": "Only the medication record, with no need to check labs or diet orders", "correct": false, "explain": "A complete pre-administration review includes diet/fluid orders and relevant lab values in addition to the medication record, not the medication record alone."}, {"text": "Only the client's billing status", "correct": false, "explain": "Billing status is not part of the clinical pre-administration medication review; the medication record, diet/fluid orders, and lab values are the relevant components."}, {"text": "Only the client's pregnancy status", "correct": false, "explain": "While pregnancy status is part of the initial assessment, the pre-administration review specifically includes the medication record, diet/fluid orders, and lab values."}]}, {"stem": "What nursing assessments should be performed before administering an oral medication, related to the client's ability to safely take it?", "options": [{"text": "Ability to swallow, GI motility, and vital signs as applicable", "correct": true, "explain": "Before administering an oral medication, the nurse should assess the client's ability to swallow, GI motility, and vital signs as applicable, along with other relevant body system assessments."}, {"text": "Only the client's vital signs, with no other assessment needed", "correct": false, "explain": "A complete nursing assessment includes swallowing ability and GI motility as well, not vital signs alone."}, {"text": "No specific nursing assessment is required before oral medication administration", "correct": false, "explain": "Specific nursing assessments (swallowing ability, GI motility, vital signs, other body systems as applicable) are required before oral medication administration."}, {"text": "Only assessment of adequate venous access", "correct": false, "explain": "Adequate venous access is relevant for IV medications, not the primary concern for oral medication administration, which focuses more on swallowing ability and GI motility."}]}, {"stem": "Before administering a medication, the nurse should assess the client's knowledge and compliance. What does this assessment include?", "options": [{"text": "The client's knowledge of prescribed medications, what needs to be taught, and compliance with the medication routine", "correct": true, "explain": "This assessment includes evaluating what the client already knows about their prescribed medications, determining what still needs to be taught, and assessing compliance with the medication routine."}, {"text": "Only the client's vital signs", "correct": false, "explain": "Vital signs are a separate physical assessment; knowledge and compliance assessment specifically addresses the client's understanding of and adherence to their medication regimen."}, {"text": "Only the client's laboratory values", "correct": false, "explain": "Laboratory values are a separate assessment component; knowledge and compliance assessment addresses the client's understanding of and adherence to their medications."}, {"text": "This assessment is not part of safe medication administration", "correct": false, "explain": "Assessing knowledge and compliance is specifically part of safe, effective medication administration, not something excluded from it."}]}, {"stem": "Before administering a medication, the nurse should perform the \"three checks.\" What does this refer to?", "options": [{"text": "Checking the medication against the order at three points: when removing it from storage, when preparing it, and before administering it to the client", "correct": true, "explain": "The \"three checks\" refers to comparing the medication label/order at three distinct points in the administration process — when retrieving the medication, when preparing it, and immediately before giving it to the client — to catch errors before they reach the client."}, {"text": "Checking the client's vital signs three times", "correct": false, "explain": "The three checks refer to medication verification, not repeated vital sign checks."}, {"text": "Checking with three different nurses before giving any medication", "correct": false, "explain": "The three checks refer to the nurse verifying the medication at three points in the process, not requiring three separate nurses for every medication."}, {"text": "Checking the client's chart three days in a row before administration", "correct": false, "explain": "The three checks occur within the single medication administration process, not spread across three separate days."}]}, {"stem": "What is an important documentation principle regarding medication administration?", "options": [{"text": "Medications should never be documented as given before they are actually administered (no \"PRE\" documentation)", "correct": true, "explain": "A key safety and documentation principle is that medications should never be charted as given before they are actually administered, since this could result in a medication being missed or double-dosed if something changes before administration."}, {"text": "It is acceptable to document medication administration before giving it, as long as the nurse plans to give it soon", "correct": false, "explain": "This is not acceptable practice; documentation should only occur after the medication has actually been administered, never in advance ('PRE' documentation)."}, {"text": "Documentation is optional if the medication was given as scheduled", "correct": false, "explain": "Documentation of medication administration is required, not optional, regardless of whether the medication was given exactly as scheduled."}, {"text": "Medication errors do not need to be documented if corrected immediately", "correct": false, "explain": "Medication errors require documentation and reporting (e.g., via a quality improvement or unusual incident form) even if the error was quickly recognized and corrected."}]}, {"stem": "What should the nurse do when a medication error occurs?", "options": [{"text": "Report the error and document it using a quality improvement or unusual incident form, per facility policy", "correct": true, "explain": "When a medication error occurs, the nurse should report it and document it using the facility's quality improvement or unusual incident reporting process, in addition to notifying the provider and monitoring the client as needed."}, {"text": "Avoid reporting minor errors to prevent disciplinary action", "correct": false, "explain": "All medication errors, including minor ones, should be reported and documented per facility policy; avoiding reporting is not appropriate practice."}, {"text": "Document the error only in the nurse's personal notes, not in the official record", "correct": false, "explain": "Medication errors should be documented through the facility's official reporting system (quality improvement/unusual incident form), not merely in personal notes."}, {"text": "No action is needed if the client shows no immediate symptoms", "correct": false, "explain": "A medication error requires reporting and monitoring regardless of whether the client shows immediate symptoms, since delayed effects are possible."}]}, {"stem": "For a peripheral IV insertion, which site is preferred, and which sites should generally be avoided?", "options": [{"text": "Use the most distal appropriate site in the nondominant arm; avoid infected sites, vascular grafts/fistulas, areas of flexion, and hands in older clients", "correct": true, "explain": "Peripheral IV insertion should use the most distal appropriate site in the nondominant arm, avoiding infected sites, vascular grafts/fistulas, areas of flexion, and generally the hands in older clients due to fragile skin and veins."}, {"text": "Use the most proximal site available in the dominant arm", "correct": false, "explain": "The most distal appropriate site in the nondominant arm is preferred, not the most proximal site in the dominant arm."}, {"text": "Vascular grafts and fistulas are preferred insertion sites", "correct": false, "explain": "Vascular grafts and fistulas should be avoided for peripheral IV insertion, not preferred, due to the risk of damaging access needed for dialysis or other purposes."}, {"text": "Areas of flexion are the preferred sites for stability", "correct": false, "explain": "Areas of flexion should be avoided for peripheral IV insertion, since movement at these joints increases the risk of complications like infiltration and phlebitis."}]}, {"stem": "When applying a tourniquet for peripheral IV insertion, what is the correct technique?", "options": [{"text": "Apply the tourniquet 4-6 inches above the insertion site; a BP cuff can be used, inflated to just below diastolic pressure", "correct": true, "explain": "The tourniquet should be applied 4-6 inches above the intended insertion site, and a blood pressure cuff can be used as an alternative, inflated to just below the client's diastolic blood pressure."}, {"text": "Apply the tourniquet directly over the intended insertion site", "correct": false, "explain": "The tourniquet should be applied 4-6 inches above the insertion site, not directly over it."}, {"text": "If using a BP cuff as a tourniquet, inflate it above the systolic pressure", "correct": false, "explain": "A BP cuff used as a tourniquet should be inflated to just below the diastolic pressure, not above the systolic pressure, which would occlude arterial flow."}, {"text": "Tourniquet technique does not matter for successful IV insertion", "correct": false, "explain": "Tourniquet technique (placement and appropriate pressure) does matter for successful vein visualization and safe insertion."}]}, {"stem": "What are the key differences between peripheral IVs and central venous access devices (CVADs)?", "options": [{"text": "Peripheral IVs are for short-term therapy; CVADs are for long-term therapy, placed in large vessels, and can administer blood products, vesicants, and parenteral nutrition", "correct": true, "explain": "Peripheral IVs are used for short-term therapy, while CVADs are used for long-term therapy, are placed in large blood vessels, and can be used to administer blood, blood products, vesicants, and parenteral nutrition, as well as for hemodynamic monitoring and venous blood sampling."}, {"text": "Peripheral IVs and CVADs are functionally identical with no differences in use", "correct": false, "explain": "There are significant differences in duration of use, vessel size, and the types of therapies each device can safely administer."}, {"text": "CVADs are used only for short-term therapy", "correct": false, "explain": "CVADs are used for long-term therapy; peripheral IVs are the short-term option."}, {"text": "Peripheral IVs can be used to administer vesicants and parenteral nutrition safely", "correct": false, "explain": "Peripheral IVs are generally not appropriate for vesicants or parenteral nutrition; these are typically administered via CVADs due to the risk of vein damage."}]}, {"stem": "What are the three main types of central venous access devices?", "options": [{"text": "Centrally inserted catheters (CVCs), peripherally inserted central catheters (PICCs), and implanted infusion ports", "correct": true, "explain": "The three main types of CVADs are centrally inserted catheters (CVCs), peripherally inserted central catheters (PICCs), and implanted infusion ports."}, {"text": "Peripheral IVs, arterial lines, and CVCs", "correct": false, "explain": "Peripheral IVs and arterial lines are not classified among the three main types of CVADs; PICCs and implanted ports are the other two types alongside CVCs."}, {"text": "Only PICC lines, with no other central access device types", "correct": false, "explain": "There are three recognized main types (CVCs, PICCs, and implanted ports), not only PICC lines."}, {"text": "Nasogastric tubes, PICCs, and CVCs", "correct": false, "explain": "Nasogastric tubes are not a type of central venous access device; implanted infusion ports are the third type alongside CVCs and PICCs."}]}, {"stem": "A PICC line is inserted in the arm and can typically remain in place for what duration?", "options": [{"text": "1 week to 6 months", "correct": true, "explain": "A PICC line is inserted in the arm and can typically remain in place for 1 week to 6 months, and it is multi-lumen but should not be used for blood pressure measurement or blood draws in that extremity."}, {"text": "Only 24 hours", "correct": false, "explain": "A PICC line can remain in place much longer than 24 hours, typically 1 week to 6 months."}, {"text": "Indefinitely, with no expected removal timeframe", "correct": false, "explain": "While used for longer-term therapy, PICC lines have a typical duration range (1 week to 6 months), not an indefinite, unspecified duration."}, {"text": "Only 1-2 hours during a single infusion", "correct": false, "explain": "A PICC line is intended for a much longer duration (1 week to 6 months) than a single 1-2 hour infusion."}]}, {"stem": "Why should blood pressure measurements and blood draws generally be avoided in the extremity with a PICC line?", "options": [{"text": "This is a specific safety consideration for PICC lines to protect the device and the vein", "correct": true, "explain": "Avoiding blood pressure measurements and blood draws in the extremity with a PICC line is a specific, recognized safety consideration to protect the device and vein integrity."}, {"text": "There is no specific reason; this is simply institutional preference", "correct": false, "explain": "This is a specific, recognized safety guideline for PICC line care, not an arbitrary institutional preference."}, {"text": "Blood pressure and blood draws are actually preferred in this extremity", "correct": false, "explain": "Blood pressure measurement and blood draws should be avoided, not preferred, in the extremity with a PICC line."}, {"text": "This consideration applies only to implanted ports, not PICC lines", "correct": false, "explain": "This consideration specifically applies to PICC lines, as noted in their described characteristics."}]}, {"stem": "What is a key advantage of an implanted infusion port compared to other central venous access devices?", "options": [{"text": "It has a lower infection risk since it is surgically implanted under the skin and accessed only when needed with a special needle", "correct": true, "explain": "Implanted infusion ports are surgically implanted under the skin and accessed only when needed using a special needle, which is associated with a lower infection risk compared to some other central access devices that remain externally exposed."}, {"text": "It requires daily external dressing changes, unlike other devices", "correct": false, "explain": "Implanted ports, being under the skin, do not require the same ongoing external dressing changes as some other central access devices when not actively accessed."}, {"text": "It cannot be used for long-term therapy", "correct": false, "explain": "Implanted ports are specifically used for long-term therapy, not a limitation of this device."}, {"text": "It has a higher infection risk than other central access devices", "correct": false, "explain": "Implanted ports are associated with a lower, not higher, infection risk compared to some other central access devices, given their under-the-skin placement."}]}, {"stem": "According to the described roles of IV therapy team members, which action is within the scope of the RN but not the LPN/LVN?", "options": [{"text": "Inserting the IV catheter and administering IV fluids to unstable or critically ill clients", "correct": true, "explain": "Inserting the IV catheter and administering IV fluids to unstable or critically ill clients falls within the RN's role, while the LPN/LVN (per state/facility policy) typically administers IV fluids to stable clients and monitors for adverse reactions."}, {"text": "Measuring and recording intake and output", "correct": false, "explain": "Measuring and recording intake and output is typically within the scope of unlicensed assistive personnel (UAP), not a role distinguishing RN from LPN/LVN."}, {"text": "Adjusting the IV flow rate on a stable client per policy", "correct": false, "explain": "Adjusting the flow rate on a stable client per HCP prescription and policy is described as within the LPN/LVN scope (varies by state/facility), not exclusively the RN."}, {"text": "Reporting client complaints", "correct": false, "explain": "Reporting client complaints is described as a UAP-level task, not a distinguishing RN-only action."}]}, {"stem": "Which IV therapy-related tasks are appropriate for unlicensed assistive personnel (UAP)?", "options": [{"text": "Measuring and recording intake and output, and reporting client complaints", "correct": true, "explain": "Measuring and recording intake and output and reporting client complaints are described as appropriate tasks for unlicensed assistive personnel."}, {"text": "Assessing for signs/symptoms of fluid or electrolyte imbalance", "correct": false, "explain": "Assessing for signs/symptoms of fluid/electrolyte imbalance is an RN-level assessment responsibility, not a task appropriate for UAP."}, {"text": "Inserting the IV catheter", "correct": false, "explain": "Inserting an IV catheter is an RN-level (or LPN/LVN in some settings) skill, not a task appropriate for UAP."}, {"text": "Determining if a prescription is appropriate", "correct": false, "explain": "Determining prescription appropriateness is an RN-level clinical judgment responsibility, not a task appropriate for UAP."}]}, {"stem": "A client develops circulatory overload from IV therapy. What are the appropriate nursing considerations?", "options": [{"text": "Reduce or stop the IV rate, raise the head of the bed, assess vital signs, determine the need for oxygen/diuretics, and notify the HCP", "correct": true, "explain": "For circulatory overload, appropriate nursing considerations include reducing or stopping the IV infusion rate, raising the head of the bed, assessing vital signs, determining the need for oxygen and diuretics, and notifying the healthcare provider."}, {"text": "Increase the IV rate to flush the excess fluid through more quickly", "correct": false, "explain": "Increasing the rate would worsen circulatory overload; the rate should be reduced or stopped instead."}, {"text": "Lower the head of the bed to improve venous return", "correct": false, "explain": "Raising, not lowering, the head of the bed is appropriate to ease breathing in circulatory overload."}, {"text": "No provider notification is needed for this finding", "correct": false, "explain": "Provider notification is an important part of the appropriate nursing response to circulatory overload."}]}, {"stem": "A client develops a local infection at the IV insertion site. What nursing considerations are appropriate?", "options": [{"text": "Culture any drainage, clean the skin with alcohol, remove the catheter and save it for culture, and apply a sterile dressing", "correct": true, "explain": "For a local infection at an IV site, the nurse should culture any drainage, clean the skin with alcohol, remove the catheter and save the tip for culture as appropriate, and apply a sterile dressing."}, {"text": "Leave the catheter in place and simply monitor the site", "correct": false, "explain": "The catheter should be removed (and saved for culture as appropriate) when a local infection is suspected, not simply monitored while left in place."}, {"text": "Apply a nonsterile dressing to reduce cost", "correct": false, "explain": "A sterile dressing, not a nonsterile one, should be applied when managing a local IV site infection."}, {"text": "No culture is needed if drainage is present", "correct": false, "explain": "Any drainage present should be cultured to help identify the causative organism and guide treatment."}]}, {"stem": "A client develops bleeding at the venipuncture site. What nursing considerations are appropriate?", "options": [{"text": "Assess if the IV system is intact, apply a pressure dressing, and if bleeding persists, discontinue and restart in another extremity or proximal to the previous site", "correct": true, "explain": "For bleeding at a venipuncture site, the nurse should assess whether the IV system is intact, apply a pressure dressing over the site, and if bleeding persists, discontinue the IV and restart it in another extremity or proximal to the previous insertion site."}, {"text": "Apply ice directly to the puncture site with no pressure dressing", "correct": false, "explain": "A pressure dressing, not ice alone without pressure, is the appropriate intervention for bleeding at a venipuncture site."}, {"text": "Restart the new IV distal to the previous puncture site in the same vein", "correct": false, "explain": "If restarting after bleeding, the new site should be proximal to the previous site (or in another extremity), not distal to it in the same vein, to avoid infusing through a recently injured area."}, {"text": "No assessment of the IV system is needed if bleeding is minor", "correct": false, "explain": "Assessing whether the IV system is intact is an important step regardless of the amount of bleeding."}]}, {"stem": "What are the signs and symptoms of IV infiltration, and what intervention is appropriate?", "options": [{"text": "Swelling, burning, tightness, coolness, and leakage of fluid from the site; remove the device, elevate the extremity, apply warm moist heat, and check distal circulation", "correct": true, "explain": "Infiltration presents with swelling, burning, tightness, coolness, and leakage of fluid from the site; interventions include removing the device, elevating the extremity, applying warm, moist heat, and checking circulation distal to the site."}, {"text": "Warmth, redness, and a palpable cord, treated with ice application", "correct": false, "explain": "Warmth, redness, and a palpable cord describe phlebitis, not infiltration, and infiltration is treated with warm moist heat, not ice."}, {"text": "No intervention is needed for infiltration since it resolves on its own", "correct": false, "explain": "Infiltration requires active nursing intervention (device removal, elevation, warm compresses, circulation checks), not simply waiting for spontaneous resolution."}, {"text": "The device should remain in place and the infusion continued", "correct": false, "explain": "The device should be removed, not left in place with the infusion continued, once infiltration is identified."}]}, {"stem": "What is a key complication risk following percutaneous transluminal coronary angioplasty (PTCA) and stent placement, and what is the priority nursing care?", "options": [{"text": "Acute stent thrombosis; administer prescribed antiplatelet therapy and monitor vital signs and the access site/distal pulses", "correct": true, "explain": "Acute stent thrombosis is a critical risk following PTCA/stent placement; nursing care includes administering prescribed antiplatelet therapy and closely monitoring vital signs, the access site, and distal pulses."}, {"text": "Hyperuricemia; administer allopurinol as prescribed", "correct": false, "explain": "Hyperuricemia is not the described key complication of PTCA/stent placement; acute stent thrombosis is the highlighted critical risk."}, {"text": "Peripheral neuropathy; administer pyridoxine", "correct": false, "explain": "Peripheral neuropathy and pyridoxine administration relate to isoniazid therapy, not PTCA/stent complications."}, {"text": "Optic neuritis; discontinue therapy immediately", "correct": false, "explain": "Optic neuritis is unrelated to PTCA/stent placement; acute stent thrombosis is the relevant critical risk requiring antiplatelet therapy and monitoring."}]}];
+
+const FLASHCARDS = [{"front": "Alkylating agents & platinum compounds", "back": "Interfere with DNA/RNA synthesis. Ex: cyclophosphamide, cisplatin. AEs: neutropenia, thrombocytopenia, anemia, alopecia, N/V, stomatitis."}, {"front": "Antimetabolites", "back": "Resemble cancer cell metabolites, disrupt metabolism. Ex: methotrexate, fluorouracil, cytarabine."}, {"front": "Antitumor antibiotics", "back": "Damage cancer cell DNA/RNA synthesis. Ex: doxorubicin, bleomycin. Unique AEs: dysrhythmias, lung damage."}, {"front": "Hormonal chemo agents — prostate cancer", "back": "GnRH agonists (leuprolide), androgen receptor blockers (flutamide), estrogens."}, {"front": "Hormonal chemo agents — breast cancer", "back": "Antiestrogens: tamoxifen, raloxifene. AE: increased uterine cancer risk."}, {"front": "Mitotic inhibitors — vinca alkaloids", "back": "Vincristine, vinblastine. AEs: peripheral neuropathy, extravasation risk."}, {"front": "Mitotic inhibitors — taxanes", "back": "Paclitaxel, docetaxel. AEs: hypersensitivity, neutropenia, thrombocytopenia, anemia."}, {"front": "Topoisomerase inhibitors", "back": "Disrupt enzyme reactions in the cell. Ex: irinotecan, topotecan."}, {"front": "Extravasation signs", "back": "Pain, swelling, redness, vesicles, skin ulcers. Action: stop infusion immediately, follow drug-specific protocol."}, {"front": "Neutropenia definition", "back": "Absolute neutrophil count (ANC) < 1500/mm3."}, {"front": "Neutropenia nursing care", "back": "Private room, strict aseptic technique, hand hygiene, avoid fresh flowers/plants, low-bacteria diet, avoid indwelling catheters, limit visitors."}, {"front": "Neutropenia client education", "back": "Monitor temp, hand hygiene, avoid crowds/infected people, don't share toiletries, wash toothbrush daily, report fever >100°F, cough, drainage, burning urination."}, {"front": "Thrombocytopenia nursing care", "back": "Avoid IM injections, apply pressure after venipuncture, avoid aspirin/NSAIDs, safety precautions, administer blood/blood products as ordered."}, {"front": "Stomatitis nursing care", "back": "Bland diet, topical anesthetics, topical antifungals."}, {"front": "Anemia nursing care", "back": "Rest before activity, place items within reach, limit naps, nutritional support."}, {"front": "N/V nursing care (chemo)", "back": "Antiemetics, light meals, avoid greasy foods, restrict fluids with meals, monitor I&O/fluid deficit signs."}, {"front": "Erythropoietin (Epoetin alfa/Procrit, Darbepoetin/Aranesp)", "back": "Stimulates RBC production. Uses: preop, CKD, cancer tx, zidovudine therapy. Precautions: HTN, cancer, seizure hx, clotting disorder."}, {"front": "Epoetin alfa AEs & nursing actions", "back": "AEs: MI, stroke, HF, HTN, hypersensitivity. Actions: monitor BP/Hgb/Hct/reticulocyte count; don't mix or shake med."}, {"front": "Filgrastim/Pegfilgrastim/Sargramostim (Neupogen/Neulasta/Leukine)", "back": "Granulocyte colony-stimulating factors — stimulate WBC production. Uses: neutropenia, bone marrow transplant/cancer."}, {"front": "G-CSF AEs & nursing actions", "back": "AEs: bone pain, flu-like syndrome, N/V/D. Actions: monitor CBC/ANC/LFTs/BUN/creatinine/edema; avoid shaking; refrigerate."}, {"front": "Rights of medication administration", "back": "Right client (2 identifiers), medication, time, dosage, route/site, documentation."}, {"front": "Medication order components", "back": "Name, dosage, route, time frame, signature, date/time ordered."}, {"front": "Types of medication orders", "back": "Routine/standing, PRN, one-time, stat, telephone/fax/verbal, electronic."}, {"front": "Legal aspects of med administration", "back": "Nurse Practice Acts, institutional policies, patient's rights, federal/state narcotics acts."}, {"front": "Pharmacokinetics", "back": "Absorption, distribution, metabolism, excretion — why route matters."}, {"front": "Pharmacodynamics", "back": "Therapeutic/adverse/side effects, hypersensitivity, tolerance, allergic reactions, toxicity, interactions."}, {"front": "The \"three checks\"", "back": "Verify medication vs order at 3 points: removing from storage, preparing, before giving to client."}, {"front": "Medication documentation rule", "back": "Never chart 'PRE' — never document as given before actually administered."}, {"front": "Peripheral IV site selection", "back": "Most distal appropriate site, nondominant arm. Avoid: infected sites, grafts/fistulas, areas of flexion, hands in older clients."}, {"front": "Tourniquet technique", "back": "Apply 4-6 inches above insertion site. BP cuff alternative: inflate to just below diastolic pressure."}, {"front": "Central Venous Access Devices (CVADs)", "back": "Long-term therapy, large vessels. Can give blood products, vesicants, TPN. 3 types: CVC, PICC, implanted port."}, {"front": "PICC line", "back": "Inserted in arm, 1 week–6 months, multi-lumen. No BPs or blood draws in that arm."}, {"front": "Implanted port", "back": "Surgically implanted, long-term, special needle to access, low infection risk."}, {"front": "IV team roles — RN", "back": "Assess fluid/lytes, determine Rx appropriateness, insert IV, give IV to unstable clients, evaluate for overload/hypovolemia."}, {"front": "IV team roles — LPN/LVN", "back": "Give IV to stable clients (per policy), adjust flow rate on stable clients, monitor for AEs, discontinue peripheral IV."}, {"front": "IV team roles — UAP", "back": "Measure/record I&O, report client complaints."}, {"front": "IV complication — circulatory overload", "back": "Reduce/stop rate, raise HOB, assess VS, consider O2/diuretics, notify HCP."}, {"front": "IV complication — local infection", "back": "Culture drainage, clean with alcohol, remove catheter & save for culture, sterile dressing."}, {"front": "IV complication — bleeding at site", "back": "Assess system intact, pressure dressing; if persists, discontinue & restart elsewhere."}, {"front": "IV complication — infiltration", "back": "S/S: swelling, burning, tightness, coolness, fluid leakage. Tx: remove device, elevate, warm moist heat, check distal circulation."}, {"front": "IV complication — phlebitis", "back": "S/S: pain, tenderness, warmth, erythema, swelling, palpable cord. More common in antecubital area; risk ↑ with dwell time. Tx: remove device, elevate, warm moist heat, oral/topical NSAIDs."}, {"front": "PTCA/stent complication", "back": "Acute stent thrombosis — give antiplatelet therapy, monitor VS/access site/distal pulses."}];
+
+/* ======================= FLASHCARDS ======================= */
+let flashOrder = FLASHCARDS.map((_,i)=>i);
+let flashIdx = 0;
+
+function renderFlashcard(){
+  if(!FLASHCARDS.length) return;
+  const card = FLASHCARDS[flashOrder[flashIdx]];
+  document.getElementById('flashFront').textContent = card.front;
+  document.getElementById('flashBack').textContent = card.back;
+  document.getElementById('flashcard').classList.remove('flipped');
+  document.getElementById('flashIndex').textContent = flashIdx+1;
+  document.getElementById('flashTotal').textContent = FLASHCARDS.length;
+}
+function flipCard(){ document.getElementById('flashcard').classList.toggle('flipped'); }
+document.getElementById('flashPrev').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  flashIdx = (flashIdx - 1 + FLASHCARDS.length) % FLASHCARDS.length;
+  renderFlashcard();
+});
+document.getElementById('flashNext').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  flashIdx = (flashIdx + 1) % FLASHCARDS.length;
+  renderFlashcard();
+});
+document.getElementById('flashShuffle').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  flashOrder = shuffle(flashOrder.length ? flashOrder : FLASHCARDS.map((_,i)=>i));
+  flashIdx = 0;
+  renderFlashcard();
+});
+
+
+let activeQuestions = [];
+let currentIndex = 0;
+let score = 0;
+let questionState = [];
+let optionOrders = [];
+let sessionCompletionRecorded = false;
+
+function showView(name){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+name).classList.add('active');
+  const crumbs = document.getElementById('crumbs');
+  const homeLink = "<span onclick=\"location.href='index.html'\">Home</span>";
+  if(name==='notes') crumbs.innerHTML = homeLink + " / Oncological &amp; Hematological Medications, IV Therapy &amp; Medication Administration / Course Notes";
+  else if(name==='flashcards') crumbs.innerHTML = homeLink + " / Oncological &amp; Hematological Medications, IV Therapy &amp; Medication Administration / Flashcards";
+  else if(name==='setup') crumbs.innerHTML = homeLink + " / Oncological &amp; Hematological Medications, IV Therapy &amp; Medication Administration / Practice Test";
+  else if(name==='quiz') crumbs.innerHTML = homeLink + " / <span onclick=\"showView('setup')\">Oncological &amp; Hematological Medications, IV Therapy &amp; Medication Administration</span> / Practice Test";
+  ['tabNotesA','tabFlashA','tabSetupA','tabNotesB','tabFlashB','tabSetupB','tabNotesC','tabFlashC','tabSetupC'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+    let kind = 'setup';
+    if(id.indexOf('Notes') !== -1) kind = 'notes';
+    else if(id.indexOf('Flash') !== -1) kind = 'flashcards';
+    el.classList.toggle('selected', kind === name || (kind==='setup' && name==='quiz'));
+  });
+
+  if(name === 'flashcards' && typeof renderFlashcard === 'function') renderFlashcard();
+  history.replaceState(null, '', '#'+name);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+(function initialRoute(){
+  const hash = (location.hash || '').replace('#','');
+  const validViews = ['notes','flashcards','setup'];
+  showView(validViews.includes(hash) ? hash : 'setup');
+})();
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function startQuiz(n){
+  const indices = shuffle([...Array(QUESTIONS.length).keys()]).slice(0,n);
+  activeQuestions = indices.map(i=>QUESTIONS[i]);
+  questionState = new Array(activeQuestions.length).fill(null);
+  optionOrders = new Array(activeQuestions.length).fill(null);
+  score = 0;
+  currentIndex = 0;
+  sessionCompletionRecorded = false;
+  document.getElementById('quizTitle').textContent = 'Practice Test — ' + n + ' Questions';
+  document.getElementById('finalOutOf').textContent = '/' + n;
+  buildPicker();
+  document.getElementById('quizArea').innerHTML='';
+  document.getElementById('summary').classList.remove('show');
+  updateStatus();
+  renderQuestion(0);
+  showView('quiz');
+}
+
+const pickerGrid = document.getElementById('pickerGrid');
+function buildPicker(){
+  pickerGrid.innerHTML = '';
+  activeQuestions.forEach((q,i)=>{
+    const btn = document.createElement('button');
+    btn.className = 'pick-btn';
+    btn.textContent = (i+1);
+    btn.title = 'Question ' + (i+1);
+    btn.addEventListener('click', ()=> goToQuestion(i));
+    pickerGrid.appendChild(btn);
+  });
+  refreshPicker();
+}
+function refreshPicker(){
+  const btns = pickerGrid.querySelectorAll('.pick-btn');
+  btns.forEach((btn,i)=>{
+    btn.classList.remove('current','correct','incorrect');
+    const st = questionState[i];
+    if(st) btn.classList.add(st.correct ? 'correct' : 'incorrect');
+    if(i === currentIndex) btn.classList.add('current');
+  });
+}
+
+function goToQuestion(idx){
+  currentIndex = idx;
+  document.getElementById('quizArea').innerHTML = '';
+  document.getElementById('summary').classList.remove('show');
+  renderQuestion(idx);
+  refreshPicker();
+  document.getElementById('quizArea').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function letter(i){ return String.fromCharCode(65+i); }
+
+function renderQuestion(qIndex){
+  const q = activeQuestions[qIndex];
+  const state = questionState[qIndex];
+  const quizArea = document.getElementById('quizArea');
+  const card = document.createElement('div');
+  card.className = 'qcard';
+
+  const meta = document.createElement('div');
+  meta.className = 'qmeta';
+  meta.innerHTML = `<span class="qnum">Q${qIndex+1} / ${activeQuestions.length}</span><span class="qtag">Oncological &amp; Hematological Medications, IV Therapy &amp; Medication Administration</span>` +
+    (q.isSAL ? `<span class="qsal">Select all that apply</span>` : '');
+  card.appendChild(meta);
+
+  const stem = document.createElement('p');
+  stem.className = 'stem';
+  stem.textContent = q.stem;
+  card.appendChild(stem);
+
+  const optsWrap = document.createElement('div');
+  optsWrap.className = 'options';
+  const banner = document.createElement('div');
+  banner.className = 'result-banner';
+
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'btn-next';
+  nextBtn.textContent = (qIndex === activeQuestions.length-1) ? 'See results →' : 'Next question →';
+
+  const prevBtn = document.createElement('button');
+  prevBtn.className = 'btn-prev';
+  prevBtn.textContent = '← Previous';
+  prevBtn.disabled = (qIndex === 0);
+  prevBtn.addEventListener('click', ()=>{ if(qIndex>0) goToQuestion(qIndex-1); });
+
+  if(!optionOrders[qIndex]){
+    optionOrders[qIndex] = shuffle(q.options.map((_,i)=>i));
+  }
+  const order = optionOrders[qIndex];
+
+  if(q.isSAL){
+    let selected = state ? new Set(state.selected) : new Set();
+    order.forEach((origIdx, pos)=>{
+      const opt = q.options[origIdx];
+      const el = document.createElement('div');
+      el.className = 'opt sal';
+      el.dataset.origIdx = origIdx;
+      el.innerHTML = `<span class="opt-letter">${selected.has(origIdx)?'☑':'☐'}</span><div><div class="opt-text">${opt.text}</div><div class="opt-explain" style="display:none"></div></div>`;
+      if(!state){
+        el.addEventListener('click', ()=>{
+          if(el.classList.contains('locked')) return;
+          if(selected.has(origIdx)){ selected.delete(origIdx); el.querySelector('.opt-letter').textContent='☐'; el.style.background='var(--paper)'; el.style.borderColor='var(--line)'; }
+          else { selected.add(origIdx); el.querySelector('.opt-letter').textContent='☑'; el.style.background='#F0E9FA'; el.style.borderColor='var(--pulse)'; }
+        });
+      }
+      optsWrap.appendChild(el);
+    });
+    card.appendChild(optsWrap);
+    if(state){
+      revealSAL(qIndex, state.selected, optsWrap, banner, state.correct);
+      nextBtn.classList.add('show');
+    } else {
+      const submitBtn = document.createElement('button');
+      submitBtn.className = 'btn-sal-submit';
+      submitBtn.textContent = 'Submit answer';
+      submitBtn.addEventListener('click', ()=>{
+        lockSAL(qIndex, selected, optsWrap, banner, nextBtn, submitBtn);
+      });
+      card.appendChild(submitBtn);
+    }
+  } else {
+    order.forEach((origIdx, pos)=>{
+      const opt = q.options[origIdx];
+      const el = document.createElement('div');
+      el.className = 'opt';
+      el.dataset.origIdx = origIdx;
+      el.innerHTML = `<span class="opt-letter">${letter(pos)}</span><div><div class="opt-text">${opt.text}</div><div class="opt-explain" style="display:none"></div></div>`;
+      if(!state){
+        el.addEventListener('click', ()=> lockSingle(qIndex, origIdx, optsWrap, banner, nextBtn));
+      }
+      optsWrap.appendChild(el);
+    });
+    card.appendChild(optsWrap);
+    if(state){
+      revealSingle(qIndex, state.selected, optsWrap, banner, state.correct);
+      nextBtn.classList.add('show');
+    }
+  }
+
+  card.appendChild(banner);
+  const actions = document.createElement('div');
+  actions.className = 'actions';
+  actions.appendChild(prevBtn);
+  actions.appendChild(nextBtn);
+  card.appendChild(actions);
+
+  nextBtn.addEventListener('click', ()=>{
+    if(qIndex+1 < activeQuestions.length){ goToQuestion(qIndex+1); }
+    else { showSummary(); }
+  });
+
+  quizArea.appendChild(card);
+}
+
+function revealSingle(qIndex, chosenIdx, optsWrap, banner, isCorrect){
+  const q = activeQuestions[qIndex];
+  const opts = optsWrap.querySelectorAll('.opt');
+  opts.forEach((el)=>{
+    const i = parseInt(el.dataset.origIdx, 10);
+    el.classList.add('locked');
+    const explainEl = el.querySelector('.opt-explain');
+    explainEl.textContent = q.options[i].explain;
+    explainEl.style.display = 'block';
+    if(q.options[i].correct){ el.classList.add('correct-choice'); }
+    else if(i === chosenIdx){ el.classList.add('incorrect-choice'); }
+    else { el.classList.add('dim'); }
+  });
+  banner.classList.add('show', isCorrect ? 'correct' : 'incorrect');
+  banner.innerHTML = isCorrect ? `<span>✓</span> Correct.` : `<span>✕</span> Not quite — the correct answer is highlighted above.`;
+}
+
+function revealSAL(qIndex, selectedArr, optsWrap, banner, allCorrect){
+  const q = activeQuestions[qIndex];
+  const selected = new Set(selectedArr);
+  const opts = optsWrap.querySelectorAll('.opt');
+  opts.forEach((el)=>{
+    const i = parseInt(el.dataset.origIdx, 10);
+    el.classList.add('locked');
+    const explainEl = el.querySelector('.opt-explain');
+    explainEl.textContent = q.options[i].explain;
+    explainEl.style.display = 'block';
+    const letterEl = el.querySelector('.opt-letter');
+    if(q.options[i].correct){ el.classList.add('correct-choice'); letterEl.textContent='✓'; }
+    else if(selected.has(i)){ el.classList.add('incorrect-choice'); letterEl.textContent='✕'; }
+    else { el.classList.add('dim'); letterEl.textContent='☐'; }
+  });
+  banner.classList.add('show', allCorrect ? 'correct' : 'incorrect');
+  banner.innerHTML = allCorrect ? `<span>✓</span> Correct — all applicable choices selected.` : `<span>✕</span> Not quite — correct choices are highlighted above.`;
+}
+
+function lockSingle(qIndex, chosenIdx, optsWrap, banner, nextBtn){
+  if(questionState[qIndex]) return;
+  const q = activeQuestions[qIndex];
+  const isCorrect = q.options[chosenIdx].correct;
+  questionState[qIndex] = { correct: isCorrect, selected: chosenIdx };
+  if(isCorrect) score++;
+  revealSingle(qIndex, chosenIdx, optsWrap, banner, isCorrect);
+  nextBtn.classList.add('show');
+  refreshPicker();
+  updateStatus();
+}
+
+function lockSAL(qIndex, selected, optsWrap, banner, nextBtn, submitBtn){
+  if(questionState[qIndex]) return;
+  const q = activeQuestions[qIndex];
+  const correctSet = new Set(q.options.map((o,i)=>o.correct?i:null).filter(v=>v!==null));
+  let allCorrect = correctSet.size === selected.size && [...correctSet].every(i=>selected.has(i));
+  questionState[qIndex] = { correct: allCorrect, selected: [...selected] };
+  if(allCorrect) score++;
+  submitBtn.style.display = 'none';
+  revealSAL(qIndex, [...selected], optsWrap, banner, allCorrect);
+  nextBtn.classList.add('show');
+  refreshPicker();
+  updateStatus();
+}
+
+function updateStatus(){
+  const answeredCount = questionState.filter(Boolean).length;
+  const total = activeQuestions.length || 1;
+  document.getElementById('progressFill').style.width = (answeredCount/total*100)+'%';
+  document.getElementById('scoreLabel').innerHTML = `<span>${score}</span> / ${answeredCount}`;
+}
+
+function showSummary(){
+  document.getElementById('quizArea').innerHTML = '';
+  const answeredCount = questionState.filter(Boolean).length;
+  document.getElementById('finalScore').textContent = score;
+  document.getElementById('finalOutOf').textContent = '/' + activeQuestions.length;
+  const pct = answeredCount ? Math.round(score/answeredCount*100) : 0;
+  const msgEl = document.getElementById('finalMsg');
+  if(answeredCount < activeQuestions.length){
+    msgEl.textContent = `You've answered ${answeredCount} of ${activeQuestions.length} questions (${score} correct so far). Use the picker above to finish the rest.`;
+  } else if(pct >= 90) msgEl.textContent = 'Excellent — strong command of pharmacology test-taking strategy.';
+  else if(pct >= 75) msgEl.textContent = 'Solid work. Revisit the missed rationales above before your exam.';
+  else if(pct >= 60) msgEl.textContent = 'Decent start — review the explanations above, especially on the concepts you missed.';
+  else msgEl.textContent = 'Worth another pass — scroll up and read every rationale carefully, then retake.';
+  document.getElementById('summary').classList.add('show');
+  document.getElementById('summary').scrollIntoView({behavior:'smooth', block:'start'});
+
+  const answeredAll = answeredCount === activeQuestions.length;
+  if(answeredAll && !sessionCompletionRecorded){
+    sessionCompletionRecorded = true;
+    NCLEXBadges.recordCompletion('oncology_hematology_iv', pct);
+  }
+}
+
+/* ---------- Print / Save PDF ---------- */
+function buildPrintReport(){
+  const answeredCount = questionState.filter(Boolean).length;
+  const pct = answeredCount ? Math.round(score/answeredCount*100) : 0;
+  const now = new Date();
+  const dateStr = now.toLocaleDateString(undefined, { year:'numeric', month:'long', day:'numeric' });
+  const timeStr = now.toLocaleTimeString(undefined, { hour:'2-digit', minute:'2-digit' });
+
+  let html = '';
+  html += '<div class="rpt-header">';
+  html += '<h1>Oncological &amp; Hematological Medications, IV Therapy &amp; Medication Administration — Practice Test Results</h1>';
+  html += '<div class="rpt-meta">' + dateStr + ' at ' + timeStr + ' &middot; ' + activeQuestions.length + ' questions</div>';
+  html += '<div class="rpt-score">Score: ' + score + ' / ' + answeredCount + ' answered (' + pct + '%)</div>';
+  html += '</div>';
+
+  activeQuestions.forEach((q, qi) => {
+    const state = questionState[qi];
+    html += '<div class="rpt-q">';
+    html += '<div class="rq-num">Question ' + (qi+1) + (q.isSAL ? ' (Select all that apply)' : '') + '</div>';
+    html += '<div class="rq-stem">' + escapeHtml(q.stem) + '</div>';
+
+    q.options.forEach((opt, oi) => {
+      let cls = '';
+      let marker = '';
+      const chosen = state ? (q.isSAL ? state.selected.includes(oi) : state.selected === oi) : false;
+      if(opt.correct){ cls = 'correct'; marker = '✓ '; }
+      else if(chosen){ cls = 'incorrect'; marker = '✕ '; }
+      html += '<div class="rpt-opt ' + cls + '">' + marker + escapeHtml(opt.text) + '</div>';
+      html += '<div class="rpt-explain">' + escapeHtml(opt.explain) + '</div>';
+    });
+
+    if(state){
+      const isCorrect = state.correct;
+      html += '<div class="rpt-banner ' + (isCorrect ? 'correct' : 'incorrect') + '">' +
+        (isCorrect ? 'Answered correctly' : 'Answered incorrectly') + '</div>';
+    } else {
+      html += '<div class="rpt-banner">Not answered</div>';
+    }
+    html += '</div>';
+  });
+
+  document.getElementById('printReport').innerHTML = html;
+}
+
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+document.getElementById('printBtn').addEventListener('click', ()=>{
+  buildPrintReport();
+  window.print();
+});
+
+document.getElementById('resultsBtn').addEventListener('click', showSummary);
+document.getElementById('randomBtn').addEventListener('click', ()=>{
+  const idx = Math.floor(Math.random()*activeQuestions.length);
+  goToQuestion(idx);
+});
+document.getElementById('reviewBtn').addEventListener('click', ()=>{
+  document.getElementById('summary').classList.remove('show');
+  goToQuestion(currentIndex);
+});
+document.getElementById('setupBtn').addEventListener('click', ()=> showView('setup'));
+document.getElementById('restartBtn').addEventListener('click', ()=> startQuiz(activeQuestions.length));
+</script>
+</body>
+</html>
