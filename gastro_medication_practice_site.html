@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GI &amp; GU Medications — Nursing NCLEX Review</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  :root{
+    --ink:#12283D;
+    --ink-soft:#4C6272;
+    --paper:#F4F7F6;
+    --card:#FFFFFF;
+    --line:#DCE6E4;
+    --muted:#7C8B94;
+    --correct:#1B8A5A;
+    --correct-bg:#E7F5EE;
+    --incorrect:#C1443D;
+    --incorrect-bg:#FBEAE8;
+    --gastro:#B5502E;
+    --gastro-dim:#F6E1D6;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      repeating-linear-gradient(0deg, rgba(15,40,61,.028) 0px, rgba(15,40,61,.028) 1px, transparent 1px, transparent 34px),
+      repeating-linear-gradient(90deg, rgba(15,40,61,.028) 0px, rgba(15,40,61,.028) 1px, transparent 1px, transparent 34px),
+      var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    padding:0 0 80px;
+  }
+  .wrap{max-width:940px;margin:0 auto;padding:0 20px;}
+
+  .topbar{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    padding:20px 20px;max-width:940px;margin:0 auto;
+  }
+  .brand{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--gastro);letter-spacing:.06em;text-transform:uppercase;text-decoration:none;display:flex;align-items:center;gap:8px;}
+  .brand:hover{color:var(--ink);}
+  .navlinks{display:flex;gap:18px;font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:600;}
+  .navlinks a{color:var(--ink-soft);text-decoration:none;letter-spacing:.02em;}
+  .navlinks a:hover{color:var(--gastro);}
+
+  header.hero{
+    background:linear-gradient(135deg, #E9C1A6 0%, #D68A5F 45%, var(--gastro) 100%);
+    padding:46px 20px 54px;margin-bottom:36px;
+  }
+  .hero-inner{max-width:940px;margin:0 auto;}
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.16em;
+    text-transform:uppercase;color:#FFEADB;font-weight:600;margin-bottom:12px;
+  }
+  h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(30px,5vw,44px);line-height:1.06;margin:0 0 14px;letter-spacing:-.01em;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.14);}
+  .subtitle{color:rgba(255,255,255,.94);font-size:15px;line-height:1.65;margin:0 0 22px;max-width:64ch;}
+  .credit{color:rgba(255,255,255,.78);font-size:12.5px;font-family:'JetBrains Mono',monospace;margin:0 0 22px;}
+  .hero-stats{display:flex;gap:10px;flex-wrap:wrap;}
+  .hero-pill{
+    font-family:'JetBrains Mono',monospace;font-size:12px;color:#fff;
+    background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.32);
+    padding:7px 13px;border-radius:20px;display:inline-flex;align-items:center;gap:6px;
+  }
+  .hero-pill .dot{width:6px;height:6px;border-radius:50%;background:#FFEADB;display:inline-block;}
+
+  section{scroll-margin-top:20px;margin-bottom:50px;}
+  .section-head{display:flex;align-items:baseline;gap:14px;margin-bottom:18px;flex-wrap:wrap;}
+  .section-head h2{font-family:'Fraunces',serif;font-weight:600;font-size:26px;margin:0;color:var(--ink);}
+  .section-head .tag{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--gastro);background:var(--gastro-dim);padding:4px 10px;border-radius:6px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;}
+
+  /* ---------- Notes ---------- */
+  .note-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin-bottom:16px;box-shadow:0 1px 3px rgba(18,40,61,.05);}
+  .note-card h3{font-family:'Fraunces',serif;font-size:19px;font-weight:600;margin:0 0 4px;color:var(--gastro);}
+  .note-card .sub{font-size:12.5px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin:0 0 14px;}
+  .note-card p{margin:0 0 10px;font-size:14.5px;line-height:1.65;color:var(--ink-soft);}
+  .note-card p:last-child{margin-bottom:0;}
+  .note-card strong{color:var(--ink);}
+  .note-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;margin-top:6px;}
+  .note-pill{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:11px 13px;font-size:13.5px;line-height:1.5;}
+  .note-pill b{display:block;color:var(--ink);font-size:13.5px;margin-bottom:3px;}
+  .note-pill span{color:var(--ink-soft);}
+  table.compare{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:8px;}
+  table.compare th{font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);text-align:left;padding:8px 10px;border-bottom:2px solid var(--line);}
+  table.compare td{padding:9px 10px;border-bottom:1px solid var(--line);color:var(--ink-soft);vertical-align:top;}
+  table.compare td:first-child{color:var(--ink);font-weight:600;white-space:nowrap;}
+  .callout{background:var(--gastro-dim);border-left:4px solid var(--gastro);border-radius:10px;padding:16px 18px;margin-top:8px;}
+  .callout h4{margin:0 0 6px;font-family:'Fraunces',serif;font-size:16px;color:var(--gastro);}
+  .callout p{margin:0;font-size:13.5px;color:var(--ink-soft);line-height:1.6;}
+
+  /* ---------- Flashcards ---------- */
+  .fc-wrap{max-width:560px;margin:0 auto;}
+  .fc-counter{text-align:center;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--muted);margin-bottom:12px;}
+  .fc-card{
+    background:var(--card);border:1px solid var(--line);border-radius:16px;
+    min-height:220px;padding:30px 28px;display:flex;align-items:center;justify-content:center;text-align:center;
+    cursor:pointer;box-shadow:0 4px 16px rgba(18,40,61,.08);position:relative;
+  }
+  .fc-face{font-size:17px;line-height:1.55;color:var(--ink);}
+  .fc-tag{position:absolute;top:14px;left:18px;font-family:'JetBrains Mono',monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);}
+  .fc-card.flipped .fc-face{color:var(--gastro);}
+  .fc-card.flipped{background:var(--gastro-dim);border-color:var(--gastro);}
+  .fc-hint{text-align:center;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--muted);margin-top:10px;}
+  .fc-controls{display:flex;justify-content:center;gap:10px;margin-top:18px;flex-wrap:wrap;}
+  .fc-btn{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;background:var(--card);color:var(--ink-soft);border:1px solid var(--line);padding:10px 18px;border-radius:9px;cursor:pointer;}
+  .fc-btn:hover{border-color:var(--gastro);color:var(--gastro);}
+  .fc-btn.primary{background:var(--gastro);color:#fff;border:none;}
+  .fc-btn.primary:hover{filter:brightness(1.08);}
+
+  /* ---------- Setup / Quiz ---------- */
+  .set-grid{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:26px;}
+  .set-btn{
+    font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;color:var(--ink);
+    background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:16px 22px;cursor:pointer;
+    display:flex;flex-direction:column;align-items:flex-start;gap:4px;min-width:120px;transition:all .15s ease;
+  }
+  .set-btn .n{font-family:'Fraunces',serif;font-size:26px;font-weight:600;color:var(--gastro);}
+  .set-btn .lbl{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+  .set-btn:hover{border-color:var(--gastro);transform:translateY(-2px);box-shadow:0 8px 18px -6px rgba(181,80,46,.35);}
+
+  .statusbar{display:none;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;}
+  .statusbar.show{display:flex;}
+  .progress-track{flex:1;height:6px;background:var(--line);border-radius:4px;overflow:hidden;}
+  .progress-fill{height:100%;background:var(--gastro);border-radius:4px;width:0%;transition:width .35s ease;}
+  .score-pill{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--ink);background:var(--card);border:1px solid var(--line);padding:6px 12px;border-radius:20px;white-space:nowrap;}
+  .score-pill span{color:var(--gastro);}
+
+  #quizArea{display:none;}
+  #quizArea.show{display:block;}
+  .qcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:28px 26px 24px;margin-bottom:20px;box-shadow:0 1px 2px rgba(18,40,61,.05);}
+  .qmeta{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
+  .qnum{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--gastro);background:var(--gastro-dim);padding:3px 9px;border-radius:6px;}
+  .stem{font-size:17.5px;line-height:1.48;font-weight:600;color:var(--ink);margin:0 0 20px;}
+  .options{display:flex;flex-direction:column;gap:10px;}
+  .opt{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;padding:13px 14px;border:1.5px solid var(--line);background:var(--paper);border-radius:10px;cursor:pointer;font-family:'Inter',sans-serif;font-size:15px;color:var(--ink);transition:border-color .15s ease, background .15s ease;}
+  .opt:hover:not(.locked){border-color:var(--gastro);background:var(--gastro-dim);}
+  .opt-letter{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:13px;color:var(--ink-soft);background:var(--card);border:1px solid var(--line);min-width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+  .opt-text{flex:1;line-height:1.45;}
+  .opt.correct-choice{border-color:var(--correct);background:var(--correct-bg);}
+  .opt.correct-choice .opt-letter{background:var(--correct);border-color:var(--correct);color:#fff;}
+  .opt.incorrect-choice{border-color:var(--incorrect);background:var(--incorrect-bg);}
+  .opt.incorrect-choice .opt-letter{background:var(--incorrect);border-color:var(--incorrect);color:#fff;}
+  .opt.locked{cursor:default;}
+  .opt.dim{opacity:.55;}
+  .opt-explain{margin-top:6px;font-size:13.5px;line-height:1.5;display:none;}
+  .opt.correct-choice .opt-explain{color:#15694A;display:block;}
+  .opt.incorrect-choice .opt-explain{color:#96332E;display:block;}
+  .opt.dim.correct-choice .opt-explain{color:var(--correct);display:block;}
+
+  .result-banner{display:none;align-items:center;gap:10px;margin-top:18px;padding:11px 14px;border-radius:9px;font-size:14px;font-weight:600;}
+  .result-banner.show{display:flex;}
+  .result-banner.correct{background:var(--correct-bg);color:var(--correct);}
+  .result-banner.incorrect{background:var(--incorrect-bg);color:var(--incorrect);}
+
+  .actions{display:flex;justify-content:flex-end;align-items:center;margin-top:18px;gap:10px;}
+  .btn-next{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;letter-spacing:.03em;background:var(--gastro);color:#fff;border:none;padding:11px 20px;border-radius:8px;cursor:pointer;display:none;align-items:center;gap:8px;}
+  .btn-next.show{display:inline-flex;}
+  .btn-next:hover{filter:brightness(1.08);}
+
+  .summary{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:36px 30px;text-align:center;display:none;}
+  .summary.show{display:block;}
+  .summary .big-score{font-family:'Fraunces',serif;font-size:56px;font-weight:600;color:var(--gastro);line-height:1;margin-bottom:6px;}
+  .summary .big-score sub{font-size:22px;font-weight:500;color:var(--muted);}
+  .summary p{color:var(--ink-soft);font-size:14px;margin:6px 0 22px;}
+  .btn-restart{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;background:var(--gastro);color:#fff;border:none;padding:12px 22px;border-radius:8px;cursor:pointer;margin:4px;}
+  .btn-restart:hover{filter:brightness(1.08);}
+  .btn-restart.secondary{background:var(--card);color:var(--ink-soft);border:1px solid var(--line);}
+  .btn-restart.secondary:hover{color:var(--gastro);border-color:var(--gastro);}
+
+  footer{text-align:center;margin-top:20px;font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="brand" href="index.html">◆ Nursing NCLEX Review</a>
+  <div class="navlinks">
+    <a href="#notes">Notes</a>
+    <a href="#flashcards">Flashcards</a>
+    <a href="#setup">Practice test</a>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Gastrointestinal &amp; Genitourinary Pharmacology</div>
+    <h1>GI &amp; GU Medications</h1>
+    <p class="subtitle">Antiulcer drug classes, antiemetics, and genitourinary medications — mechanisms, contraindications, adverse effects, and priority nursing actions, plus a tardive dyskinesia case study.</p>
+    <p class="credit">Course notes prepared by Gerard Dela Cruz MA, RN, NPD-BC, MEDSURG-BC, CV-BC, GERO-BC, CNOR</p>
+    <div class="hero-stats">
+      <span class="hero-pill"><span class="dot"></span>52 practice questions</span>
+      <span class="hero-pill"><span class="dot"></span>40 flashcards</span>
+      <span class="hero-pill"><span class="dot"></span>10 / 20 / 40 / 52-question sets</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- ============ NOTES ============ -->
+  <section id="notes">
+    <div class="section-head"><h2>Course notes</h2><span class="tag">Read first</span></div>
+
+    <div class="note-card">
+      <h3>Antiulcer drug classifications</h3>
+      <p class="sub">Antacids &middot; H2 receptor antagonists &middot; antibacterials &middot; proton pump inhibitors &middot; sucralfate &middot; misoprostol</p>
+      <div class="note-grid">
+        <div class="note-pill"><b>Antacids</b><span>Neutralize gastric acid, raise pH, inactivate pepsin. Ca&sup2;&#8314; (Tums), Na (Alka-Seltzer), Mg (Milk of Magnesia), Al (Amphogel).</span></div>
+        <div class="note-pill"><b>H2 receptor antagonists</b><span>Suppress gastric acid secretion. "-tidine" — cimetidine, ranitidine, famotidine, nizatidine.</span></div>
+        <div class="note-pill"><b>Antibacterials</b><span>Treat H. pylori infection. Amoxicillin, clarithromycin, tetracycline, metronidazole.</span></div>
+        <div class="note-pill"><b>Proton pump inhibitors</b><span>Inhibit the proton pump, decrease acid secretion. "-prazole" — omeprazole, esomeprazole, lansoprazole, rabeprazole.</span></div>
+        <div class="note-pill"><b>Sucralfate (Carafate)</b><span>Protective barrier against acid/pepsin — does NOT decrease acid secretion. Give 30 min apart from other meds.</span></div>
+        <div class="note-pill"><b>Misoprostol (Cytotec)</b><span>Replaces prostaglandins, protects gastric mucosa. Contraindicated in pregnancy/lactation — teach contraception.</span></div>
+      </div>
+    </div>
+
+    <div class="note-card">
+      <h3>Antacids — precautions &amp; adverse reactions by type</h3>
+      <table class="compare">
+        <tr><th>Type</th><th>Precaution / contraindication</th><th>Adverse reaction</th></tr>
+        <tr><td>Calcium</td><td>Kidney stones, renal disease, parathyroid disease</td><td>Acid rebound, nausea/vomiting, constipation</td></tr>
+        <tr><td>Sodium</td><td>Hypertension, heart failure, kidney disease</td><td>Increased thirst, sodium retention</td></tr>
+        <tr><td>Magnesium</td><td>Renal disease</td><td>Diarrhea</td></tr>
+        <tr><td>Aluminum</td><td>Bone disease</td><td>Constipation, hyperphosphatemia</td></tr>
+      </table>
+      <p style="margin-top:12px;"><strong>Priority nursing actions:</strong> assess bowel function, renal function, abdominal pain, fluid balance. Administer after meals; chew tablets and swallow with water; shake liquid preparations.</p>
+    </div>
+
+    <div class="note-card">
+      <h3>Duodenal vs. gastric ulcer</h3>
+      <table class="compare">
+        <tr><th>Feature</th><th>Chronic duodenal ulcer</th><th>Chronic gastric ulcer</th></tr>
+        <tr><td>Age</td><td>30–60 years</td><td>50 years and older</td></tr>
+        <tr><td>Sex</td><td>M:F ratio 3:1</td><td>M:F ratio 1:1</td></tr>
+        <tr><td>Risk factors</td><td>Blood group O, COPD, chronic renal failure, alcohol, smoking, cirrhosis, stress</td><td>Gastritis, alcohol, smoking, NSAIDs, stress</td></tr>
+        <tr><td>Gastric secretion</td><td>Hypersecretion</td><td>Normal to hyposecretion</td></tr>
+        <tr><td>Pain</td><td>2–3 hr after meals, nighttime; relieved by eating</td><td>&frac12;–1 hr after meals; relieved by vomiting, food doesn't help</td></tr>
+        <tr><td>Vomiting</td><td>Rare</td><td>Frequent</td></tr>
+        <tr><td>Hemorrhage</td><td>Less likely</td><td>More likely</td></tr>
+        <tr><td>Malignancy</td><td>Rare</td><td>Occasionally</td></tr>
+      </table>
+      <p style="margin-top:10px;font-size:13px;color:var(--muted);">In older adults, pain may not be the first symptom for either ulcer type.</p>
+    </div>
+
+    <div class="note-card">
+      <h3>Antiemetics — act on the chemoreceptor trigger zone (CTZ) &amp; vestibular system</h3>
+      <div class="note-grid">
+        <div class="note-pill"><b>Phenothiazines</b><span>Block CTZ receptors. Prochlorperazine (Compazine). Adverse: sedation, EPS, anticholinergic symptoms.</span></div>
+        <div class="note-pill"><b>Serotonin (5-HT3) antagonists</b><span>Block CTZ receptors. "-setron" — ondansetron, dolasetron. Adverse: headache, diarrhea, dizziness.</span></div>
+        <div class="note-pill"><b>Prokinetics</b><span>Increase GI motility, relax pyloric sphincter. Metoclopramide (Reglan). Adverse: EPS, nausea, diarrhea — watch for tardive dyskinesia with long-term use.</span></div>
+        <div class="note-pill"><b>Antihistamines</b><span>Block CTZ &amp; vomiting center. Meclizine (Antivert), dimenhydrinate (Dramamine). Contraindicated in glaucoma.</span></div>
+        <div class="note-pill"><b>Trimethobenzamide</b><span>Blocks CTZ &amp; vomiting center. Tigan. Same profile as antihistamines — sedation, anticholinergic effects, glaucoma contraindication.</span></div>
+      </div>
+      <div class="callout">
+        <h4>Case study — tardive dyskinesia</h4>
+        <p>Older adult with chronic kidney disease, hypertension, liver disease, GERD, and alcohol abuse presents with new uncontrolled movements of the hands and face (tongue movements, cheek puffing) after 4 months of metoclopramide for GERD. <strong>The nurse is most concerned about tardive dyskinesia</strong> — reduced renal clearance from kidney disease increases drug exposure and EPS risk.</p>
+      </div>
+    </div>
+
+    <div class="note-card">
+      <h3>Genitourinary medications</h3>
+      <div class="note-grid">
+        <div class="note-pill"><b>Nitrofurantoin (Macrodantin/Macrobid)</b><span>Bacteriostatic/bactericidal for lower UTIs. Precaution: pregnancy, neonates, renal/liver disease, antacid interaction. Adverse: peripheral neuropathy, anemia/thrombocytopenia/leukopenia. Give with food; complete full course; increase fluids.</span></div>
+        <div class="note-pill"><b>Phenazopyridine (Pyridium)</b><span>Urinary analgesic — decreases burning, frequency, urgency. Expected: reddish-orange urine, sclera discoloration (contact lens caution). Take after meals with full glass of water.</span></div>
+        <div class="note-pill"><b>Anticholinergics</b><span>Oxybutynin, darifenacin, solifenacin, tolterodine, trospium — for overactive bladder/urge incontinence. Contraindicated: narrow angle glaucoma, urinary retention, intestinal obstruction. Adverse: dry mouth, constipation, blurred vision.</span></div>
+      </div>
+    </div>
+
+    <div class="note-card">
+      <h3>Suffix quick reference</h3>
+      <div class="note-grid">
+        <div class="note-pill"><b>"-tidine"</b><span>H2 receptor antagonist — cimetidine, famotidine, nizatidine.</span></div>
+        <div class="note-pill"><b>"-prazole"</b><span>Proton pump inhibitor — omeprazole, pantoprazole, esomeprazole, lansoprazole.</span></div>
+        <div class="note-pill"><b>"-setron"</b><span>5-HT3 (serotonin) antagonist antiemetic — ondansetron, dolasetron, granisetron, palonosetron.</span></div>
+      </div>
+    </div>
+
+    <div class="note-card">
+      <h3>Laxatives &amp; stool softeners</h3>
+      <table class="compare">
+        <tr><th>Type</th><th>Example</th><th>Key teaching</th></tr>
+        <tr><td>Saline</td><td>Magnesium salts</td><td>May cause diarrhea; do not take at bedtime</td></tr>
+        <tr><td>Bulk-forming</td><td>Psyllium</td><td>Drink with a full glass of water; takes a few days</td></tr>
+        <tr><td>Osmotic</td><td>Lactulose, glycerin, polyethylene glycol</td><td>PEG: takes 2–4 days to work, best results need 1–2 weeks</td></tr>
+        <tr><td>Stimulant</td><td>Bisacodyl, sennosides</td><td>Bisacodyl: take on empty stomach, avoid milk/antacids within 1 hr</td></tr>
+        <tr><td>Stool softener</td><td>Docusate, docusate/senna</td><td>Promotes water incorporation into stool; mild cramps/diarrhea possible</td></tr>
+      </table>
+      <p style="margin-top:12px;"><strong>Gastric acid suppressing agents (PPIs &amp; H2RAs):</strong> avoid alcohol and NSAIDs; monitor for epigastric/abdominal pain, occult blood, confusion (H2RAs); watch for C. diff diarrhea and vitamin B12 deficiency with long-term use.</p>
+    </div>
+  </section>
+
+  <!-- ============ FLASHCARDS ============ -->
+  <section id="flashcards">
+    <div class="section-head"><h2>Flashcards</h2><span class="tag">40 cards</span></div>
+    <div class="fc-wrap">
+      <div class="fc-counter" id="fcCounter">Card 1 of 40</div>
+      <div class="fc-card" id="fcCard">
+        <span class="fc-tag" id="fcTag">Question</span>
+        <div class="fc-face" id="fcFace"></div>
+      </div>
+      <div class="fc-hint">Click the card to flip</div>
+      <div class="fc-controls">
+        <button class="fc-btn" id="fcPrev">← Prev</button>
+        <button class="fc-btn primary" id="fcFlip">Flip card</button>
+        <button class="fc-btn" id="fcNext">Next →</button>
+        <button class="fc-btn" id="fcShuffle">🔀 Shuffle</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PRACTICE TEST ============ -->
+  <section id="setup">
+    <div class="section-head"><h2>Practice test</h2><span class="tag">Pick a set size</span></div>
+    <div class="set-grid" id="setGrid"></div>
+
+    <div class="statusbar" id="statusbar">
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="score-pill">Score <span id="scoreLabel">0 / 0</span></div>
+    </div>
+
+    <div id="quizArea"></div>
+
+    <div class="summary" id="summary">
+      <div class="big-score"><span id="finalScore">0</span><sub id="finalOutOf">/10</sub></div>
+      <p id="finalMsg"></p>
+      <button class="btn-restart secondary" id="setupBtn">Choose another set size</button>
+      <button class="btn-restart" id="restartBtn">Retake this set</button>
+    </div>
+  </section>
+
+  <footer>GI &amp; GU MEDICATIONS · NURSING NCLEX REVIEW</footer>
+</div>
+
+<script>
+const QUESTIONS = [{"stem": "A nurse is explaining how antacids work to a client with GERD. Which of the following statements is accurate?", "options": [{"text": "Antacids neutralize gastric acid.", "correct": true, "explain": "Antacids act by neutralizing gastric acid, raising gastric pH and inactivating pepsin."}, {"text": "Antacids inhibit the proton pump.", "correct": false, "explain": "Inhibiting the proton pump describes proton pump inhibitors, not antacids."}, {"text": "Antacids block histamine at the H2 receptor.", "correct": false, "explain": "Blocking the H2 receptor describes histamine2 receptor antagonists, not antacids."}, {"text": "Antacids create a protective barrier over the ulcer.", "correct": false, "explain": "Creating a protective barrier describes sucralfate, not antacids."}]}, {"stem": "A client with chronic kidney disease is prescribed an antacid. Which preparation should the nurse question?", "options": [{"text": "Calcium carbonate (Tums)", "correct": true, "explain": "Calcium antacids are a precaution/contraindication in clients who have kidney stones, renal disease, or parathyroid disease."}, {"text": "Aluminum hydroxide (Amphogel) for a client with normal renal function", "correct": false, "explain": "Aluminum antacids are a precaution mainly in bone disease, not renal disease specifically."}, {"text": "A single dose of magnesium hydroxide in a client with normal renal function", "correct": false, "explain": "Magnesium antacids are a precaution specifically in renal disease; a client with normal renal function is not the priority concern here."}, {"text": "Sodium bicarbonate in a client with no cardiac history", "correct": false, "explain": "Sodium antacids are a precaution in hypertension, heart failure, and kidney disease; a client without cardiac history is not the priority concern."}]}, {"stem": "Which adverse effect should the nurse anticipate in a client taking magnesium hydroxide (Milk of Magnesia)?", "options": [{"text": "Diarrhea", "correct": true, "explain": "Diarrhea is the expected adverse reaction associated with magnesium antacids."}, {"text": "Constipation", "correct": false, "explain": "Constipation is associated with calcium and aluminum antacids, not magnesium antacids."}, {"text": "Sodium retention", "correct": false, "explain": "Sodium retention is associated with sodium antacids, not magnesium antacids."}, {"text": "Hyperphosphatemia", "correct": false, "explain": "Hyperphosphatemia is associated with aluminum antacids, not magnesium antacids."}]}, {"stem": "A client taking aluminum hydroxide (Amphogel) long-term should be monitored for which of the following?", "options": [{"text": "Bone disease", "correct": true, "explain": "Aluminum antacids carry a precaution for bone disease, and adverse reactions include constipation and hyperphosphatemia."}, {"text": "Diarrhea", "correct": false, "explain": "Diarrhea is the adverse reaction associated with magnesium antacids, not aluminum antacids."}, {"text": "Acid rebound", "correct": false, "explain": "Acid rebound is an adverse reaction associated with calcium antacids, not aluminum antacids."}, {"text": "Increased thirst", "correct": false, "explain": "Increased thirst is an adverse reaction associated with sodium antacids, not aluminum antacids."}]}, {"stem": "Which instruction should the nurse include when teaching a client how to take a liquid antacid preparation?", "options": [{"text": "Shake the liquid preparation before administering it.", "correct": true, "explain": "Client education for antacids includes shaking liquid preparations, chewing tablets and swallowing with water, and administering after meals."}, {"text": "Take the dose on an empty stomach, 1 hour before meals.", "correct": false, "explain": "Antacids should be administered after meals, not on an empty stomach before meals."}, {"text": "Swallow tablets whole without chewing.", "correct": false, "explain": "Antacid tablets should be chewed and swallowed with water, not swallowed whole."}, {"text": "Take the dose at the same time as other oral medications.", "correct": false, "explain": "Antacids can alter the absorption of many medications and are generally not administered at the same time as other oral medications."}]}, {"stem": "A client reports abdominal pain that occurs 2 to 3 hours after meals, during the night, and is relieved by eating. This presentation is most consistent with which of the following?", "options": [{"text": "Chronic duodenal ulcer", "correct": true, "explain": "Duodenal ulcer pain classically occurs 2-3 hr after meals and at night, and is relieved by food intake."}, {"text": "Chronic gastric ulcer", "correct": false, "explain": "Gastric ulcer pain classically occurs 1/2 to 1 hr after meals and is relieved by vomiting; food intake does not help."}, {"text": "Gastroesophageal reflux disease", "correct": false, "explain": "This timing and relief pattern is characteristic of duodenal ulcer disease, not GERD."}, {"text": "Acute pancreatitis", "correct": false, "explain": "This timing and relief pattern is characteristic of duodenal ulcer disease, not pancreatitis."}]}, {"stem": "Which of the following is a risk factor more specifically associated with chronic gastric ulcers than duodenal ulcers?", "options": [{"text": "NSAID use", "correct": true, "explain": "NSAIDs, along with gastritis, alcohol, smoking, and stress, are risk factors for chronic gastric ulcer."}, {"text": "Blood group type O", "correct": false, "explain": "Blood group type O is a risk factor associated with duodenal ulcer, not gastric ulcer."}, {"text": "Chronic renal failure", "correct": false, "explain": "Chronic renal failure is a risk factor associated with duodenal ulcer, not gastric ulcer."}, {"text": "COPD", "correct": false, "explain": "COPD is a risk factor associated with duodenal ulcer, not gastric ulcer."}]}, {"stem": "A nurse is comparing gastric secretion patterns between ulcer types. Which of the following is accurate?", "options": [{"text": "Duodenal ulcers are associated with gastric acid hypersecretion; gastric ulcers are associated with normal to hyposecretion.", "correct": true, "explain": "Chronic duodenal ulcer is associated with hypersecretion of gastric acid, while chronic gastric ulcer is associated with normal to hyposecretion."}, {"text": "Both duodenal and gastric ulcers are associated with hypersecretion.", "correct": false, "explain": "Only duodenal ulcer is associated with hypersecretion; gastric ulcer is associated with normal to hyposecretion."}, {"text": "Gastric ulcers are more likely to hemorrhage than duodenal ulcers, but vomiting is rare with both.", "correct": false, "explain": "Gastric ulcers are associated with more frequent vomiting, not rare vomiting."}, {"text": "Malignancy is equally rare in both ulcer types.", "correct": false, "explain": "Malignancy is rare with duodenal ulcer but occurs occasionally with gastric ulcer."}]}, {"stem": "A nurse is teaching about famotidine (Pepcid). Which statement best describes its mechanism of action?", "options": [{"text": "It suppresses gastric acid secretion by blocking histamine at the H2 receptor site.", "correct": true, "explain": "H2 receptor antagonists inhibit histamine at the H2-receptor site in gastric parietal cells, suppressing gastric acid secretion."}, {"text": "It neutralizes gastric acid already present in the stomach.", "correct": false, "explain": "Neutralizing gastric acid describes antacids, not H2 receptor antagonists."}, {"text": "It forms a protective coating over the ulcer bed.", "correct": false, "explain": "Forming a protective coating describes sucralfate, not H2 receptor antagonists."}, {"text": "It replaces prostaglandins lost from NSAID use.", "correct": false, "explain": "Replacing prostaglandins describes misoprostol, not H2 receptor antagonists."}]}, {"stem": "Which of the following medications is a histamine2 receptor antagonist?", "options": [{"text": "Cimetidine (Tagamet)", "correct": true, "explain": "Cimetidine, ranitidine, famotidine, and nizatidine are histamine2 receptor antagonists."}, {"text": "Omeprazole (Prilosec)", "correct": false, "explain": "Omeprazole is a proton pump inhibitor, not a histamine2 receptor antagonist."}, {"text": "Sucralfate (Carafate)", "correct": false, "explain": "Sucralfate works by forming a protective barrier, not by blocking histamine receptors."}, {"text": "Metoclopramide (Reglan)", "correct": false, "explain": "Metoclopramide is a prokinetic antiemetic, not a histamine2 receptor antagonist."}]}, {"stem": "A nurse is caring for a client who has liver disease and is prescribed cimetidine (Tagamet). Which adverse effect should the nurse monitor for?", "options": [{"text": "Confusion", "correct": true, "explain": "Central nervous system effects such as confusion, hallucinations, and CNS depression or excitation are adverse effects of H2 receptor antagonists, and liver disease is a precaution."}, {"text": "Hyperphosphatemia", "correct": false, "explain": "Hyperphosphatemia is an adverse effect of aluminum antacids, not H2 receptor antagonists."}, {"text": "Bone fractures", "correct": false, "explain": "Bone fractures (hip, wrist, spine) are an adverse effect associated with proton pump inhibitors, not H2 receptor antagonists."}, {"text": "Reddish-orange urine", "correct": false, "explain": "Reddish-orange urine is an expected effect of phenazopyridine, not H2 receptor antagonists."}]}, {"stem": "Which nursing action is a priority when caring for a client who is taking an H2 receptor antagonist?", "options": [{"text": "Monitor for blood in emesis or stools, or black tarry stools.", "correct": true, "explain": "Priority nursing actions for H2 receptor antagonists include monitoring for abdominal pain, blood in emesis/stools, or black tarry stools, along with assessing liver and renal function."}, {"text": "Instruct the client to swallow the tablet whole without chewing.", "correct": false, "explain": "This instruction applies to proton pump inhibitors, not H2 receptor antagonists."}, {"text": "Administer the medication 30 minutes apart from all other medications.", "correct": false, "explain": "This spacing instruction applies to sucralfate, not H2 receptor antagonists."}, {"text": "Teach the client about reliable contraception during therapy.", "correct": false, "explain": "This teaching applies to misoprostol, not H2 receptor antagonists."}]}, {"stem": "A client is prescribed a combination of amoxicillin, clarithromycin, and a proton pump inhibitor. The nurse understands this regimen most likely treats which condition?", "options": [{"text": "Helicobacter pylori infection", "correct": true, "explain": "Antibacterials such as amoxicillin, clarithromycin, tetracycline, and metronidazole are used to treat Helicobacter pylori infection, typically in combination with an antisecretory agent."}, {"text": "Gastroesophageal reflux disease alone", "correct": false, "explain": "GERD alone is treated with acid-suppressing agents, not a multi-drug antibacterial regimen targeting H. pylori."}, {"text": "Viral gastroenteritis", "correct": false, "explain": "Antibacterials are not indicated for viral gastroenteritis."}, {"text": "Irritable bowel syndrome", "correct": false, "explain": "This antibacterial combination is not the standard treatment for irritable bowel syndrome."}]}, {"stem": "A nurse is teaching a client prescribed metronidazole (Flagyl) as part of H. pylori treatment. Which of the following is an important nursing consideration?", "options": [{"text": "Complete the full course of medication.", "correct": true, "explain": "Nursing actions for antibacterials used to treat H. pylori include completing the full course of medication, along with monitoring for hypersensitivity, GI upset, and CBC results."}, {"text": "Discontinue the medication once symptoms improve.", "correct": false, "explain": "The client should be taught to complete the full course, not stop early once symptoms improve."}, {"text": "Expect increased effectiveness of oral contraceptives during treatment.", "correct": false, "explain": "These antibacterials can interact with oral contraceptives, typically decreasing their effectiveness, not increasing it."}, {"text": "No monitoring of blood counts is necessary.", "correct": false, "explain": "Nursing actions include monitoring CBC due to the risk of bone marrow suppression."}]}, {"stem": "A client taking clarithromycin as part of H. pylori therapy also takes an oral contraceptive. Which teaching point should the nurse include?", "options": [{"text": "This antibacterial may interact with and decrease the effectiveness of oral contraceptives.", "correct": true, "explain": "Adverse effects/considerations for antibacterials used in antiulcer therapy include interaction with oral contraceptives."}, {"text": "There is no interaction between antibacterials and oral contraceptives.", "correct": false, "explain": "There is a known interaction between these antibacterials and oral contraceptives that the client should be taught about."}, {"text": "The client should double her oral contraceptive dose during treatment.", "correct": false, "explain": "The nurse should not instruct a client to independently double a hormonal contraceptive dose; this is not the recommended teaching point here."}, {"text": "Superinfection is not a concern with this class of medication.", "correct": false, "explain": "Superinfection is a listed adverse effect of these antibacterials and is a concern the nurse should monitor for."}]}, {"stem": "A nurse is teaching a client about esomeprazole (Nexium). Which instruction should be included?", "options": [{"text": "Take the medication before meals.", "correct": true, "explain": "Nursing actions for proton pump inhibitors include instructing the client to take the medication before meals, swallow the tablet whole, and understand the effect takes 3 to 4 days."}, {"text": "Chew the tablet thoroughly before swallowing.", "correct": false, "explain": "The client should be instructed to swallow the tablet whole, not chew it."}, {"text": "Expect immediate relief of symptoms within the first dose.", "correct": false, "explain": "The client should be taught that the effect of the medication takes 3 to 4 days, not immediate relief."}, {"text": "Take the medication only when symptoms occur.", "correct": false, "explain": "Proton pump inhibitors are typically taken on a regular schedule before meals, not on an as-needed symptom basis."}]}, {"stem": "Which of the following medications is a proton pump inhibitor?", "options": [{"text": "Lansoprazole (Prevacid)", "correct": true, "explain": "Omeprazole, esomeprazole, lansoprazole, and rabeprazole are proton pump inhibitors, recognizable by the \"-prazole\" suffix."}, {"text": "Ranitidine (Zantac)", "correct": false, "explain": "Ranitidine is a histamine2 receptor antagonist, not a proton pump inhibitor."}, {"text": "Ondansetron (Zofran)", "correct": false, "explain": "Ondansetron is a serotonin (5-HT3) antagonist antiemetic, not a proton pump inhibitor."}, {"text": "Docusate", "correct": false, "explain": "Docusate is a stool softener, not a proton pump inhibitor."}]}, {"stem": "A nurse is caring for an older adult client on long-term proton pump inhibitor therapy. Which adverse effect should the nurse monitor for?", "options": [{"text": "Hip, wrist, or spine fractures", "correct": true, "explain": "Adverse effects of proton pump inhibitors include headache, diarrhea, nausea, vomiting, gastric cancer, and hip, wrist, or spine fractures."}, {"text": "Hyperphosphatemia", "correct": false, "explain": "Hyperphosphatemia is associated with aluminum antacids, not proton pump inhibitors."}, {"text": "Acid rebound", "correct": false, "explain": "Acid rebound is associated with calcium antacids, not proton pump inhibitors."}, {"text": "Peripheral neuropathy", "correct": false, "explain": "Peripheral neuropathy is an adverse effect associated with nitrofurantoin, not proton pump inhibitors."}]}, {"stem": "A client asks the nurse why a warfarin dose was recently adjusted after starting omeprazole. Which response reflects an important safety teaching point?", "options": [{"text": "\"Your risk of bleeding is higher while taking this medication with warfarin.\"", "correct": true, "explain": "This is a correct teaching statement identified in the omeprazole teaching material: the risk of bleeding is higher when taken with warfarin."}, {"text": "\"Omeprazole has no interaction with warfarin.\"", "correct": false, "explain": "There is a recognized interaction between omeprazole and warfarin that increases bleeding risk, so this statement is incorrect."}, {"text": "\"You should stop taking warfarin while on omeprazole.\"", "correct": false, "explain": "The client should not be instructed to independently stop a prescribed anticoagulant; this is not the appropriate teaching point."}, {"text": "\"This interaction only matters if you also take antacids.\"", "correct": false, "explain": "The bleeding risk interaction is between omeprazole and warfarin directly, not contingent on also taking antacids."}]}, {"stem": "A nurse is teaching a client about sucralfate (Carafate). Which of the following statements is accurate?", "options": [{"text": "It creates a protective barrier against acid and pepsin but does not decrease acid secretion.", "correct": true, "explain": "Sucralfate creates a protective barrier against acid and pepsin; it does not decrease gastric acid secretion."}, {"text": "It works by decreasing gastric acid secretion.", "correct": false, "explain": "Sucralfate does not decrease acid secretion; it protects the mucosa by forming a barrier."}, {"text": "It should be taken at the same time as other medications for best absorption.", "correct": false, "explain": "Sucralfate should be administered 30 minutes apart from other medications due to multiple drug interactions."}, {"text": "Diarrhea is the primary adverse effect to monitor for.", "correct": false, "explain": "Constipation, not diarrhea, is the adverse effect associated with sucralfate."}]}, {"stem": "A nurse providing education about sucralfate should include which nursing action related to its adverse effects?", "options": [{"text": "Implement actions to prevent constipation.", "correct": true, "explain": "Constipation is the adverse effect of sucralfate, so nursing actions should focus on preventing it."}, {"text": "Monitor closely for diarrhea.", "correct": false, "explain": "Constipation, not diarrhea, is the expected adverse effect of sucralfate."}, {"text": "Assess for hyperphosphatemia.", "correct": false, "explain": "Hyperphosphatemia is associated with aluminum antacids, not sucralfate."}, {"text": "Monitor for orange-red discoloration of urine.", "correct": false, "explain": "Orange-red urine discoloration is associated with phenazopyridine, not sucralfate."}]}, {"stem": "A patient with peptic ulcer disease secondary to chronic NSAID use is prescribed misoprostol (Cytotec). The nurse would be most accurate in informing the patient that the drug:", "options": [{"text": "protects the stomach's lining.", "correct": true, "explain": "Misoprostol replaces prostaglandins and protects the gastric mucosa, which is especially important for ulcers related to chronic NSAID use."}, {"text": "neutralizes existing stomach acid.", "correct": false, "explain": "Neutralizing acid describes antacids, not misoprostol."}, {"text": "cures the underlying NSAID-induced ulcer immediately.", "correct": false, "explain": "Misoprostol protects the gastric mucosa going forward; it does not describe an immediate cure of an existing ulcer."}, {"text": "eliminates the need for further NSAID precautions.", "correct": false, "explain": "Misoprostol protects the mucosa, but this does not eliminate the need for continued precaution and monitoring with NSAID use."}]}, {"stem": "Misoprostol (Cytotec) is contraindicated in which of the following clients?", "options": [{"text": "A client who is pregnant", "correct": true, "explain": "Misoprostol is contraindicated during pregnancy and lactation."}, {"text": "A client with peptic ulcer disease from NSAID use", "correct": false, "explain": "Misoprostol is actually indicated to protect the gastric mucosa in clients at risk from NSAID-induced ulcers, not contraindicated for them."}, {"text": "A client with a history of tension headaches", "correct": false, "explain": "There is no listed contraindication for misoprostol related to tension headaches."}, {"text": "A client who is lactose intolerant", "correct": false, "explain": "Lactose intolerance is not a listed contraindication for misoprostol; pregnancy and lactation are the precautions/contraindications noted."}]}, {"stem": "Which nursing action is appropriate when caring for a client prescribed misoprostol (Cytotec)?", "options": [{"text": "Teach the client about reliable contraception.", "correct": true, "explain": "Because misoprostol is contraindicated in pregnancy, nursing actions include teaching the client about contraception and giving the medication with meals and at bedtime."}, {"text": "Instruct the client to take the medication on an empty stomach only.", "correct": false, "explain": "Misoprostol should be given with meals and at bedtime, not on an empty stomach only."}, {"text": "Monitor closely for constipation as the primary adverse effect.", "correct": false, "explain": "Diarrhea and abdominal pain, not constipation, are the adverse effects associated with misoprostol."}, {"text": "Explain that this medication decreases gastric acid secretion.", "correct": false, "explain": "Misoprostol works by replacing prostaglandins and protecting the gastric mucosa, not primarily by decreasing acid secretion."}]}, {"stem": "A nurse is caring for a client receiving prochlorperazine (Compazine) for nausea. Which adverse effect should the nurse monitor for?", "options": [{"text": "Extrapyramidal symptoms", "correct": true, "explain": "Phenothiazines such as prochlorperazine block receptors in the CTZ and carry a risk of sedation, extrapyramidal symptoms (EPS), and anticholinergic symptoms."}, {"text": "Reddish-orange urine", "correct": false, "explain": "Reddish-orange urine is an expected effect of phenazopyridine, not a phenothiazine antiemetic."}, {"text": "Bone fractures", "correct": false, "explain": "Bone fractures are associated with proton pump inhibitors, not phenothiazine antiemetics."}, {"text": "Hyperphosphatemia", "correct": false, "explain": "Hyperphosphatemia is associated with aluminum antacids, not phenothiazine antiemetics."}]}, {"stem": "Phenothiazine blocks receptors in the chemoreceptor trigger zone. The following concerns/adverse reactions of Phenothiazine are part of the patient teaching except:", "options": [{"text": "peripheral neuropathy.", "correct": true, "explain": "Peripheral neuropathy is not a listed adverse effect of phenothiazines; it is associated with nitrofurantoin instead."}, {"text": "sedation.", "correct": false, "explain": "Sedation is a listed adverse effect of phenothiazines and is appropriately part of patient teaching."}, {"text": "extrapyramidal symptoms.", "correct": false, "explain": "Extrapyramidal symptoms (EPS) are a listed adverse effect of phenothiazines and are appropriately part of patient teaching."}, {"text": "anticholinergic symptoms.", "correct": false, "explain": "Anticholinergic symptoms are a listed adverse effect of phenothiazines and are appropriately part of patient teaching."}]}, {"stem": "A nurse is administering ondansetron (Zofran) to a client. Which nursing action is a priority?", "options": [{"text": "Monitor for drowsiness and dizziness, and address safety concerns.", "correct": true, "explain": "Serotonin antagonists such as ondansetron block receptors in the CTZ; nursing care includes monitoring for drowsiness and dizziness and addressing safety concerns, since adverse effects include headache, diarrhea, and dizziness."}, {"text": "Monitor for hyperphosphatemia.", "correct": false, "explain": "Hyperphosphatemia is associated with aluminum antacids, not serotonin antagonist antiemetics."}, {"text": "Instruct the client to avoid all fluids while taking the medication.", "correct": false, "explain": "There is no instruction to avoid fluids with serotonin antagonist antiemetics."}, {"text": "Administer only via the intramuscular route.", "correct": false, "explain": "Serotonin antagonists such as ondansetron and dolasetron are available in tablet or intravenous forms, not restricted to intramuscular administration."}]}, {"stem": "A nurse is caring for a client receiving metoclopramide (Reglan). Which finding should the nurse monitor for due to this medication's mechanism of action?", "options": [{"text": "Restlessness, anxiety, and abnormal muscle movements", "correct": true, "explain": "Metoclopramide is a prokinetic with adverse effects including extrapyramidal symptoms; nursing care includes monitoring for restlessness, anxiety, abnormal muscle movements, increased muscle tension, and safety concerns."}, {"text": "Reddish-orange urine", "correct": false, "explain": "Reddish-orange urine is an expected effect of phenazopyridine, not metoclopramide."}, {"text": "Hyperphosphatemia", "correct": false, "explain": "Hyperphosphatemia is associated with aluminum antacids, not metoclopramide."}, {"text": "Bone fractures", "correct": false, "explain": "Bone fractures are associated with proton pump inhibitors, not metoclopramide."}]}, {"stem": "Which mechanism of action is associated with metoclopramide (Reglan)?", "options": [{"text": "Increases gastrointestinal motility and relaxes the pyloric sphincter.", "correct": true, "explain": "Metoclopramide is a prokinetic that increases motility in the gastrointestinal tract and relaxes the pyloric sphincter."}, {"text": "Blocks histamine at the H2 receptor.", "correct": false, "explain": "Blocking the H2 receptor describes H2 receptor antagonists, not metoclopramide."}, {"text": "Creates a protective barrier over the gastric mucosa.", "correct": false, "explain": "Creating a protective barrier describes sucralfate, not metoclopramide."}, {"text": "Neutralizes gastric acid.", "correct": false, "explain": "Neutralizing gastric acid describes antacids, not metoclopramide."}]}, {"stem": "A nurse is caring for a client prescribed meclizine (Antivert) for vertigo. Which condition is a contraindication for this medication?", "options": [{"text": "Glaucoma", "correct": true, "explain": "Antihistamine antiemetics such as meclizine and dimenhydrinate are contraindicated in clients who have glaucoma, due to anticholinergic effects."}, {"text": "Peptic ulcer disease", "correct": false, "explain": "Peptic ulcer disease is not the listed contraindication for antihistamine antiemetics; glaucoma is."}, {"text": "Chronic kidney disease", "correct": false, "explain": "Chronic kidney disease is not the listed contraindication for antihistamine antiemetics; glaucoma is."}, {"text": "Hypertension", "correct": false, "explain": "Hypertension is not the listed contraindication for antihistamine antiemetics; glaucoma is."}]}, {"stem": "A client is prescribed trimethobenzamide (Tigan) for nausea. Which nursing consideration applies to this medication, similar to antihistamine antiemetics?", "options": [{"text": "It is contraindicated in glaucoma and requires monitoring for anticholinergic effects and safety issues.", "correct": true, "explain": "Trimethobenzamide blocks impulse conduction to the CTZ and vomiting center; like antihistamines, it carries adverse effects of sedation and anticholinergic effects, is contraindicated with glaucoma, and requires safety monitoring."}, {"text": "It commonly causes hyperphosphatemia.", "correct": false, "explain": "Hyperphosphatemia is associated with aluminum antacids, not trimethobenzamide."}, {"text": "It is the first-line \"rescue\" treatment for chemotherapy-induced nausea via the 5-HT3 pathway.", "correct": false, "explain": "The serotonin (5-HT3) antagonists, not trimethobenzamide, block that specific pathway."}, {"text": "It requires monitoring for bone fractures.", "correct": false, "explain": "Bone fractures are an adverse effect associated with proton pump inhibitors, not trimethobenzamide."}]}, {"stem": "An older adult client with chronic kidney disease and a 4-month history of metoclopramide use for GERD presents to the ED with new-onset uncontrolled movements of the hands and face, including tongue movements and cheek puffing. The nurse should be most concerned the client has developed which of the following?", "options": [{"text": "Tardive dyskinesia", "correct": true, "explain": "The nurse is most concerned the client has developed tardive dyskinesia due to the client's metoclopramide use combined with kidney disease, which increases the risk of this extrapyramidal adverse effect."}, {"text": "Serotonin syndrome", "correct": false, "explain": "Serotonin syndrome is not the concern described here; the client's presentation of chronic involuntary facial and tongue movements after prolonged metoclopramide use in the setting of kidney disease points to tardive dyskinesia."}, {"text": "Acute gastritis", "correct": false, "explain": "Acute gastritis does not explain uncontrolled facial and tongue movements; this presentation reflects a neurologic extrapyramidal effect."}, {"text": "Anticholinergic toxicity", "correct": false, "explain": "This presentation is a movement disorder consistent with tardive dyskinesia related to prolonged metoclopramide (a prokinetic/dopamine antagonist) use, not anticholinergic toxicity."}]}, {"stem": "In the case of an older adult with chronic kidney disease who develops tardive dyskinesia after 4 months of metoclopramide use, which factor most increased this client's risk?", "options": [{"text": "Reduced renal clearance of the medication due to kidney disease, allowing prolonged drug exposure", "correct": true, "explain": "Kidney disease reduces clearance of metoclopramide, increasing drug exposure over time and raising the risk of extrapyramidal effects such as tardive dyskinesia, along with the medication itself."}, {"text": "The client's use of lactulose", "correct": false, "explain": "Lactulose is not associated with causing extrapyramidal symptoms; the concern relates to metoclopramide use and kidney disease."}, {"text": "The client's use of lisinopril", "correct": false, "explain": "Lisinopril, an ACE inhibitor, is not associated with causing tardive dyskinesia."}, {"text": "The client's history of GERD alone", "correct": false, "explain": "GERD itself does not cause tardive dyskinesia; it is the metoclopramide used to treat it, combined with reduced renal clearance, that raises this risk."}]}, {"stem": "A nurse is caring for a client prescribed nitrofurantoin (Macrobid) for a lower urinary tract infection. Which instruction should the nurse include?", "options": [{"text": "Take the medication with food.", "correct": true, "explain": "Nursing actions for nitrofurantoin include administering with food, along with client education to complete the full course, increase fluid intake, and report early signs of neuropathy, diarrhea, or respiratory symptoms."}, {"text": "Take the medication on an empty stomach for best absorption.", "correct": false, "explain": "Nitrofurantoin should be administered with food, not on an empty stomach."}, {"text": "Discontinue the medication as soon as symptoms improve.", "correct": false, "explain": "The client should be taught to complete the full course of medication, not stop early once symptoms improve."}, {"text": "Restrict fluid intake while taking this medication.", "correct": false, "explain": "The client should be taught to increase, not restrict, fluid intake while taking nitrofurantoin."}]}, {"stem": "Nitrofurantoin (Macrodantin) is a precaution or contraindication in which of the following clients?", "options": [{"text": "A client who is pregnant", "correct": true, "explain": "Nitrofurantoin is a precaution/contraindication in pregnancy due to potential harm to the fetus, as well as in neonates and clients with renal or liver disease."}, {"text": "A client with a lower urinary tract infection and no other history", "correct": false, "explain": "Nitrofurantoin is indicated for lower urinary tract infections in clients without these precautions, not contraindicated for them."}, {"text": "A client who recently completed a course of acetaminophen", "correct": false, "explain": "There is no listed interaction/contraindication between nitrofurantoin and acetaminophen; the noted interaction is with antacids."}, {"text": "A client with seasonal allergies", "correct": false, "explain": "Seasonal allergies are not a listed precaution or contraindication for nitrofurantoin."}]}, {"stem": "Which of the following is an adverse neurologic reaction associated with nitrofurantoin?", "options": [{"text": "Peripheral neuropathy", "correct": true, "explain": "Neurologic adverse reactions of nitrofurantoin include peripheral neuropathy, headache, vertigo, and drowsiness."}, {"text": "Extrapyramidal symptoms", "correct": false, "explain": "Extrapyramidal symptoms are associated with phenothiazines, prokinetics, and antipsychotic-type medications, not nitrofurantoin."}, {"text": "Tardive dyskinesia", "correct": false, "explain": "Tardive dyskinesia is associated with prolonged metoclopramide use, not nitrofurantoin."}, {"text": "Confusion and hallucinations", "correct": false, "explain": "Confusion and hallucinations are adverse effects associated with H2 receptor antagonists, not nitrofurantoin."}]}, {"stem": "A nurse is monitoring lab values for a client on nitrofurantoin therapy. Which of the following should the nurse monitor, given the hematologic adverse reactions of this medication?", "options": [{"text": "Platelet count", "correct": true, "explain": "Hematologic adverse reactions of nitrofurantoin include anemia, thrombocytopenia, and leukopenia, so the nurse should monitor CBC and platelet count."}, {"text": "Serum calcium", "correct": false, "explain": "Serum calcium is not a listed monitoring parameter specific to nitrofurantoin's hematologic effects."}, {"text": "Thyroid-stimulating hormone", "correct": false, "explain": "Thyroid function is not a listed monitoring parameter for nitrofurantoin."}, {"text": "Serum potassium", "correct": false, "explain": "Serum potassium is not specifically listed among the monitoring priorities for nitrofurantoin's known adverse reactions."}]}, {"stem": "A client asks the nurse why her urine turned reddish-orange after starting phenazopyridine (Pyridium). Which response is most accurate?", "options": [{"text": "\"This is an expected effect of the medication and is not a cause for concern.\"", "correct": true, "explain": "Reddish-orange urine is a listed adverse reaction/expected effect of phenazopyridine and is part of the client education the nurse should provide."}, {"text": "\"This indicates the urinary tract infection has worsened.\"", "correct": false, "explain": "Reddish-orange urine is an expected medication effect, not a sign that the infection has worsened."}, {"text": "\"You should stop the medication immediately and notify the provider.\"", "correct": false, "explain": "Reddish-orange urine is an expected effect that does not require immediately stopping the medication."}, {"text": "\"This means you are having a hypersensitivity reaction.\"", "correct": false, "explain": "Reddish-orange urine is a separate, expected renal effect, distinct from a hypersensitivity reaction, which is a different listed adverse reaction."}]}, {"stem": "Which of the following best describes the action of phenazopyridine (Pyridium)?", "options": [{"text": "It is a urinary analgesic that decreases urinary irritation, burning, frequency, and urgency.", "correct": true, "explain": "Phenazopyridine acts as a urinary analgesic, decreasing urinary irritation, relieving burning, and reducing frequency and urgency."}, {"text": "It is bacteriostatic and bactericidal against organisms causing lower urinary tract infections.", "correct": false, "explain": "This describes nitrofurantoin's action, not phenazopyridine's."}, {"text": "It blocks acetylcholine receptors to decrease bladder overactivity.", "correct": false, "explain": "This describes anticholinergic medications used for overactive bladder, not phenazopyridine."}, {"text": "It replaces prostaglandins to protect the bladder mucosa.", "correct": false, "explain": "Replacing prostaglandins describes misoprostol's action on the gastric mucosa, not phenazopyridine."}]}, {"stem": "A nurse is teaching a client who wears contact lenses and is starting phenazopyridine (Pyridium). Which teaching point is most important to include?", "options": [{"text": "The medication may cause discoloration of the sclera and can affect contact lenses.", "correct": true, "explain": "Client education for phenazopyridine includes information about urine color changes, contact lens considerations, taking the medication after meals with a full glass of water, and safety concerns."}, {"text": "Contact lenses have no relevance to this medication.", "correct": false, "explain": "Contact lens considerations are specifically part of the client education for phenazopyridine due to skin/sclera discoloration effects."}, {"text": "The client should take the medication on an empty stomach.", "correct": false, "explain": "Phenazopyridine should be taken after meals with a full glass of water, not on an empty stomach."}, {"text": "The client should avoid drinking extra water with this medication.", "correct": false, "explain": "The client should be instructed to take the medication with a full glass of water, not avoid extra fluids."}]}, {"stem": "A nurse is caring for a client prescribed oxybutynin (Ditropan) for overactive bladder. Which finding is a contraindication for this medication?", "options": [{"text": "Narrow angle glaucoma", "correct": true, "explain": "Anticholinergic medications for overactive bladder, such as oxybutynin, are a precaution/contraindication in narrow angle glaucoma, urinary retention, and intestinal obstruction."}, {"text": "Urinary frequency", "correct": false, "explain": "Urinary frequency is actually an indication for anticholinergic bladder medications, not a contraindication."}, {"text": "Mild seasonal allergies", "correct": false, "explain": "Seasonal allergies are not a listed contraindication for anticholinergic bladder medications."}, {"text": "History of tension headache", "correct": false, "explain": "Tension headache history is not a listed contraindication for anticholinergic bladder medications."}]}, {"stem": "Which adverse effect should the nurse expect in a client taking tolterodine (Detrol) for urge incontinence?", "options": [{"text": "Dry mouth and constipation", "correct": true, "explain": "Gastrointestinal adverse reactions of anticholinergic bladder medications include dry mouth and constipation."}, {"text": "Reddish-orange urine", "correct": false, "explain": "Reddish-orange urine is associated with phenazopyridine, not anticholinergic bladder medications."}, {"text": "Diarrhea", "correct": false, "explain": "Constipation, not diarrhea, is the expected gastrointestinal adverse effect of anticholinergic bladder medications."}, {"text": "Hyperphosphatemia", "correct": false, "explain": "Hyperphosphatemia is associated with aluminum antacids, not anticholinergic bladder medications."}]}, {"stem": "A nurse should include which instruction when teaching a client about solifenacin (VESIcare) for overactive bladder?", "options": [{"text": "Increase dietary fiber to help offset constipation.", "correct": true, "explain": "Because constipation is an expected adverse effect of anticholinergic bladder medications, implementation/teaching includes increasing fiber intake, along with addressing dry mouth and safety concerns."}, {"text": "Restrict fluid intake to reduce urinary frequency.", "correct": false, "explain": "Restricting fluid intake is not the taught intervention; increasing fiber and managing dry mouth are the relevant teaching points."}, {"text": "Expect improved vision while taking this medication.", "correct": false, "explain": "Blurred vision, not improved vision, is a listed adverse reaction of anticholinergic bladder medications."}, {"text": "This medication is safe in clients with intestinal obstruction.", "correct": false, "explain": "Intestinal obstruction is a listed precaution/contraindication for anticholinergic bladder medications, not a population in which it is considered safe."}]}, {"stem": "A nurse is reviewing medication suffixes to identify drug classes. Which suffix is associated with proton pump inhibitors?", "options": [{"text": "\"-prazole\"", "correct": true, "explain": "Proton pump inhibitors such as omeprazole and pantoprazole share the \"-prazole\" suffix."}, {"text": "\"-tidine\"", "correct": false, "explain": "The \"-tidine\" suffix is associated with H2 receptor antagonists such as cimetidine and famotidine, not proton pump inhibitors."}, {"text": "\"-setron\"", "correct": false, "explain": "The \"-setron\" suffix is associated with 5-HT3 (serotonin) antagonist antiemetics such as ondansetron, not proton pump inhibitors."}, {"text": "\"-dipine\"", "correct": false, "explain": "The \"-dipine\" suffix is not one identified in this material as associated with GI/GU medications; it is unrelated to the classes discussed."}]}, {"stem": "Which of the following medications shares the same suffix-based drug class as ondansetron?", "options": [{"text": "Dolasetron", "correct": true, "explain": "Ondansetron and dolasetron both share the \"-setron\" suffix, identifying them as 5-HT3 (serotonin) antagonist antiemetics."}, {"text": "Famotidine", "correct": false, "explain": "Famotidine has the \"-tidine\" suffix of H2 receptor antagonists, a different class from ondansetron."}, {"text": "Pantoprazole", "correct": false, "explain": "Pantoprazole has the \"-prazole\" suffix of proton pump inhibitors, a different class from ondansetron."}, {"text": "Metoclopramide", "correct": false, "explain": "Metoclopramide is a prokinetic antiemetic and does not share the \"-setron\" suffix class with ondansetron."}]}, {"stem": "A nurse is teaching a client about psyllium. Which classification and instruction should the nurse include?", "options": [{"text": "It is a bulk-forming laxative and should be taken with a full glass of water.", "correct": true, "explain": "Psyllium is classified as a bulk-forming laxative, and the client should be instructed to drink it with a full glass of water; it takes a few days to work."}, {"text": "It is a saline laxative that works within a few hours and may cause diarrhea.", "correct": false, "explain": "This describes magnesium salts (saline laxatives), not psyllium."}, {"text": "It is a stimulant laxative that should be taken on an empty stomach.", "correct": false, "explain": "This describes bisacodyl (a stimulant laxative), not psyllium."}, {"text": "It is an osmotic laxative that takes 2 to 4 days to work.", "correct": false, "explain": "This describes polyethylene glycol (an osmotic laxative), not psyllium."}]}, {"stem": "A nurse is teaching a client about bisacodyl. Which instruction is appropriate?", "options": [{"text": "Take the medication on an empty stomach and avoid taking it within 1 hour of milk or antacids.", "correct": true, "explain": "Bisacodyl is a stimulant laxative and should be taken on an empty stomach, avoiding milk or antacids within 1 hour of the dose."}, {"text": "Take the medication at bedtime because it may cause diarrhea.", "correct": false, "explain": "This instruction describes magnesium salts (a saline laxative), not bisacodyl."}, {"text": "Expect results to take 2 to 4 days.", "correct": false, "explain": "This timeframe describes polyethylene glycol (an osmotic laxative), not bisacodyl."}, {"text": "Drink a full glass of water with the dose for it to work.", "correct": false, "explain": "This instruction is specific to bulk-forming laxatives like psyllium, not bisacodyl."}]}, {"stem": "Which laxative classification does polyethylene glycol belong to, and what should the nurse teach about its onset?", "options": [{"text": "Osmotic laxative; it takes 2 to 4 days to work, with best results requiring 1 to 2 weeks.", "correct": true, "explain": "Polyethylene glycol is classified as an osmotic laxative, and the client should be taught that it takes 2 to 4 days to work, with best results requiring 1 to 2 weeks."}, {"text": "Bulk-forming laxative; it should be taken with a full glass of water.", "correct": false, "explain": "This describes psyllium (a bulk-forming laxative), not polyethylene glycol."}, {"text": "Stimulant laxative; it should be taken on an empty stomach.", "correct": false, "explain": "This describes bisacodyl (a stimulant laxative), not polyethylene glycol."}, {"text": "Saline laxative; it may cause diarrhea and should not be taken at bedtime.", "correct": false, "explain": "This describes magnesium salts (a saline laxative), not polyethylene glycol."}]}, {"stem": "A nurse is teaching a client about docusate. Which of the following best describes this medication?", "options": [{"text": "A stool softener that promotes incorporation of water into the stool.", "correct": true, "explain": "Docusate is a stool softener; its mechanism is promoting the incorporation of water into stool, and the main adverse effects are mild abdominal cramps and diarrhea."}, {"text": "A stimulant laxative that increases colonic peristalsis.", "correct": false, "explain": "This describes bisacodyl or sennosides (stimulant laxatives), not docusate."}, {"text": "An osmotic agent that increases water content in the bowel lumen through osmosis.", "correct": false, "explain": "This describes agents like lactulose or polyethylene glycol (osmotic laxatives), not docusate."}, {"text": "A bulk-forming agent that combines with water to promote peristalsis.", "correct": false, "explain": "This describes psyllium (a bulk-forming laxative), not docusate."}]}, {"stem": "Which of the following adverse effects is most associated with gastric acid suppressing agents (H2 receptor antagonists and proton pump inhibitors) as a group?", "options": [{"text": "C. diff diarrhea and vitamin B12 deficiency", "correct": true, "explain": "The therapeutic and adverse effects matrix lists abdominal pain, constipation, confusion, nausea, diarrhea, dizziness, headache, C. diff diarrhea, and vitamin B12 deficiency as adverse effects of gastric acid suppressing agents."}, {"text": "Serotonin syndrome and QT prolongation", "correct": false, "explain": "Serotonin syndrome and QT prolongation are listed adverse effects of antiemetics, not gastric acid suppressing agents."}, {"text": "Hypermagnesemia and hypophosphatemia", "correct": false, "explain": "Hypermagnesemia and hypophosphatemia are listed adverse effects of antacids, not gastric acid suppressing agents."}, {"text": "Abdominal cramps and flatulence only", "correct": false, "explain": "Abdominal cramps, belching, and flatulence are listed adverse effects of laxatives, not the primary concern for gastric acid suppressing agents."}]}, {"stem": "A nurse is reviewing nursing considerations for a client taking a gastric acid suppressing agent. Which of the following should the nurse include?", "options": [{"text": "Avoid alcohol and NSAIDs during therapy.", "correct": true, "explain": "Nursing considerations for both proton pump inhibitors and H2 receptor antagonists include avoiding alcohol and NSAIDs, along with monitoring labs and epigastric/abdominal pain or occult blood."}, {"text": "Encourage a diet high in sodium.", "correct": false, "explain": "A high-sodium diet is not a listed nursing consideration for gastric acid suppressing agents."}, {"text": "Discontinue the medication after 3 days if no relief occurs.", "correct": false, "explain": "There is no instruction to discontinue after only 3 days; proton pump inhibitor effects may take 3 to 4 days to become apparent."}, {"text": "Take the medication with grapefruit juice to enhance absorption.", "correct": false, "explain": "There is no instruction to take these medications with grapefruit juice."}]}, {"stem": "Which antacid is most associated with the risk of developing bone disease?", "options": [{"text": "Aluminum", "correct": true, "explain": "Aluminum-containing antacids carry a precaution for bone disease and can cause hyperphosphatemia and constipation."}, {"text": "Magnesium", "correct": false, "explain": "Magnesium antacids are a precaution in renal disease and are associated with diarrhea, not bone disease."}, {"text": "Calcium", "correct": false, "explain": "Calcium antacids are a precaution in kidney stones, renal disease, and parathyroid disease, not specifically bone disease."}, {"text": "Sodium", "correct": false, "explain": "Sodium antacids are a precaution in hypertension, heart failure, and kidney disease, not specifically bone disease."}]}];
+const FLASHCARDS = [{"front": "What is the mechanism of action of antacids?", "back": "Neutralize gastric acid, raise gastric pH, and inactivate pepsin."}, {"front": "Which antacid type is a precaution in renal disease and causes diarrhea?", "back": "Magnesium antacids (e.g., Milk of Magnesia) — precaution in renal disease; adverse effect is diarrhea."}, {"front": "Which antacid type is a precaution in bone disease and causes hyperphosphatemia/constipation?", "back": "Aluminum antacids (e.g., Amphogel)."}, {"front": "Which antacid type is a precaution in hypertension/heart failure/kidney disease?", "back": "Sodium antacids (e.g., Alka-Seltzer) — adverse effects include increased thirst and sodium retention."}, {"front": "Which antacid type is a precaution in kidney stones, renal disease, and parathyroid disease?", "back": "Calcium antacids (e.g., Tums) — adverse effects include acid rebound, nausea/vomiting, and constipation."}, {"front": "Duodenal ulcer pain timing vs. gastric ulcer pain timing?", "back": "Duodenal: 2-3 hr after meals, at night, relieved by eating. Gastric: 1/2-1 hr after meals, relieved by vomiting, food does not help."}, {"front": "Which ulcer type has hypersecretion of gastric acid — duodenal or gastric?", "back": "Duodenal ulcer has hypersecretion; gastric ulcer has normal to hyposecretion."}, {"front": "Drug suffix for H2 receptor antagonists?", "back": "\"-tidine\" (e.g., cimetidine, famotidine, ranitidine, nizatidine)."}, {"front": "Drug suffix for proton pump inhibitors?", "back": "\"-prazole\" (e.g., omeprazole, esomeprazole, lansoprazole, pantoprazole)."}, {"front": "Drug suffix for 5-HT3 (serotonin) antagonist antiemetics?", "back": "\"-setron\" (e.g., ondansetron, dolasetron, granisetron, palonosetron)."}, {"front": "How do H2 receptor antagonists work?", "back": "Inhibit histamine at the H2-receptor site in gastric parietal cells, suppressing gastric acid secretion."}, {"front": "Adverse CNS effects of H2 receptor antagonists?", "back": "Confusion, hallucinations, CNS depression or excitation, and pneumonia."}, {"front": "How do proton pump inhibitors work?", "back": "Bind to an enzyme in the presence of acidic gastric pH, preventing transport of hydrogen ions into the gastric lumen."}, {"front": "Key PPI teaching points?", "back": "Swallow tablet whole; take before meals; effect takes 3 to 4 days."}, {"front": "Serious adverse effects of long-term PPI use?", "back": "Gastric cancer risk, and hip, wrist, or spine fractures."}, {"front": "How does sucralfate (Carafate) work?", "back": "Creates a protective barrier against acid and pepsin — does NOT decrease acid secretion."}, {"front": "Key nursing action for sucralfate administration?", "back": "Administer 30 minutes apart from other medications; take action to prevent constipation (its main adverse effect)."}, {"front": "How does misoprostol (Cytotec) work, and what is its major contraindication?", "back": "Replaces prostaglandins and protects gastric mucosa; contraindicated in pregnancy and lactation."}, {"front": "Antibacterials used to treat H. pylori infection?", "back": "Amoxicillin, clarithromycin, tetracycline, metronidazole."}, {"front": "Key nursing action for H. pylori antibacterial therapy?", "back": "Complete the full course of medication; monitor for hypersensitivity, GI upset, and CBC; watch for OCP interaction."}, {"front": "Phenothiazine antiemetic example and adverse effects?", "back": "Prochlorperazine (Compazine) — sedation, extrapyramidal symptoms (EPS), anticholinergic symptoms."}, {"front": "How do serotonin antagonist antiemetics work (e.g., ondansetron)?", "back": "Block receptors in the CTZ so the vomiting center is not activated; adverse effects: headache, diarrhea, dizziness."}, {"front": "How does metoclopramide (Reglan) work, and what's its drug class?", "back": "A prokinetic — increases GI motility and relaxes the pyloric sphincter; adverse effects include EPS, nausea, diarrhea."}, {"front": "Antihistamine antiemetic examples and their key contraindication?", "back": "Meclizine (Antivert), dimenhydrinate (Dramamine) — contraindicated in glaucoma; watch for sedation and anticholinergic effects."}, {"front": "What serious movement disorder is linked to long-term metoclopramide use, especially with reduced renal clearance?", "back": "Tardive dyskinesia — uncontrolled movements of the face, tongue, and hands."}, {"front": "Nitrofurantoin (Macrobid/Macrodantin) action and key precaution?", "back": "Bacteriostatic/bactericidal for lower UTIs; precaution in pregnancy, neonates, and renal/liver disease; interacts with antacids."}, {"front": "Neurologic adverse reaction unique to nitrofurantoin?", "back": "Peripheral neuropathy (also headache, vertigo, drowsiness)."}, {"front": "Key nitrofurantoin administration teaching?", "back": "Administer with food; complete full course; increase fluid intake; report early signs of neuropathy, diarrhea, or respiratory symptoms."}, {"front": "Phenazopyridine (Pyridium) action and expected side effect?", "back": "Urinary analgesic — decreases irritation, burning, frequency, urgency. Expected effect: reddish-orange urine."}, {"front": "Phenazopyridine teaching about contact lenses?", "back": "Can cause discoloration of the sclera, which may affect contact lens wearers; take after meals with a full glass of water."}, {"front": "Anticholinergic bladder medication examples (overactive bladder/urge incontinence)?", "back": "Oxybutynin (Ditropan), darifenacin (Enablex), solifenacin (VESIcare), tolterodine (Detrol), trospium (Sanctura)."}, {"front": "Key contraindications for anticholinergic bladder medications?", "back": "Narrow angle glaucoma, urinary retention, intestinal obstruction."}, {"front": "Common adverse effects of anticholinergic bladder medications?", "back": "Dry mouth, constipation, blurred vision, urinary retention, angioedema."}, {"front": "Saline laxative example and teaching point?", "back": "Magnesium salts — may cause diarrhea; do not take at bedtime."}, {"front": "Bulk-forming laxative example and teaching point?", "back": "Psyllium — drink with a full glass of water; takes a few days to work."}, {"front": "Stimulant laxative example and teaching point?", "back": "Bisacodyl — take on an empty stomach; avoid milk/antacids within 1 hr."}, {"front": "Osmotic laxative example and teaching point?", "back": "Polyethylene glycol — takes 2-4 days to work; best results require 1-2 weeks."}, {"front": "Stool softener example and mechanism?", "back": "Docusate — promotes incorporation of water into the stool."}, {"front": "Case study: what should the nurse suspect in an older adult on long-term metoclopramide with kidney disease and new facial/tongue movements?", "back": "Tardive dyskinesia — reduced renal clearance from kidney disease increases drug exposure and EPS risk."}, {"front": "Which medication class carries a bleeding-risk interaction with warfarin, as taught with omeprazole?", "back": "Proton pump inhibitors (e.g., omeprazole) — increased bleeding risk when combined with warfarin."}];
+
+/* ---------------- Flashcards ---------------- */
+let fcOrder = FLASHCARDS.map((_,i)=>i);
+let fcIndex = 0;
+let fcFlipped = false;
+
+function shuffleArr(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function renderFlashcard(){
+  const card = FLASHCARDS[fcOrder[fcIndex]];
+  document.getElementById('fcCounter').textContent = `Card ${fcIndex+1} of ${FLASHCARDS.length}`;
+  document.getElementById('fcTag').textContent = fcFlipped ? 'Answer' : 'Question';
+  document.getElementById('fcFace').textContent = fcFlipped ? card.back : card.front;
+  document.getElementById('fcCard').classList.toggle('flipped', fcFlipped);
+}
+
+document.getElementById('fcCard').addEventListener('click', ()=>{
+  fcFlipped = !fcFlipped;
+  renderFlashcard();
+});
+document.getElementById('fcFlip').addEventListener('click', ()=>{
+  fcFlipped = !fcFlipped;
+  renderFlashcard();
+});
+document.getElementById('fcNext').addEventListener('click', ()=>{
+  fcIndex = (fcIndex+1) % FLASHCARDS.length;
+  fcFlipped = false;
+  renderFlashcard();
+});
+document.getElementById('fcPrev').addEventListener('click', ()=>{
+  fcIndex = (fcIndex-1+FLASHCARDS.length) % FLASHCARDS.length;
+  fcFlipped = false;
+  renderFlashcard();
+});
+document.getElementById('fcShuffle').addEventListener('click', ()=>{
+  fcOrder = shuffleArr(FLASHCARDS.map((_,i)=>i));
+  fcIndex = 0;
+  fcFlipped = false;
+  renderFlashcard();
+});
+renderFlashcard();
+
+/* ---------------- Quiz engine ---------------- */
+const SET_SIZES = [10, 20, 40, QUESTIONS.length];
+const setGrid = document.getElementById('setGrid');
+[...new Set(SET_SIZES)].forEach(size=>{
+  const btn = document.createElement('button');
+  btn.className = 'set-btn';
+  const isAll = size === QUESTIONS.length;
+  btn.innerHTML = `<span class="n">${size}</span><span class="lbl">${isAll ? 'All questions' : 'questions'}</span>`;
+  btn.addEventListener('click', ()=> startQuiz(size));
+  setGrid.appendChild(btn);
+});
+
+let activeQuestions = [];
+let currentIndex = 0;
+let score = 0;
+let questionState = [];
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function startQuiz(size){
+  const pool = shuffle(QUESTIONS);
+  activeQuestions = pool.slice(0, size);
+  questionState = new Array(activeQuestions.length).fill(null);
+  score = 0;
+  currentIndex = 0;
+  document.getElementById('finalOutOf').textContent = '/' + activeQuestions.length;
+  document.getElementById('quizArea').innerHTML = '';
+  document.getElementById('quizArea').classList.add('show');
+  document.getElementById('statusbar').classList.add('show');
+  document.getElementById('summary').classList.remove('show');
+  updateStatus();
+  renderQuestion(0);
+  document.getElementById('quizArea').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function letter(i){ return String.fromCharCode(65+i); }
+
+function renderQuestion(qIndex){
+  const q = activeQuestions[qIndex];
+  const quizArea = document.getElementById('quizArea');
+  const card = document.createElement('div');
+  card.className = 'qcard';
+
+  const meta = document.createElement('div');
+  meta.className = 'qmeta';
+  meta.innerHTML = `<span class="qnum">Q${qIndex+1} / ${activeQuestions.length}</span>`;
+  card.appendChild(meta);
+
+  const stem = document.createElement('p');
+  stem.className = 'stem';
+  stem.textContent = q.stem;
+  card.appendChild(stem);
+
+  const optsWrap = document.createElement('div');
+  optsWrap.className = 'options';
+  const banner = document.createElement('div');
+  banner.className = 'result-banner';
+
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'btn-next';
+  nextBtn.textContent = (qIndex === activeQuestions.length-1) ? 'See results →' : 'Next question →';
+  nextBtn.addEventListener('click', ()=>{
+    currentIndex++;
+    quizArea.innerHTML = '';
+    if(currentIndex >= activeQuestions.length){
+      showSummary();
+    } else {
+      renderQuestion(currentIndex);
+    }
+  });
+
+  q.options.forEach((opt, i)=>{
+    const el = document.createElement('button');
+    el.className = 'opt';
+    el.dataset.origIdx = i;
+    el.innerHTML = `<span class="opt-letter">${letter(i)}</span><div style="flex:1;"><div class="opt-text">${opt.text}</div><div class="opt-explain">${opt.explain}</div></div>`;
+    el.addEventListener('click', ()=> lockSingle(qIndex, i, optsWrap, banner, nextBtn));
+    optsWrap.appendChild(el);
+  });
+
+  card.appendChild(optsWrap);
+  card.appendChild(banner);
+
+  const actions = document.createElement('div');
+  actions.className = 'actions';
+  actions.appendChild(nextBtn);
+  card.appendChild(actions);
+
+  quizArea.appendChild(card);
+}
+
+function revealSingle(qIndex, chosenIdx, optsWrap, banner, isCorrect){
+  const q = activeQuestions[qIndex];
+  const opts = optsWrap.querySelectorAll('.opt');
+  opts.forEach((el)=>{
+    const i = parseInt(el.dataset.origIdx, 10);
+    el.classList.add('locked');
+    if(q.options[i].correct){ el.classList.add('correct-choice'); el.querySelector('.opt-letter').textContent='✓'; }
+    else if(i === chosenIdx){ el.classList.add('incorrect-choice'); el.querySelector('.opt-letter').textContent='✕'; }
+    else { el.classList.add('dim'); }
+  });
+  banner.classList.add('show', isCorrect ? 'correct' : 'incorrect');
+  banner.innerHTML = isCorrect ? `<span>✓</span> Correct.` : `<span>✕</span> Not quite — correct choice is highlighted above.`;
+}
+
+function lockSingle(qIndex, chosenIdx, optsWrap, banner, nextBtn){
+  if(questionState[qIndex]) return;
+  const q = activeQuestions[qIndex];
+  const isCorrect = q.options[chosenIdx].correct;
+  questionState[qIndex] = { correct: isCorrect, selected: chosenIdx };
+  if(isCorrect) score++;
+  revealSingle(qIndex, chosenIdx, optsWrap, banner, isCorrect);
+  nextBtn.classList.add('show');
+  updateStatus();
+}
+
+function updateStatus(){
+  const answeredCount = questionState.filter(Boolean).length;
+  const total = activeQuestions.length || 1;
+  document.getElementById('progressFill').style.width = (answeredCount/total*100)+'%';
+  document.getElementById('scoreLabel').innerHTML = `<span>${score}</span> / ${answeredCount}`;
+}
+
+function showSummary(){
+  document.getElementById('quizArea').innerHTML = '';
+  document.getElementById('quizArea').classList.remove('show');
+  const answeredCount = questionState.filter(Boolean).length;
+  document.getElementById('finalScore').textContent = score;
+  document.getElementById('finalOutOf').textContent = '/' + activeQuestions.length;
+  const pct = answeredCount ? Math.round(score/answeredCount*100) : 0;
+  const msgEl = document.getElementById('finalMsg');
+  if(pct >= 90) msgEl.textContent = 'Excellent — strong command of GI/GU pharmacology.';
+  else if(pct >= 75) msgEl.textContent = 'Solid work. Revisit the missed rationales above before your exam.';
+  else if(pct >= 60) msgEl.textContent = 'Decent start — review the explanations above, especially on the concepts you missed.';
+  else msgEl.textContent = 'Worth another pass — scroll up and read every rationale carefully, then retake.';
+  document.getElementById('summary').classList.add('show');
+  document.getElementById('summary').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+document.getElementById('setupBtn').addEventListener('click', ()=>{
+  document.getElementById('summary').classList.remove('show');
+  document.getElementById('statusbar').classList.remove('show');
+  document.getElementById('setup').scrollIntoView({behavior:'smooth', block:'start'});
+});
+document.getElementById('restartBtn').addEventListener('click', ()=> startQuiz(activeQuestions.length));
+</script>
+</body>
+</html>
