@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cardiac Dysrhythmias — Nursing NCLEX Review</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  :root{
+    --ink:#12283D;
+    --ink-soft:#4C6272;
+    --paper:#F4F7F6;
+    --card:#FFFFFF;
+    --line:#DCE6E4;
+    --muted:#7C8B94;
+    --correct:#1B8A5A;
+    --correct-bg:#E7F5EE;
+    --incorrect:#C1443D;
+    --incorrect-bg:#FBEAE8;
+    --dysr:#9F1D3A;
+    --dysr-dim:#F7E0E5;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      repeating-linear-gradient(0deg, rgba(15,40,61,.028) 0px, rgba(15,40,61,.028) 1px, transparent 1px, transparent 34px),
+      repeating-linear-gradient(90deg, rgba(15,40,61,.028) 0px, rgba(15,40,61,.028) 1px, transparent 1px, transparent 34px),
+      var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    padding:0 0 80px;
+  }
+  .wrap{max-width:940px;margin:0 auto;padding:0 20px;}
+
+  .topbar{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    padding:20px 20px;max-width:940px;margin:0 auto;
+  }
+  .brand{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--dysr);letter-spacing:.06em;text-transform:uppercase;text-decoration:none;display:flex;align-items:center;gap:8px;}
+  .brand:hover{color:var(--ink);}
+  .navlinks{display:flex;gap:18px;font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:600;}
+  .navlinks a{color:var(--ink-soft);text-decoration:none;letter-spacing:.02em;}
+  .navlinks a:hover{color:var(--dysr);}
+
+  header.hero{
+    background:linear-gradient(135deg, #E38FA0 0%, #C24A63 45%, var(--dysr) 100%);
+    padding:46px 20px 54px;margin-bottom:36px;
+  }
+  .hero-inner{max-width:940px;margin:0 auto;}
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.16em;
+    text-transform:uppercase;color:#FCE3E9;font-weight:600;margin-bottom:12px;
+  }
+  h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(30px,5vw,44px);line-height:1.06;margin:0 0 14px;letter-spacing:-.01em;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.14);}
+  .subtitle{color:rgba(255,255,255,.94);font-size:15px;line-height:1.65;margin:0 0 22px;max-width:64ch;}
+  .credit{color:rgba(255,255,255,.78);font-size:12.5px;font-family:'JetBrains Mono',monospace;margin:0 0 22px;}
+  .hero-stats{display:flex;gap:10px;flex-wrap:wrap;}
+  .hero-pill{
+    font-family:'JetBrains Mono',monospace;font-size:12px;color:#fff;
+    background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.32);
+    padding:7px 13px;border-radius:20px;display:inline-flex;align-items:center;gap:6px;
+  }
+  .hero-pill .dot{width:6px;height:6px;border-radius:50%;background:#FCE3E9;display:inline-block;}
+
+  section{scroll-margin-top:20px;margin-bottom:50px;}
+  .section-head{display:flex;align-items:baseline;gap:14px;margin-bottom:18px;flex-wrap:wrap;}
+  .section-head h2{font-family:'Fraunces',serif;font-weight:600;font-size:26px;margin:0;color:var(--ink);}
+  .section-head .tag{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--dysr);background:var(--dysr-dim);padding:4px 10px;border-radius:6px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;}
+
+  /* ---------- Notes ---------- */
+  .note-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin-bottom:16px;box-shadow:0 1px 3px rgba(18,40,61,.05);}
+  .note-card h3{font-family:'Fraunces',serif;font-size:19px;font-weight:600;margin:0 0 4px;color:var(--dysr);}
+  .note-card .sub{font-size:12.5px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin:0 0 14px;}
+  .note-card p{margin:0 0 10px;font-size:14.5px;line-height:1.65;color:var(--ink-soft);}
+  .note-card p:last-child{margin-bottom:0;}
+  .note-card strong{color:var(--ink);}
+  .note-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;margin-top:6px;}
+  .note-pill{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:11px 13px;font-size:13.5px;line-height:1.5;}
+  .note-pill b{display:block;color:var(--ink);font-size:13.5px;margin-bottom:3px;}
+  .note-pill span{color:var(--ink-soft);}
+  table.compare{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px;}
+  table.compare th{font-family:'JetBrains Mono',monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);text-align:left;padding:8px 8px;border-bottom:2px solid var(--line);}
+  table.compare td{padding:9px 8px;border-bottom:1px solid var(--line);color:var(--ink-soft);vertical-align:top;}
+  table.compare td:first-child{color:var(--ink);font-weight:600;white-space:nowrap;}
+  .callout{background:var(--dysr-dim);border-left:4px solid var(--dysr);border-radius:10px;padding:16px 18px;margin-top:8px;}
+  .callout h4{margin:0 0 6px;font-family:'Fraunces',serif;font-size:16px;color:var(--dysr);}
+  .callout p{margin:0;font-size:13.5px;color:var(--ink-soft);line-height:1.6;}
+  .poem{background:var(--paper);border:1px dashed var(--line);border-radius:10px;padding:12px 14px;margin-top:6px;font-size:13.5px;line-height:1.6;color:var(--ink-soft);}
+  .poem b{color:var(--dysr);}
+
+  /* ---------- Flashcards ---------- */
+  .fc-wrap{max-width:560px;margin:0 auto;}
+  .fc-counter{text-align:center;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--muted);margin-bottom:12px;}
+  .fc-card{
+    background:var(--card);border:1px solid var(--line);border-radius:16px;
+    min-height:220px;padding:30px 28px;display:flex;align-items:center;justify-content:center;text-align:center;
+    cursor:pointer;box-shadow:0 4px 16px rgba(18,40,61,.08);position:relative;
+  }
+  .fc-face{font-size:17px;line-height:1.55;color:var(--ink);}
+  .fc-tag{position:absolute;top:14px;left:18px;font-family:'JetBrains Mono',monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);}
+  .fc-card.flipped .fc-face{color:var(--dysr);}
+  .fc-card.flipped{background:var(--dysr-dim);border-color:var(--dysr);}
+  .fc-hint{text-align:center;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--muted);margin-top:10px;}
+  .fc-controls{display:flex;justify-content:center;gap:10px;margin-top:18px;flex-wrap:wrap;}
+  .fc-btn{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;background:var(--card);color:var(--ink-soft);border:1px solid var(--line);padding:10px 18px;border-radius:9px;cursor:pointer;}
+  .fc-btn:hover{border-color:var(--dysr);color:var(--dysr);}
+  .fc-btn.primary{background:var(--dysr);color:#fff;border:none;}
+  .fc-btn.primary:hover{filter:brightness(1.08);}
+
+  /* ---------- Setup / Quiz ---------- */
+  .set-grid{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:26px;}
+  .set-btn{
+    font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;color:var(--ink);
+    background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:16px 22px;cursor:pointer;
+    display:flex;flex-direction:column;align-items:flex-start;gap:4px;min-width:120px;transition:all .15s ease;
+  }
+  .set-btn .n{font-family:'Fraunces',serif;font-size:26px;font-weight:600;color:var(--dysr);}
+  .set-btn .lbl{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+  .set-btn:hover{border-color:var(--dysr);transform:translateY(-2px);box-shadow:0 8px 18px -6px rgba(159,29,58,.35);}
+
+  .statusbar{display:none;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;}
+  .statusbar.show{display:flex;}
+  .progress-track{flex:1;height:6px;background:var(--line);border-radius:4px;overflow:hidden;}
+  .progress-fill{height:100%;background:var(--dysr);border-radius:4px;width:0%;transition:width .35s ease;}
+  .score-pill{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--ink);background:var(--card);border:1px solid var(--line);padding:6px 12px;border-radius:20px;white-space:nowrap;}
+  .score-pill span{color:var(--dysr);}
+
+  #quizArea{display:none;}
+  #quizArea.show{display:block;}
+  .qcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:28px 26px 24px;margin-bottom:20px;box-shadow:0 1px 2px rgba(18,40,61,.05);}
+  .qmeta{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
+  .qnum{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--dysr);background:var(--dysr-dim);padding:3px 9px;border-radius:6px;}
+  .stem{font-size:17.5px;line-height:1.48;font-weight:600;color:var(--ink);margin:0 0 20px;}
+  .options{display:flex;flex-direction:column;gap:10px;}
+  .opt{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;padding:13px 14px;border:1.5px solid var(--line);background:var(--paper);border-radius:10px;cursor:pointer;font-family:'Inter',sans-serif;font-size:15px;color:var(--ink);transition:border-color .15s ease, background .15s ease;}
+  .opt:hover:not(.locked){border-color:var(--dysr);background:var(--dysr-dim);}
+  .opt-letter{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:13px;color:var(--ink-soft);background:var(--card);border:1px solid var(--line);min-width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+  .opt-text{flex:1;line-height:1.45;}
+  .opt.correct-choice{border-color:var(--correct);background:var(--correct-bg);}
+  .opt.correct-choice .opt-letter{background:var(--correct);border-color:var(--correct);color:#fff;}
+  .opt.incorrect-choice{border-color:var(--incorrect);background:var(--incorrect-bg);}
+  .opt.incorrect-choice .opt-letter{background:var(--incorrect);border-color:var(--incorrect);color:#fff;}
+  .opt.locked{cursor:default;}
+  .opt.dim{opacity:.55;}
+  .opt-explain{margin-top:6px;font-size:13.5px;line-height:1.5;display:none;}
+  .opt.correct-choice .opt-explain{color:#15694A;display:block;}
+  .opt.incorrect-choice .opt-explain{color:#96332E;display:block;}
+  .opt.dim.correct-choice .opt-explain{color:var(--correct);display:block;}
+
+  .result-banner{display:none;align-items:center;gap:10px;margin-top:18px;padding:11px 14px;border-radius:9px;font-size:14px;font-weight:600;}
+  .result-banner.show{display:flex;}
+  .result-banner.correct{background:var(--correct-bg);color:var(--correct);}
+  .result-banner.incorrect{background:var(--incorrect-bg);color:var(--incorrect);}
+
+  .actions{display:flex;justify-content:flex-end;align-items:center;margin-top:18px;gap:10px;}
+  .btn-next{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;letter-spacing:.03em;background:var(--dysr);color:#fff;border:none;padding:11px 20px;border-radius:8px;cursor:pointer;display:none;align-items:center;gap:8px;}
+  .btn-next.show{display:inline-flex;}
+  .btn-next:hover{filter:brightness(1.08);}
+
+  .summary{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:36px 30px;text-align:center;display:none;}
+  .summary.show{display:block;}
+  .summary .big-score{font-family:'Fraunces',serif;font-size:56px;font-weight:600;color:var(--dysr);line-height:1;margin-bottom:6px;}
+  .summary .big-score sub{font-size:22px;font-weight:500;color:var(--muted);}
+  .summary p{color:var(--ink-soft);font-size:14px;margin:6px 0 22px;}
+  .btn-restart{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;background:var(--dysr);color:#fff;border:none;padding:12px 22px;border-radius:8px;cursor:pointer;margin:4px;}
+  .btn-restart:hover{filter:brightness(1.08);}
+  .btn-restart.secondary{background:var(--card);color:var(--ink-soft);border:1px solid var(--line);}
+  .btn-restart.secondary:hover{color:var(--dysr);border-color:var(--dysr);}
+
+  footer{text-align:center;margin-top:20px;font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="brand" href="index.html">◆ Nursing NCLEX Review</a>
+  <div class="navlinks">
+    <a href="#notes">Notes</a>
+    <a href="#flashcards">Flashcards</a>
+    <a href="#setup">Practice test</a>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Cardiovascular Nursing Management</div>
+    <h1>Cardiac Dysrhythmias</h1>
+    <p class="subtitle">ECG fundamentals, the 11 key rhythms, heart blocks, cardioversion vs. defibrillation, pacemakers/AICD, acute coronary syndrome &amp; MI, heart failure &amp; pulmonary edema, and cardiovascular pharmacology.</p>
+    <p class="credit">Course notes prepared by Dr. Heather Cayenne DNP, MSN, RN</p>
+    <div class="hero-stats">
+      <span class="hero-pill"><span class="dot"></span>55 practice questions</span>
+      <span class="hero-pill"><span class="dot"></span>48 flashcards</span>
+      <span class="hero-pill"><span class="dot"></span>10 / 20 / 40 / 55-question sets</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- ============ NOTES ============ -->
+  <section id="notes">
+    <div class="section-head"><h2>Course notes</h2><span class="tag">Read first</span></div>
+
+    <div class="note-card">
+      <h3>Core concepts</h3>
+      <p><strong>Cardiac dysrhythmias</strong> are abnormal rhythms originating from the heart's electrical conduction system that impair its ability to pump blood effectively. Ineffective pumping compromises <strong>perfusion</strong> — blood flow to organs — leading to dysfunction or systemic failure.</p>
+      <p><strong>Ventricular dysrhythmias</strong> are significantly more dangerous than atrial dysrhythmias because the left ventricle supplies oxygenated blood to vital organs.</p>
+    </div>
+
+    <div class="note-card">
+      <h3>ECG basics &amp; measurement standards</h3>
+      <div class="note-grid">
+        <div class="note-pill"><b>P wave</b><span>Atrial depolarization → atrial systole/contraction</span></div>
+        <div class="note-pill"><b>QRS complex</b><span>Ventricular depolarization → ventricular systole/contraction</span></div>
+        <div class="note-pill"><b>T wave</b><span>Ventricular repolarization → ventricular diastole, relaxation &amp; passive filling</span></div>
+      </div>
+      <table class="compare" style="margin-top:14px;">
+        <tr><th>Grid measure</th><th>Time / Voltage</th></tr>
+        <tr><td>1 small square (1 mm)</td><td>0.04 sec / 0.1 mV</td></tr>
+        <tr><td>1 large square (5 mm)</td><td>0.20 sec / 0.5 mV</td></tr>
+        <tr><td>5 large squares (25 mm)</td><td>1.00 second</td></tr>
+        <tr><td>Standard calibration</td><td>10 mm = 1.0 mV</td></tr>
+      </table>
+      <p style="margin-top:12px;"><strong>Steps for rhythm interpretation:</strong> rate → rhythm regularity → P waves (presence, uniformity, ratio) → PR interval (0.12–0.20 sec) → QRS duration (narrow: 0.04–0.12 sec) → QT interval.</p>
+      <p><strong>Six-second method:</strong> count R waves in a 6-second strip, multiply by 10, for average bpm.</p>
+    </div>
+
+    <div class="note-card">
+      <h3>The 11 key rhythms</h3>
+      <table class="compare">
+        <tr><th>Rhythm</th><th>Rate</th><th>Rhythm regularity</th><th>Key identifiers</th><th>Primary interventions</th></tr>
+        <tr><td>NSR</td><td>60–100 bpm</td><td>Regular</td><td>Uniform P before every QRS; normal intervals</td><td>Baseline normal</td></tr>
+        <tr><td>Sinus brady</td><td>&lt;60 bpm</td><td>Regular</td><td>Normal criteria, slow rate</td><td>Atropine 1 mg IV, O2, TCP if unstable</td></tr>
+        <tr><td>Sinus tachy</td><td>&gt;100 bpm</td><td>Regular</td><td>Normal criteria, fast rate</td><td>Treat cause; bedrest</td></tr>
+        <tr><td>SVT</td><td>Rapid</td><td>Regular</td><td>P hidden in T; narrow QRS</td><td>Vagal, adenosine, cardioversion</td></tr>
+        <tr><td>A-Fib</td><td>Atrial 300–600; V 120–200</td><td>Irreg. irregular</td><td>No distinct P; chaotic fib waves</td><td>ABCDE (see below)</td></tr>
+        <tr><td>A-Flutter</td><td>Atrial 250–400</td><td>Reg or irreg</td><td>Saw-tooth "F" waves</td><td>Vagal, adenosine, rate control</td></tr>
+        <tr><td>PVC</td><td>Varies</td><td>Irregular</td><td>Early ectopic beat; wide bizarre QRS; no P</td><td>Monitor freq.; treat K+/Mg+ imbalance</td></tr>
+        <tr><td>V-Tach</td><td>100–250 bpm</td><td>Regular</td><td>Wide, tombstone QRS; no P</td><td>Pulse: amiodarone/cardioversion. Pulseless: defib+CPR</td></tr>
+        <tr><td>Torsades</td><td>Rapid</td><td>Irregular</td><td>Polymorphic, twisting; prolonged QT</td><td>IV Magnesium Sulfate; defib if pulseless</td></tr>
+        <tr><td>V-Fib</td><td>&gt;300 bpm</td><td>Extremely irregular</td><td>Complete chaos; shockable</td><td>CPR + defib, epinephrine, amiodarone</td></tr>
+        <tr><td>Asystole</td><td>Absent</td><td>Flatline</td><td>No electrical activity; non-shockable</td><td>CPR, epinephrine, airway</td></tr>
+      </table>
+    </div>
+
+    <div class="note-card">
+      <h3>Sinus bradycardia &amp; A-fib/flutter — detailed management</h3>
+      <p><strong>Sinus bradycardia causes:</strong> athletic conditioning, sleep, hypothyroidism, vagal response (vomiting, suctioning, straining), beta-blockers/CCBs, increased ICP, MI.</p>
+      <p><strong>Symptoms:</strong> shortness of breath, chest pain, dizziness, fatigue, hypotension, altered mental status. <strong>Management:</strong> withhold causal meds; if symptomatic, O2 + atropine 1 mg IV; prepare TCP if refractory.</p>
+      <div class="callout">
+        <h4>A-Fib "ABCDE" mnemonic</h4>
+        <p><strong>A</strong>nticoagulants (prevent embolic events) · <strong>B</strong>eta-blockers (slow AV node conduction) · <strong>C</strong>alcium channel blockers (verapamil, diltiazem) · <strong>D</strong>igoxin (rate control in HF) · <strong>E</strong>lectrocardioversion (resets sinus rhythm)</p>
+      </div>
+      <p style="margin-top:10px;"><strong>Complications:</strong> loss of atrial kick decreases cardiac output; blood stagnation in atria → thrombus formation → DVT, PE, ischemic stroke risk.</p>
+    </div>
+
+    <div class="note-card">
+      <h3>Heart blocks — "the heart block poem"</h3>
+      <div class="poem"><b>1st Degree:</b> "If the R is far from P, then you have a First Degree." PR interval &gt;0.20 sec; usually asymptomatic.</div>
+      <div class="poem"><b>2nd Degree Type I (Wenckebach):</b> "Longer, longer, longer, drop! Now you have a Wenckebach." Progressive PR prolongation until a QRS is dropped.</div>
+      <div class="poem"><b>2nd Degree Type II (Mobitz II):</b> "If some Ps don't get through, then you have a Mobitz II." Fixed PR intervals with intermittent dropped QRS — requires pacing.</div>
+      <div class="poem"><b>3rd Degree (Complete):</b> "If Ps and Qs don't agree, then you have a Third Degree." Atria &amp; ventricles beat independently — medical emergency, temporary TCP + permanent pacemaker.</div>
+    </div>
+
+    <div class="note-card">
+      <h3>Cardioversion vs. defibrillation</h3>
+      <table class="compare">
+        <tr><th>Feature</th><th>Synchronized cardioversion</th><th>Defibrillation</th></tr>
+        <tr><td>Timing</td><td>Synchronized to the R-wave</td><td>Unsynchronized / random</td></tr>
+        <tr><td>Indication</td><td>Symptomatic SVT, A-Flutter, A-Fib, monomorphic V-Tach WITH pulse</td><td>Pulseless V-Tach and V-Fib</td></tr>
+        <tr><td>Patient status</td><td>Conscious/sedated, elective/urgent</td><td>Unconscious, pulseless, emergency</td></tr>
+        <tr><td>Energy level</td><td>Lower (50–200 J)</td><td>High (120–200 J biphasic; 360 J monophasic)</td></tr>
+      </table>
+    </div>
+
+    <div class="note-card">
+      <h3>Pacemakers &amp; implantable devices</h3>
+      <div class="note-grid">
+        <div class="note-pill"><b>AICD</b><span>Continuously monitors for VT/VF; automatically delivers internal countershocks (25–30 J).</span></div>
+        <div class="note-pill"><b>Permanent/demand pacemaker</b><span>Delivers an electrical pulse to capture the myocardium when intrinsic rate drops below threshold.</span></div>
+      </div>
+      <p style="margin-top:12px;"><strong>Complications to monitor:</strong> infection, pneumothorax, hemothorax, hematoma, catheter displacement/ventricular ectopy.</p>
+    </div>
+
+    <div class="note-card">
+      <h3>Acute coronary syndrome &amp; MI</h3>
+      <p><strong>Pathophysiology:</strong> atherosclerotic plaque rupture → thrombus formation → myocardium deprived of blood/O2. Physical ischemia changes within 6 hr; infarct tissue turns gray with yellow streaks by 48 hr.</p>
+      <p><strong>Classic manifestations:</strong> substernal chest pain radiating to jaw, neck, left arm, or back; dyspnea, diaphoresis, nausea/vomiting, pallor, dizziness, anxiety.</p>
+      <p><strong>Atypical (women/diabetics/elderly):</strong> epigastric distress/indigestion, unexplained extreme fatigue, shortness of breath, upper back discomfort.</p>
+      <div class="callout">
+        <h4>MI complications — "DARTH VADER"</h4>
+        <p><strong>D</strong>eath · <strong>A</strong>rrhythmias · <strong>R</strong>upture (papillary muscle, septum, free wall) · <strong>T</strong>amponade · <strong>H</strong>eart failure · <strong>V</strong>alve disease · <strong>A</strong>neurysm (ventricular) · <strong>D</strong>ressler's syndrome · <strong>E</strong>mbolism (mural thrombus) · <strong>R</strong>ecurrence/mitral Regurgitation</p>
+      </div>
+      <p style="margin-top:12px;"><strong>Hospital protocol for acute chest pain:</strong> assess pain/VS/ECG → O2 + Semi-Fowler's → 1 SL NTG tablet → reassess pain/BP in 5 min → repeat up to 3 doses total (5 min apart) if BP stable → contact PHCP if unresolved after 3rd dose.</p>
+    </div>
+
+    <div class="note-card">
+      <h3>Heart failure &amp; acute pulmonary edema</h3>
+      <table class="compare">
+        <tr><th>Left-sided (pulmonary)</th><th>Right-sided (systemic)</th></tr>
+        <tr><td>Pulmonary congestion, dyspnea/orthopnea, tachypnea, dry hacking cough, frothy sputum</td><td>JVD, peripheral edema, ascites &amp; hepatomegaly, weight gain/anorexia</td></tr>
+      </table>
+      <p style="margin-top:12px;"><strong>Acute pulmonary edema — emergency steps:</strong> High-Fowler's position immediately → high-flow O2 → assess lung sounds → IV access → prepare furosemide + IV morphine sulfate (reduces preload/anxiety) → Foley catheter for output → prepare for intubation if respiratory failure.</p>
+    </div>
+
+    <div class="note-card">
+      <h3>Cardiovascular pharmacology summary</h3>
+      <div class="note-grid">
+        <div class="note-pill"><b>Thrombolytics</b><span>Alteplase, tenecteplase. Dissolve arterial clots. Check absolute contraindications (active bleeding, recent surgery, head trauma). Neuro checks q15–30min. Antidote: aminocaproic acid (Amicar).</span></div>
+        <div class="note-pill"><b>Antiplatelets</b><span>Aspirin, clopidogrel. Prevent platelet aggregation. Watch for occult GI bleed, black tarry stools, bruising, hematuria.</span></div>
+        <div class="note-pill"><b>Nitrates</b><span>Nitroglycerin, isosorbide. Vasodilation ↓ preload &amp; O2 demand. Side effects: hypotension, throbbing headache.</span></div>
+        <div class="note-pill"><b>Beta-blockers</b><span>Atenolol, metoprolol, bisoprolol. ↓ HR, BP, workload. Hold if HR &lt;60 bpm or SBP &lt;90 mmHg.</span></div>
+        <div class="note-pill"><b>Anticholinergic</b><span>Atropine. Increases SA node firing to treat symptomatic sinus bradycardia.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FLASHCARDS ============ -->
+  <section id="flashcards">
+    <div class="section-head"><h2>Flashcards</h2><span class="tag">48 cards</span></div>
+    <div class="fc-wrap">
+      <div class="fc-counter" id="fcCounter">Card 1 of 48</div>
+      <div class="fc-card" id="fcCard">
+        <span class="fc-tag" id="fcTag">Question</span>
+        <div class="fc-face" id="fcFace"></div>
+      </div>
+      <div class="fc-hint">Click the card to flip</div>
+      <div class="fc-controls">
+        <button class="fc-btn" id="fcPrev">← Prev</button>
+        <button class="fc-btn primary" id="fcFlip">Flip card</button>
+        <button class="fc-btn" id="fcNext">Next →</button>
+        <button class="fc-btn" id="fcShuffle">🔀 Shuffle</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PRACTICE TEST ============ -->
+  <section id="setup">
+    <div class="section-head"><h2>Practice test</h2><span class="tag">Pick a set size</span></div>
+    <div class="set-grid" id="setGrid"></div>
+
+    <div class="statusbar" id="statusbar">
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="score-pill">Score <span id="scoreLabel">0 / 0</span></div>
+    </div>
+
+    <div id="quizArea"></div>
+
+    <div class="summary" id="summary">
+      <div class="big-score"><span id="finalScore">0</span><sub id="finalOutOf">/10</sub></div>
+      <p id="finalMsg"></p>
+      <button class="btn-restart secondary" id="setupBtn">Choose another set size</button>
+      <button class="btn-restart" id="restartBtn">Retake this set</button>
+    </div>
+  </section>
+
+  <footer>CARDIAC DYSRHYTHMIAS · NURSING NCLEX REVIEW</footer>
+</div>
+
+<script>
+const QUESTIONS = [{"stem": "Why are ventricular dysrhythmias considered more dangerous than atrial dysrhythmias?", "options": [{"text": "The left ventricle supplies oxygenated blood to vital organs.", "correct": true, "explain": "Ventricular dysrhythmias originate in the ventricles, and because the left ventricle supplies oxygenated blood to vital organs, disruption there is significantly more dangerous than atrial dysrhythmias."}, {"text": "Atrial dysrhythmias never affect cardiac output.", "correct": false, "explain": "Atrial dysrhythmias, such as atrial fibrillation, can still significantly decrease cardiac output by losing the atrial kick; this is not the reason ventricular dysrhythmias are more dangerous."}, {"text": "Ventricular dysrhythmias are always asymptomatic.", "correct": false, "explain": "Ventricular dysrhythmias are often symptomatic and can be life-threatening; this is not why they are more dangerous."}, {"text": "The right ventricle is more sensitive to electrical disruption.", "correct": false, "explain": "It is the left ventricle's role in supplying oxygenated blood to vital organs that makes ventricular dysrhythmias more dangerous, not right ventricular sensitivity."}]}, {"stem": "Which ECG component reflects ventricular depolarization?", "options": [{"text": "QRS complex", "correct": true, "explain": "The QRS complex represents ventricular depolarization (the electrical event) and corresponds to ventricular systole/contraction (the mechanical event)."}, {"text": "P wave", "correct": false, "explain": "The P wave represents atrial depolarization, not ventricular depolarization."}, {"text": "T wave", "correct": false, "explain": "The T wave represents ventricular repolarization, not depolarization."}, {"text": "PR interval", "correct": false, "explain": "The PR interval reflects the time from atrial depolarization to the start of ventricular depolarization, not depolarization itself."}]}, {"stem": "Which mechanical event corresponds to the T wave on the ECG?", "options": [{"text": "Ventricular diastole (relaxation and passive filling)", "correct": true, "explain": "The T wave represents ventricular repolarization electrically, which corresponds to ventricular diastole — relaxation and passive filling — mechanically."}, {"text": "Atrial systole / contraction", "correct": false, "explain": "Atrial systole corresponds to the P wave (atrial depolarization), not the T wave."}, {"text": "Ventricular systole / contraction", "correct": false, "explain": "Ventricular systole corresponds to the QRS complex (ventricular depolarization), not the T wave."}, {"text": "Atrial diastole only", "correct": false, "explain": "The T wave specifically reflects ventricular repolarization and diastole, not atrial diastole."}]}, {"stem": "On standard ECG paper, how many seconds does one large square (5 mm) represent?", "options": [{"text": "0.20 seconds", "correct": true, "explain": "One large square (5 mm) represents 0.20 seconds (and 0.5 mV), while one small square (1 mm) represents 0.04 seconds (0.1 mV)."}, {"text": "0.04 seconds", "correct": false, "explain": "0.04 seconds is represented by one small square (1 mm), not one large square."}, {"text": "1.00 second", "correct": false, "explain": "1.00 second is represented by 5 large squares (25 mm), not a single large square."}, {"text": "0.5 seconds", "correct": false, "explain": "One large square represents 0.20 seconds, not 0.5 seconds."}]}, {"stem": "A nurse is using the six-second method to calculate a client's heart rate from a rhythm strip. Which method is correct?", "options": [{"text": "Count the R waves in a 6-second strip and multiply by 10.", "correct": true, "explain": "The six-second method involves counting the number of R waves in a 6-second strip and multiplying by 10 to obtain the average beats per minute."}, {"text": "Count the R waves in a 6-second strip and multiply by 6.", "correct": false, "explain": "The correct multiplier for the six-second method is 10, not 6."}, {"text": "Count the P waves in a 6-second strip and divide by 2.", "correct": false, "explain": "The six-second method uses R waves, not P waves, and the correct calculation is multiplying by 10, not dividing by 2."}, {"text": "Count the small squares between two R waves and divide into 1,500.", "correct": false, "explain": "This describes a different method (the 1,500 method) for regular rhythms, not the six-second method described in this material."}]}, {"stem": "What is the expected normal PR interval range?", "options": [{"text": "0.12 to 0.20 seconds", "correct": true, "explain": "The normal PR interval range is 0.12 to 0.20 seconds, one of the criteria assessed during rhythm interpretation."}, {"text": "0.04 to 0.12 seconds", "correct": false, "explain": "This range describes the normal (narrow) QRS complex duration, not the PR interval."}, {"text": "0.20 to 0.40 seconds", "correct": false, "explain": "The normal PR interval is 0.12 to 0.20 seconds; a PR interval greater than 0.20 seconds indicates first degree heart block."}, {"text": "Greater than 0.40 seconds", "correct": false, "explain": "A PR interval this long would be markedly abnormal; the normal range is 0.12 to 0.20 seconds."}]}, {"stem": "What is considered a normal (narrow) QRS complex duration?", "options": [{"text": "0.04 to 0.12 seconds", "correct": true, "explain": "A narrow QRS complex duration of 0.04 to 0.12 seconds is normal; wide QRS complexes are seen in rhythms such as PVCs and ventricular tachycardia."}, {"text": "0.12 to 0.20 seconds", "correct": false, "explain": "This range describes the normal PR interval, not the QRS complex duration."}, {"text": "0.20 to 0.40 seconds", "correct": false, "explain": "This range is not the normal QRS duration; normal QRS duration is 0.04 to 0.12 seconds."}, {"text": "Greater than 0.40 seconds", "correct": false, "explain": "A QRS duration this long would be markedly abnormal/wide, not within the normal narrow range."}]}, {"stem": "A nurse reviews a rhythm strip showing a regular rhythm at 110 bpm with a round, uniform P wave before every QRS and normal PR and QRS intervals. The nurse should identify this rhythm as which of the following?", "options": [{"text": "Sinus tachycardia", "correct": true, "explain": "Sinus tachycardia has normal sinus criteria (uniform P wave before every QRS, normal intervals, regular rhythm) but with an overall rate greater than 100 bpm."}, {"text": "Normal sinus rhythm", "correct": false, "explain": "Normal sinus rhythm has a rate of 60-100 bpm; a rate of 110 bpm with otherwise normal criteria is sinus tachycardia."}, {"text": "Supraventricular tachycardia", "correct": false, "explain": "SVT is characterized by a P wave hidden or embedded in the T wave with a narrow QRS, not a clearly visible uniform P wave before every QRS."}, {"text": "Atrial flutter", "correct": false, "explain": "Atrial flutter shows saw-tooth \"F\" waves with an unmeasurable PR interval, not a normal uniform P wave before every QRS."}]}, {"stem": "Which of the following rhythms is characterized as \"irregularly irregular\" with no distinct P waves and chaotic fibrillatory waves?", "options": [{"text": "Atrial fibrillation", "correct": true, "explain": "Atrial fibrillation is classically described as irregularly irregular, with no distinct P waves, chaotic fibrillatory waves, and an unmeasurable PR interval."}, {"text": "Atrial flutter", "correct": false, "explain": "Atrial flutter shows saw-tooth \"F\" waves and can be regular or irregular, but is not described as \"irregularly irregular\" with chaotic fibrillatory waves."}, {"text": "Sinus bradycardia", "correct": false, "explain": "Sinus bradycardia is a regular rhythm with normal P wave criteria, just at a rate below 60 bpm."}, {"text": "Supraventricular tachycardia", "correct": false, "explain": "SVT is a regular rhythm with a rapid rate, not an irregularly irregular rhythm."}]}, {"stem": "A nurse identifies saw-tooth \"F\" waves on a client's rhythm strip with an unmeasurable PR interval. This is most consistent with which rhythm?", "options": [{"text": "Atrial flutter", "correct": true, "explain": "Atrial flutter is characterized by saw-tooth \"F\" waves and an unmeasurable PR interval, with an atrial rate of 250-400 bpm."}, {"text": "Atrial fibrillation", "correct": false, "explain": "Atrial fibrillation shows chaotic fibrillatory waves rather than saw-tooth \"F\" waves."}, {"text": "Ventricular tachycardia", "correct": false, "explain": "Ventricular tachycardia shows wide, tombstone-like QRS complexes with no P waves, not saw-tooth F waves."}, {"text": "First degree heart block", "correct": false, "explain": "First degree heart block shows a prolonged PR interval (>0.20 sec) with a measurable PR, not an unmeasurable one with saw-tooth waves."}]}, {"stem": "Which of the following describes the ECG appearance of a premature ventricular contraction (PVC)?", "options": [{"text": "An early ectopic beat with a wide, bizarre QRS and no preceding P wave", "correct": true, "explain": "A PVC is defined as an early ectopic beat with a wide and bizarre QRS complex and no P wave preceding the beat."}, {"text": "A regular rhythm with a narrow QRS at 100-250 bpm", "correct": false, "explain": "A regular rhythm at 100-250 bpm with a wide QRS describes ventricular tachycardia, not a PVC; also, V-tach's QRS is wide, not narrow as stated here."}, {"text": "A saw-tooth pattern of F waves", "correct": false, "explain": "Saw-tooth F waves describe atrial flutter, not a PVC."}, {"text": "Complete chaos with no identifiable waveforms", "correct": false, "explain": "This describes ventricular fibrillation, not a PVC."}]}, {"stem": "A client's monitor shows wide, tombstone-like QRS complexes with no visible P waves at a regular rate of 160 bpm, and the client has a palpable pulse. The nurse should identify this rhythm as which of the following?", "options": [{"text": "Ventricular tachycardia with a pulse", "correct": true, "explain": "Ventricular tachycardia is characterized by wide, tombstone-like QRS complexes, no P waves, and a regular rate of 100-250 bpm; when a pulse is present, treatment includes antiarrhythmics and/or cardioversion."}, {"text": "Torsades de pointes", "correct": false, "explain": "Torsades de pointes is a polymorphic (irregular, twisting) form of V-tach around the isoelectric line, not a regular monomorphic wide-QRS rhythm."}, {"text": "Ventricular fibrillation", "correct": false, "explain": "Ventricular fibrillation shows complete chaos with no identifiable P, QRS, or T waves, and clients in V-fib do not have a pulse."}, {"text": "Supraventricular tachycardia", "correct": false, "explain": "SVT has a narrow QRS, not the wide, tombstone-like QRS seen in ventricular tachycardia."}]}, {"stem": "A nurse observes polymorphic ventricular tachycardia twisting around the isoelectric line on a client's monitor. Which underlying cause should the nurse suspect?", "options": [{"text": "Prolonged QT interval", "correct": true, "explain": "Torsades de pointes is polymorphic V-tach that twists around the isoelectric line and is caused by a prolonged QT interval."}, {"text": "Elevated potassium level", "correct": false, "explain": "Torsades de pointes is caused by a prolonged QT interval; while electrolyte disturbances can contribute to QT prolongation, the direct cause identified is the prolonged QT interval itself, and hyperkalemia is not the classic association here."}, {"text": "First degree heart block", "correct": false, "explain": "First degree heart block is due to a prolonged PR interval, not a prolonged QT interval, and does not cause torsades de pointes."}, {"text": "Excess vagal tone", "correct": false, "explain": "Torsades de pointes is caused by a prolonged QT interval, not vagal tone."}]}, {"stem": "A client's monitor shows complete chaos with no identifiable P waves, QRS complexes, or T waves. The nurse recognizes this as which rhythm, and what is the priority action?", "options": [{"text": "Ventricular fibrillation; immediate CPR and defibrillation", "correct": true, "explain": "Ventricular fibrillation shows complete chaos with no identifiable waveforms and is a shockable rhythm requiring immediate CPR and defibrillation (120-200 J biphasic / 360 J monophasic), along with epinephrine and amiodarone."}, {"text": "Asystole; immediate CPR and defibrillation", "correct": false, "explain": "Asystole is a flatline, non-shockable rhythm — it requires immediate high-quality CPR, epinephrine, and airway management, but NOT defibrillation."}, {"text": "Sinus tachycardia; treat the underlying cause", "correct": false, "explain": "This description of complete chaos with no identifiable waveforms does not match sinus tachycardia, which has a regular rhythm with normal, identifiable P-QRS-T complexes."}, {"text": "Torsades de pointes; administer IV magnesium sulfate", "correct": false, "explain": "Torsades de pointes shows a polymorphic twisting pattern, not complete chaos with no identifiable waveforms; that description matches ventricular fibrillation."}]}, {"stem": "A client's monitor shows a flatline with absence of all electrical activity. The nurse should recognize this as which of the following, and confirm which priority action?", "options": [{"text": "Asystole; immediate high-quality CPR, epinephrine, and airway management", "correct": true, "explain": "Asystole is a flatline with absence of all electrical activity, and it is a non-shockable rhythm requiring immediate high-quality CPR, epinephrine, and airway management."}, {"text": "Ventricular fibrillation; immediate defibrillation", "correct": false, "explain": "Ventricular fibrillation is a shockable rhythm showing chaotic waveforms, not a flatline; a flatline describes asystole, which is non-shockable."}, {"text": "Pulseless electrical activity; synchronized cardioversion", "correct": false, "explain": "Synchronized cardioversion is not indicated for a flatline rhythm; asystole requires CPR, epinephrine, and airway management, not cardioversion."}, {"text": "Sinus arrest; atropine 1 mg IV", "correct": false, "explain": "A flatline with absence of all electrical activity is asystole, which requires CPR and epinephrine rather than atropine alone."}]}, {"stem": "A nurse is caring for a symptomatic client with sinus bradycardia. Which intervention should the nurse anticipate first?", "options": [{"text": "Administer oxygen and atropine 1 mg IV.", "correct": true, "explain": "For symptomatic sinus bradycardia, the nurse should administer oxygen and atropine 1 mg IV, and prepare for transcutaneous pacing if refractory to drugs."}, {"text": "Prepare for immediate defibrillation.", "correct": false, "explain": "Defibrillation is not indicated for sinus bradycardia; this is not a shockable rhythm."}, {"text": "Administer IV magnesium sulfate.", "correct": false, "explain": "IV magnesium sulfate is the treatment for torsades de pointes, not sinus bradycardia."}, {"text": "Perform vagal maneuvers.", "correct": false, "explain": "Vagal maneuvers are used to treat SVT, not sinus bradycardia; vagal responses can actually cause bradycardia."}]}, {"stem": "Which of the following is a potential cause of sinus bradycardia?", "options": [{"text": "Vagal response from vomiting or straining during bowel movements", "correct": true, "explain": "Causes of sinus bradycardia include vagal responses such as vomiting, suctioning, or straining during bowel movements, along with athletic conditioning, sleep, hypothyroidism, beta-blockers, CCBs, increased ICP, and myocardial infarction."}, {"text": "Fever", "correct": false, "explain": "Fever is a cause of sinus tachycardia, not sinus bradycardia."}, {"text": "Anxiety", "correct": false, "explain": "Anxiety is a cause of sinus tachycardia, not sinus bradycardia."}, {"text": "Dehydration", "correct": false, "explain": "Dehydration is a cause of sinus tachycardia, not sinus bradycardia."}]}, {"stem": "A nurse is caring for a client with sinus tachycardia related to fever and dehydration. Which intervention is most appropriate?", "options": [{"text": "Treat the underlying cause and encourage bedrest.", "correct": true, "explain": "Sinus tachycardia management involves treating the underlying cause (such as fever, anxiety, dehydration, or stimulants) and encouraging bedrest."}, {"text": "Administer atropine 1 mg IV.", "correct": false, "explain": "Atropine is used to treat symptomatic sinus bradycardia, not sinus tachycardia."}, {"text": "Prepare for transcutaneous pacing.", "correct": false, "explain": "Transcutaneous pacing is prepared for refractory symptomatic bradycardia or heart block, not sinus tachycardia."}, {"text": "Perform synchronized cardioversion.", "correct": false, "explain": "Synchronized cardioversion is used for symptomatic SVT, A-flutter, A-fib, or monomorphic V-tach with a pulse, not routine sinus tachycardia from fever/dehydration."}]}, {"stem": "A nurse is caring for a client with new-onset supraventricular tachycardia (SVT) who is hemodynamically stable. Which intervention should the nurse anticipate first?", "options": [{"text": "Vagal maneuvers", "correct": true, "explain": "For SVT, initial interventions include vagal maneuvers, followed by adenosine, and synchronized cardioversion if needed."}, {"text": "Immediate unsynchronized defibrillation", "correct": false, "explain": "Defibrillation is unsynchronized and used for pulseless V-tach/V-fib, not a hemodynamically stable client with SVT."}, {"text": "IV magnesium sulfate", "correct": false, "explain": "IV magnesium sulfate is used for torsades de pointes, not SVT."}, {"text": "Atropine 1 mg IV", "correct": false, "explain": "Atropine is used for symptomatic bradycardia, not SVT."}]}, {"stem": "A nurse is reviewing the \"ABCDE\" mnemonic for atrial fibrillation management with a student nurse. Which of the following correctly matches a letter to its intervention?", "options": [{"text": "B: Beta-blockers, which slow AV node conduction", "correct": true, "explain": "In the ABCDE mnemonic for A-fib: A=Anticoagulants, B=Beta-blockers (slows AV node conduction), C=Calcium channel blockers, D=Digoxin, E=Electrocardioversion."}, {"text": "A: Antiplatelets, to prevent embolic events", "correct": false, "explain": "\"A\" in the ABCDE mnemonic stands for Anticoagulants, not antiplatelets specifically."}, {"text": "C: Cardioversion", "correct": false, "explain": "\"C\" in the ABCDE mnemonic stands for Calcium channel blockers; cardioversion is represented by \"E\" (Electrocardioversion)."}, {"text": "D: Diuretics", "correct": false, "explain": "\"D\" in the ABCDE mnemonic stands for Digoxin, not diuretics."}]}, {"stem": "A nurse is caring for a client with chronic atrial fibrillation. Which complication should the nurse monitor for related to blood stagnation in the atria?", "options": [{"text": "Ischemic stroke from thrombus formation", "correct": true, "explain": "In A-fib, loss of the atrial kick decreases cardiac output, and blood stagnation in the atria leads to thrombus formation, increasing the risk of DVT, PE, and ischemic stroke."}, {"text": "Hypertensive crisis", "correct": false, "explain": "Hypertensive crisis is not the complication described in this material as resulting from atrial blood stagnation in A-fib."}, {"text": "Acute pancreatitis", "correct": false, "explain": "Acute pancreatitis is not a recognized complication of atrial fibrillation related to atrial blood stagnation."}, {"text": "Hypoglycemia", "correct": false, "explain": "Hypoglycemia is not a complication of atrial fibrillation related to atrial thrombus formation."}]}, {"stem": "Why does atrial fibrillation decrease cardiac output?", "options": [{"text": "Loss of the atrial kick", "correct": true, "explain": "In atrial fibrillation, the loss of the atrial kick (the atria's contribution to ventricular filling) decreases cardiac output."}, {"text": "Excessive ventricular filling time", "correct": false, "explain": "A-fib does not cause excessive ventricular filling time; it causes loss of the atrial kick, which decreases cardiac output."}, {"text": "Complete heart block", "correct": false, "explain": "A-fib and complete heart block are distinct rhythm disturbances; A-fib's decreased cardiac output is due to loss of the atrial kick, not third degree block."}, {"text": "Increased stroke volume", "correct": false, "explain": "A-fib does not increase stroke volume; the loss of the atrial kick actually decreases effective cardiac output."}]}, {"stem": "A client with atrial flutter is hemodynamically stable. Which interventions should the nurse anticipate?", "options": [{"text": "Vagal stimulation, adenosine, and rate control medications", "correct": true, "explain": "Atrial flutter management includes vagal stimulation, adenosine, and rate control medications."}, {"text": "Immediate unsynchronized defibrillation", "correct": false, "explain": "Unsynchronized defibrillation is reserved for pulseless V-tach/V-fib, not a hemodynamically stable client with atrial flutter."}, {"text": "IV magnesium sulfate only", "correct": false, "explain": "IV magnesium sulfate is the treatment for torsades de pointes, not the primary intervention for atrial flutter."}, {"text": "Atropine 1 mg IV", "correct": false, "explain": "Atropine is used for symptomatic bradycardia, not atrial flutter."}]}, {"stem": "A nurse notes frequent premature ventricular contractions (PVCs) on a client's monitor. Which underlying cause should the nurse assess for?", "options": [{"text": "Electrolyte imbalances such as hypokalemia or hypomagnesemia", "correct": true, "explain": "Nursing management of PVCs includes monitoring frequency and treating underlying electrolyte imbalances such as hypokalemia and hypomagnesemia."}, {"text": "Hypercalcemia", "correct": false, "explain": "Hypokalemia and hypomagnesemia, not hypercalcemia, are the electrolyte imbalances specifically associated with PVCs in this material."}, {"text": "Hyperglycemia", "correct": false, "explain": "Hyperglycemia is not the electrolyte imbalance associated with PVCs in this material; hypokalemia and hypomagnesemia are."}, {"text": "Metabolic alkalosis", "correct": false, "explain": "Metabolic alkalosis is not the specific cause linked to PVCs here; electrolyte imbalances of potassium and magnesium are."}]}, {"stem": "A client is found unresponsive and pulseless in ventricular tachycardia. Which action should the nurse take immediately?", "options": [{"text": "Begin defibrillation and CPR.", "correct": true, "explain": "Pulseless ventricular tachycardia is treated the same as ventricular fibrillation: immediate defibrillation and CPR."}, {"text": "Administer oral antiarrhythmic medication.", "correct": false, "explain": "Oral medication is not appropriate for a pulseless client; pulseless V-tach requires immediate defibrillation and CPR."}, {"text": "Perform synchronized cardioversion only, without CPR.", "correct": false, "explain": "A pulseless client requires unsynchronized defibrillation and CPR, not synchronized cardioversion (which is used for V-tach WITH a pulse)."}, {"text": "Administer atropine 1 mg IV.", "correct": false, "explain": "Atropine is used for symptomatic bradycardia, not pulseless ventricular tachycardia."}]}, {"stem": "What is the key difference between synchronized cardioversion and defibrillation?", "options": [{"text": "Cardioversion is timed to the R-wave; defibrillation is an unsynchronized, random discharge.", "correct": true, "explain": "Synchronized cardioversion delivers energy timed to the R-wave, while defibrillation delivers energy in an unsynchronized, random discharge."}, {"text": "Defibrillation is timed to the R-wave; cardioversion is unsynchronized.", "correct": false, "explain": "This has it backwards — cardioversion is synchronized to the R-wave, while defibrillation is unsynchronized."}, {"text": "Both are synchronized to the R-wave.", "correct": false, "explain": "Only cardioversion is synchronized to the R-wave; defibrillation is unsynchronized."}, {"text": "Cardioversion is always used on pulseless clients.", "correct": false, "explain": "Cardioversion is used for clients who have a pulse (e.g., symptomatic SVT, A-fib, A-flutter, monomorphic V-tach with pulse); defibrillation is for pulseless V-tach and V-fib."}]}, {"stem": "Which clinical scenario is an appropriate indication for synchronized cardioversion?", "options": [{"text": "A conscious, sedated client with symptomatic atrial fibrillation", "correct": true, "explain": "Synchronized cardioversion is indicated for symptomatic SVT, A-flutter, A-fib, and monomorphic V-tach with a pulse, in a conscious or sedated client for elective or urgent treatment."}, {"text": "An unconscious, pulseless client in ventricular fibrillation", "correct": false, "explain": "An unconscious, pulseless client in V-fib requires unsynchronized defibrillation, not synchronized cardioversion."}, {"text": "An unconscious, pulseless client in ventricular tachycardia", "correct": false, "explain": "Pulseless V-tach is treated like V-fib, with unsynchronized defibrillation, not synchronized cardioversion."}, {"text": "A client in asystole", "correct": false, "explain": "Asystole is a non-shockable rhythm; neither defibrillation nor cardioversion is indicated."}]}, {"stem": "Which energy level range is associated with defibrillation using a biphasic device, according to this material?", "options": [{"text": "120–200 Joules", "correct": true, "explain": "Defibrillation energy levels are high — 120-200 J biphasic, or 360 J monophasic — compared to the lower 50-200 J used for synchronized cardioversion."}, {"text": "50–200 Joules", "correct": false, "explain": "This range is associated with synchronized cardioversion (lower energy), not biphasic defibrillation."}, {"text": "25–30 Joules", "correct": false, "explain": "This range corresponds to the internal countershocks delivered by an AICD, not external biphasic defibrillation."}, {"text": "10–20 Joules", "correct": false, "explain": "This energy level is too low; biphasic defibrillation uses 120-200 J."}]}, {"stem": "A nurse reviews a client's ECG and notes a PR interval of 0.28 seconds that remains constant, with every P wave followed by a QRS complex. This finding is most consistent with which of the following?", "options": [{"text": "First degree heart block", "correct": true, "explain": "First degree heart block is characterized by a PR interval greater than 0.20 seconds that remains constant; it is usually asymptomatic (\"If the R is far from P, then you have a First Degree\")."}, {"text": "Second degree heart block, type I (Wenckebach)", "correct": false, "explain": "Wenckebach shows a progressively lengthening PR interval until a QRS is dropped, not a constant prolonged PR interval."}, {"text": "Second degree heart block, type II (Mobitz II)", "correct": false, "explain": "Mobitz II shows fixed PR intervals with intermittently dropped QRS complexes, not simply one constantly prolonged PR interval with every QRS present."}, {"text": "Third degree heart block", "correct": false, "explain": "Third degree (complete) heart block shows atria and ventricles beating independently, not a single constant prolonged PR interval with a QRS following every P wave."}]}, {"stem": "A nurse observes a rhythm strip in which the PR interval progressively lengthens with each beat until a QRS complex is dropped, then the pattern repeats. The nurse should identify this as which of the following?", "options": [{"text": "Second degree heart block, type I (Wenckebach)", "correct": true, "explain": "This progressive lengthening of the PR interval until a QRS is dropped is the hallmark of second degree type I (Wenckebach) block — \"Longer, longer, longer, drop!\""}, {"text": "First degree heart block", "correct": false, "explain": "First degree heart block has a constant prolonged PR interval with no dropped QRS complexes, unlike the progressive lengthening and dropped beat described here."}, {"text": "Second degree heart block, type II (Mobitz II)", "correct": false, "explain": "Mobitz II has FIXED PR intervals with intermittent dropped QRS complexes, not a progressively lengthening PR interval."}, {"text": "Third degree heart block", "correct": false, "explain": "Third degree block shows complete dissociation between atria and ventricles, not a progressively lengthening PR interval with periodic dropped beats."}]}, {"stem": "A nurse notes fixed PR intervals with intermittently dropped QRS complexes on a client's rhythm strip. Which type of heart block is this, and what does it require?", "options": [{"text": "Second degree heart block, type II (Mobitz II); requires pacing", "correct": true, "explain": "Mobitz II is characterized by fixed PR intervals with intermittently dropped QRS complexes (\"If some Ps don't get through, then you have a Mobitz II\") and requires pacing."}, {"text": "Second degree heart block, type I (Wenckebach); usually asymptomatic, no treatment needed", "correct": false, "explain": "Wenckebach shows a progressively lengthening PR interval, not a fixed PR interval, and this description of fixed PR with dropped QRS matches Mobitz II, which requires pacing."}, {"text": "First degree heart block; usually asymptomatic", "correct": false, "explain": "First degree block has a constant prolonged PR interval with no dropped QRS complexes, not intermittently dropped QRS complexes."}, {"text": "Normal sinus rhythm", "correct": false, "explain": "Fixed PR intervals with intermittently dropped QRS complexes is abnormal and describes Mobitz II, not normal sinus rhythm."}]}, {"stem": "A nurse caring for a client with third degree (complete) heart block should anticipate which of the following?", "options": [{"text": "The atria and ventricles beat independently; this is a medical emergency requiring temporary TCP and permanent pacemaker insertion.", "correct": true, "explain": "Third degree heart block occurs when the atria and ventricles beat independently (\"If Ps and Qs don't agree, then you have a Third Degree\") and is a medical emergency requiring temporary transcutaneous pacing and permanent pacemaker insertion."}, {"text": "This rhythm is usually asymptomatic and requires no intervention.", "correct": false, "explain": "Third degree heart block is a medical emergency, not an asymptomatic, no-intervention finding — that description fits first degree block instead."}, {"text": "The PR interval progressively lengthens until a beat is dropped.", "correct": false, "explain": "Progressive PR lengthening with a dropped beat describes Wenckebach (second degree type I), not third degree block, which shows AV dissociation."}, {"text": "Vagal maneuvers are the first-line treatment.", "correct": false, "explain": "Vagal maneuvers are used for SVT, not third degree heart block, which requires pacing."}]}, {"stem": "A nurse is caring for a client with an Automated Implantable Cardioverter-Defibrillator (AICD). Which statement best describes its function?", "options": [{"text": "It continuously monitors cardiac rhythm and automatically delivers internal countershocks (25-30 J) to terminate lethal rhythms such as VT/VF.", "correct": true, "explain": "An AICD continuously monitors cardiac rhythms for VT/VF and automatically delivers internal countershocks of 25-30 Joules to terminate these lethal rhythms."}, {"text": "It delivers an electrical pulse to capture the myocardium only when the intrinsic heart rate drops below a set threshold.", "correct": false, "explain": "This describes a permanent/demand pacemaker's mechanism, not an AICD's shock-delivery function."}, {"text": "It requires manual activation by the nurse for every shock delivered.", "correct": false, "explain": "An AICD automatically delivers countershocks; it does not require manual nurse activation for each shock."}, {"text": "It is used exclusively to treat bradycardia.", "correct": false, "explain": "An AICD monitors for and treats VT/VF (fast, lethal rhythms), not bradycardia; a pacemaker addresses bradycardia."}]}, {"stem": "A nurse is caring for a client who just had a permanent pacemaker inserted. Which complication should the nurse monitor for?", "options": [{"text": "Pneumothorax", "correct": true, "explain": "Complications to monitor for after pacemaker insertion include infection, pneumothorax, hemothorax, hematoma, and catheter displacement/ventricular ectopy."}, {"text": "Hyperkalemia", "correct": false, "explain": "Hyperkalemia is not a listed complication of pacemaker insertion in this material."}, {"text": "Acute pancreatitis", "correct": false, "explain": "Acute pancreatitis is not a recognized complication of pacemaker insertion."}, {"text": "Hypoglycemia", "correct": false, "explain": "Hypoglycemia is not a listed complication of pacemaker insertion."}]}, {"stem": "What is the basic mechanism of a permanent/demand pacemaker?", "options": [{"text": "It delivers an electrical pulse to capture the myocardium when the intrinsic heart rate drops below a set threshold.", "correct": true, "explain": "A demand pacemaker delivers an electrical pulse to capture the myocardium only when the client's intrinsic heart rate drops below a preset threshold."}, {"text": "It continuously delivers a shock regardless of the client's intrinsic rhythm.", "correct": false, "explain": "A demand pacemaker only fires when needed (when the intrinsic rate drops below threshold), not continuously regardless of rhythm."}, {"text": "It monitors for VT/VF and delivers 25-30 J countershocks.", "correct": false, "explain": "This describes the function of an AICD, not a permanent/demand pacemaker."}]}, {"stem": "A nurse is caring for a client following an acute myocardial infarction. Which pathophysiologic sequence led to this event?", "options": [{"text": "Atherosclerotic plaque rupture causing thrombus formation and depriving the myocardium of blood flow and oxygen", "correct": true, "explain": "Acute coronary syndrome and MI occur when atherosclerotic plaque rupture causes thrombus formation, depriving the myocardium of blood flow and oxygen."}, {"text": "Sudden vasodilation of the coronary arteries", "correct": false, "explain": "MI results from thrombus formation obstructing blood flow after plaque rupture, not from vasodilation."}, {"text": "Excessive parasympathetic stimulation of the SA node", "correct": false, "explain": "MI is a vascular/thrombotic event related to plaque rupture, not a primary conduction system disturbance from parasympathetic stimulation."}, {"text": "Chronic potassium depletion", "correct": false, "explain": "MI pathophysiology described here centers on atherosclerotic plaque rupture and thrombus formation, not potassium depletion."}]}, {"stem": "By approximately what time frame does infarcted myocardial tissue turn gray with yellow streaks following an MI?", "options": [{"text": "48 hours", "correct": true, "explain": "Infarct tissue turns gray with yellow streaks by 48 hours after the ischemic event; physical tissue ischemia changes begin within 6 hours."}, {"text": "6 hours", "correct": false, "explain": "Physical tissue ischemia changes occur within 6 hours, but the gray, yellow-streaked appearance develops by 48 hours."}, {"text": "1 week", "correct": false, "explain": "The gray, yellow-streaked tissue change is noted by 48 hours, not a full week, in this material."}, {"text": "Immediately at symptom onset", "correct": false, "explain": "Physical tissue changes take time to develop — ischemic changes within 6 hours and the gray/yellow-streaked appearance by 48 hours, not immediately."}]}, {"stem": "A nurse is caring for a client experiencing an MI. Which classic symptom pattern should the nurse expect?", "options": [{"text": "Substernal chest pain radiating to the jaw, neck, left arm, or back", "correct": true, "explain": "Classic MI chest pain is substernal and radiates to the jaw, neck, left arm, or back, often with dyspnea, diaphoresis, nausea/vomiting, pallor, dizziness, and anxiety."}, {"text": "Sharp, well-localized pain only in the right lower abdomen", "correct": false, "explain": "This description is not the classic MI pain pattern; MI pain is typically substernal with radiation to the jaw, neck, left arm, or back."}, {"text": "Painless swelling of the lower extremities only", "correct": false, "explain": "This does not describe classic MI chest pain; painless leg swelling is more consistent with right-sided heart failure, not the acute chest pain pattern of MI."}, {"text": "A pain-free presentation is the norm for all clients.", "correct": false, "explain": "While atypical (often painless or vague) presentations occur in women, diabetics, and elderly clients, painless presentation is not \"the norm for all clients\" — substernal chest pain remains the classic presentation."}]}, {"stem": "A nurse is caring for an older adult female client with diabetes who is having an MI. Which atypical presentation should the nurse be alert for?", "options": [{"text": "Epigastric distress or indigestion, and unexplained extreme fatigue", "correct": true, "explain": "Atypical MI manifestations in women, diabetics, and the elderly include epigastric distress/indigestion, unexplained extreme fatigue, shortness of breath, and upper back discomfort."}, {"text": "Classic crushing substernal chest pain radiating to the left arm only", "correct": false, "explain": "This classic presentation is described for typical MI; atypical presentations in this population include epigastric distress, fatigue, dyspnea, and upper back discomfort instead."}, {"text": "Loud holosystolic murmur only", "correct": false, "explain": "A new murmur could indicate a complication such as papillary muscle rupture, but this is not described as the atypical presentation pattern for this population in this material."}, {"text": "Painless jaundice", "correct": false, "explain": "Painless jaundice is not a listed atypical MI presentation in women, diabetics, or the elderly."}]}, {"stem": "Using the \"DARTH VADER\" mnemonic for MI complications, which letter represents the risk of a mural thrombus?", "options": [{"text": "E: Embolism", "correct": true, "explain": "In the DARTH VADER mnemonic, \"E\" stands for Embolism (mural thrombus)."}, {"text": "R: Rupture", "correct": false, "explain": "\"R\" stands for Rupture (papillary muscle, septum, free wall), not embolism/mural thrombus."}, {"text": "T: Tamponade", "correct": false, "explain": "\"T\" stands for Tamponade, not embolism/mural thrombus."}, {"text": "A: Arrhythmias", "correct": false, "explain": "\"A\" stands for Arrhythmias, not embolism/mural thrombus."}]}, {"stem": "Using the \"DARTH VADER\" mnemonic, which complication does \"V\" represent?", "options": [{"text": "Valve disease", "correct": true, "explain": "In the DARTH VADER mnemonic, \"V\" stands for Valve Disease, one of the possible complications following an MI."}, {"text": "Ventricular fibrillation", "correct": false, "explain": "While arrhythmias (A) are part of the mnemonic broadly, \"V\" specifically stands for Valve Disease in DARTH VADER, not ventricular fibrillation."}, {"text": "Vasospasm", "correct": false, "explain": "\"V\" stands for Valve Disease in this mnemonic, not vasospasm."}, {"text": "Vomiting", "correct": false, "explain": "\"V\" stands for Valve Disease, not vomiting, in the DARTH VADER mnemonic."}]}, {"stem": "A nurse is caring for a client with acute chest pain. Following assessment of pain, vital signs, and ECG, and administration of oxygen and semi-Fowler's positioning, what is the next step in the hospital protocol?", "options": [{"text": "Administer 1 sublingual nitroglycerin tablet and reassess pain and blood pressure in 5 minutes.", "correct": true, "explain": "After initial assessment, oxygen, and positioning, the protocol is to administer 1 SL nitroglycerin tablet, then reassess pain and BP in 5 minutes, repeating up to 3 doses total (5 minutes apart) if BP remains stable."}, {"text": "Immediately proceed to synchronized cardioversion.", "correct": false, "explain": "Cardioversion is not part of the standard initial chest pain protocol; SL nitroglycerin administration and reassessment come first."}, {"text": "Withhold all nitroglycerin until the physician arrives at bedside.", "correct": false, "explain": "The protocol specifically includes administering SL nitroglycerin per protocol and contacting the PHCP only if pain is unresolved after 3 doses, not withholding it entirely."}, {"text": "Administer up to 6 doses of SL nitroglycerin before contacting the provider.", "correct": false, "explain": "The protocol allows up to 3 total doses of SL nitroglycerin, 5 minutes apart, before contacting the PHCP if pain remains unresolved — not 6 doses."}]}, {"stem": "A nurse administers the first dose of sublingual nitroglycerin to a client with acute chest pain. After reassessing pain and blood pressure at 5 minutes, the client still reports pain and the BP remains stable. What should the nurse do next?", "options": [{"text": "Administer a second dose of SL nitroglycerin.", "correct": true, "explain": "If pain persists and BP remains stable, the protocol allows repeating SL nitroglycerin up to 3 doses total, 5 minutes apart."}, {"text": "Contact the PHCP immediately without giving further nitroglycerin.", "correct": false, "explain": "The PHCP should be contacted only if pain is unresolved after the 3rd dose of SL nitroglycerin, not after only the first dose."}, {"text": "Discontinue oxygen therapy.", "correct": false, "explain": "There is no indication to discontinue oxygen therapy in this scenario; the protocol calls for continuing to reassess and repeating SL nitroglycerin as needed."}, {"text": "Reposition the client supine.", "correct": false, "explain": "The protocol specifies semi-Fowler's positioning for acute chest pain, not supine positioning."}]}, {"stem": "A nurse is assessing a client with left-sided heart failure. Which finding should the nurse expect?", "options": [{"text": "Dyspnea, orthopnea, and frothy sputum", "correct": true, "explain": "Left-sided heart failure produces pulmonary symptoms including pulmonary congestion, dyspnea/orthopnea, tachypnea, a dry hacking cough, and frothy sputum."}, {"text": "Jugular venous distension and ascites", "correct": false, "explain": "JVD and ascites are systemic symptoms of right-sided heart failure, not left-sided heart failure."}, {"text": "Peripheral edema and hepatomegaly", "correct": false, "explain": "Peripheral edema and hepatomegaly are systemic symptoms of right-sided heart failure, not left-sided."}, {"text": "Weight gain and anorexia only, with no respiratory symptoms", "correct": false, "explain": "Weight gain and anorexia are systemic symptoms of right-sided heart failure; left-sided failure produces pulmonary symptoms like dyspnea and cough."}]}, {"stem": "A nurse is assessing a client with right-sided heart failure. Which finding should the nurse expect?", "options": [{"text": "Jugular venous distension (JVD) and peripheral edema", "correct": true, "explain": "Right-sided heart failure produces systemic symptoms including JVD, peripheral edema, ascites, hepatomegaly, and weight gain/anorexia."}, {"text": "Frothy sputum and dry hacking cough", "correct": false, "explain": "Frothy sputum and dry hacking cough are pulmonary symptoms of left-sided heart failure, not right-sided."}, {"text": "Orthopnea and tachypnea", "correct": false, "explain": "Orthopnea and tachypnea are pulmonary symptoms of left-sided heart failure, not right-sided."}, {"text": "Pulmonary congestion only", "correct": false, "explain": "Pulmonary congestion is a left-sided heart failure symptom; right-sided failure produces systemic symptoms such as JVD, edema, and ascites."}]}, {"stem": "A nurse is caring for a client experiencing acute pulmonary edema. Which action should the nurse take first?", "options": [{"text": "Position the client immediately in High-Fowler's position.", "correct": true, "explain": "The first emergency intervention for acute pulmonary edema is to position the patient immediately in High-Fowler's position, followed by high-flow oxygen and lung sound assessment."}, {"text": "Insert a Foley catheter before any other intervention.", "correct": false, "explain": "While a Foley catheter is part of the management to monitor output, positioning the client in High-Fowler's and administering oxygen come first."}, {"text": "Administer IV morphine sulfate before positioning the client.", "correct": false, "explain": "Positioning the client in High-Fowler's is the first step; morphine sulfate is prepared along with loop diuretics after initial positioning and oxygen administration."}, {"text": "Prepare for immediate defibrillation.", "correct": false, "explain": "Acute pulmonary edema is not treated with defibrillation; interventions include positioning, oxygen, IV access, diuretics, and morphine."}]}, {"stem": "A nurse is preparing medications for a client in acute pulmonary edema. Which medications should the nurse anticipate administering?", "options": [{"text": "Furosemide and IV morphine sulfate", "correct": true, "explain": "Acute pulmonary edema management includes preparing loop diuretics (furosemide) and IV morphine sulfate, which reduces preload and anxiety."}, {"text": "Atropine and epinephrine", "correct": false, "explain": "Atropine and epinephrine are used for bradycardia/cardiac arrest management, not the standard acute pulmonary edema protocol described here."}, {"text": "Adenosine and a beta-blocker", "correct": false, "explain": "Adenosine and beta-blockers are used for SVT/A-fib rate control, not the acute pulmonary edema protocol, which calls for furosemide and morphine sulfate."}, {"text": "Aminocaproic acid", "correct": false, "explain": "Aminocaproic acid (Amicar) is the antidote for thrombolytics, not a treatment for acute pulmonary edema."}]}, {"stem": "Why is IV morphine sulfate administered in acute pulmonary edema?", "options": [{"text": "It reduces preload and anxiety.", "correct": true, "explain": "IV morphine sulfate is used in acute pulmonary edema because it reduces preload and anxiety."}, {"text": "It directly increases myocardial contractility.", "correct": false, "explain": "Morphine sulfate's role here is reducing preload and anxiety, not directly increasing contractility."}, {"text": "It dissolves the thrombus causing the pulmonary edema.", "correct": false, "explain": "Thrombolytics dissolve clots; morphine sulfate's role in pulmonary edema is reducing preload and anxiety."}, {"text": "It corrects the underlying arrhythmia.", "correct": false, "explain": "Morphine sulfate does not correct arrhythmias; its role in this context is reducing preload and anxiety."}]}, {"stem": "A nurse is administering alteplase to a client with an acute ischemic event. Which of the following is an absolute contraindication the nurse should check for?", "options": [{"text": "Active bleeding or recent major surgery", "correct": true, "explain": "Thrombolytics such as alteplase and tenecteplase require checking for absolute contraindications including active bleeding, recent major surgery, and head trauma, since they dissolve existing arterial clots."}, {"text": "A history of seasonal allergies", "correct": false, "explain": "Seasonal allergies are not a listed contraindication for thrombolytic therapy; active bleeding, recent major surgery, and head trauma are."}, {"text": "Mild hypertension controlled by diet", "correct": false, "explain": "This is not a listed absolute contraindication for thrombolytics in this material; active bleeding, recent surgery, and head trauma are."}, {"text": "A remote history of childhood asthma", "correct": false, "explain": "This is not a listed contraindication for thrombolytic therapy."}]}, {"stem": "A nurse is caring for a client receiving alteplase. Which nursing action is a priority?", "options": [{"text": "Perform neuro checks every 15 to 30 minutes.", "correct": true, "explain": "Nursing safety for thrombolytics such as alteplase includes monitoring neuro checks every 15-30 minutes, since bleeding (including intracranial) is a major risk."}, {"text": "Administer the antidote aminocaproic acid prophylactically before the infusion.", "correct": false, "explain": "Aminocaproic acid is the antidote used if bleeding complications occur; it is not routinely given prophylactically before the thrombolytic infusion."}, {"text": "Encourage ambulation immediately after the infusion begins.", "correct": false, "explain": "Given the bleeding risk with thrombolytics, encouraging immediate ambulation is not the priority nursing action; frequent neuro checks are."}, {"text": "Withhold all IV access during the infusion.", "correct": false, "explain": "IV access is necessary to administer thrombolytic therapy; withholding IV access is not appropriate."}]}, {"stem": "What is the antidote for thrombolytic medications such as alteplase?", "options": [{"text": "Aminocaproic acid (Amicar)", "correct": true, "explain": "Aminocaproic acid (Amicar) is identified as the antidote for thrombolytics such as alteplase and tenecteplase."}, {"text": "Protamine sulfate", "correct": false, "explain": "Protamine sulfate is not the antidote identified for thrombolytics in this material; aminocaproic acid is."}, {"text": "Vitamin K", "correct": false, "explain": "Vitamin K is not the antidote identified for thrombolytics in this material; aminocaproic acid is."}, {"text": "Naloxone", "correct": false, "explain": "Naloxone reverses opioids, not thrombolytics; the thrombolytic antidote identified here is aminocaproic acid."}]}, {"stem": "A nurse is teaching a client taking aspirin and clopidogrel (antiplatelet therapy). Which finding should the client be taught to report?", "options": [{"text": "Black, tarry stools", "correct": true, "explain": "Antiplatelet teaching includes monitoring for occult GI bleeding, black tarry stools, easy bruising, and hematuria, since these medications prevent platelet aggregation."}, {"text": "Decreased urinary frequency", "correct": false, "explain": "Decreased urinary frequency is not a listed concern for antiplatelet therapy; hematuria (blood in urine) is the relevant finding to report."}, {"text": "Improved appetite", "correct": false, "explain": "Improved appetite is not a concerning finding related to antiplatelet therapy and is not part of this teaching."}, {"text": "Mild daytime drowsiness", "correct": false, "explain": "Drowsiness is not the focus of antiplatelet teaching; bleeding-related findings such as black tarry stools, bruising, and hematuria are the priority."}]}, {"stem": "A nurse is teaching a client about nitroglycerin. Which side effect should the client be informed about?", "options": [{"text": "Throbbing headache", "correct": true, "explain": "Nitrates such as nitroglycerin and isosorbide cause vasodilation, and side effects include hypotension and throbbing headache."}, {"text": "Bradycardia as the primary side effect", "correct": false, "explain": "Hypotension and throbbing headache are the listed side effects of nitrates in this material, not bradycardia specifically."}, {"text": "Hyperkalemia", "correct": false, "explain": "Hyperkalemia is not a listed side effect of nitrates; hypotension and headache are."}, {"text": "Weight gain", "correct": false, "explain": "Weight gain is not a listed side effect of nitrates in this material."}]}, {"stem": "A nurse is preparing to administer metoprolol to a client. Which finding should prompt the nurse to hold the medication and notify the provider?", "options": [{"text": "Heart rate of 52 bpm", "correct": true, "explain": "Beta-blockers such as metoprolol decrease heart rate, blood pressure, and cardiac workload; the nurse should hold the medication if the heart rate is less than 60 bpm or SBP is less than 90 mmHg."}, {"text": "Heart rate of 78 bpm", "correct": false, "explain": "A heart rate of 78 bpm is within the safe range for administering a beta-blocker; the hold parameter is less than 60 bpm."}, {"text": "Blood pressure of 128/76 mmHg", "correct": false, "explain": "This blood pressure is not below the hold parameter of SBP less than 90 mmHg; the medication would not need to be held for this reading."}, {"text": "Respiratory rate of 16/min", "correct": false, "explain": "Respiratory rate is not the hold parameter identified for beta-blockers in this material; heart rate less than 60 bpm and SBP less than 90 mmHg are."}]}, {"stem": "Atropine works by which mechanism to treat symptomatic sinus bradycardia?", "options": [{"text": "Increases SA node firing", "correct": true, "explain": "Atropine is an anticholinergic that increases SA node firing to treat symptomatic sinus bradycardia."}, {"text": "Blocks the AV node to slow conduction", "correct": false, "explain": "Blocking the AV node to slow conduction describes beta-blockers or calcium channel blockers, not atropine, which increases SA node firing."}, {"text": "Dissolves arterial thrombus", "correct": false, "explain": "Dissolving arterial thrombus describes thrombolytics, not atropine."}, {"text": "Reduces myocardial oxygen demand through vasodilation", "correct": false, "explain": "This describes nitrates, not atropine, which works by increasing SA node firing."}]}];
+const FLASHCARDS = [{"front": "Why are ventricular dysrhythmias more dangerous than atrial dysrhythmias?", "back": "The left ventricle supplies oxygenated blood to vital organs, so disruption there is significantly more dangerous."}, {"front": "What electrical and mechanical events does the P wave represent?", "back": "Atrial depolarization (electrical) → atrial systole/contraction (mechanical)."}, {"front": "What electrical and mechanical events does the QRS complex represent?", "back": "Ventricular depolarization (electrical) → ventricular systole/contraction (mechanical)."}, {"front": "What electrical and mechanical events does the T wave represent?", "back": "Ventricular repolarization (electrical) → ventricular diastole, relaxation & passive filling (mechanical)."}, {"front": "1 small square on ECG paper = ?", "back": "0.04 seconds / 0.1 mV."}, {"front": "1 large square (5 mm) on ECG paper = ?", "back": "0.20 seconds / 0.5 mV."}, {"front": "5 large squares (25 mm) on ECG paper = ?", "back": "1.00 second."}, {"front": "Six-second method for calculating heart rate?", "back": "Count R waves in a 6-second strip, multiply by 10."}, {"front": "Normal PR interval range?", "back": "0.12 to 0.20 seconds."}, {"front": "Normal (narrow) QRS complex duration?", "back": "0.04 to 0.12 seconds."}, {"front": "Sinus bradycardia: rate, rhythm, and treatment if symptomatic?", "back": "< 60 bpm, regular; Atropine 1 mg IV, oxygen, TCP if unstable/refractory."}, {"front": "Sinus tachycardia: rate and management?", "back": "> 100 bpm, regular; treat underlying cause (fever, anxiety, dehydration, stimulants), bedrest."}, {"front": "SVT key ECG identifier and treatment?", "back": "P wave hidden/embedded in T wave, narrow QRS; vagal maneuvers, adenosine, synchronized cardioversion."}, {"front": "Atrial fibrillation key identifiers?", "back": "Irregularly irregular; no distinct P waves; chaotic fibrillatory waves; PR unmeasurable."}, {"front": "A-Fib pharmacologic mnemonic \"ABCDE\"?", "back": "A=Anticoagulants, B=Beta-blockers, C=Calcium channel blockers, D=Digoxin, E=Electrocardioversion."}, {"front": "Why does A-fib increase stroke risk?", "back": "Loss of atrial kick decreases cardiac output; blood stagnation in atria → thrombus formation → DVT/PE/ischemic stroke risk."}, {"front": "Atrial flutter key ECG identifier and treatment?", "back": "Saw-tooth \"F\" waves, PR unmeasurable; vagal stimulation, adenosine, rate control meds."}, {"front": "PVC key ECG identifiers?", "back": "Early ectopic beat; wide & bizarre QRS; no P wave preceding the beat."}, {"front": "What electrolyte imbalances are linked to PVCs?", "back": "Hypokalemia and hypomagnesemia."}, {"front": "V-Tach key identifiers and treatment (with pulse vs. pulseless)?", "back": "Wide, tombstone-like QRS, no P waves, 100-250 bpm. With pulse: antiarrhythmics (amiodarone, procainamide), cardioversion (100 J). Pulseless: defibrillation & CPR."}, {"front": "Torsades de pointes: cause and treatment?", "back": "Polymorphic V-tach twisting around isoelectric line, caused by prolonged QT; treat with IV magnesium sulfate, defibrillation if pulseless."}, {"front": "V-Fib key identifiers and treatment?", "back": "> 300 bpm, complete chaos, no identifiable P/QRS/T; shockable — immediate CPR & defibrillation (120-200 J biphasic/360 J monophasic), epinephrine, amiodarone."}, {"front": "Asystole key identifier and treatment?", "back": "Flatline, absence of all electrical activity; non-shockable — immediate high-quality CPR, epinephrine, airway management."}, {"front": "First degree heart block (\"the poem\")?", "back": "\"If the R is far from P, then you have a First Degree.\" PR interval > 0.20 sec, usually asymptomatic."}, {"front": "Second degree Wenckebach (Mobitz I) (\"the poem\")?", "back": "\"Longer, longer, longer, drop!\" Progressive PR prolongation until a QRS is dropped."}, {"front": "Second degree Mobitz II (\"the poem\")?", "back": "\"If some Ps don't get through, then you have a Mobitz II.\" Fixed PR intervals with intermittent dropped QRS — requires pacing."}, {"front": "Third degree (complete) heart block (\"the poem\")?", "back": "\"If Ps and Qs don't agree, then you have a Third Degree.\" Atria/ventricles beat independently — medical emergency, needs temporary TCP + permanent pacemaker."}, {"front": "Synchronized cardioversion vs. defibrillation — timing?", "back": "Cardioversion is synchronized to the R-wave; defibrillation is unsynchronized/random discharge."}, {"front": "Synchronized cardioversion vs. defibrillation — indication?", "back": "Cardioversion: symptomatic SVT, A-flutter, A-fib, monomorphic V-tach WITH pulse. Defibrillation: pulseless V-tach and V-fib."}, {"front": "Synchronized cardioversion vs. defibrillation — energy levels?", "back": "Cardioversion: lower, 50-200 J. Defibrillation: high, 120-200 J biphasic / 360 J monophasic."}, {"front": "AICD mechanism?", "back": "Continuously monitors for VT/VF; automatically delivers internal countershocks (25-30 J) to terminate lethal rhythms."}, {"front": "Permanent/demand pacemaker mechanism?", "back": "Delivers an electrical pulse to capture the myocardium when intrinsic heart rate drops below a set threshold."}, {"front": "Complications to monitor after pacemaker insertion?", "back": "Infection, pneumothorax, hemothorax, hematoma, catheter displacement/ventricular ectopy."}, {"front": "MI tissue changes timeline?", "back": "Ischemic changes within 6 hours; infarct tissue turns gray with yellow streaks by 48 hours."}, {"front": "Classic MI chest pain description?", "back": "Substernal, radiating to jaw, neck, left arm, or back — with dyspnea, diaphoresis, nausea/vomiting, pallor, dizziness, anxiety."}, {"front": "Atypical MI presentation in women/diabetics/elderly?", "back": "Epigastric distress/indigestion, unexplained extreme fatigue, shortness of breath, upper back discomfort."}, {"front": "MI complications mnemonic \"DARTH VADER\"?", "back": "Death, Arrhythmias, Rupture, Tamponade, Heart failure, Valve disease, Aneurysm, Dressler's syndrome, Embolism, Recurrence/mitral Regurgitation."}, {"front": "Hospital protocol for acute chest pain — SL nitroglycerin dosing?", "back": "1 SL NTG tablet; reassess pain/BP in 5 min; repeat up to 3 doses total (5 min apart) if BP stable; contact PHCP if unresolved after 3rd dose."}, {"front": "Left-sided heart failure symptoms?", "back": "Pulmonary congestion, dyspnea/orthopnea, tachypnea, dry hacking cough, frothy sputum."}, {"front": "Right-sided heart failure symptoms?", "back": "JVD, peripheral edema, ascites & hepatomegaly, weight gain/anorexia."}, {"front": "Acute pulmonary edema — first intervention?", "back": "Position patient immediately in High-Fowler's position."}, {"front": "Acute pulmonary edema — key medications?", "back": "Loop diuretics (furosemide) and IV morphine sulfate (reduces preload/anxiety)."}, {"front": "Thrombolytics (alteplase, tenecteplase) — action and antidote?", "back": "Dissolve existing arterial clots; antidote is aminocaproic acid (Amicar). Monitor neuro checks q15-30min."}, {"front": "Thrombolytic absolute contraindications?", "back": "Active bleeding, recent major surgery, head trauma."}, {"front": "Antiplatelets (aspirin, clopidogrel) — teaching points?", "back": "Monitor for occult GI bleeding, black tarry stools, easy bruising, hematuria."}, {"front": "Nitrates (nitroglycerin, isosorbide) — action and side effects?", "back": "Vasodilation decreases preload and myocardial O2 demand; side effects: hypotension, throbbing headache."}, {"front": "Beta-blockers (atenolol, metoprolol, bisoprolol) — safety hold parameters?", "back": "Hold if HR < 60 bpm or SBP < 90 mmHg."}, {"front": "Atropine — action?", "back": "Anticholinergic; increases SA node firing to treat symptomatic sinus bradycardia."}];
+
+/* ---------------- Flashcards ---------------- */
+let fcOrder = FLASHCARDS.map((_,i)=>i);
+let fcIndex = 0;
+let fcFlipped = false;
+
+function shuffleArr(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function renderFlashcard(){
+  const card = FLASHCARDS[fcOrder[fcIndex]];
+  document.getElementById('fcCounter').textContent = `Card ${fcIndex+1} of ${FLASHCARDS.length}`;
+  document.getElementById('fcTag').textContent = fcFlipped ? 'Answer' : 'Question';
+  document.getElementById('fcFace').textContent = fcFlipped ? card.back : card.front;
+  document.getElementById('fcCard').classList.toggle('flipped', fcFlipped);
+}
+
+document.getElementById('fcCard').addEventListener('click', ()=>{
+  fcFlipped = !fcFlipped;
+  renderFlashcard();
+});
+document.getElementById('fcFlip').addEventListener('click', ()=>{
+  fcFlipped = !fcFlipped;
+  renderFlashcard();
+});
+document.getElementById('fcNext').addEventListener('click', ()=>{
+  fcIndex = (fcIndex+1) % FLASHCARDS.length;
+  fcFlipped = false;
+  renderFlashcard();
+});
+document.getElementById('fcPrev').addEventListener('click', ()=>{
+  fcIndex = (fcIndex-1+FLASHCARDS.length) % FLASHCARDS.length;
+  fcFlipped = false;
+  renderFlashcard();
+});
+document.getElementById('fcShuffle').addEventListener('click', ()=>{
+  fcOrder = shuffleArr(FLASHCARDS.map((_,i)=>i));
+  fcIndex = 0;
+  fcFlipped = false;
+  renderFlashcard();
+});
+renderFlashcard();
+
+/* ---------------- Quiz engine ---------------- */
+const SET_SIZES = [10, 20, 40, QUESTIONS.length];
+const setGrid = document.getElementById('setGrid');
+[...new Set(SET_SIZES)].forEach(size=>{
+  const btn = document.createElement('button');
+  btn.className = 'set-btn';
+  const isAll = size === QUESTIONS.length;
+  btn.innerHTML = `<span class="n">${size}</span><span class="lbl">${isAll ? 'All questions' : 'questions'}</span>`;
+  btn.addEventListener('click', ()=> startQuiz(size));
+  setGrid.appendChild(btn);
+});
+
+let activeQuestions = [];
+let currentIndex = 0;
+let score = 0;
+let questionState = [];
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function startQuiz(size){
+  const pool = shuffle(QUESTIONS);
+  activeQuestions = pool.slice(0, size);
+  questionState = new Array(activeQuestions.length).fill(null);
+  score = 0;
+  currentIndex = 0;
+  document.getElementById('finalOutOf').textContent = '/' + activeQuestions.length;
+  document.getElementById('quizArea').innerHTML = '';
+  document.getElementById('quizArea').classList.add('show');
+  document.getElementById('statusbar').classList.add('show');
+  document.getElementById('summary').classList.remove('show');
+  updateStatus();
+  renderQuestion(0);
+  document.getElementById('quizArea').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function letter(i){ return String.fromCharCode(65+i); }
+
+function renderQuestion(qIndex){
+  const q = activeQuestions[qIndex];
+  const quizArea = document.getElementById('quizArea');
+  const card = document.createElement('div');
+  card.className = 'qcard';
+
+  const meta = document.createElement('div');
+  meta.className = 'qmeta';
+  meta.innerHTML = `<span class="qnum">Q${qIndex+1} / ${activeQuestions.length}</span>`;
+  card.appendChild(meta);
+
+  const stem = document.createElement('p');
+  stem.className = 'stem';
+  stem.textContent = q.stem;
+  card.appendChild(stem);
+
+  const optsWrap = document.createElement('div');
+  optsWrap.className = 'options';
+  const banner = document.createElement('div');
+  banner.className = 'result-banner';
+
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'btn-next';
+  nextBtn.textContent = (qIndex === activeQuestions.length-1) ? 'See results →' : 'Next question →';
+  nextBtn.addEventListener('click', ()=>{
+    currentIndex++;
+    quizArea.innerHTML = '';
+    if(currentIndex >= activeQuestions.length){
+      showSummary();
+    } else {
+      renderQuestion(currentIndex);
+    }
+  });
+
+  q.options.forEach((opt, i)=>{
+    const el = document.createElement('button');
+    el.className = 'opt';
+    el.dataset.origIdx = i;
+    el.innerHTML = `<span class="opt-letter">${letter(i)}</span><div style="flex:1;"><div class="opt-text">${opt.text}</div><div class="opt-explain">${opt.explain}</div></div>`;
+    el.addEventListener('click', ()=> lockSingle(qIndex, i, optsWrap, banner, nextBtn));
+    optsWrap.appendChild(el);
+  });
+
+  card.appendChild(optsWrap);
+  card.appendChild(banner);
+
+  const actions = document.createElement('div');
+  actions.className = 'actions';
+  actions.appendChild(nextBtn);
+  card.appendChild(actions);
+
+  quizArea.appendChild(card);
+}
+
+function revealSingle(qIndex, chosenIdx, optsWrap, banner, isCorrect){
+  const q = activeQuestions[qIndex];
+  const opts = optsWrap.querySelectorAll('.opt');
+  opts.forEach((el)=>{
+    const i = parseInt(el.dataset.origIdx, 10);
+    el.classList.add('locked');
+    if(q.options[i].correct){ el.classList.add('correct-choice'); el.querySelector('.opt-letter').textContent='✓'; }
+    else if(i === chosenIdx){ el.classList.add('incorrect-choice'); el.querySelector('.opt-letter').textContent='✕'; }
+    else { el.classList.add('dim'); }
+  });
+  banner.classList.add('show', isCorrect ? 'correct' : 'incorrect');
+  banner.innerHTML = isCorrect ? `<span>✓</span> Correct.` : `<span>✕</span> Not quite — correct choice is highlighted above.`;
+}
+
+function lockSingle(qIndex, chosenIdx, optsWrap, banner, nextBtn){
+  if(questionState[qIndex]) return;
+  const q = activeQuestions[qIndex];
+  const isCorrect = q.options[chosenIdx].correct;
+  questionState[qIndex] = { correct: isCorrect, selected: chosenIdx };
+  if(isCorrect) score++;
+  revealSingle(qIndex, chosenIdx, optsWrap, banner, isCorrect);
+  nextBtn.classList.add('show');
+  updateStatus();
+}
+
+function updateStatus(){
+  const answeredCount = questionState.filter(Boolean).length;
+  const total = activeQuestions.length || 1;
+  document.getElementById('progressFill').style.width = (answeredCount/total*100)+'%';
+  document.getElementById('scoreLabel').innerHTML = `<span>${score}</span> / ${answeredCount}`;
+}
+
+function showSummary(){
+  document.getElementById('quizArea').innerHTML = '';
+  document.getElementById('quizArea').classList.remove('show');
+  const answeredCount = questionState.filter(Boolean).length;
+  document.getElementById('finalScore').textContent = score;
+  document.getElementById('finalOutOf').textContent = '/' + activeQuestions.length;
+  const pct = answeredCount ? Math.round(score/answeredCount*100) : 0;
+  const msgEl = document.getElementById('finalMsg');
+  if(pct >= 90) msgEl.textContent = 'Excellent — strong command of cardiac dysrhythmias.';
+  else if(pct >= 75) msgEl.textContent = 'Solid work. Revisit the missed rationales above before your exam.';
+  else if(pct >= 60) msgEl.textContent = 'Decent start — review the explanations above, especially on the concepts you missed.';
+  else msgEl.textContent = 'Worth another pass — scroll up and read every rationale carefully, then retake.';
+  document.getElementById('summary').classList.add('show');
+  document.getElementById('summary').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+document.getElementById('setupBtn').addEventListener('click', ()=>{
+  document.getElementById('summary').classList.remove('show');
+  document.getElementById('statusbar').classList.remove('show');
+  document.getElementById('setup').scrollIntoView({behavior:'smooth', block:'start'});
+});
+document.getElementById('restartBtn').addEventListener('click', ()=> startQuiz(activeQuestions.length));
+</script>
+</body>
+</html>
